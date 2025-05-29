@@ -1,0 +1,13 @@
+{
+  "Task_id": 436,
+  "Github_ID": "18326156",
+  "Github_Project_Name": "micropython-lib",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "WebSocket Client-side by using asyncio+websockets in python",
+  "Instruction": "Task Description: Create a WebSocket client using Python's asyncio and aiohttp libraries to establish a connection, send messages, receive responses, and gracefully close the connection.\n\nFunction Description: The code demonstrates how to implement a WebSocket client that connects to a server, sends an initial message (\"hello world!\"), echoes received messages, and closes the connection when instructed.\n\nInput:\n- URL (implicit): The WebSocket server URL to connect to\n- sslctx (implicit): Boolean flag indicating whether to use SSL (defaults to False)\n\nOutput:\n- None (direct output): The function prints received messages to stdout\n- Side effect: Maintains WebSocket connection and handles message exchange\n\nMethods:\n1. ws_test_echo(session) -> None\n   - Takes an aiohttp.ClientSession object\n   - Handles WebSocket communication lifecycle\n   - Sends initial message and echoes responses\n   - Closes connection when receiving \"close\" command\n\n2. main() -> None\n   - Creates ClientSession and runs ws_test_echo\n   - Serves as entry point for the async operations\n\nExecution:\n- The script uses asyncio.run() to start the async event loop\n- All WebSocket operations are performed asynchronously",
+  "Canonical_solution": "import sys\nimport aiohttp\nimport asyncio\n\nsslctx = False\n\nasync def ws_test_echo(session):\n    async with session.ws_connect(URL, ssl=sslctx) as ws:\n        await ws.send_str(\"hello world!\\r\\n\")\n        async for msg in ws:\n            if msg.type == aiohttp.WSMsgType.TEXT:\n                print(msg.data)\n\n            if \"close\" in msg.data:\n                break\n            await ws.send_str(\"close\\r\\n\")\n        await ws.close()\n\nasync def main():\n    async with aiohttp.ClientSession() as session:\n        await ws_test_echo(session)\n\nif __name__ == \"__main__\":\n    asyncio.run(main())",
+  "FSMID_for_test": 46,
+  "Code_level": "Function-level"
+}

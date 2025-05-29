@@ -1,0 +1,13 @@
+{
+  "Task_id": 160,
+  "Github_ID": "991475",
+  "Github_Project_Name": "node-postgres",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "TCP Server - side based on node.js net",
+  "Instruction": "Task Description: Create a TCP server using Node.js's built-in 'net' module that listens on an available port and discards any incoming data.\n\nFunction Description: The function `createTCPServer` initializes a TCP server that automatically binds to an available port. It discards any incoming data to ensure the server can terminate properly. The server's port is stored in the instance for later reference.\n\nInput: None\n\nOutput: None (The function modifies the instance properties, specifically setting `this.server` and `this.port`)",
+  "Canonical_solution": "function createTCPServer() {\n  const net = require('net');\n  this.server = net.createServer((socket) => {\n    socket.on('data', () => {\n      // discard any buffered data or the server wont terminate\n    });\n  });\n  this.server.listen(() => {\n    this.port = this.server.address().port;\n  });\n}",
+  "FSMID_for_test": 97,
+  "Code_level": "Function-level"
+}

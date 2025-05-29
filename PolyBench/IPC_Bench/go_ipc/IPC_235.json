@@ -1,0 +1,13 @@
+{
+    "Task_id": 235,
+    "Github_ID": "115857954",
+    "Github_Project_Name": "advanced-go-programming-book",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Official-based gRPC client in Go",
+    "Instruction": "Task Description: Implement a gRPC client function in Go that connects to a gRPC server, performs unary and streaming RPCs, and handles communication with the server.\n\nFunction Description: The function `doClientWork` establishes a connection to a gRPC server, performs a unary RPC call (`Hello`), and then sets up bidirectional streaming (`Channel`). It sends messages periodically in one goroutine while receiving messages in the main goroutine.\n\nInput: None (The server address is hardcoded as \"localhost:1234\")\n\nOutput: None (The function prints received messages to stdout and logs errors to stderr)",
+    "Canonical_solution": "import (\n\t\"context\"\n\t\"log\"\n\t\"fmt\"\n\n\t\"google.golang.org/grpc\"\n)\n\nfunc doClientWork() {\n\tconn, err := grpc.Dial(\"localhost:1234\", grpc.WithInsecure())\n\tif err != nil {\n\t\tlog.Fatal(err)\n\t}\n\tdefer conn.Close()\n\n\tclient := NewHelloServiceClient(conn)\n\treply, err := client.Hello(context.Background(), &String{Value: \"hello\"})\n\tif err != nil {\n\t\tlog.Fatal(err)\n\t}\n\tfmt.Println(reply.GetValue())\n\n\tstream, err := client.Channel(context.Background())\n\tif err != nil {\n\t\tlog.Fatal(err)\n\t}\n\n\tgo func() {\n\t\tfor {\n\t\t\tif err := stream.Send(&String{Value: \"hi\"}); err != nil {\n\t\t\t\tlog.Fatal(err)\n\t\t\t}\n\n\t\t\ttime.Sleep(time.Second)\n\t\t}\n\t}()\n\n\tfor {\n\t\tlog.Println(222)\n\n\t\treply, err := stream.Recv()\n\t\tif err != nil {\n\t\t\tif err == io.EOF {\n\t\t\t\tbreak\n\t\t\t}\n\t\t\tlog.Fatal(err)\n\t\t}\n\n\t\tfmt.Println(reply.GetValue())\n\t}\n}",
+    "FSMID_for_test": 120,
+    "Code_level": "Function-level"
+}

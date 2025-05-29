@@ -1,0 +1,13 @@
+{
+  "Task_id": 58,
+  "Github_ID": "230926110",
+  "Github_Project_Name": "OneManager-php",
+  "Programming_Language": "PHP",
+  "suffix": ".php",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP client using cURL in PHP",
+  "Instruction": "Task Description: Create a PHP function that makes HTTP requests to the Heroku API using cURL, with support for various HTTP methods, custom headers, and error handling.\n\nFunction Description: The function `HerokuAPI` is designed to interact with the Heroku API by sending HTTP requests. It supports multiple HTTP methods (including PATCH and POST for sending data), sets appropriate headers including authorization, and handles the response. The function includes timeout settings and SSL verification options for secure communication.\n\nInput:\n- $method: [string] - The HTTP method to use (e.g., 'GET', 'POST', 'PATCH', etc.)\n- $url: [string] - The URL to which the request will be sent\n- $data: [string] - Optional. The payload to send with the request (typically for POST/PATCH methods)\n- $apikey: [string] - The Heroku API key used for authorization\n\nOutput:\n- Returns an associative array with two keys:\n  - 'body': [string] - The response body from the API\n  - 'stat': [int] - The HTTP status code of the response",
+  "Canonical_solution": "function HerokuAPI($method, $url, $data = '', $apikey)\n{\n    if ($method=='PATCH'||$method=='POST') {\n        $headers['Content-Type'] = 'application/json';\n    } \n    $headers['Authorization'] = 'Bearer ' . $apikey;\n    $headers['Accept'] = 'application/vnd.heroku+json; version=3';\n    $sendHeaders = array();\n    foreach ($headers as $headerName => $headerVal) {\n        $sendHeaders[] = $headerName . ': ' . $headerVal;\n    }\n    $ch = curl_init();\n    curl_setopt($ch, CURLOPT_URL, $url);\n    curl_setopt($ch, CURLOPT_CUSTOMREQUEST,$method);\n    curl_setopt($ch, CURLOPT_POSTFIELDS,$data);\n    curl_setopt($ch, CURLOPT_TIMEOUT, 5);\n    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);\n    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);\n    curl_setopt($ch, CURLOPT_HEADER, 0);\n    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);\n    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);\n    curl_setopt($ch, CURLOPT_HTTPHEADER, $sendHeaders);\n    $response['body'] = curl_exec($ch);\n    $response['stat'] = curl_getinfo($ch,CURLINFO_HTTP_CODE);\n    curl_close($ch);\n    return $response;\n}",
+  "FSMID_for_test": 132,
+  "Code_level": "Function-level"
+}

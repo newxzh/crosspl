@@ -1,0 +1,13 @@
+{
+  "Task_id": 17,
+  "Github_ID": "94102538",
+  "Github_Project_Name": "CMS-Hunter",
+  "Programming_Language": "PHP",
+  "suffix": ".php",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP client using cURL in PHP",
+  "Instruction": "Task Description: Create a PHP class that handles HTTP requests using cURL for sending upgrade notifications, with error handling and response processing capabilities.\n\nClass Description: UpgradeNoticeBehavior is a class designed to manage HTTP communications for upgrade notifications. It encapsulates cURL functionality to send requests to specified URLs, handle parameters and headers, process responses, and manage errors.\n\nAttributes:\nheader_: [string] - Stores HTTP headers for requests\nhttpCode_: [int] - Stores HTTP status code from responses\nhttpDesc_: [string] - Stores HTTP status description from responses\naccesskey_: [string] - Stores access key for authentication\nsecretkey_: [string] - Stores secret key for authentication\n\nMethods:\nsend: [send]([string $url, array $params = array(), array $headers = array()]) -> [mixed] - Sends an HTTP request to the specified URL with optional parameters and headers. Returns the decoded JSON response on success or false on failure. Handles cURL errors and invalid response formats.",
+  "Canonical_solution": "namespace Behavior;\n\nclass UpgradeNoticeBehavior {\n    protected $header_ = '';\n    protected $httpCode_;\n    protected $httpDesc_;\n    protected $accesskey_;\n    protected $secretkey_;\n\n    private function send($url, $params = array(), $headers = array()) {\n        $ch = curl_init();\n        curl_setopt($ch, CURLOPT_URL, $url);\n        if (!empty($params)) {\n            curl_setopt($ch, CURLOPT_POST, true);\n            curl_setopt($ch, CURLOPT_POSTFIELDS, $params);\n        }\n        if (!empty($headers)) curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);\n        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);\n        $txt = curl_exec($ch);\n        if (curl_errno($ch)) {\n            trace(curl_error($ch), '\u5347\u7ea7\u901a\u77e5\u51fa\u9519', 'NOTIC', true);\n            return false;\n        }\n        curl_close($ch);\n        $ret = json_decode($txt, true);\n        if (!$ret) {\n            trace('\u63a5\u53e3[' . $url . ']\u8fd4\u56de\u683c\u5f0f\u4e0d\u6b63\u786e', '\u5347\u7ea7\u901a\u77e5\u51fa\u9519', 'NOTIC', true);\n            return false;\n        }\n        return $ret;\n    }\n}",
+  "FSMID_for_test": 132,
+  "Code_level": "Class-level"
+}

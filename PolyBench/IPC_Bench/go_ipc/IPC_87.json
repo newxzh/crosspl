@@ -1,0 +1,13 @@
+{
+    "Task_id": 87,
+    "Github_ID": "81387692",
+    "Github_Project_Name": "opencensus-go",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Basic HTTP server using net/http with HandleFunc and ListenAndServe",
+    "Instruction": "Task Description: Create a Go HTTP server that handles requests with tracing capabilities using OpenCensus. The server should respond to requests with a simple message, perform tracing operations, and make an external HTTP request while propagating the trace context.\n\nFunction Description: The main function sets up an HTTP server with tracing middleware. It registers a root handler (\"/\") that responds with \"hello world\", creates trace spans, adds annotations/attributes, and makes an external HTTP request to example.com while maintaining trace context.\n\nInput: None (The function takes no direct input parameters. HTTP requests come through the server's routing mechanism.)\n\nOutput: None (The function doesn't return anything directly. It starts an HTTP server that listens indefinitely on port 50030 and handles incoming requests by writing responses to http.ResponseWriter.)",
+    "Canonical_solution": "import (\n\t\"fmt\"\n\t\"log\"\n\t\"net/http\"\n\t\"time\"\n\n\t\"go.opencensus.io/trace\"\n\t\"go.opencensus.io/plugin/ochttp\"\n)\n\nfunc main() {\n\tclient := &http.Client{Transport: &ochttp.Transport{}}\n\n\thttp.HandleFunc(\"/\", func(w http.ResponseWriter, req *http.Request) {\n\t\tfmt.Fprintf(w, \"hello world\")\n\n\t\t_, span := trace.StartSpan(req.Context(), \"child\")\n\t\tdefer span.End()\n\t\tspan.Annotate([]trace.Attribute{trace.StringAttribute(\"key\", \"value\")}, \"something happened\")\n\t\tspan.AddAttributes(trace.StringAttribute(\"hello\", \"world\"))\n\t\ttime.Sleep(time.Millisecond * 125)\n\n\t\tr, _ := http.NewRequest(\"GET\", \"https://example.com\", nil)\n\n\t\tr = r.WithContext(req.Context())\n\t\tresp, err := client.Do(r)\n\t\tif err != nil {\n\t\t\tlog.Println(err)\n\t\t} else {\n\t\t\tresp.Body.Close()\n\t\t}\n\t})\n\tlog.Fatal(http.ListenAndServe(\":50030\", &ochttp.Handler{}))\n}",
+    "FSMID_for_test": 103,
+    "Code_level": "Function-level"
+}

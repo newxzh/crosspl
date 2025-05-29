@@ -1,0 +1,13 @@
+{
+  "Task_id": 285,
+  "Github_ID": "119092220",
+  "Github_Project_Name": "exodus",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "Pipe based on subprocess in python",
+  "Instruction": "Task Description: Create a function that executes a command-line process (specifically 'exodus') with given arguments and options, handling input/output through pipes, and returning the process's exit code and output streams.\n\nFunction Description: The function `run_exodus` launches an external 'exodus' process with specified arguments and options. It manages inter-process communication using pipes for stdin, stdout, and stderr. The function supports optional stdin input and returns the process's exit code along with captured stdout and stderr outputs.\n\nInput:\n- `args`: [List[str]] - Command-line arguments to pass to the 'exodus' process\n- `**options`: [Dict] - Additional subprocess.Popen options, including:\n  - `stdin`: [str, optional] - Input content to pipe into the process's stdin (encoded as UTF-8)\n  - `universal_newlines`: [bool, optional] - Flag to handle text streams (default: True)\n\nOutput:\n- Tuple containing:\n  - `returncode`: [int] - Exit status of the process\n  - `stdout`: [str] - Captured standard output\n  - `stderr`: [str] - Captured standard error",
+  "Canonical_solution": "import os\nimport subprocess\n\ndef run_exodus(args, **options):\n    options['universal_newlines'] = options.get('universal_newlines', True)\n\n    # Allow specifying content to pipe into stdin, with options['stdin']\n    if 'stdin' in options:\n        input = options['stdin'].encode('utf-8')\n        options['stdin'] = subprocess.PIPE\n    else:\n        input = None\n\n    process = subprocess.Popen(\n        ['exodus'] + args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, **options)\n    stdout, stderr = process.communicate(input=input)\n    return process.returncode, stdout, stderr",
+  "FSMID_for_test": 76,
+  "Code_level": "Function-level"
+}

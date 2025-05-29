@@ -1,0 +1,13 @@
+{
+    "Task_id": 286,
+    "Github_ID": "27729907",
+    "Github_Project_Name": "grpc-go",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Official-based gRPC server in Go",
+    "Instruction": "Task Description: Implement a gRPC server in Go that handles unary RPC calls for an Echo service, including secure communication with transport credentials.\n\nFunction Description: The `startGRPCServer` function initializes and starts a gRPC server with the provided listener and transport credentials. It registers an Echo service implementation and begins serving incoming requests.\n\nInput:\n- `lis` [net.Listener] - A network listener that specifies the address and port to listen on\n- `creds` [credentials.TransportCredentials] - Transport credentials for secure communication (TLS)\n\nOutput:\n- `error` - Returns an error if the server fails to start or encounters a fatal error during operation, otherwise runs indefinitely serving requests",
+    "Canonical_solution": "import (\n\t\"context\"\n\t\"net\"\n\n\t\"google.golang.org/grpc\"\n\t\"google.golang.org/grpc/credentials\"\n\tpb \"google.golang.org/grpc/examples/features/proto/echo\"\n)\n\ntype ecServer struct {\n\tpb.UnimplementedEchoServer\n}\n\nfunc (s *ecServer) UnaryEcho(_ context.Context, req *pb.EchoRequest) (*pb.EchoResponse, error) {\n\treturn &pb.EchoResponse{Message: req.Message}, nil\n}\n\nfunc newServer() *ecServer {\n\treturn &ecServer{}\n}\n\nfunc startGRPCServer(lis net.Listener, creds credentials.TransportCredentials) error {\n\ts := grpc.NewServer(grpc.Creds(creds))\n\tpb.RegisterEchoServer(s, newServer())\n\treturn s.Serve(lis)\n}",
+    "FSMID_for_test": 119,
+    "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+    "Task_id": 92,
+    "Github_ID": "37374972",
+    "Github_Project_Name": "go-starter-kit",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Echo-based HTTP Server in Go",
+    "Instruction": "Task Description: Create an HTTP server using the Echo framework in Go that streams JSON-encoded location data with a delay between each transmission.\n\nFunction Description: The main function initializes an Echo server, sets up a GET route handler at the root path (\"/\") that streams location data as JSON with a 1-second delay between each location. The response uses proper HTTP headers for JSON content type and flushes after each location is sent.\n\nInput: None (The function takes no direct input parameters, but relies on a predefined 'locations' collection that should be available in scope)\n\nOutput: None (The function doesn't return any value but starts an HTTP server that listens on port 1323 and handles incoming requests)",
+    "Canonical_solution": "import (\n\t\"net/http\"\n\t\"time\"\n\n\t\"encoding/json\"\n\n\t\"github.com/labstack/echo\"\n)\nfunc main() {\n\te := echo.New()\n\te.GET(\"/\", func(c echo.Context) error {\n\t\tc.Response().Header().Set(echo.HeaderContentType, echo.MIMEApplicationJSON)\n\t\tc.Response().WriteHeader(http.StatusOK)\n\t\tfor _, l := range locations {\n\t\t\tif err := json.NewEncoder(c.Response()).Encode(l); err != nil {\n\t\t\t\treturn err\n\t\t\t}\n\t\t\tc.Response().Flush()\n\t\t\ttime.Sleep(1 * time.Second)\n\t\t}\n\t\treturn nil\n\t})\n\te.Logger.Fatal(e.Start(\":1323\"))\n}",
+    "FSMID_for_test": 106,
+    "Code_level": "Function-level"
+}

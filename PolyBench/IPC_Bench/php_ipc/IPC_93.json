@@ -1,0 +1,13 @@
+{
+  "Task_id": 93,
+  "Github_ID": "14101953",
+  "Github_Project_Name": "plugins",
+  "Programming_Language": "PHP",
+  "suffix": ".php",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP client using cURL in PHP",
+  "Instruction": "Task Description: Create a PHP function that makes HTTP requests using cURL with support for both HTTP and HTTPS protocols, including basic SSL verification handling and custom headers.\n\nFunction Description: The function should initialize a cURL session, configure it with the provided URL, set appropriate options for request handling (including SSL verification when needed), execute the request, handle potential errors, and return the response. The function should automatically detect HTTPS URLs and adjust SSL verification accordingly.\n\nInput: \n- $url (string): The target URL for the HTTP request (can be HTTP or HTTPS)\n\nOutput:\n- Returns the response body as a string if the request is successful\n- Returns false if the request fails (though error handling could be enhanced in a production environment)",
+  "Canonical_solution": "function http_curl($url)\n{\n    $ssl = substr($url, 0, 8) == \"https://\" ? true : false;\n    $ch = curl_init();\n    curl_setopt($ch, CURLOPT_URL, $url);\n    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);\n    curl_setopt($ch, CURLOPT_HEADER, 0);\n    if ($ssl) {\n        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);\n        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);\n    }\n    curl_setopt($ch, CURLOPT_HTTPHEADER, array(\n        'Referer: '.$_SERVER['SERVER_NAME']\n    ));\n    $out = curl_exec($ch);\n    curl_close($ch);\n    return $out;\n}",
+  "FSMID_for_test": 132,
+  "Code_level": "Function-level"
+}

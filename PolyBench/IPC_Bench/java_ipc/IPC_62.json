@@ -1,0 +1,13 @@
+{
+  "Task_id": 62,
+  "Github_ID": "40877175",
+  "Github_Project_Name": "SimplifyReader",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "Http client-side based on Java.io & HttpURLConnection",
+  "Instruction": "Task Description: Create a function to check if a given URL is accessible and usable by sending a HEAD request and verifying the HTTP response code.\n\nFunction Description: The function checks the accessibility of a URL by attempting to establish a connection and sending a HEAD request. It returns true if the URL responds with HTTP OK (status code 200), indicating it's usable, and false otherwise (including invalid URLs or connection failures).\n\nInput: \n- url: String - The URL to be checked for accessibility.\n\nOutput: \n- boolean - Returns true if the URL is accessible (HTTP status code 200), false otherwise.",
+  "Canonical_solution": "import java.net.HttpURLConnection;\nimport java.net.URL;\n\npublic static boolean isUrlUsable(String url) {\n    if (CommonUtils.isEmpty(url)) {\n        return false;\n    }\n\n    URL urlTemp = null;\n    HttpURLConnection connt = null;\n    try {\n        urlTemp = new URL(url);\n        connt = (HttpURLConnection) urlTemp.openConnection();\n        connt.setRequestMethod(\"HEAD\");\n        int returnCode = connt.getResponseCode();\n        if (returnCode == HttpURLConnection.HTTP_OK) {\n            return true;\n        }\n    } catch (Exception e) {\n        return false;\n    } finally {\n        connt.disconnect();\n    }\n    return false;\n}",
+  "FSMID_for_test": 16,
+  "Code_level": "Function-level"
+}

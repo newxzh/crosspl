@@ -1,0 +1,13 @@
+{
+  "Task_id": 133,
+  "Github_ID": "192476541",
+  "Github_Project_Name": "nodejs-basics",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "Pipe Server-side based on fs+http in JavaScript",
+  "Instruction": "Task Description: Create a function that sets up an HTTP server to stream video content to clients using Node.js.\n\nFunction Description: The function `createVideoServer` initializes an HTTP server that streams a specified video file to clients when they connect. It uses Node.js's built-in `http` and `fs` modules to handle HTTP requests and read the video file, respectively. The video content is piped directly from the file system to the HTTP response, enabling efficient streaming.\n\nInput: None (The function does not take any parameters. The video file path is hardcoded as 'assets/NASA.mp4'.)\n\nOutput: None (The function does not return any value. It starts an HTTP server listening on port 3000 and the localhost address '127.0.0.1'.)",
+  "Canonical_solution": "function createVideoServer() {\n    const http = require('http');\n    const fs = require('fs');\n    \n    let app = http.createServer((req, res) => {\n        res.writeHead(200, { 'Content-Type': 'video/mp4' });\n        let vidstream = fs.createReadStream('assets/NASA.mp4');\n        vidstream.pipe(res);\n    });\n    \n    app.listen(3000, '127.0.0.1');\n}",
+  "FSMID_for_test": 100,
+  "Code_level": "Function-level"
+}

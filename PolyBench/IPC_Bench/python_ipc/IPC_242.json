@@ -1,0 +1,13 @@
+{
+  "Task_id": 242,
+  "Github_ID": "21029558",
+  "Github_Project_Name": "ITArticles",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Server-side based on Tornado in python",
+  "Instruction": "Task Description: Create a Tornado-based HTTP server class that can handle incoming HTTP requests and respond appropriately. The server should be configurable to run on a specified port and include a basic request handler for demonstration purposes.\n\nClass Description: The TornadoHTTPServer class encapsulates the functionality to create and run a Tornado web server. It initializes the server with a default port (configurable), sets up request handlers, and provides a method to start the server.\n\nAttributes:\n\napp: [tornado.web.Application] - The Tornado web application instance that manages request handlers and routing.\nhttp_server: [tornado.httpserver.HTTPServer] - The HTTP server instance that will listen for incoming requests.\n\nMethods:\n\n__init__: [Name](port: int = 8000) -> None - Initializes the TornadoHTTPServer instance. Sets up the application with a default route handler and prepares the HTTP server.\nInput Parameters:\n  - port: int (default=8000) - The port number on which the server will listen.\nReturn Value: None\n\nrun: [Name]() -> None - Starts the HTTP server on the specified port and begins the I/O loop to handle incoming requests.\nInput Parameters: None\nReturn Value: None",
+  "Canonical_solution": "import tornado.httpserver\nimport tornado.ioloop\nimport tornado.options\nimport tornado.web\nfrom tornado.options import define, options\n\ndefine(\"port\", default=8000, help=\"run on the given port\", type=int)\n\nclass IndexHandler(tornado.web.RequestHandler):\n    def get(self):\n        greeting = self.get_argument('greeting', 'Hello')\n        self.write(greeting + ', welcome you to read: www.itdiffer.com')\n\nclass TornadoHTTPServer:\n    def __init__(self, port=8000):\n        options.port = port\n        self.app = tornado.web.Application(handlers=[(r\"/\", IndexHandler)])\n        self.http_server = tornado.httpserver.HTTPServer(self.app)\n\n    def run(self):\n        self.http_server.listen(options.port)\n        tornado.ioloop.IOLoop.instance().start()",
+  "FSMID_for_test": 64,
+  "Code_level": "Class-level"
+}

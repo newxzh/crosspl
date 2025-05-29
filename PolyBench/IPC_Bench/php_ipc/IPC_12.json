@@ -1,0 +1,13 @@
+{
+  "Task_id": 12,
+  "Github_ID": "30171828",
+  "Github_Project_Name": "laravel-boilerplate",
+  "Programming_Language": "PHP",
+  "suffix": ".php",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP client using Guzzle in PHP",
+  "Instruction": "Task Description: Implement a CAPTCHA validation class that verifies user-submitted CAPTCHA responses using Google's reCAPTCHA API.\n\nClass Description: The Captcha class implements Laravel's Rule interface to provide CAPTCHA validation functionality. It sends the user's CAPTCHA response to Google's verification endpoint and checks the success status in the response.\n\nAttributes: (This class has no explicit attributes as it uses configuration values directly)\n\nMethods:\n1: passes(string $attribute, mixed $value) -> bool - Validates the CAPTCHA response by sending it to Google's verification API along with the secret key and client IP. Returns true if verification succeeds.\n   - $attribute: The name of the attribute being validated\n   - $value: The CAPTCHA response token to be validated\n\n2: message() -> string - Returns the validation error message to be displayed when CAPTCHA validation fails. The message is localized using Laravel's translation system.",
+  "Canonical_solution": "use GuzzleHttp\\Client;\n\nclass Captcha implements Rule\n{\n    public function passes($attribute, $value)\n    {\n        if (empty($value)) {\n            return false;\n        }\n\n        $response = json_decode((new Client([\n            'timeout' => config('boilerplate.access.captcha.configs.options.timeout'),\n        ]))->post('https://www.google.com/recaptcha/api/siteverify', [\n            'form_params' => [\n                'secret' => config('boilerplate.access.captcha.configs.secret_key'),\n                'remoteip' => request()->getClientIp(),\n                'response' => $value,\n            ],\n        ])->getBody(), true);\n\n        return isset($response['success']) && $response['success'] === true;\n    }\n\n    public function message()\n    {\n        return __('The captcha was invalid.');\n    }\n}",
+  "FSMID_for_test": 133,
+  "Code_level": "Class-level"
+}

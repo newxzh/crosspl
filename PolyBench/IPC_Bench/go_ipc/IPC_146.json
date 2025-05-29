@@ -1,0 +1,13 @@
+{
+    "Task_id": 146,
+    "Github_ID": "302390676",
+    "Github_Project_Name": "eggos",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Gin-based HTTP Server in Go",
+    "Instruction": "Task Description: Create a Go function that initializes and runs a Gin HTTP server with a single route handler that responds to GET requests.\n\nFunction Description: The function initializes a default Gin engine with built-in middleware (Logger and Recovery), registers a GET route handler at the path \"/hello\" that responds with a plain text message, and starts the server on port 80. The function is designed to be the main entry point of a Go application using the Gin web framework.\n\nInput: \n- ctx *app.Context: A context object from the eggos framework (used for logging in this example)\n\nOutput: \n- error: Returns any error that occurs during server execution, otherwise nil when the server is properly shut down",
+    "Canonical_solution": "import (\n\t\"net/http\"\n\n\t\"github.com/gin-gonic/gin\"\n\t\"github.com/icexin/eggos/app\"\n)\nfunc main(ctx *app.Context) error {\n\tr := gin.Default()\n\tr.GET(\"/hello\", func(c *gin.Context) {\n\t\tc.String(http.StatusOK, \"hello from eggos\")\n\t})\n\tctx.Printf(\"run gin server on :80\")\n\treturn r.Run(\":80\")\n}",
+    "FSMID_for_test": 105,
+    "Code_level": "Function-level"
+}

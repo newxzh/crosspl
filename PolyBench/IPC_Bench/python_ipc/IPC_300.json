@@ -1,0 +1,13 @@
+{
+  "Task_id": 300,
+  "Github_ID": "219294494",
+  "Github_Project_Name": "xxh",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "Pipe based on subprocess in python",
+  "Instruction": "Task Description: Create a function that executes a shell command using Python's subprocess module and returns the output, error, and process object.\n\nFunction Description: The function SC (Shell Command) takes a shell command as input, executes it using subprocess.Popen, and captures both the standard output and standard error streams. It returns a tuple containing these outputs along with the process object for further interaction if needed.\n\nInput: \n- cmd: [str] - The shell command to be executed as a string.\n\nOutput: \n- Returns a tuple containing:\n  - out: [bytes] - The standard output of the executed command.\n  - err: [bytes] - The standard error of the executed command.\n  - proc: [subprocess.Popen] - The process object representing the executed command.",
+  "Canonical_solution": "import os\nimport subprocess\n\ndef SC(cmd):\n    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)\n    [out, err] = proc.communicate()\n    return (out, err, proc)",
+  "FSMID_for_test": 76,
+  "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 33,
+  "Github_ID": "736572328",
+  "Github_Project_Name": "1brc",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "FileChannel usage in java.nio",
+  "Instruction": "Task Description: Create a Java class that utilizes Java NIO's FileChannel to map a file into memory for read-only access, providing methods to access the mapped memory address and file size, and properly closing the channel when done.\n\nClass Description: The FileChannelProcessor class provides functionality to open a file using FileChannel, map it into memory in read-only mode, and expose the memory address and file size. It ensures proper resource cleanup by implementing a close method.\n\nAttributes:\nfileChannel: FileChannel - The FileChannel instance used for file operations\nmappedAddress: long - The memory address where the file is mapped\nfileSize: long - The size of the mapped file in bytes\n\nMethods:\nFileChannelProcessor: [Constructor](String filePath) throws IOException - Initializes the FileChannel, maps the file into memory in read-only mode, and stores the memory address and file size\ngetMappedAddress: () -> long - Returns the memory address where the file is mapped\ngetFileSize: () -> long - Returns the size of the mapped file\nclose: () throws IOException - Closes the FileChannel to release system resources",
+  "Canonical_solution": "import java.io.IOException;\nimport java.lang.foreign.Arena;\nimport java.nio.channels.FileChannel;\nimport java.nio.channels.FileChannel.MapMode;\nimport java.nio.file.Path;\nimport java.nio.file.StandardOpenOption;\n\npublic class FileChannelProcessor {\n    private FileChannel fileChannel;\n    private long mappedAddress;\n    private long fileSize;\n\n    public FileChannelProcessor(String filePath) throws IOException {\n        this.fileChannel = FileChannel.open(Path.of(filePath), StandardOpenOption.READ);\n        this.fileSize = fileChannel.size();\n        this.mappedAddress = fileChannel.map(MapMode.READ_ONLY, 0, fileSize, Arena.global()).address();\n    }\n\n    public long getMappedAddress() {\n        return mappedAddress;\n    }\n\n    public long getFileSize() {\n        return fileSize;\n    }\n\n    public void close() throws IOException {\n        if (fileChannel != null) {\n            fileChannel.close();\n        }\n    }\n}",
+  "FSMID_for_test": 9,
+  "Code_level": "Class-level"
+}

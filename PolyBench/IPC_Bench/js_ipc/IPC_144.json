@@ -1,0 +1,13 @@
+{
+  "Task_id": 144,
+  "Github_ID": "338102540",
+  "Github_Project_Name": "node-express-course",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "Pipe Server-side based on fs+http in JavaScript",
+  "Instruction": "Task Description: Create a function that sets up an HTTP server to stream the contents of a file to the client using Node.js's `fs` and `http` modules. The server should handle file streaming efficiently using pipes and manage errors appropriately.\n\nFunction Description: The function `createServer` initializes an HTTP server that listens on port 5000. When a request is received, it reads a specified file (`big.txt`) as a stream and pipes the data directly to the response object. This approach is memory-efficient for large files. The function handles both successful file streaming and errors during the process.\n\nInput: None (The function does not take any input parameters; the file path is hardcoded as `./content/big.txt`.)\n\nOutput: None (The function does not return any value; it creates an HTTP server that runs indefinitely until stopped externally.)",
+  "Canonical_solution": "function createServer() {\n    const http = require('http');\n    const fs = require('fs');\n\n    http.createServer(function (req, res) {\n        const fileStream = fs.createReadStream('./content/big.txt', 'utf8');\n        fileStream.on('open', () => {\n            fileStream.pipe(res);\n        });\n        fileStream.on('error', (err) => {\n            res.end(err);\n        });\n    }).listen(5000);\n}",
+  "FSMID_for_test": 100,
+  "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 495,
+  "Github_ID": "137814779",
+  "Github_Project_Name": "sentry-python",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "gRPC Server - side based on grpcio in python",
+  "Instruction": "Task Description: Create a function to set up and tear down a gRPC server with configurable interceptors and thread pool workers.\n\nFunction Description: The function `_set_up` initializes and starts a gRPC server with optional interceptors, while `_tear_down` gracefully stops the server. The server is configured to handle gRPC requests concurrently using a thread pool.\n\nInput:\n- `interceptors` (Optional[List[grpc.ServerInterceptor]]): A list of gRPC server interceptors for request/response processing. Defaults to None.\n- `server` (grpc.Server): The gRPC server instance to be stopped (for `_tear_down`).\n\nOutput:\n- `_set_up` returns the initialized and started `grpc.Server` instance.\n- `_tear_down` has no return value (stops the server).",
+  "Canonical_solution": "import grpc\nfrom concurrent import futures\nfrom typing import List, Optional\n\ndef _set_up(interceptors: Optional[List[grpc.ServerInterceptor]] = None):\n    server = grpc.server(\n        futures.ThreadPoolExecutor(max_workers=2),\n        interceptors=interceptors,\n    )\n    add_gRPCTestServiceServicer_to_server(TestService(), server)\n    server.add_insecure_port(\"[::]:{}\".format(PORT))\n    server.start()\n    return server\n\ndef _tear_down(server: grpc.Server):\n    server.stop(None)",
+  "FSMID_for_test": 74,
+  "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 34,
+  "Github_ID": "7589945",
+  "Github_Project_Name": "asio",
+  "Programming_Language": "C++",
+  "suffix": ".cpp",
+  "Interface_class": "IPC",
+  "Interface_name": "UDP based on Boost.Asio in C++",
+  "Instruction": "Task Description: Implement a UDP client communication function using Boost.Asio to send a message to a specified host and port, and receive a response.\n\nFunction Description: The function establishes a UDP client connection, sends a message to a specified server, and waits to receive a response. It uses Boost.Asio for asynchronous UDP operations.\n\nInput:\n- host: [std::string] - The hostname or IP address of the UDP server to connect to\n- port: [std::string] - The port number of the UDP server\n- message: [std::string] - The message to be sent to the server\n\nOutput: None (The function receives a reply from the server but doesn't return it. In a real implementation, you might want to return the reply or process it further.)",
+  "Canonical_solution": "#include <boost/asio.hpp>\nusing boost::asio::ip::udp;\n\nvoid udp_client_communication(const std::string& host, const std::string& port, const std::string& message)\n{\n    boost::asio::io_context io_context;\n    udp::socket s(io_context, udp::endpoint(udp::v4(), 0));\n    udp::resolver resolver(io_context);\n    udp::resolver::results_type endpoints = resolver.resolve(udp::v4(), host, port);\n\n    size_t request_length = message.length();\n    s.send_to(boost::asio::buffer(message, request_length), *endpoints.begin());\n\n    char reply[max_length];\n    udp::endpoint sender_endpoint;\n    size_t reply_length = s.receive_from(boost::asio::buffer(reply, max_length), sender_endpoint);\n}",
+  "FSMID_for_test": 153,
+  "Code_level": "Function-level"
+}

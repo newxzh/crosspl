@@ -1,0 +1,13 @@
+{
+  "Task_id": 247,
+  "Github_ID": "21029558",
+  "Github_Project_Name": "ITArticles",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Server-side based on Tornado in python",
+  "Instruction": "Task Description: Implement a Tornado-based HTTP server that handles user data submissions via POST requests and renders responses using templates.\n\nClass Description: The implementation consists of two classes: UserHandler for processing user data and TornadoServer for managing the server lifecycle.\n\nAttributes:\n\nport: int - The port number on which the server will listen (default: 8000)\nhandlers: list - URL routing configuration mapping paths to handler classes\n\nMethods:\n\nUserHandler.post() -> None - Processes POST requests containing user data (username, email, website, language) and renders a response using the user.html template\nTornadoServer.__init__(port: int = 8000) -> None - Initializes the server with specified port\nTornadoServer.run() -> None - Configures and starts the Tornado HTTP server with defined routes and begins the I/O loop",
+  "Canonical_solution": "import tornado.httpserver\nimport tornado.ioloop\nimport tornado.web\nfrom tornado.options import define, options\n\ndefine(\"port\", default=8000, help=\"run on the given port\", type=int)\n\nclass UserHandler(tornado.web.RequestHandler):\n    def post(self):\n        user_name = self.get_argument(\"username\")\n        user_email = self.get_argument(\"email\")\n        user_website = self.get_argument(\"website\")\n        user_language = self.get_argument(\"language\")\n        self.render(\"user.html\", \n                   username=user_name,\n                   email=user_email,\n                   website=user_website,\n                   language=user_language)\n\nclass TornadoServer:\n    def __init__(self, port=8000):\n        self.port = port\n        self.handlers = [\n            (r\"/user\", UserHandler)\n        ]\n        \n    def run(self):\n        app = tornado.web.Application(self.handlers)\n        http_server = tornado.httpserver.HTTPServer(app)\n        http_server.listen(self.port)\n        tornado.ioloop.IOLoop.instance().start()",
+  "FSMID_for_test": 64,
+  "Code_level": "Class-level"
+}

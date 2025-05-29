@@ -1,0 +1,13 @@
+{
+  "Task_id": 198,
+  "Github_ID": "103934044",
+  "Github_Project_Name": "rasa_core",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Server - side by using Flask in python",
+  "Instruction": "Task Description: Create a Flask-based HTTP server function that acts as a Natural Language Generation (NLG) endpoint, validating incoming requests against a JSON schema and returning appropriate responses.\n\nFunction Description: The function `nlg_app` creates and configures a Flask application that serves as an NLG endpoint. It validates incoming POST requests against a predefined JSON schema (nlg_request_format_spec) and returns different text responses based on the template specified in the request. The server responds with \"Hey there!\" for the \"utter_greet\" template and a default message for all other templates.\n\nInput: \n- base_url: str (optional, default=\"/\") - The base URL path where the NLG endpoint will be mounted\n\nOutput:\n- Flask application object configured with:\n  - A single POST endpoint at the specified base_url\n  - Request validation using jsonschema\n  - Conditional response generation based on the request content",
+  "Canonical_solution": "import uuid\nimport jsonschema\nfrom flask import Flask, request, jsonify\nfrom rasa.core.nlg.callback import nlg_request_format_spec\n\ndef nlg_app(base_url=\"/\"):\n    app = Flask(__name__)\n\n    @app.route(base_url, methods=['POST'])\n    def generate():\n        \"\"\"Simple HTTP NLG generator, checks that the incoming request\n        is format according to the spec.\"\"\"\n\n        nlg_call = request.json\n\n        jsonschema.validate(nlg_call, nlg_request_format_spec())\n\n        if nlg_call.get(\"template\") == \"utter_greet\":\n            response = {\"text\": \"Hey there!\"}\n        else:\n            response = {\"text\": \"Sorry, didn't get that.\"}\n        return jsonify(response)\n\n    return app",
+  "FSMID_for_test": 60,
+  "Code_level": "Function-level"
+}

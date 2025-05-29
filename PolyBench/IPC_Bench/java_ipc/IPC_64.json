@@ -1,0 +1,13 @@
+{
+  "Task_id": 64,
+  "Github_ID": "108128097",
+  "Github_Project_Name": "spring-cloud",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "Http client-side based on Java.io & HttpURLConnection",
+  "Instruction": "Task Description: Create a Java class that implements HTTP client functionality using HttpURLConnection to make GET requests and handle responses.\n\nClass Description: The HttpClient class provides functionality to send HTTP GET requests to a specified URL and retrieve the response. It handles connection timeouts, sets appropriate request headers, and processes the response stream.\n\nAttributes: None\n\nMethods:\n- request: [Name](String url) -> String - Sends a GET request to the specified URL and returns the response body as a string. Sets connection timeout to 3 seconds, read timeout to 90 seconds, and configures appropriate request headers including content type and character encoding. Returns null if the request fails or response code is not 200.",
+  "Canonical_solution": "import java.io.BufferedReader;\nimport java.io.IOException;\nimport java.io.InputStreamReader;\nimport java.net.HttpURLConnection;\nimport java.net.URL;\n\npublic class HttpClient {\n\n    public String request(String url) {\n        HttpURLConnection connection = null;\n        BufferedReader reader = null;\n        try {\n            URL getUrl = new URL(url);\n            connection = (HttpURLConnection) getUrl.openConnection();\n            connection.setReadTimeout(90000);\n            connection.setConnectTimeout(3000);\n            connection.setRequestMethod(\"GET\");\n            connection.setRequestProperty(\"Accept-Charset\", \"utf-8\");\n            connection.setRequestProperty(\"Content-Type\", \"application/json\");\n            connection.setRequestProperty(\"Charset\", \"UTF-8\");\n            \n            if (200 == connection.getResponseCode()) {\n                reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), \"UTF-8\"));\n                StringBuilder result = new StringBuilder();\n                String line = null;\n                while ((line = reader.readLine()) != null) {\n                    result.append(line);\n                }\n                return result.toString();\n            }\n        } catch (IOException e) {\n            e.printStackTrace();\n        } finally {\n            if (connection != null) {\n                connection.disconnect();\n            }\n        }\n        return null;\n    }\n\n}",
+  "FSMID_for_test": 16,
+  "Code_level": "Class-level"
+}

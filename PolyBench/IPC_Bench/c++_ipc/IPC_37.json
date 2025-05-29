@@ -1,0 +1,13 @@
+{
+  "Task_id": 37,
+  "Github_ID": "7589945",
+  "Github_Project_Name": "asio",
+  "Programming_Language": "C++",
+  "suffix": ".cpp",
+  "Interface_class": "IPC",
+  "Interface_name": "UDP based on Boost.Asio in C++",
+  "Instruction": "Task Description: Implement a UDP client function using Boost.Asio that sends a request to a UDP server and receives a response.\n\nFunction Description: The function establishes a UDP connection to a specified host, sends a minimal request packet, waits for a response, and prints the received data to standard output. It uses Boost.Asio for asynchronous UDP operations.\n\nInput: \n- host: std::string - The hostname or IP address of the UDP server to connect to\n\nOutput: \n- None (void function), but prints the received data to standard output\n\nNote: The function uses a fixed service name \"daytime\" (port 13) for demonstration purposes. In a real application, this would typically be configurable. The function handles both IPv4 and UDP protocol operations.",
+  "Canonical_solution": "#include <array>\n#include <boost/asio.hpp>\nusing boost::asio::ip::udp;\n\nvoid udp_client(const std::string& host)\n{\n    boost::asio::io_context io_context;\n\n    udp::resolver resolver(io_context);\n    udp::endpoint receiver_endpoint =\n      *resolver.resolve(udp::v4(), host, \"daytime\").begin();\n\n    udp::socket socket(io_context);\n    socket.open(udp::v4());\n\n    std::array<char, 1> send_buf  = {{ 0 }};\n    socket.send_to(boost::asio::buffer(send_buf), receiver_endpoint);\n\n    std::array<char, 128> recv_buf;\n    udp::endpoint sender_endpoint;\n    size_t len = socket.receive_from(\n        boost::asio::buffer(recv_buf), sender_endpoint);\n\n    std::cout.write(recv_buf.data(), len);\n}",
+  "FSMID_for_test": 153,
+  "Code_level": "Function-level"
+}

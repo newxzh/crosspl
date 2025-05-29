@@ -1,0 +1,13 @@
+{
+    "Task_id": 63,
+    "Github_ID": "115840068",
+    "Github_Project_Name": "gim",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Basic HTTP server using net/http with HandleFunc and ListenAndServe",
+    "Instruction": "Task Description: Create a WebSocket server in Go that handles WebSocket connections, upgrades HTTP connections to WebSocket, and manages the connections.\n\nFunction Description: The code consists of two main functions: `StartWSServer` and `wsHandler`. `StartWSServer` initializes and starts an HTTP server that listens for WebSocket connections on a specified address. `wsHandler` is the HTTP handler function that upgrades incoming HTTP requests to WebSocket connections and processes them.\n\nInput: \n- `StartWSServer`: `address` (string) - The network address (e.g., \":8080\") on which the server will listen for incoming connections.\n- `wsHandler`: `w` (http.ResponseWriter) - Used to construct the HTTP response. `r` (*http.Request) - The HTTP request to be upgraded to a WebSocket connection.\n\nOutput: \n- `StartWSServer`: None (panics on error).\n- `wsHandler`: None (logs errors if the WebSocket upgrade fails).",
+    "Canonical_solution": "import (\n\t\"net/http\"\n\n\t\"github.com/gorilla/websocket\"\n\t\"go.uber.org/zap\"\n)\n\nvar upgrader = websocket.Upgrader{\n\tReadBufferSize:  1024,\n\tWriteBufferSize: 65536,\n\tCheckOrigin: func(r *http.Request) bool {\n\t\treturn true\n\t},\n}\n\nfunc StartWSServer(address string) {\n\thttp.HandleFunc(\"/ws\", wsHandler)\n\terr := http.ListenAndServe(address, nil)\n\tif err != nil {\n\t\tpanic(err)\n\t}\n}\n\nfunc wsHandler(w http.ResponseWriter, r *http.Request) {\n\twsConn, err := upgrader.Upgrade(w, r, nil)\n\tif err != nil {\n\t\tlogger.Sugar.Error(err)\n\t\treturn\n\t}\n\n\tconn := &Conn{\n\t\tCoonType: ConnTypeWS,\n\t\tWS:       wsConn,\n\t}\n\tDoConn(conn)\n}",
+    "FSMID_for_test": 103,
+    "Code_level": "Function-level"
+}

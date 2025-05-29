@@ -1,0 +1,13 @@
+{
+  "Task_id": 315,
+  "Github_ID": "574462676",
+  "Github_Project_Name": "Openaibot",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "RabbitMQ consumer based on pika in python",
+  "Instruction": "Task Description: Implement a RabbitMQ consumer function in Python that connects to a RabbitMQ server, declares a queue, and processes incoming messages using a callback function. The function should handle message acknowledgment and print the received messages.\n\nFunction Description: The function establishes a connection to a RabbitMQ server using blocking connection, declares a specified queue, and sets up a callback function to process incoming messages. The callback function parses the message body using Pydantic's BaseModel and acknowledges the message upon successful processing.\n\nInput: \n- None (The function uses hardcoded connection parameters and queue name)\n\nOutput: \n- None (The function prints received messages to the console and runs indefinitely in a blocking consumption loop)\n\nNote: The function does not explicitly return any value but continuously processes messages from the specified RabbitMQ queue until interrupted. The callback function prints both the parsed message (as a Pydantic model) and the raw message body.",
+  "Canonical_solution": "import pika\nfrom pydantic import BaseModel\n\ndef rabbitmq_consumer():\n    credentials = pika.PlainCredentials(\"admin\", \"admin\")\n    connection = pika.BlockingConnection(pika.ConnectionParameters('127.0.0.1', credentials=credentials))\n    channel = connection.channel()\n    channel.queue_declare(queue=\"\u6c34\u8bb8\u4f20\")\n\n    def callbak(ch, method, properties, body):\n        class Test(BaseModel):\n            name: str\n            age: int\n        print(Test.parse_raw(body))\n        print(\"\u6d88\u8d39\u8005\u63a5\u6536\u5230\u4e86\u4efb\u52a1\uff1a%r\" % body.decode(\"utf8\"))\n        ch.basic_ack(delivery_tag=method.delivery_tag)\n\n    channel.basic_consume(on_message_callback=callbak, queue=\"\u6c34\u8bb8\u4f20\", auto_ack=False)\n    channel.start_consuming()",
+  "FSMID_for_test": 77,
+  "Code_level": "Function-level"
+}

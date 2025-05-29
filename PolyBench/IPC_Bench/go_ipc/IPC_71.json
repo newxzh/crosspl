@@ -1,0 +1,13 @@
+{
+    "Task_id": 71,
+    "Github_ID": "63625434",
+    "Github_Project_Name": "gosec",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Basic HTTP server using net/http with HandleFunc and ListenAndServe",
+    "Instruction": "Task Description: Create a basic HTTP server in Go that listens on a specified port and responds with \"Hello World!\" to all requests on the root path.\n\nFunction Description: The main function sets up an HTTP server that handles requests to the root path (\"/\") by responding with a \"Hello World!\" message. It uses the net/http package to register a handler function and start the server.\n\nInput: None (The function takes no direct input parameters, but the HTTP server will process incoming HTTP requests)\n\nOutput: None (The function doesn't return anything directly, but it will output \"Hello World!\" as an HTTP response to requests, and may output error messages to the log if the server fails to start)",
+    "Canonical_solution": "import (\n\t\"fmt\"\n\t\"log\"\n\t\"net/http\"\n)\n\nfunc main() {\n\thttp.HandleFunc(\"/\", func(w http.ResponseWriter, r *http.Request) {\n\t\tfmt.Fprintf(w, \"Hello World!\")\n\t})\n\tlog.Fatal(http.ListenAndServe(\":8080\", nil))\n}",
+    "FSMID_for_test": 103,
+    "Code_level": "Function-level"
+}

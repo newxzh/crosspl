@@ -1,0 +1,13 @@
+{
+  "Task_id": 387,
+  "Github_ID": "158968145",
+  "Github_Project_Name": "jetson_stats",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "TCP Server - side by using socket in python",
+  "Instruction": "Task Description: Create a TCP server that collects and serves Jetson device statistics using the jtop library, with optional HTTP response formatting.\n\nFunction Description: The function establishes a TCP server that listens for incoming connections. When a client connects, it retrieves system statistics from the Jetson device using jtop, formats them as JSON, and sends them to the client. The function can optionally wrap the JSON data in a basic HTTP response.\n\nInput:\n- host (str, optional): IP address to bind the server to (default: \"127.0.0.1\")\n- port (int, optional): Port number to listen on (default: 65432)\n- http (bool, optional): Flag to enable HTTP response formatting (default: False)\n\nOutput: None (The function runs indefinitely until interrupted or an error occurs, sending data to connected clients but not returning any value)",
+  "Canonical_solution": "import socket\nimport json\nfrom jtop import jtop, JtopException\n\ndef jtop_server(host=\"127.0.0.1\", port=65432, http=False):\n    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\n    sock.bind((host, port))\n    sock.listen(1)\n    \n    try:\n        with jtop() as jetson:\n            while jetson.ok():\n                conn, addr = sock.accept()\n                stats = json.dumps(jetson.stats)\n                if http:\n                    message = \"HTTP/1.1 200 OK\\r\\nHost: {host}:{port}\\r\\nContent-Type: application/json\\r\\nContent-Length: {length}\\r\\n\\r\\n{stats}\"\n                    conn.send(message.format(host=host, port=port, length=len(stats), stats=stats.encode()))\n                else:\n                    conn.send(stats.encode())\n                conn.close()\n    except JtopException as e:\n        print(e)\n    except Exception as e:\n        print(e)\n    finally:\n        sock.close()",
+  "FSMID_for_test": 66,
+  "Code_level": "Function-level"
+}

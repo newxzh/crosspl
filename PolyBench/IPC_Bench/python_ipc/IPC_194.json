@@ -1,0 +1,13 @@
+{
+  "Task_id": 194,
+  "Github_ID": "12633603",
+  "Github_Project_Name": "fiche",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Server - side by using Flask in python",
+  "Instruction": "Task Description: Create a Flask web application that serves as a code beautifier service. The application should take a directory path as input, and for each request with a specific slug, it should locate the corresponding text file in the directory, apply syntax highlighting, and return the formatted HTML.\n\nFunction Description: The `beautify` function is a Flask route handler that processes HTTP GET requests with a slug parameter. It checks if the slug is valid, locates the corresponding text file in the specified directory, reads the file content, applies syntax highlighting using Pygments, and returns the formatted HTML. If the slug is invalid or the file is not found, it returns a 404 error.\n\nInput: \n- `slug` (str): A URL path segment representing the name of the directory containing the text file to be beautified.\n\nOutput: \n- If successful: Returns HTML with syntax-highlighted code.\n- If unsuccessful: Returns a 404 error response.",
+  "Canonical_solution": "from flask import Flask, abort, redirect\napp = Flask(__name__)\n\nimport argparse, os, pygments\nfrom pygments import highlight\nfrom pygments.lexers import guess_lexer\nfrom pygments.formatters import HtmlFormatter\n\nparser = argparse.ArgumentParser()\nparser.add_argument(\"root_dir\", help=\"Path to directory with pastes\")\nargs = parser.parse_args()\n\n@app.route('/<slug>')\ndef beautify(slug):\n    if len(slug) > 64:\n        abort(404)\n\n    target_dir = os.path.join(args.root_dir, slug)\n\n    if not target_dir.startswith(args.root_dir):\n        abort(404)\n\n    if os.path.isdir(target_dir):\n        target_file = os.path.join(target_dir, \"index.txt\")\n        \n        with open(target_file) as f:\n            code = f.read()\n            lexer = guess_lexer(code)\n            formatter = HtmlFormatter(linenos=True, full=True)\n            return highlight(code, lexer, formatter)\n\n    abort(404)",
+  "FSMID_for_test": 60,
+  "Code_level": "Function-level"
+}

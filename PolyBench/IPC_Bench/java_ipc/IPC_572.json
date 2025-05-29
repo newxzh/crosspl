@@ -1,0 +1,13 @@
+{
+  "Task_id": 572,
+  "Github_ID": "16869559",
+  "Github_Project_Name": "ffmpeg-cli-wrapper",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "java.net Socket",
+  "Instruction": "Task Description: Create a function that establishes a TCP client connection to a server, sends data from an input stream, and verifies the successful transmission of data.\n\nFunction Description: The function should establish a connection to a server using a Socket, send data from an input stream to the server via an output stream, and ensure the data was transmitted successfully. It should also handle resource cleanup and verify the progress of the transmission.\n\nInput: \n- uri: [URI] - The URI object containing the host and port of the server to connect to.\n- inputStream: [InputStream] - The input stream containing the data to be sent to the server.\n- parser: [Object] - An object that manages the start and stop of the parsing process (assumed to have start() and stop() methods).\n\nOutput: \n- bytes: [long] - The number of bytes successfully transmitted to the server.\n- The function also asserts that the socket is connected, the number of bytes transmitted is greater than 0, and the progress of the transmission matches the expected progress. \n\nNote: The function may throw IOException, InterruptedException, or URISyntaxException.",
+  "Canonical_solution": "import java.io.IOException;\nimport java.io.InputStream;\nimport java.io.OutputStream;\nimport java.net.Socket;\nimport java.net.URISyntaxException;\n\npublic void testNormal() throws IOException, InterruptedException, URISyntaxException {\n    parser.start();\n\n    Socket client = new Socket(uri.getHost(), uri.getPort());\n    assertTrue(\"Socket is connected\", client.isConnected());\n\n    InputStream inputStream = combineResource(Progresses.allFiles);\n    OutputStream outputStream = client.getOutputStream();\n\n    long bytes = ByteStreams.copy(inputStream, outputStream);\n\n    Thread.sleep(100);\n\n    client.close();\n    parser.stop();\n\n    assertThat(bytes, greaterThan(0L));\n    assertThat(progesses, equalTo(Progresses.allProgresses));\n}",
+  "FSMID_for_test": 1,
+  "Code_level": "Function-level"
+}

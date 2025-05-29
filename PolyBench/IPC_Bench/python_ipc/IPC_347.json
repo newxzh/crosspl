@@ -1,0 +1,13 @@
+{
+  "Task_id": 347,
+  "Github_ID": "178120741",
+  "Github_Project_Name": "exploitation-course",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "TCP Client - side by using socket in python",
+  "Instruction": "Task Description: Create a Python function that sends a TCP payload to a specified server using socket programming.\n\nFunction Description: The function establishes a TCP connection to a target server, constructs an HTTP GET request with the provided payload, sends the request, and then closes the connection. This is useful for testing server responses or sending crafted HTTP requests.\n\nInput:\n- target_ip: [str] - The IP address of the target server\n- target_port: [int] - The port number of the target server\n- payload: [str] - The data to be included in the HTTP GET request path\n\nOutput: None (The function sends data but does not return any value)",
+  "Canonical_solution": "import socket\n\ndef send_tcp_payload(target_ip, target_port, payload):\n    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\n    s.connect((target_ip, target_port))\n    \n    buf = (\n        \"GET /\" + payload + \" HTTP/1.1\\r\\n\" + \n        \"Host: \" + target_ip + \n        \"\\r\\n\\r\\n\"\n    )\n    \n    s.send(buf)\n    s.close()",
+  "FSMID_for_test": 67,
+  "Code_level": "Function-level"
+}

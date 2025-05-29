@@ -1,0 +1,13 @@
+{
+  "Task_id": 64,
+  "Github_ID": "126504027",
+  "Github_Project_Name": "mand-mobile",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP based on express in javascript",
+  "Instruction": "Task Description: Create a function that sets up and configures an Express server with webpack middleware, proxy support, and static file serving capabilities.\n\nFunction Description: The function `createServer` initializes an Express application, configures it with webpack development and hot-reload middleware, sets up proxy routes based on a proxy table, enables history API fallback for single-page applications, serves static files, and starts the server on a specified port.\n\nInput: \n- None (The function relies on external configurations like `webpackConfig`, `proxyTable`, `config.dev`, and `port` which should be defined in the scope where the function is called)\n\nOutput: \n- Returns an HTTP server instance that is listening on the specified port, configured with all the middleware and routes.\n\nNote: The function assumes the following external dependencies are available:\n- `express`: The Express framework\n- `http-proxy-middleware`: For proxy functionality\n- `webpack` and related middlewares (`webpack-dev-middleware`, `webpack-hot-middleware`)\n- `connect-history-api-fallback`: For SPA history API fallback\n- `path`: Node.js path module\n- External configuration objects: `webpackConfig`, `proxyTable`, `config.dev`, `port`",
+  "Canonical_solution": "const express = require('express')\nconst proxyMiddleware = require('http-proxy-middleware')\n\nfunction createServer() {\n  const app = express()\n  const compiler = webpack(webpackConfig)\n\n  const devMiddleware = require('webpack-dev-middleware')(compiler, {\n    publicPath: webpackConfig.output.publicPath,\n    quiet: true,\n  })\n\n  const hotMiddleware = require('webpack-hot-middleware')(compiler, {\n    log: false,\n    heartbeat: 2000,\n  })\n\n  app.use(hotMiddleware)\n\n  Object.keys(proxyTable).forEach(function(context) {\n    let options = proxyTable[context]\n    if (typeof options === 'string') {\n      options = {target: options}\n    }\n    app.use(proxyMiddleware(options.filter || context, options))\n  })\n\n  app.use(require('connect-history-api-fallback')()))\n  app.use(devMiddleware)\n\n  const staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsSubDirectory)\n  app.use(staticPath, express.static('./static'))\n\n  var server = app.listen(port)\n  return server\n}",
+  "FSMID_for_test": 96,
+  "Code_level": "Function-level"
+}

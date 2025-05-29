@@ -1,0 +1,13 @@
+{
+    "Task_id": 46,
+    "Github_ID": "5790740",
+    "Github_Project_Name": "goreman",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Basic HTTP server using net/http with HandleFunc and ListenAndServe",
+    "Instruction": "Task Description: Create a simple HTTP server in Go that responds to requests with a greeting message containing the value of the \"AUTHOR\" environment variable.\n\nFunction Description: The main function sets up a basic HTTP server with a single route (\"/\") that responds to all HTTP requests. The response is a plain text message combining \"hello \" with the value of the \"AUTHOR\" environment variable. The server listens on a specified port.\n\nInput: \n- *addr (string pointer): A command-line flag specifying the server address and port to listen on (e.g., \":8080\")\n\nOutput: \n- None (The function runs indefinitely, serving HTTP requests until interrupted)\n- For each HTTP request to \"/\", outputs \"hello [AUTHOR]\" as the response body\n\nNote: The function does not explicitly return any values but writes to the http.ResponseWriter for each incoming request. The server continues running until terminated.",
+    "Canonical_solution": "import (\n\t\"flag\"\n\t\"fmt\"\n\t\"net/http\"\n\t\"os\"\n)\nfunc main() {\n\tflag.Parse()\n\thttp.HandleFunc(\"/\", func(w http.ResponseWriter, r *http.Request) {\n\t\tfmt.Fprintf(w, \"hello \"+os.Getenv(\"AUTHOR\"))\n\t})\n\thttp.ListenAndServe(*addr, nil)\n}",
+    "FSMID_for_test": 103,
+    "Code_level": "Function-level"
+}

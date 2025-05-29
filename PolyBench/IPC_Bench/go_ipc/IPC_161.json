@@ -1,0 +1,13 @@
+{
+    "Task_id": 161,
+    "Github_ID": "83145406",
+    "Github_Project_Name": "req",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Gin-based HTTP Server in Go",
+    "Instruction": "Task Description: Create a Go function that handles file uploads along with form data using the Gin web framework. The function should process multipart form data, save uploaded files, and return a response indicating success or failure.\n\nFunction Description: The function is a Gin route handler that processes POST requests to the \"/upload\" endpoint. It handles multipart/form-data submissions containing both form fields (name and email) and file uploads. The function saves all uploaded files to the server and returns a success message with the count of uploaded files and the form field values, or an error message if the operation fails.\n\nInput: \n- Gin context object (c *gin.Context) containing:\n  - Form fields: \"name\" (string), \"email\" (string)\n  - File uploads: \"files\" (multipart.FileHeader array)\n\nOutput:\n- On success: HTTP 200 status with success message (string)\n- On failure: HTTP 400 status with error message (string)",
+    "Canonical_solution": "import (\n\t\"net/http\"\n\t\"path/filepath\"\n\n\t\"github.com/gin-gonic/gin\"\n)\nfunc main() {\n\trouter := gin.Default()\n\trouter.POST(\"/upload\", func(c *gin.Context) {\n\t\tname := c.PostForm(\"name\")\n\t\temail := c.PostForm(\"email\")\n\n\t\tform, err := c.MultipartForm()\n\t\tif err != nil {\n\t\t\tc.String(http.StatusBadRequest, \"get form err: %s\", err.Error())\n\t\t\treturn\n\t\t}\n\t\tfiles := form.File[\"files\"]\n\n\t\tfor _, file := range files {\n\t\t\tfilename := filepath.Base(file.Filename)\n\t\t\tif err := c.SaveUploadedFile(file, filename); err != nil {\n\t\t\t\tc.String(http.StatusBadRequest, \"upload file err: %s\", err.Error())\n\t\t\t\treturn\n\t\t\t}\n\t\t}\n\n\t\tc.String(http.StatusOK, \"Uploaded successfully %d files with fields name=%s and email=%s.\", len(files), name, email)\n\t})\n\trouter.Run(\":8888\")\n}",
+    "FSMID_for_test": 105,
+    "Code_level": "Function-level"
+}

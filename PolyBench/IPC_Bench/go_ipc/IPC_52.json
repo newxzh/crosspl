@@ -1,0 +1,13 @@
+{
+    "Task_id": 52,
+    "Github_ID": "40453691",
+    "Github_Project_Name": "GolangTraining",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Basic HTTP server using net/http with HandleFunc and ListenAndServe",
+    "Instruction": "Task Description: Create a simple HTTP server in Go that tracks and displays the number of visits by maintaining a cookie-based counter.\n\nFunction Description: The main function sets up an HTTP server with a single route (\"/\") that handles incoming requests. For each request, it checks for a cookie named \"my-cookie\". If the cookie doesn't exist, it creates one with an initial value of \"0\". The function increments the cookie value on each visit and sends it back in the response, effectively maintaining a visit counter.\n\nInput: None (The function takes no direct input parameters. It responds to HTTP requests received on port 9000.)\n\nOutput: None (The function doesn't return any value. It writes the current visit count to the HTTP response and sets/updates the cookie in the response header.)",
+    "Canonical_solution": "import (\n\t\"io\"\n\t\"net/http\"\n\t\"strconv\"\n)\nfunc main() {\n\thttp.HandleFunc(\"/\", func(res http.ResponseWriter, req *http.Request) {\n\t\tcookie, err := req.Cookie(\"my-cookie\")\n\t\tif err == http.ErrNoCookie {\n\t\t\tcookie = &http.Cookie{\n\t\t\t\tName:  \"my-cookie\",\n\t\t\t\tValue: \"0\",\n\t\t\t}\n\t\t}\n\t\tcount, _ := strconv.Atoi(cookie.Value)\n\t\tcount++\n\t\tcookie.Value = strconv.Itoa(count)\n\n\t\thttp.SetCookie(res, cookie)\n\n\t\tio.WriteString(res, cookie.Value)\n\t})\n\thttp.ListenAndServe(\":9000\", nil)\n}",
+    "FSMID_for_test": 103,
+    "Code_level": "Function-level"
+}

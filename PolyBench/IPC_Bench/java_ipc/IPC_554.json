@@ -1,0 +1,13 @@
+{
+  "Task_id": 554,
+  "Github_ID": "100704079",
+  "Github_Project_Name": "javacore",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "java.net ServerSocket",
+  "Instruction": "Task Description: Create a Java class that implements a simple TCP echo server using ServerSocket to listen for client connections, receive messages, and send them back to the client with an \"ECHO : \" prefix until the client sends \"bye\" or an empty message.\n\nClass Description: The EchoServer class represents a TCP server that echoes back received messages to connected clients. It handles client connections, message processing, and resource cleanup.\n\nAttributes:\n- server: [ServerSocket] - The server socket listening for incoming connections\n- client: [Socket] - The socket representing the connected client\n- out: [PrintStream] - Output stream to send data to the client\n- buf: [BufferedReader] - Input stream to read data from the client\n- flag: [boolean] - Control flag for the server's main loop\n\nMethods:\n- EchoServer(int port) -> [void] - Constructor that initializes the server socket on the specified port\n- start() -> [void] - Starts the server, accepts client connections, and begins echoing messages\n- close() -> [void] - Closes client and server sockets to release resources",
+  "Canonical_solution": "import java.io.BufferedReader;\nimport java.io.InputStreamReader;\nimport java.io.PrintStream;\nimport java.net.ServerSocket;\nimport java.net.Socket;\n\npublic class EchoServer {\n\n    private ServerSocket server;\n    private Socket client;\n    private PrintStream out;\n    private BufferedReader buf;\n    private boolean flag;\n\n    public EchoServer(int port) throws Exception {\n        server = new ServerSocket(port);\n        flag = true;\n    }\n\n    public void start() throws Exception {\n        System.out.println(\"\u670d\u52a1\u5668\u8fd0\u884c\uff0c\u7b49\u5f85\u5ba2\u6237\u7aef\u8fde\u63a5\u3002\");\n        client = server.accept();\n        out = new PrintStream(client.getOutputStream());\n        buf = new BufferedReader(new InputStreamReader(client.getInputStream()));\n        while (flag) {\n            String str = buf.readLine();\n            if (str == null || \"\".equals(str)) {\n                flag = false;\n            } else {\n                if (\"bye\".equals(str)) {\n                    flag = false;\n                } else {\n                    out.println(\"ECHO : \" + str);\n                }\n            }\n        }\n    }\n\n    public void close() throws Exception {\n        client.close();\n        server.close();\n    }\n\n}",
+  "FSMID_for_test": 0,
+  "Code_level": "Class-level"
+}

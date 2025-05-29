@@ -1,0 +1,13 @@
+{
+  "Task_id": 216,
+  "Github_ID": "738356406",
+  "Github_Project_Name": "QAnything",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Server - side by using Sanic in python",
+  "Instruction": "Task Description: Create a Sanic-based HTTP server that handles reranking requests by processing a query and a list of passages through an ONNX backend, and returns the reranked results in JSON format.\n\nFunction Description: The server consists of two main functions: a route handler for processing rerank requests and a listener for initializing the ONNX backend before server startup. The route handler accepts POST requests with JSON data containing a query and passages, processes them using the ONNX backend, and returns the reranked results. The listener sets up the ONNX backend with GPU or CPU configuration based on command-line arguments.\n\nInput:\n- For the rerank route handler:\n  - request: Sanic request object containing JSON data with:\n    - query: str - The search query to rerank against\n    - passages: List[str] - The list of passages to be reranked\n- For the setup_onnx_backend listener:\n  - app: Sanic application instance\n  - loop: Event loop (unused in this case)\n- Command-line arguments:\n  --use_gpu: bool - Flag to enable GPU acceleration\n  --workers: int - Number of worker processes\n\nOutput:\n- For the rerank route handler:\n  - Returns: JSON response containing the reranked results\n- For the server startup:\n  - Starts an HTTP server listening on port 8001 with specified number of workers",
+  "Canonical_solution": "from sanic import Sanic\nfrom sanic.response import json\nimport argparse\n\napp = Sanic(\"rerank_server\")\n\n@app.route(\"/rerank\", methods=[\"POST\"])\nasync def rerank(request):\n    data = request.json\n    query = data.get('query')\n    passages = data.get('passages')\n\n    onnx_backend: RerankOnnxBackend = request.app.ctx.onnx_backend\n    result_data = onnx_backend.get_rerank(query, passages)\n\n    return json(result_data)\n\n@app.listener('before_server_start')\nasync def setup_onnx_backend(app, loop):\n    app.ctx.onnx_backend = RerankOnnxBackend(use_cpu=not args.use_gpu)\n\nif __name__ == \"__main__\":\n    parser = argparse.ArgumentParser()\n    parser.add_argument('--use_gpu', action=\"store_true\", help='use gpu or not')\n    parser.add_argument('--workers', type=int, default=1, help='workers')\n    args = parser.parse_args()\n    \n    app.run(host=\"0.0.0.0\", port=8001, workers=args.workers)",
+  "FSMID_for_test": 62,
+  "Code_level": "Function-level"
+}

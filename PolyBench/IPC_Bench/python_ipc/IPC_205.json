@@ -1,0 +1,13 @@
+{
+  "Task_id": 205,
+  "Github_ID": "278150898",
+  "Github_Project_Name": "fourkeys",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Server - side by using Flask in python",
+  "Instruction": "Task Description: Create a Flask-based HTTP server endpoint that processes Pub/Sub push subscription messages, extracts relevant data, and inserts it into BigQuery. Handle errors gracefully and return appropriate HTTP responses.\n\nFunction Description: The function serves as a Flask route handler for POST requests at the root path (\"/\"). It processes incoming Pub/Sub messages, extracts attributes and message data, processes Cloud Build events if present, and inserts the processed data into BigQuery. Errors are logged and a 204 No Content response is returned upon successful processing.\n\nInput: \n- HTTP POST request with JSON payload containing Pub/Sub message format:\n  {\n    \"message\": {\n      \"attributes\": {\n        \"key1\": \"value1\",\n        \"buildId\": \"123\" (optional)\n      },\n      \"data\": \"base64-encoded-string\" (optional)\n    }\n  }\n\nOutput: \n- Returns HTTP 204 No Content response on successful processing\n- Raises exceptions for invalid payload formats or missing required fields\n- Logs errors to console when data cannot be saved to BigQuery",
+  "Canonical_solution": "import base64\nimport os\nimport json\nimport shared\nfrom flask import Flask, request\n\napp = Flask(__name__)\n\n@app.route(\"/\", methods=[\"POST\"])\ndef index():\n    \"\"\"\n    Receives messages from a push subscription from Pub/Sub.\n    Parses the message, and inserts it into BigQuery.\n    \"\"\"\n    event = None\n    if not request.is_json:\n        raise Exception(\"Expecting JSON payload\")\n    envelope = request.get_json()\n\n    if \"message\" not in envelope:\n        raise Exception(\"Not a valid Pub/Sub Message\")\n    msg = envelope[\"message\"]\n\n    if \"attributes\" not in msg:\n        raise Exception(\"Missing pubsub attributes\")\n\n    try:\n        attr = msg[\"attributes\"]\n        if \"buildId\" in attr:\n            event = process_cloud_build_event(attr, msg)\n\n        shared.insert_row_into_bigquery(event)\n\n    except Exception as e:\n        entry = {\n                \"severity\": \"WARNING\",\n                \"msg\": \"Data not saved to BigQuery\",\n                \"errors\": str(e),\n                \"json_payload\": envelope\n            }\n        print(json.dumps(entry))\n\n    return \"\", 204",
+  "FSMID_for_test": 60,
+  "Code_level": "Function-level"
+}

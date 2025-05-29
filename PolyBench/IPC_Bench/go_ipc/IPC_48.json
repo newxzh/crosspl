@@ -1,0 +1,13 @@
+{
+    "Task_id": 48,
+    "Github_ID": "316539944",
+    "Github_Project_Name": "proxify",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Basic HTTP server using net/http with HandleFunc and ListenAndServe",
+    "Instruction": "Task Description: Create a Go HTTP server that acts as a proxy, forwarding requests based on a header value and returning the corresponding stored response.\n\nFunction Description: The main function sets up an HTTP server with a root handler that retrieves and forwards responses based on the \"proxify\" header. It stores responses in a global map and cleans up after forwarding. The server runs concurrently.\n\nInput: \n- options.HTTPListenerAddress (string): The address and port on which the HTTP server should listen (e.g., \":8080\")\n\nOutput: \n- None (the function runs indefinitely as a server)\n- Errors are logged fatally if the server fails to start\n\nNote: The implementation uses global variables (response and responses) for storing and retrieving HTTP responses. The handler expects requests to contain a \"proxify\" header that serves as a key to look up pre-stored responses in the responses map. After forwarding a response, it removes the corresponding entry from the map.",
+    "Canonical_solution": "import (\n\t\"net/http\"\n\t\"strings\"\n\t\"io\"\n)\n\nvar (\n\tresponse   *http.Response\n\tresponses  map[string]*http.Response\n)\n\nfunc main() {\n\thttp.HandleFunc(\"/\", func(w http.ResponseWriter, req *http.Request) {\n\t\tkey := req.Header.Get(\"proxify\")\n\t\tresponse := responses[key]\n\t\tdelete(responses, key)\n\n\t\tfor k, v := range response.Header {\n\t\t\tw.Header().Add(k, strings.Join(v, \"; \"))\n\t\t}\n\t\tw.WriteHeader(response.StatusCode)\n\t\tio.Copy(w, response.Body)\n\t})\n\tgo func() {\n\t\tif err := http.ListenAndServe(options.HTTPListenerAddress, nil); err != nil {\n\t\t\tgologger.Fatal().Msgf(\"Could not listen and serve: %s\\n\", err)\n\t\t}\n\t}()\n}",
+    "FSMID_for_test": 103,
+    "Code_level": "Function-level"
+}

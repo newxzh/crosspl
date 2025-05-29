@@ -1,0 +1,13 @@
+{
+  "Task_id": 46,
+  "Github_ID": "49336543",
+  "Github_Project_Name": "glslEditor",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Server - side based on XMLHttpRequest in JavaScript",
+  "Instruction": "Task Description: Create a function that asynchronously retrieves JSON data from a specified URL using XMLHttpRequest and handles the response through a callback function.\n\nFunction Description: The function `getJSON` initiates an HTTP GET request to the provided URL, expecting a JSON response. It handles the response asynchronously, passing either the retrieved JSON data or an error status to the callback function. The function uses modern XMLHttpRequest features like responseType='json' for automatic JSON parsing.\n\nInput:\n- `url` [String] - The URL from which to fetch JSON data\n- `callback` [Function] - A function that handles the response, taking two parameters:\n  - First parameter: Error status (null if successful, HTTP status code if error)\n  - Second parameter: Response data (parsed JSON object if successful, raw response if error)\n\nOutput: None (results are handled asynchronously through the callback function)",
+  "Canonical_solution": "function getJSON(url, callback) {\n    var xhr = new XMLHttpRequest();\n    xhr.open('GET', url, true);\n    xhr.responseType = 'json';\n    xhr.onload = function() {\n      var status = xhr.status;\n      if (status === 200) {\n        callback(null, xhr.response);\n      } else {\n        callback(status, xhr.response);\n      }\n    };\n    xhr.send();\n}",
+  "FSMID_for_test": 93,
+  "Code_level": "Function-level"
+}

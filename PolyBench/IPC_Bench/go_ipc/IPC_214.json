@@ -1,0 +1,13 @@
+{
+    "Task_id": 214,
+    "Github_ID": "27729907",
+    "Github_Project_Name": "grpc-go",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Official-based gRPC client in Go",
+    "Instruction": "Task Description: Create a Go function that establishes a gRPC connection to a remote server, performs profiling operations based on input flags, and handles connection cleanup.\n\nFunction Description: The function `remoteCommand` establishes an insecure gRPC connection to a specified address, creates a profiling client, and executes either profiling enable/disable operations or retrieves a snapshot based on command-line flags. It handles connection timeouts and ensures proper connection closure.\n\nInput:\n- Context (implicit through package variables)\n- Command-line flags (implicit through package variables):\n  - `flagAddress`: string - gRPC server address to connect to\n  - `flagTimeout`: int - connection timeout in seconds (0 for no timeout)\n  - `flagEnableProfiling`: bool - whether to enable profiling\n  - `flagDisableProfiling`: bool - whether to disable profiling\n  - `flagRetrieveSnapshot`: bool - whether to retrieve a snapshot\n  - `flagSnapshot`: string - snapshot identifier (when retrieving)\n\nOutput:\n- error - returns nil on success, or an error describing what went wrong during execution",
+    "Canonical_solution": "import (\n\t\"context\"\n\t\"time\"\n\n\t\"google.golang.org/grpc\"\n\t\"google.golang.org/grpc/credentials/insecure\"\n\tppb \"google.golang.org/grpc/profiling/proto\"\n)\nfunc remoteCommand() error {\n\tctx := context.Background()\n\tif *flagTimeout > 0 {\n\t\tvar cancel func()\n\t\tctx, cancel = context.WithTimeout(context.Background(), time.Duration(*flagTimeout)*time.Second)\n\t\tdefer cancel()\n\t}\n\n\tlogger.Infof(\"dialing %s\", *flagAddress)\n\tcc, err := grpc.Dial(*flagAddress, grpc.WithTransportCredentials(insecure.NewCredentials()))\n\tif err != nil {\n\t\tlogger.Errorf(\"cannot dial %s: %v\", *flagAddress, err)\n\t\treturn err\n\t}\n\tdefer cc.Close()\n\n\tc := ppb.NewProfilingClient(cc)\n\n\tif *flagEnableProfiling || *flagDisableProfiling {\n\t\treturn setEnabled(ctx, c, *flagEnableProfiling)\n\t}\n\tif *flagRetrieveSnapshot {\n\t\treturn retrieveSnapshot(ctx, c, *flagSnapshot)\n\t}\n\treturn fmt.Errorf(\"what should I do with the remote target?\")\n}",
+    "FSMID_for_test": 120,
+    "Code_level": "Function-level"
+}

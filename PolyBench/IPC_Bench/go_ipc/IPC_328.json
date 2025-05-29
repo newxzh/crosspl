@@ -1,0 +1,13 @@
+{
+    "Task_id": 328,
+    "Github_ID": "34854605",
+    "Github_Project_Name": "goim",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Simple HTTP GET client using net/http",
+    "Instruction": "Task Description: Create a function that sends an HTTP POST request to a specified address with JSON payload and room parameters, then processes the response.\n\nFunction Description: The function sends a POST request to a server endpoint with room information and a JSON payload containing a test value. It handles the response by reading the body and printing the result along with a timestamp.\n\nInput:\n- addr (string): The server address to which the POST request will be sent.\n- i (int64): A numeric value that will be included in the JSON payload.\n\nOutput: None (prints response details to stdout, returns nothing)",
+    "Canonical_solution": "import (\n\t\"bytes\"\n\t\"fmt\"\n\t\"io/ioutil\"\n\t\"net/http\"\n\t\"os\"\n)\n\nfunc post(addr string, i int64) {\n\tresp, err := http.Post(\"http://\"+addr+\"/goim/push/room?operation=1000&type=test&room=\"+os.Args[1], \"application/json\", bytes.NewBufferString(fmt.Sprintf(\"{\\\"test\\\":%d}\", i)))\n\tif err != nil {\n\t\tfmt.Printf(\"Error: http.post() error(%v)\\n\", err)\n\t\treturn\n\t}\n\tdefer resp.Body.Close()\n\tbody, err := ioutil.ReadAll(resp.Body)\n\tif err != nil {\n\t\tfmt.Printf(\"Error: http.post() error(%v)\\n\", err)\n\t\treturn\n\t}\n\n\tfmt.Printf(\"%s postId:%d, response:%s\\n\", time.Now().Format(\"2006-01-02 15:04:05\"), i, string(body))\n}",
+    "FSMID_for_test": 101,
+    "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 491,
+  "Github_ID": "584714008",
+  "Github_Project_Name": "ucall",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "gRPC Server - side based on grpcio in python",
+  "Instruction": "Task Description: Implement a gRPC server in Python that provides session validation functionality using the grpcio library. The server should handle concurrent requests and validate sessions based on a specific mathematical operation between user_id and session_id.\n\nClass Description: ValidateServiceService is a gRPC service implementation that validates user sessions. It inherits from the generated LoginServiceServicer class and provides methods for session validation and server management.\n\nAttributes:\n- None explicitly defined (inherits attributes from parent class)\n\nMethods:\n- Validate(request, context) -> pb2.ValidateResponse: Validates a user session by performing a mathematical operation (XOR followed by modulo 23) on the user_id and session_id from the request. Returns a ValidateResponse with a boolean result.\n  Input: \n    - request: pb2.ValidateRequest - Contains user_id and session_id to validate\n    - context: grpc.ServicerContext - gRPC context object\n  Output: pb2.ValidateResponse - Contains validation result (True/False)\n\n- serve(port, max_workers) -> None: Starts and runs the gRPC server on the specified port with the given number of worker threads.\n  Input:\n    - port: str (default='50051') - Port number to bind the server to\n    - max_workers: int (default=10) - Maximum number of worker threads\n  Output: None (runs indefinitely until terminated)",
+  "Canonical_solution": "import grpc\nfrom concurrent import futures\nimport validate_session_pb2_grpc as pb2_grpc\nimport validate_session_pb2 as pb2\n\nclass ValidateServiceService(pb2_grpc.LoginServiceServicer):\n    def __init__(self, *args, **kwargs):\n        pass\n\n    def Validate(self, request, context):\n        return pb2.ValidateResponse(result=((request.user_id ^ request.session_id) % 23 == 0))\n\n    def serve(self, port='50051', max_workers=10):\n        server = grpc.server(futures.ThreadPoolExecutor(max_workers=max_workers))\n        pb2_grpc.add_LoginServiceServicer_to_server(self, server)\n        server.add_insecure_port(f'[::]:{port}')\n        server.start()\n        server.wait_for_termination()",
+  "FSMID_for_test": 74,
+  "Code_level": "Class-level"
+}

@@ -1,0 +1,13 @@
+{
+    "Task_id": 246,
+    "Github_ID": "452240290",
+    "Github_Project_Name": "vanus",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Official-based gRPC server in Go",
+    "Instruction": "Task Description: Implement a gRPC server in Go that listens for incoming requests and handles them using the gRPC framework. The server should be able to gracefully shut down when the context is canceled.\n\nFunction Description: The MainExt function initializes and starts a gRPC server. It sets up a network listener, creates a gRPC server instance, registers the service implementation, and starts the server in a goroutine. The function waits for the context to be canceled before gracefully shutting down the server.\n\nInput:\n- ctx [context.Context]: The context used to control the lifecycle of the gRPC server. Canceling this context will trigger a graceful shutdown.\n- cfg [Config]: A configuration object containing the port number on which the server should listen.\n\nOutput: None (The function runs indefinitely until the context is canceled or an error occurs.)",
+    "Canonical_solution": "import (\n\t\"context\"\n\t\"fmt\"\n\t\"net\"\n\t\"sync\"\n\n\t\"google.golang.org/grpc\"\n\ttriggerpb \"github.com/vanus-labs/vanus/api/trigger\"\n)\n\ntype TriggerServer struct {\n\tcfg Config\n}\n\nfunc NewTriggerServer(cfg Config) *TriggerServer {\n\treturn &TriggerServer{\n\t\tcfg: cfg,\n\t}\n}\n\nfunc MainExt(ctx context.Context, cfg Config) {\n\tlisten, err := net.Listen(\"tcp\", fmt.Sprintf(\":%d\", cfg.Port))\n\tif err != nil {\n\t\tlog.Error().Msg(\"failed to listen\")\n\t\tos.Exit(-1)\n\t}\n\n\tsrv := NewTriggerServer(cfg)\n\n\tvar opts []grpc.ServerOption\n\tgrpcServer := grpc.NewServer(opts...)\n\ttriggerpb.RegisterTriggerWorkerServer(grpcServer, srv)\n\n\tvar wg sync.WaitGroup\n\twg.Add(1)\n\tgo func() {\n\t\tdefer wg.Done()\n\t\tlog.Info(ctx).Msg(\"the grpc server ready to work\")\n\t\terr = grpcServer.Serve(listen)\n\t\tif err != nil {\n\t\t\tlog.Error(ctx).Err(err).Msg(\"grpc server occurred an error\")\n\t\t}\n\t}()\n\n\t<-ctx.Done()\n\tgrpcServer.GracefulStop()\n\twg.Wait()\n}",
+    "FSMID_for_test": 119,
+    "Code_level": "Function-level"
+}

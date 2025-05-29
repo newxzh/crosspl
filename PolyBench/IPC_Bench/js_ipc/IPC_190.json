@@ -1,0 +1,13 @@
+{
+  "Task_id": 190,
+  "Github_ID": "121553439",
+  "Github_Project_Name": "Orca",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "UDP based on node.js dgram",
+  "Instruction": "Task Description: Create a function that sets up a UDP server using Node.js's dgram module to listen for incoming messages on a specified port and IP address.\n\nFunction Description: The function `setupUDPServer` initializes a UDP server socket, configures event handlers for errors and incoming messages, and binds the socket to a specified port and IP address. The server logs errors and received messages to the console.\n\nInput: None\n\nOutput: Returns the created UDP server socket object.",
+  "Canonical_solution": "function setupUDPServer() {\n    const IP_ADDR = '127.0.0.1';\n    const UDP_PORT = 49161;\n    \n    const dgram = require('dgram');\n    const udpserver = dgram.createSocket('udp4');\n\n    udpserver.on('error', (err) => {\n        console.log(`UDP server:\\n${err.stack}`);\n        udpserver.close();\n    });\n\n    udpserver.on('message', (msg, rinfo) => {\n        console.log(`UDP server: ${msg} from ${rinfo.address}:${rinfo.port}`);\n    });\n\n    udpserver.bind(UDP_PORT);\n\n    return udpserver;\n}",
+  "FSMID_for_test": 98,
+  "Code_level": "Function-level"
+}

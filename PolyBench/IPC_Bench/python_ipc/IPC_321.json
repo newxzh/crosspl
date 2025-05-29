@@ -1,0 +1,13 @@
+{
+  "Task_id": 321,
+  "Github_ID": "178120741",
+  "Github_Project_Name": "exploitation-course",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "TCP Client - side by using socket in python",
+  "Instruction": "Task Description: Create a Python function that implements a TCP client to interact with a server by sending a command with an offset and receiving the server's response.\n\nFunction Description: The function `tcp_client_interaction` establishes a TCP connection to a specified server, sends a command concatenated with an offset, receives the server's initial response, and then closes the connection. This is useful for basic client-server communication over TCP/IPv4.\n\nInput:\n- `host` (str): The IP address or hostname of the target server.\n- `port` (int): The port number on which the server is listening.\n- `cmd` (str): The command to be sent to the server.\n- `offset` (str): An offset value to be appended to the command.\n\nOutput:\n- The function prints the server's initial response to the console.\n- The function prints a confirmation message (\"Done Sending GTER with buffer\") upon successful completion.",
+  "Canonical_solution": "import socket\n\ndef tcp_client_interaction(host, port, cmd, offset):\n    buffer = cmd + offset + '\\r\\n'\n    \n    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\n    s.connect((host, port))\n    data = s.recv(1024)\n    print \"\\n\" + data\n    s.send(buffer)\n    s.close()\n    print \"Done Sending GTER with buffer\"",
+  "FSMID_for_test": 67,
+  "Code_level": "Function-level"
+}

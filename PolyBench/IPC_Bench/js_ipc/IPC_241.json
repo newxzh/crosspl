@@ -1,0 +1,13 @@
+{
+  "Task_id": 241,
+  "Github_ID": "173529836",
+  "Github_Project_Name": "javascript_playground",
+  "Programming_Language": "JavaScript",
+  "suffix": ".html",
+  "Interface_class": "IPC",
+  "Interface_name": "WebSocket Client-side based on browser native API in JavaScript",
+  "Instruction": "Task Description: Implement a WebSocket client in JavaScript that establishes a connection to a server, listens for incoming messages, and sends user input from a text box when the Enter key is pressed.\n\nFunction Description: The function `setupWebSocket` initializes a WebSocket connection to a specified server URL. It sets up an event listener for incoming messages to display them in a designated HTML element. Additionally, it listens for the Enter key press in a text box to send the input text via the WebSocket connection and clears the text box afterward.\n\nInput: None (The function uses DOM elements with IDs \"txt\" and \"divOut\" for text input and message display, respectively.)\n\nOutput: None (The function's side effects include establishing a WebSocket connection, displaying received messages in the \"divOut\" element, and sending user input to the server.)",
+  "Canonical_solution": "function setupWebSocket() {\n    const txtBox = document.getElementById(\"txt\");\n    const divOut = document.getElementById(\"divOut\");\n    const ws = new WebSocket(\"ws://localhost/wsapp/\");\n    \n    ws.onmessage = function(e) {\n        divOut.innerHTML += e.data + \"<br/>\";\n    };\n    \n    txtBox.addEventListener(\"keypress\", function(e) {\n        if (e.keyCode === 13) {\n            ws.send(txtBox.value);\n            txtBox.value = \"\";\n        }\n    });\n}",
+  "FSMID_for_test": 89,
+  "Code_level": "Function-level"
+}

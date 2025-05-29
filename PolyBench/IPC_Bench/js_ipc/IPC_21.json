@@ -1,0 +1,13 @@
+{
+  "Task_id": 21,
+  "Github_ID": "245077032",
+  "Github_Project_Name": "API",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Client-side based on Axios",
+  "Instruction": "Task Description: Create a function that sends data to a webhook URL using HTTP POST request with error handling.\n\nFunction Description: The function `sendWebhook` is an asynchronous function that takes data as input and sends it to a predefined webhook URL using an HTTP POST request. It handles potential errors during the request and logs them to the console.\n\nInput: \n- `data` [Object] - The payload/data to be sent to the webhook URL.\n\nOutput: \n- None (The function does not return any value, but it may log errors to the console if the request fails).",
+  "Canonical_solution": "const axios = require('axios');\n\nconst sendWebhook = async (data) => {\n    try {\n        await axios.post(process.env.UPDATE_WEBHOOK, data);\n    } catch (err) {\n        console.log(err);\n    }\n};",
+  "FSMID_for_test": 94,
+  "Code_level": "Function-level"
+}

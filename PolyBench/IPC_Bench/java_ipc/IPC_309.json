@@ -1,0 +1,13 @@
+{
+  "Task_id": 309,
+  "Github_ID": "715605",
+  "Github_Project_Name": "jedis",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "Redis in Java",
+  "Instruction": "Task Description: Create a Java class that manages Redis connections using the Jedis client library, providing methods to establish, close, and create new connections with configurable protocols.\n\nClass Description: The RedisConnectionManager class handles Redis connection management using Jedis, allowing for protocol configuration and providing essential connection operations. It encapsulates connection details and offers methods for connection lifecycle management.\n\nAttributes:\n\nendpoint: [EndpointConfig] - Configuration for Redis connection endpoint (host, port, etc.)\nprotocol: [RedisProtocol] - The Redis protocol to be used for connections\njedis: [Jedis] - The Jedis client instance for Redis operations\n\nMethods:\n\nsetUpConnection: [void]() -> [void] - Establishes a new Redis connection with the configured protocol and timeout, and flushes all existing data\ncloseConnection: [void]() -> [void] - Closes the current Redis connection and releases resources\ncreateNewConnection: [Jedis]() -> [Jedis] - Creates and returns a new Jedis connection instance with the configured protocol",
+  "Canonical_solution": "import redis.clients.jedis.Jedis;\nimport redis.clients.jedis.HostAndPorts;\nimport redis.clients.jedis.RedisProtocol;\nimport redis.clients.jedis.EndpointConfig;\n\npublic class RedisConnectionManager {\n\n    protected static final EndpointConfig endpoint = HostAndPorts.getRedisEndpoint(\"standalone0\");\n    protected final RedisProtocol protocol;\n    protected Jedis jedis;\n\n    public RedisConnectionManager(RedisProtocol protocol) {\n        this.protocol = protocol;\n    }\n\n    public void setUpConnection() throws Exception {\n        jedis = new Jedis(endpoint.getHostAndPort(), endpoint.getClientConfigBuilder()\n            .protocol(protocol).timeoutMillis(500).build());\n        jedis.flushAll();\n    }\n\n    public void closeConnection() throws Exception {\n        jedis.close();\n    }\n\n    public Jedis createNewConnection() {\n        return new Jedis(endpoint.getHostAndPort(), endpoint.getClientConfigBuilder()\n            .protocol(protocol).build());\n    }\n}",
+  "FSMID_for_test": 37,
+  "Code_level": "Class-level"
+}

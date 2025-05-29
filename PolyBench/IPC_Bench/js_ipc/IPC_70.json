@@ -1,0 +1,13 @@
+{
+  "Task_id": 70,
+  "Github_ID": "51622074",
+  "Github_Project_Name": "devtron",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP based on express in javascript",
+  "Instruction": "Task Description: Create a function to set up an HTTP server using Express.js that evaluates JavaScript expressions sent via POST requests and returns the results.\n\nFunction Description: The function `setupServer` initializes an Express.js server with middleware for JSON parsing and CORS. It listens on port 3948 and provides a POST endpoint at the root path ('/') that evaluates JavaScript expressions sent in the request body using Node.js's `vm` module. The server logs its startup information to the console.\n\nInput: None (The function takes no parameters; configuration is hardcoded.)\n\nOutput: None (The function doesn't return anything; it starts a server that continues running and handles incoming requests.)",
+  "Canonical_solution": "function setupServer() {\n    const express = require('express');\n    const bodyParser = require('body-parser');\n    const cors = require('cors');\n    const path = require('path');\n    const vm = require('vm');\n\n    const app = express();\n    app.use(bodyParser.json());\n    app.use(cors());\n    app.post('/', function (request, response) {\n        try {\n            response.json({result: vm.runInThisContext(request.body.expression)});\n        } catch (error) {\n            response.json(error);\n        }\n    });\n    app.listen(3948, 'localhost', function () {\n        console.log('Devtron server listening on http://localhost:3948');\n        console.log(`Open file://${path.join(__dirname, '..', 'static', 'index.html')} to view`);\n    });\n}",
+  "FSMID_for_test": 96,
+  "Code_level": "Function-level"
+}

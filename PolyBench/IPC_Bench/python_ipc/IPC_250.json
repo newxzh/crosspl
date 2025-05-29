@@ -1,0 +1,13 @@
+{
+  "Task_id": 250,
+  "Github_ID": "571186647",
+  "Github_Project_Name": "pathway",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "Kafka producer in python",
+  "Instruction": "Task Description: Implement a Kafka producer function that reads data from a file, sorts it by timestamp, and streams it to a Kafka topic at a controlled speed, with batch commit markers.\n\nFunction Description: The function reads JSON-formatted data from a file, extracts timestamps, sorts the data chronologically, and streams it to a specified Kafka topic. It maintains the original time intervals between records (adjusted by a speed factor) and inserts commit markers after each batch of records. Finally, it sends finish and commit markers before closing the producer.\n\nInput:\n- dataset_path: str - Path to the input file containing JSON records\n- speed: float (default=1) - Speed multiplier for time intervals (1.0 = realtime, 2.0 = 2x faster)\n- batch_size: float (default=500) - Number of records between commit markers\n\nOutput: None (Messages are sent to Kafka topic; no return value)",
+  "Canonical_solution": "from kafka import KafkaProducer\n\nCOMMIT_COMMAND = \"*COMMIT*\"\nFINISH_COMMAND = \"*FINISH*\"\n\ndef kafka_producer(dataset_path: str, speed: float = 1, batch_size: float = 500):\n    dataset = []\n    with open(dataset_path, \"r\") as data_input:\n        for row in data_input:\n            created_at = json.loads(row)[\"tweet\"][\"created_at\"]\n            timestamp = datetime.datetime.strptime(created_at, \"%Y-%m-%dT%H:%M:%S.%fZ\")\n            dataset.append([timestamp, row])\n\n    dataset.sort(key=lambda x: x[0])\n\n    last_streamed_timestamp = None\n    producer = KafkaProducer(bootstrap_servers=[\"kafka:9092\"])\n    current_batch_size = 0\n    for timestamp, row in dataset:\n        if last_streamed_timestamp:\n            delta = (timestamp - last_streamed_timestamp).total_seconds() / speed\n            if delta > 0:\n                time.sleep(delta)\n                last_streamed_timestamp = timestamp\n        else:\n            last_streamed_timestamp = timestamp\n        producer.send(\"test_0\", row.encode(\"utf-8\", \"ignore\"), partition=0)\n        current_batch_size += 1\n        if current_batch_size >= batch_size:\n            producer.send(\"test_0\", COMMIT_COMMAND.encode(\"utf-8\"), partition=0)\n            current_batch_size = 0\n    producer.send(\"test_0\", COMMIT_COMMAND.encode(\"utf-8\"), partition=0)\n    producer.send(\"test_0\", FINISH_COMMAND.encode(\"utf-8\"), partition=0)\n    producer.close()",
+  "FSMID_for_test": 78,
+  "Code_level": "Function-level"
+}

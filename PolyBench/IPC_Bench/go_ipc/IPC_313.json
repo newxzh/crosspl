@@ -1,0 +1,13 @@
+{
+    "Task_id": 313,
+    "Github_ID": "36485077",
+    "Github_Project_Name": "sonyflake",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Simple HTTP GET client using net/http",
+    "Instruction": "Task Description: Write a Go function that retrieves the private IPv4 address of an Amazon EC2 instance by querying the instance metadata service.\n\nFunction Description: The function should make an HTTP GET request to the EC2 instance metadata service at the well-known endpoint (169.254.169.254) to fetch the local IPv4 address. It should handle potential errors during the request, response reading, and IP parsing, and return the IPv4 address in net.IP format.\n\nInput: None (the function takes no parameters)\n\nOutput: \n- On success: Returns the private IPv4 address as a net.IP object (IPv4 format)\n- On failure: Returns nil and an error describing what went wrong (failed request, invalid response, or invalid IP address)",
+    "Canonical_solution": "import (\n\t\"errors\"\n\t\"io/ioutil\"\n\t\"net\"\n\t\"net/http\"\n)\n\nfunc amazonEC2PrivateIPv4() (net.IP, error) {\n\tres, err := http.Get(\"http://169.254.169.254/latest/meta-data/local-ipv4\")\n\tif err != nil {\n\t\treturn nil, err\n\t}\n\tdefer res.Body.Close()\n\n\tbody, err := ioutil.ReadAll(res.Body)\n\tif err != nil {\n\t\treturn nil, err\n\t}\n\n\tip := net.ParseIP(string(body))\n\tif ip == nil {\n\t\treturn nil, errors.New(\"invalid ip address\")\n\t}\n\treturn ip.To4(), nil\n}",
+    "FSMID_for_test": 101,
+    "Code_level": "Function-level"
+}

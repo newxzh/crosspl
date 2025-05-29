@@ -1,0 +1,13 @@
+{
+    "Task_id": 220,
+    "Github_ID": "13512328",
+    "Github_Project_Name": "fleet",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Official-based gRPC client in Go",
+    "Instruction": "Task Description: Create a function that establishes a connection to a gRPC metrics server, creates a client for the MetricsService, and prints the metrics retrieved from the server.\n\nFunction Description: The function connects to a gRPC server specified by the metricsServerAddress, initializes a MetricsService client, and prints the metrics. If the connection fails, it logs a fatal error. The connection is automatically closed when the function completes.\n\nInput: \n- metricsServerAddress: string - The address of the gRPC metrics server to connect to.\n- totalOnly: bool - A flag indicating whether to print only the total metrics or all metrics.\n\nOutput: None (prints metrics to the console or logs errors).",
+    "Canonical_solution": "import (\n\t\"flag\"\n\t\"fmt\"\n\t\"io\"\n\n\t\"golang.org/x/net/context\"\n\t\"google.golang.org/grpc\"\n\t\"google.golang.org/grpc/grpclog\"\n\tmetricspb \"google.golang.org/grpc/stress/grpc_testing\"\n)\nfunc main() {\n\tflag.Parse()\n\tif *metricsServerAddress == \"\" {\n\t\tgrpclog.Fatalf(\"Metrics server address is empty.\")\n\t}\n\n\tconn, err := grpc.Dial(*metricsServerAddress, grpc.WithInsecure())\n\tif err != nil {\n\t\tgrpclog.Fatalf(\"cannot connect to metrics server: %v\", err)\n\t}\n\tdefer conn.Close()\n\n\tc := metricspb.NewMetricsServiceClient(conn)\n\tprintMetrics(c, *totalOnly)\n}",
+    "FSMID_for_test": 120,
+    "Code_level": "Function-level"
+}

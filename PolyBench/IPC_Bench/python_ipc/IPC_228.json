@@ -1,0 +1,13 @@
+{
+  "Task_id": 228,
+  "Github_ID": "55058317",
+  "Github_Project_Name": "routersploit",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Server - side by using http.server in python",
+  "Instruction": "Task Description: Create a custom HTTP server in Python that can serve content and be stopped after handling a single GET request.\n\nClass Description: This implementation consists of two classes: HttpRequestHandler (handles HTTP requests) and HttpServer (manages server operations). The server serves specified content when receiving a GET request and then stops itself.\n\nAttributes:\n\nAttribute1: stop [bool] - Flag indicating whether the server should stop running\nAttribute2: content [bytes] - The content to be served in response to GET requests\n\nMethods:\n\nMethod1: do_GET(self) -> None - Handles GET requests by sending a 200 response with the server's content and setting the stop flag\nMethod2: log_message(self, format, *args) -> None - Overrides default logging to suppress log messages\nMethod3: serve_forever(self, content) -> None - Starts the server with the given content and runs until a request is handled (stop flag is set)",
+  "Canonical_solution": "import socket\nimport threading\nfrom http.server import BaseHTTPRequestHandler, HTTPServer\n\nclass HttpRequestHandler(BaseHTTPRequestHandler):\n    def do_GET(self):\n        self.send_response(200)\n        self.send_header(\"Content-type\", \"text/html\")\n        self.end_headers()\n        self.wfile.write(self.server.content)\n        self.server.stop = True\n\n    def log_message(self, format, *args):\n        return\n\nclass HttpServer(HTTPServer):\n    def serve_forever(self, content):\n        self.stop = False\n        self.content = content\n        while not self.stop:\n            self.handle_request()",
+  "FSMID_for_test": 55,
+  "Code_level": "Class-level"
+}

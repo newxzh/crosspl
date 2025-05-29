@@ -1,0 +1,13 @@
+{
+  "Task_id": 419,
+  "Github_ID": "2113510",
+  "Github_Project_Name": "autobahn-python",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "TCP Server-side based on twisted in python",
+  "Instruction": "Task Description: Implement a TCP server using Twisted framework in Python that supports WebSocket connections, handles incoming data, and manages connection lifecycle events.\n\nClass Description: The solution consists of two classes: `HelloServerProtocol` (handles protocol-level operations) and `HelloServerFactory` (manages server configuration and startup).\n\nAttributes:\n\n- `HelloServerProtocol`:\n  - transport: [object] - Twisted transport object representing the connection\n- `HelloServerFactory`:\n  - host: [str] - Server host address (default: \"127.0.0.1\")\n  - port: [int] - Server port number (default: 9000)\n  - wrappedFactory: [object] - Twisted Factory instance for protocol handling\n  - factory: [object] - WebSocket-wrapped factory instance\n\nMethods:\n\n- `HelloServerProtocol`:\n  - connectionMade() -> None - Called when a new connection is established\n  - dataReceived(data: bytes) -> None - Called when data is received from client\n- `HelloServerFactory`:\n  - __init__(host: str = \"127.0.0.1\", port: int = 9000, enableCompression: bool = False, autoFragmentSize: int = 1024) -> None - Initializes factory with configuration\n  - start() -> None - Starts the TCP server and enters event loop",
+  "Canonical_solution": "from twisted.internet.protocol import Protocol, Factory\nfrom twisted.internet import reactor\nfrom autobahn.twisted.websocket import WrappingWebSocketServerFactory\n\nclass HelloServerProtocol(Protocol):\n    def connectionMade(self):\n        print(\"connectionMade\", self.transport.getHost(), self.transport.getPeer())\n        self.transport.write('how are you?' * 100)\n\n    def dataReceived(self, data):\n        print(\"dataReceived: {}\".format(data))\n\nclass HelloServerFactory:\n    def __init__(self, host=\"127.0.0.1\", port=9000, enableCompression=False, autoFragmentSize=1024):\n        self.host = host\n        self.port = port\n        self.wrappedFactory = Factory.forProtocol(HelloServerProtocol)\n        self.factory = WrappingWebSocketServerFactory(\n            self.wrappedFactory,\n            f\"ws://{self.host}:{self.port}\",\n            enableCompression=enableCompression,\n            autoFragmentSize=autoFragmentSize\n        )\n\n    def start(self):\n        reactor.listenTCP(self.port, self.factory)\n        reactor.run()",
+  "FSMID_for_test": 68,
+  "Code_level": "Class-level"
+}

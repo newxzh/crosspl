@@ -1,0 +1,13 @@
+{
+  "Task_id": 266,
+  "Github_ID": "192892917",
+  "Github_Project_Name": "vscode-debug-visualizer",
+  "Programming_Language": "JavaScript",
+  "suffix": ".ts",
+  "Interface_class": "IPC",
+  "Interface_name": "WebSocket Server-side based on Node.js",
+  "Instruction": "Task Description: Create a WebSocket server class that manages WebSocket connections for a webview application, handling connection events and maintaining active connections.\n\nClass Description: The WebviewServer class is responsible for setting up and managing a WebSocket server that facilitates real-time communication between a webview application and a data source. It maintains active connections and provides server information.\n\nAttributes:\n- server: [http.Server] - The underlying HTTP server instance used for WebSocket communication\n- secret: [string] - A secret string used for authentication or security purposes\n- connections: [Set<WebviewConnection>] - A collection of active WebSocket connections\n- config: [Config] - Configuration object containing server settings\n\nMethods:\n- constructor(dataSource: [VisualizationWatchModel], config: [Config]) -> [void] - Initializes the WebSocket server, sets up connection handlers, and stores the configuration\n- get port() -> [number] - Returns the port number on which the server is listening for connections",
+  "Canonical_solution": "import { WebSocketStream } from \"@hediet/typed-json-rpc-websocket\";\nimport WebSocket = require(\"ws\");\nimport * as express from \"express\";\nimport * as http from \"http\";\n\nexport class WebviewServer {\n\tprivate readonly server: http.Server;\n\tpublic readonly secret: string;\n\n\tpublic readonly connections = new Set<WebviewConnection>();\n\n\tconstructor(\n\t\tdataSource: VisualizationWatchModel,\n\t\tprivate readonly config: Config\n\t) {\n\t\tconst app = express();\n\t\tthis.server = app.listen();\n\n\t\tconst wss = new WebSocket.Server({ server: this.server });\n\t\twss.on(\"connection\", async ws => {\n\t\t\tconst stream = new WebSocketStream(ws);\n\t\t\tconst c = new WebviewConnection(\n\t\t\t\tdataSource,\n\t\t\t\tstream,\n\t\t\t\tthis,\n\t\t\t\tconfig,\n\t\t\t\tthis.secret\n\t\t\t);\n\t\t\tthis.connections.add(c);\n\t\t\tawait stream.onClosed;\n\t\t\tthis.connections.delete(c);\n\t\t});\n\t}\n\n\tpublic get port(): number {\n\t\tconst httpPort = (this.server.address() as AddressInfo).port;\n\t\treturn httpPort;\n\t}\n}",
+  "FSMID_for_test": 90,
+  "Code_level": "Class-level"
+}

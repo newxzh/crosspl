@@ -1,0 +1,13 @@
+{
+    "Task_id": 13,
+    "Github_ID": "79487641",
+    "Github_Project_Name": "goldfish",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Advanced HTTP client with custom http.Client and request headers",
+    "Instruction": "Task Description: Create a function that retrieves metadata from a metadata server using a custom HTTP client, with support for ETag headers and error handling.\n\nFunction Description: The function `getETag` makes an HTTP GET request to a metadata server endpoint, using a custom HTTP client with specific timeout configurations. It handles the response by checking status codes, reading the response body, and extracting both the content and ETag header. The function includes error handling for various scenarios including connection errors, missing resources, and non-200 status codes.\n\nInput:\n- client *http.Client: A custom HTTP client with configured timeouts for the request\n- suffix string: The path suffix to append to the base metadata URL\n\nOutput:\n- value string: The content of the response body as a string\n- etag string: The ETag header value from the response\n- err error: An error object if any step fails, nil on success",
+    "Canonical_solution": "import (\n\t\"fmt\"\n\t\"io/ioutil\"\n\t\"net\"\n\t\"net/http\"\n\t\"os\"\n\t\"time\"\n)\n\nvar (\n\tmetaClient = &http.Client{\n\t\tTransport: &http.Transport{\n\t\t\tDial: (&net.Dialer{\n\t\t\t\tTimeout:   2 * time.Second,\n\t\t\t\tKeepAlive: 30 * time.Second,\n\t\t\t}).Dial,\n\t\t\tResponseHeaderTimeout: 2 * time.Second,\n\t\t},\n\t}\n)\n\nfunc getETag(client *http.Client, suffix string) (value, etag string, err error) {\n\thost := os.Getenv(metadataHostEnv)\n\tif host == \"\" {\n\t\thost = metadataIP\n\t}\n\turl := \"http://\" + host + \"/computeMetadata/v1/\" + suffix\n\treq, _ := http.NewRequest(\"GET\", url, nil)\n\treq.Header.Set(\"Metadata-Flavor\", \"Google\")\n\treq.Header.Set(\"User-Agent\", userAgent)\n\tres, err := client.Do(req)\n\tif err != nil {\n\t\treturn \"\", \"\", err\n\t}\n\tdefer res.Body.Close()\n\tif res.StatusCode == http.StatusNotFound {\n\t\treturn \"\", \"\", NotDefinedError(suffix)\n\t}\n\tif res.StatusCode != 200 {\n\t\treturn \"\", \"\", fmt.Errorf(\"status code %d trying to fetch %s\", res.StatusCode, url)\n\t}\n\tall, err := ioutil.ReadAll(res.Body)\n\tif err != nil {\n\t\treturn \"\", \"\", err\n\t}\n\treturn string(all), res.Header.Get(\"Etag\"), nil\n}",
+    "FSMID_for_test": 102,
+    "Code_level": "Function-level"
+}

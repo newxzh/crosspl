@@ -1,0 +1,13 @@
+{
+    "Task_id": 391,
+    "Github_ID": "31046054",
+    "Github_Project_Name": "libnetwork",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "os.pipe-based pipe in Go",
+    "Instruction": "Task Description: The task involves creating a proxy command handler that manages inter-process communication between a parent process and a userland proxy using Go's pipe mechanism. The handler starts the proxy process, monitors its initialization status, and handles potential errors or timeouts.\n\nStruct Description: The `proxyCommand` struct manages the lifecycle of a userland proxy process, including process execution, IPC communication via pipes, and status monitoring.\n\nFields:\n- cmd: *exec.Cmd - The command object representing the proxy process to be executed.\n- ExtraFiles: []*os.File - Additional file descriptors to be passed to the child process (contains the pipe writer).\n\nMethods:\n- Start() -> error - Initializes the proxy process, establishes IPC via pipe, monitors startup status, and returns any errors encountered during execution or timeout. The method creates a pipe, passes the writer to the child process, reads the initialization status from the pipe reader, and handles errors or timeouts.",
+    "Canonical_solution": "import (\n\t\"fmt\"\n\t\"io\"\n\t\"io/ioutil\"\n\t\"net\"\n\t\"os\"\n\t\"os/exec\"\n\t\"time\"\n)\n\nfunc (p *proxyCommand) Start() error {\n\tr, w, err := os.Pipe()\n\tif err != nil {\n\t\treturn fmt.Errorf(\"proxy unable to open os.Pipe %s\", err)\n\t}\n\tdefer r.Close()\n\tp.cmd.ExtraFiles = []*os.File{w}\n\tif err := p.cmd.Start(); err != nil {\n\t\treturn err\n\t}\n\tw.Close()\n\n\terrchan := make(chan error, 1)\n\tgo func() {\n\t\tbuf := make([]byte, 2)\n\t\tr.Read(buf)\n\n\t\tif string(buf) != \"0\\n\" {\n\t\t\terrStr, err := ioutil.ReadAll(r)\n\t\t\tif err != nil {\n\t\t\t\terrchan <- fmt.Errorf(\"Error reading exit status from userland proxy: %v\", err)\n\t\t\t\treturn\n\t\t\t}\n\n\t\t\terrchan <- fmt.Errorf(\"Error starting userland proxy: %s\", errStr)\n\t\t\treturn\n\t\t}\n\t\terrchan <- nil\n\t}()\n\n\tselect {\n\tcase err := <-errchan:\n\t\treturn err\n\tcase <-time.After(16 * time.Second):\n\t\treturn fmt.Errorf(\"Timed out proxy starting the userland proxy\")\n\t}\n}",
+    "FSMID_for_test": 118,
+    "Code_level": "Class-level"
+}

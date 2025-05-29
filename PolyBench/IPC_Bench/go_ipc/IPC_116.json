@@ -1,0 +1,13 @@
+{
+    "Task_id": 116,
+    "Github_ID": "153948655",
+    "Github_Project_Name": "Beaver",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Gin-based HTTP Server in Go",
+    "Instruction": "Task Description: Create a Go function that initializes and runs a Gin HTTP server with configurable settings including middleware, routes, and TLS support.\n\nFunction Description: The function serves as the entry point for starting a Gin-based HTTP server. It initializes the Gin engine with default middleware (Logger and Recovery) and additional custom middleware (CORS, Correlation, Auth, etc.). It registers various route handlers for different endpoints including health checks, metrics, and a home route. The server can be started with or without TLS based on configuration.\n\nInput: \n- None (configuration is read from viper and cobra command context)\n\nOutput: \n- None (runs HTTP server as a blocking operation, panics on error)\n\nMethods:\n- The function itself serves as the main execution method for the cobra.Command's Run field\n\nNote: The function uses global configuration via viper and is designed to work as part of a cobra CLI command structure. It handles server startup errors by panicking, which is appropriate for a main application entry point.\n\n(Strictly following the format with no extra characters)",
+    "Canonical_solution": "import (\n\t\"fmt\"\n\t\"net/http\"\n\t\"strconv\"\n\n\t\"github.com/gin-gonic/gin\"\n\t\"github.com/spf13/viper\"\n)\n\nvar towerCmd = &cobra.Command{\n\tUse:   \"api\",\n\tShort: \"Start beaver api server\",\n\tRun: func(cmd *cobra.Command, args []string) {\n\t\tr := gin.Default()\n\n\t\tr.Use(middleware.Cors())\n\t\tr.Use(middleware.Correlation())\n\t\tr.Use(middleware.Logger())\n\t\tr.Use(middleware.Metric())\n\t\tr.Use(middleware.Auth())\n\n\t\tr.GET(\"/favicon.ico\", func(c *gin.Context) {\n\t\t\tc.String(http.StatusNoContent, \"\")\n\t\t})\n\n\t\tr.GET(\"/\", controller.Home)\n\n\t\tr.GET(\"/_health\", controller.Health)\n\n\t\tr.GET(\n\t\t\tviper.GetString(\"app.metrics.prometheus.endpoint\"),\n\t\t\tgin.WrapH(controller.Metrics()),\n\t\t)\n\n\t\tvar runerr error\n\n\t\tif viper.GetBool(\"app.tls.status\") {\n\t\t\trunerr = r.RunTLS(\n\t\t\t\tfmt.Sprintf(\":%s\", strconv.Itoa(viper.GetInt(\"app.port\"))),\n\t\t\t\tviper.GetString(\"app.tls.pemPath\"),\n\t\t\t\tviper.GetString(\"app.tls.keyPath\"),\n\t\t\t)\n\t\t} else {\n\t\t\trunerr = r.Run(\n\t\t\t\tfmt.Sprintf(\":%s\", strconv.Itoa(viper.GetInt(\"app.port\"))),\n\t\t\t)\n\t\t}\n\n\t\tif runerr != nil {\n\t\t\tpanic(runerr.Error())\n\t\t}\n\t},\n}",
+    "FSMID_for_test": 105,
+    "Code_level": "Function-level"
+}

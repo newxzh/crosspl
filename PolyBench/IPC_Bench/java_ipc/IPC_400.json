@@ -1,0 +1,13 @@
+{
+  "Task_id": 400,
+  "Github_ID": "100704079",
+  "Github_Project_Name": "javacore",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "TCP Client-side Java.io",
+  "Instruction": "Task Description: Create a TCP client class in Java that establishes a connection to a server, allows sending messages to the server, and receives echoed responses until the termination command is sent.\n\nClass Description: The EchoClient class represents a TCP client that connects to a specified server host and port. It provides functionality for sending user input to the server and displaying the server's response, continuing this echo process until the user sends \"bye\" to terminate the connection.\n\nAttributes:\n- client: Socket - The socket used for the TCP connection to the server\n- input: BufferedReader - Reads user input from the console\n- buf: BufferedReader - Reads data from the server's response stream\n- out: PrintStream - Writes data to the server's output stream\n\nMethods:\n- EchoClient(String host, int port) -> void - Constructor that establishes a connection to the specified host and port, initializing the input/output streams\n- start() -> void - Starts the client interaction loop, reading user input and sending it to the server while displaying responses\n- close() -> void - Closes all open streams and the socket connection",
+  "Canonical_solution": "import java.io.BufferedReader;\nimport java.io.InputStreamReader;\nimport java.io.PrintStream;\nimport java.net.Socket;\n\npublic class EchoClient {\n\n    private Socket client;\n    private BufferedReader input;\n    private BufferedReader buf;\n    private PrintStream out;\n\n    public EchoClient(String host, int port) throws Exception {\n        client = new Socket(host, port);\n        input = new BufferedReader(new InputStreamReader(System.in));\n        buf = new BufferedReader(new InputStreamReader(client.getInputStream()));\n        out = new PrintStream(client.getOutputStream());\n    }\n\n    public void start() throws Exception {\n        boolean flag = true;\n        while (flag) {\n            System.out.print(\"\u8f93\u5165\u4fe1\u606f\uff1a\");\n            String str = input.readLine();\n            out.println(str);\n            if (\"bye\".equals(str)) {\n                flag = false;\n            } else {\n                String echo = buf.readLine();\n                System.out.println(echo);\n            }\n        }\n        close();\n    }\n\n    public void close() throws Exception {\n        buf.close();\n        client.close();\n    }\n\n}",
+  "FSMID_for_test": 15,
+  "Code_level": "Class-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 502,
+  "Github_ID": "195769741",
+  "Github_Project_Name": "gnes",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "gRPC Server - side based on grpcio in python",
+  "Instruction": "Task Description: Create a gRPC server in Python that handles incoming requests using a thread pool for concurrency and implements a dummy API for testing purposes.\n\nClass Description: The DummyServer class implements a gRPC server that listens on a specified address and handles incoming requests through a servicer class. It manages server lifecycle and provides a simple echo service.\n\nAttributes:\n- server: [grpc.Server] - The gRPC server instance configured with thread pool executor and message size limits\n- bind_address: [str] - The network address and port where the server will listen for incoming connections\n\nMethods:\n- __init__: [Name](bind_address: str) -> None - Initializes the gRPC server with thread pool executor, configures message size limits, and binds to the specified address\n- __enter__: [Name]() -> DummyServer - Starts the server and returns the instance (for context manager usage)\n- __exit__: [Name](exc_type, exc_val, exc_tb) -> None - Stops the server when exiting context (for context manager usage)\n- GNESServicer.dummyAPI: [Name](request, context) -> request - Servicer method that echoes back received requests (implements dummy API)",
+  "Canonical_solution": "import os\nimport grpc\nfrom concurrent.futures import ThreadPoolExecutor\nfrom tests.proto_s import dummy_pb2_grpc\n\nclass DummyServer:\n    def __init__(self, bind_address):\n        self.server = grpc.server(\n            ThreadPoolExecutor(max_workers=1),\n            options=[('grpc.max_send_message_length', 1 * 1024 * 1024),\n                     ('grpc.max_receive_message_length', 1 * 1024 * 1024)])\n        dummy_pb2_grpc.add_DummyGRPCServiceServicer_to_server(self.GNESServicer(), self.server)\n        self.bind_address = bind_address\n        self.server.add_insecure_port(self.bind_address)\n\n    def __enter__(self):\n        self.server.start()\n        print('dummy server is listening at: %s' % self.bind_address)\n        return self\n\n    def __exit__(self, exc_type, exc_val, exc_tb):\n        self.server.stop(None)\n\n    class GNESServicer(dummy_pb2_grpc.DummyGRPCServiceServicer):\n        def dummyAPI(self, request, context):\n            print('the dummy server received something: %s' % request)\n            return request",
+  "FSMID_for_test": 74,
+  "Code_level": "Class-level"
+}

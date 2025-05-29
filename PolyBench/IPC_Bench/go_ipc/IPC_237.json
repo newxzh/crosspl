@@ -1,0 +1,13 @@
+{
+    "Task_id": 237,
+    "Github_ID": "137360315",
+    "Github_Project_Name": "learning_tools",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Official-based gRPC client in Go",
+    "Instruction": "Task Description: Create a function to test gRPC client functionality for user login using Go's gRPC package. The function should establish a connection to a gRPC server, send multiple login requests with metadata, and handle responses.\n\nFunction Description: The function tests the gRPC client's ability to communicate with a user service. It establishes an insecure connection to the specified server address, creates a client instance, and sends 20 consecutive login requests with generated UUID metadata. Each request uses the same account credentials and prints the received authentication token.\n\nInput: None (The function is a test function with hardcoded values)\n\nOutput: None (The function prints tokens to stdout and may return errors through the testing framework)\n\nNote: The function uses package-level variables and imports from external packages as shown in the reference code. The connection is automatically closed when the function completes.",
+    "Canonical_solution": "import (\n\t\"context\"\n\t\"testing\"\n\n\t\"google.golang.org/grpc\"\n\t\"google.golang.org/grpc/metadata\"\n\n\t\"github.com/hwholiday/learning_tools/go-kit/v11/user_agent/pb\"\n\t\"github.com/hwholiday/learning_tools/go-kit/v11/utils\"\n\tuuid \"github.com/satori/go.uuid\"\n)\nfunc TestGrpc(t *testing.T) {\n\tserviceAddress := \"127.0.0.1:8881\"\n\tconn, err := grpc.Dial(serviceAddress, grpc.WithInsecure())\n\tif err != nil {\n\t\tpanic(\"connect error\")\n\t}\n\tdefer conn.Close()\n\tuserClient := pb.NewUserClient(conn)\n\tUUID := uuid.NewV5(uuid.NewV4(), \"req_uuid\").String()\n\tmd := metadata.Pairs(utils.ContextReqUUid, UUID)\n\tctx := metadata.NewOutgoingContext(context.Background(), md)\n\tfor i := 0; i < 20; i++ {\n\t\tres, err := userClient.RpcUserLogin(ctx, &pb.Login{\n\t\t\tAccount:  \"hwholiday\",\n\t\t\tPassword: \"123456\",\n\t\t})\n\t\tif err != nil {\n\t\t\tt.Error(err)\n\t\t\treturn\n\t\t}\n\t\tfmt.Println(res.Token)\n\t}\n}",
+    "FSMID_for_test": 120,
+    "Code_level": "Function-level"
+}

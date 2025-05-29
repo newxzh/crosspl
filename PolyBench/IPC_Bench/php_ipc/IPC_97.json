@@ -1,0 +1,13 @@
+{
+  "Task_id": 97,
+  "Github_ID": "54614424",
+  "Github_Project_Name": "weui",
+  "Programming_Language": "PHP",
+  "suffix": ".php",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP client using cURL in PHP",
+  "Instruction": "Task Description: Create a PHP function that performs HTTP requests using cURL, supporting both GET and POST methods, with optional SSL verification and file upload safety checks.\n\nFunction Description: The function makes HTTP requests to a specified URL, with optional POST data. It handles SSL verification automatically based on the URL scheme (https/http) and includes safety checks for file uploads. The function returns the raw response from the server.\n\nInput:\n- $url: string - The target URL for the HTTP request\n- $data: mixed (optional) - Data to be sent with POST request (default: empty string)\n\nOutput:\n- string - The raw response data from the server\n- false - If the cURL request fails (though error handling is minimal in this implementation)",
+  "Canonical_solution": "function curl($url, $data = '')\n{\n    $ch = curl_init();\n    if (class_exists('\\CURLFile')) {\n        curl_setopt($ch, CURLOPT_SAFE_UPLOAD, true);\n    } else {\n        if (defined('CURLOPT_SAFE_UPLOAD')) {\n            curl_setopt($ch, CURLOPT_SAFE_UPLOAD, false);\n        }\n    }\n    \n    preg_match('/https:\\/\\//', $url) ? $ssl = TRUE : $ssl = FALSE;\n    if ($ssl) {\n        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);\n        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);\n    }\n    \n    curl_setopt($ch, CURLOPT_URL, $url);\n    if (!empty($data)) {\n        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, \"POST\");\n        curl_setopt($ch, CURLOPT_POST, true);\n        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);\n    }\n    \n    curl_setopt($ch, CURLOPT_HEADER, false);\n    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);\n    $d = curl_exec($ch);\n    curl_close($ch);\n    return $d;\n}",
+  "FSMID_for_test": 132,
+  "Code_level": "Function-level"
+}

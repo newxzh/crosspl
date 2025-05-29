@@ -1,0 +1,13 @@
+{
+    "Task_id": 329,
+    "Github_ID": "55277533",
+    "Github_Project_Name": "veneur",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Simple HTTP GET client using net/http",
+    "Instruction": "Task Description: Implement a function to retrieve metadata from a metadata server using HTTP GET requests with custom headers.\n\nFunction Description: The function `getMetadata` sends an HTTP GET request to a metadata server with specific headers and retrieves the response. It handles the request creation, response processing, and error checking. The function ensures proper resource cleanup by deferring the closing of the response body.\n\nInput:  \n- `key` (string): The metadata key to be appended to the metadata server's base path.  \n\nOutput:  \n- `[]byte`: The raw response body from the metadata server if the request is successful.  \n- `error`: An error object if the request fails or if the server returns a non-200 status code.",
+    "Canonical_solution": "import (\n\t\"fmt\"\n\t\"io/ioutil\"\n\t\"net/http\"\n\t\"net/url\"\n)\n\nvar (\n\tmetadataRequestHeaders = http.Header{\n\t\t\"Metadata-Flavor\": []string{\"Google\"},\n\t}\n)\n\nfunc getMetadata(key string) ([]byte, error) {\n\treq := &http.Request{\n\t\tMethod: \"GET\",\n\t\tURL: &url.URL{\n\t\t\tScheme: \"http\",\n\t\t\tHost:   metadataHost,\n\t\t\tPath:   metadataPath + key,\n\t\t},\n\t\tHeader: metadataRequestHeaders,\n\t\tHost:   metadataHost,\n\t}\n\tresp, err := http.DefaultClient.Do(req)\n\tif err != nil {\n\t\treturn nil, err\n\t}\n\tdefer resp.Body.Close()\n\tif resp.StatusCode != 200 {\n\t\treturn nil, fmt.Errorf(\"metadata server returned HTTP %d\", resp.StatusCode)\n\t}\n\treturn ioutil.ReadAll(resp.Body)\n}",
+    "FSMID_for_test": 101,
+    "Code_level": "Function-level"
+}

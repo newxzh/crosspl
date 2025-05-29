@@ -1,0 +1,13 @@
+{
+  "Task_id": 59,
+  "Github_ID": "57602929",
+  "Github_Project_Name": "Hospital",
+  "Programming_Language": "JavaScript",
+  "suffix": ".html",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Server - side based on XMLHttpRequest in JavaScript",
+  "Instruction": "Task Description: Create a function that asynchronously loads YAML content from a specified URL and processes it using a callback function.\n\nFunction Description: The function `loadYamlUrl` initiates an HTTP GET request to fetch YAML content from a given URL. It handles the response asynchronously, checking for a successful status code (200) before passing the YAML text to a processing function (`yamlToForm`) and logging the response to the console.\n\nInput: \n- `url` [String] - The URL from which to fetch the YAML content.\n\nOutput: \n- None (The function does not return a value directly but processes the YAML content via the `yamlToForm` callback and logs the response to the console.)",
+  "Canonical_solution": "function loadYamlUrl(url) {\n    var xhr = new XMLHttpRequest();\n    xhr.open('GET', url, true);\n    xhr.responseType = 'text';\n    xhr.onload = function(e) {\n        if (this.status == 200) {\n            yamlToForm(this.response);\n            console.log(this.response);\n        }\n    };\n    xhr.send();\n}",
+  "FSMID_for_test": 93,
+  "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 134,
+  "Github_ID": "11899155",
+  "Github_Project_Name": "learnyounode",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "Pipe Server-side based on fs+http in JavaScript",
+  "Instruction": "Task Description: Create a function that sets up a simple HTTP server to pipe the contents of a file as a response to incoming requests.\n\nFunction Description: The function creates an HTTP server that listens on a specified port. When a request is received, it responds by streaming the contents of a specified file to the client using the `pipe()` method. This is useful for efficiently serving file contents without loading the entire file into memory.\n\nInput: \n- port: [number] - The port number on which the HTTP server should listen. This is passed as the first command-line argument (process.argv[2]).\n- filePath: [string] - The path to the file whose contents should be piped to the response. This is passed as the second command-line argument (process.argv[3]).\n\nOutput: \n- None (The function does not return a value but starts an HTTP server that runs indefinitely.)",
+  "Canonical_solution": "function createPipeServer() {\n    require('http').createServer(function (req, res) {\n        res.writeHead(200, 'content-type: text/plain');\n        require('fs').createReadStream(process.argv[3]).pipe(res);\n    }).listen(process.argv[2] | 0);\n}",
+  "FSMID_for_test": 100,
+  "Code_level": "Function-level"
+}

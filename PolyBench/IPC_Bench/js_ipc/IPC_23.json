@@ -1,0 +1,13 @@
+{
+  "Task_id": 23,
+  "Github_ID": "518004533",
+  "Github_Project_Name": "tts-vue",
+  "Programming_Language": "JavaScript",
+  "suffix": ".ts",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Client-side based on Axios",
+  "Instruction": "Task Description: Create a function that interacts with Microsoft's Speech API to convert SSML (Speech Synthesis Markup Language) text into speech audio using HTTP requests.\n\nFunction Description: The function `speechApi` sends a POST request to Microsoft's Speech API endpoint with SSML text as input and receives audio data in MP3 format as response. It handles the HTTP communication including request configuration, headers, payload, and error handling.\n\nInput: \n- ssml: [String] - The SSML formatted text to be converted to speech\n\nOutput: \n- [Promise] - Resolves with the audio data in arraybuffer format if successful, rejects with error if the request fails",
+  "Canonical_solution": "const axios = require(\"axios\");\nconst { v4: uuidv4 } = require(\"uuid\");\n\nfunction speechApi(ssml) {\n    var data = JSON.stringify({\n        ssml,\n        ttsAudioFormat: \"audio-24khz-160kbitrate-mono-mp3\",\n        offsetInPlainText: 0,\n        properties: {\n            SpeakTriggerSource: \"AccTuningPagePlayButton\",\n        },\n    });\n\n    var config = {\n        method: \"post\",\n        url: \"https://southeastasia.api.speech.microsoft.com/accfreetrial/texttospeech/acc/v3.0-beta1/vcg/speak\",\n        responseType: \"arraybuffer\",\n        headers: {\n            authority: \"southeastasia.api.speech.microsoft.com\",\n            accept: \"*/*\",\n            \"accept-language\": \"zh-CN,zh;q=0.9\",\n            customvoiceconnectionid: uuidv4(),\n            origin: \"https://speech.microsoft.com\",\n            \"sec-ch-ua\": '\"Google Chrome\";v=\"111\", \"Not(A:Brand\";v=\"8\", \"Chromium\";v=\"111\"',\n            \"sec-ch-ua-mobile\": \"?0\",\n            \"sec-ch-ua-platform\": '\"Windows\"',\n            \"sec-fetch-dest\": \"empty\",\n            \"sec-fetch-mode\": \"cors\",\n            \"sec-fetch-site\": \"same-site\",\n            \"user-agent\": \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36\",\n            \"content-type\": \"application/json\",\n        },\n        data: data,\n    };\n\n    return new Promise((resolve, reject) => {\n        axios(config)\n            .then(function(response) {\n                resolve(response.data);\n            })\n            .catch(function(error) {\n                console.error(error);\n                reject(error);\n            });\n    });\n}",
+  "FSMID_for_test": 94,
+  "Code_level": "Function-level"
+}

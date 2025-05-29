@@ -1,0 +1,13 @@
+{
+  "Task_id": 298,
+  "Github_ID": "13512018",
+  "Github_Project_Name": "Diamond",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "Pipe based on subprocess in python",
+  "Instruction": "Task Description: Implement a class to collect and analyze OSSEC (Open Source Host-based Intrusion Detection System) agent states using subprocess communication.\n\nClass Description: The OssecCollector class interacts with the OSSEC agent control utility to retrieve agent status information and parse the results into a structured format. It handles command execution with optional sudo privileges and processes the output to count agent states.\n\nAttributes:\n- bin_path: [str] - Path to the OSSEC agent_control binary (default: '/var/ossec/bin/agent_control')\n- use_sudo: [bool] - Flag indicating whether to use sudo for command execution (default: True)\n- sudo_cmd: [str] - Path to the sudo binary (default: '/usr/bin/sudo')\n\nMethods:\n- __init__(bin_path: str = '/var/ossec/bin/agent_control', use_sudo: bool = True, sudo_cmd: str = '/usr/bin/sudo') -> None - Initializes the collector with configuration paths\n- collect() -> dict - Executes the agent control command, processes the output, and returns a dictionary counting agent states by status\n\nThe implementation should use subprocess.PIPE for inter-process communication and handle potential execution errors appropriately.",
+  "Canonical_solution": "import subprocess\nimport re\nfrom diamond.collector import str_to_bool\n\nclass OssecCollector:\n    def __init__(self, bin_path='/var/ossec/bin/agent_control', use_sudo=True, sudo_cmd='/usr/bin/sudo'):\n        self.bin_path = bin_path\n        self.use_sudo = use_sudo\n        self.sudo_cmd = sudo_cmd\n\n    def collect(self):\n        command = [self.bin_path, '-l']\n\n        if str_to_bool(self.use_sudo):\n            command.insert(0, self.sudo_cmd)\n\n        try:\n            p = subprocess.Popen(command, stdout=subprocess.PIPE)\n            res = p.communicate()[0]\n        except Exception as e:\n            raise Exception('Unable to exec cmd: %s, because %s' % (' '.join(command), str(e)))\n\n        if res == '':\n            raise Exception('Empty result from exec cmd: %s' % (' '.join(command)))\n\n        states = {}\n        for line in res.split(\"\\n\"):\n            if not line.startswith('   ID: '):\n                continue\n            fragments = line.split(',')\n            state = fragments[-1].lstrip()\n            if state not in states:\n                states[state] = 1\n            else:\n                states[state] += 1\n\n        return states",
+  "FSMID_for_test": 76,
+  "Code_level": "Class-level"
+}

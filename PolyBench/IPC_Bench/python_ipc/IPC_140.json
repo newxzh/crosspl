@@ -1,0 +1,13 @@
+{
+  "Task_id": 140,
+  "Github_ID": "118620583",
+  "Github_Project_Name": "TTS",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Server - side by using Flask in python",
+  "Instruction": "Task Description: Create a Flask-based HTTP server endpoint that converts text to speech (TTS) and returns the generated audio as a WAV file.\n\nFunction Description: The function `tts()` is a Flask route handler that processes GET requests to the '/api/tts' endpoint. It takes text input as a query parameter, synthesizes it into speech using a TTS synthesizer, and returns the audio as a WAV file in the response.\n\nInput: \n- text: [str] (passed as a query parameter 'text' in the GET request) - The text to be converted to speech.\n\nOutput:\n- [Flask Response] - A response containing the synthesized audio in WAV format with the appropriate MIME type ('audio/wav'). The audio data is streamed from memory using a BytesIO buffer.\n\nNote: The function assumes the existence of a pre-initialized `synthesizer` object capable of performing TTS (text-to-speech) conversion and saving the output as WAV format. The actual implementation of the synthesizer is not shown in this reference code.",
+  "Canonical_solution": "from flask import Flask, render_template, request, send_file\nimport io\n\napp = Flask(__name__)\n\n@app.route('/api/tts', methods=['GET'])\ndef tts():\n    text = request.args.get('text')\n    print(\" > Model input: {}\".format(text))\n    wavs = synthesizer.tts(text)\n    out = io.BytesIO()\n    synthesizer.save_wav(wavs, out)\n    return send_file(out, mimetype='audio/wav')\n\ndef main():\n    app.run(debug=args.debug, host='0.0.0.0', port=args.port)",
+  "FSMID_for_test": 60,
+  "Code_level": "Function-level"
+}

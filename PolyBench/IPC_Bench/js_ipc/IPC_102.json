@@ -1,0 +1,13 @@
+{
+  "Task_id": 102,
+  "Github_ID": "18394992",
+  "Github_Project_Name": "web-development-with-node-and-express",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP based on express in javascript",
+  "Instruction": "Task Description: Create a function that sets up an Express server with specific route handlers and middleware to demonstrate various aspects of request handling, error processing, and route termination in Express.js.\n\nFunction Description: The function `setupExpressServer` initializes an Express application, configures middleware and route handlers to illustrate different scenarios in HTTP request processing including:\n- Basic middleware execution\n- Route termination\n- Error handling middleware\n- Unhandled routes\nThe server listens on port 3000 and logs various events to the console during operation.\n\nInput: None\n\nOutput: None (The function's effect is creating and starting an Express server that listens on port 3000)",
+  "Canonical_solution": "function setupExpressServer() {\n    var app = require('express')();\n\n    app.use(function(req, res, next){ \n        console.log('\\n\\nALLWAYS');\n        next(); \n    });\n\n    app.get('/a', function(req, res){ \n        console.log('/a: route terminated'); \n        res.send('a'); \n    });\n    app.get('/a', function(req, res){ \n        console.log('/a: never called'); \n    });\n    app.get('/b', function(req, res, next){ \n        console.log('/b: route not terminated');\n        next();\n    });\n    app.use(function(req, res, next){\n        console.log('SOMETIMES');\n        next();\n    });\n    app.get('/b', function(req, res, next){\n        console.log('/b (part 2): error thrown' );\n        throw new Error('b failed');\n    });\n    app.use('/b', function(err, req, res, next){\n        console.log('/b error detected and passed on');\n        next(err);\n    });\n    app.get('/c', function(err, req){\n        console.log('/c: error thrown');\n        throw new Error('c failed');\n    });\n    app.use('/c', function(err, req, res, next){\n        console.log('/c: error deteccted but not passed on');\n        next();\n    });\n\n    app.use(function(err, req, res, next){\n        console.log('unhandled error detected: ' + err.message);\n        res.send('500 - server error');\n    });\n\n    app.use(function(req, res){\n        console.log('route not handled');\n        res.send('404 - not found');\n    });\n\n    app.listen(3000, function(){ \n        console.log('listening on 3000');\n    });\n}",
+  "FSMID_for_test": 96,
+  "Code_level": "Function-level"
+}

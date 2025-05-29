@@ -1,0 +1,13 @@
+{
+  "Task_id": 18,
+  "Github_ID": "128895073",
+  "Github_Project_Name": "expo-cli",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Client-side based on Axios",
+  "Instruction": "Task Description: Write a function that fetches version information and schema data from a remote API, caches the results locally, and handles errors appropriately.\n\nFunction Description: The function `fetchAndCacheVersions` retrieves version data from a specified API endpoint, then fetches schema data for each non-deprecated version. It caches all retrieved data in JSON files in a local directory. Errors during the process are caught and logged, with the process exiting on failure.\n\nInput: None (The function takes no parameters; all URLs and paths are hardcoded)\n\nOutput: \n- Success: Writes JSON files to the cache directory and logs success messages\n- Failure: Logs error messages and exits the process with status code 1",
+  "Canonical_solution": "function fetchAndCacheVersions() {\n    const axios = require('axios');\n    const { writeJsonSync } = require('fs-extra');\n    const path = require('path');\n\n    axios\n        .get('https://exp.host/--/versions')\n        .then(async ({ data }) => {\n            writeJsonSync(path.join(__dirname, '../caches/versions.json'), data);\n\n            for (const version of Object.keys(data.sdkVersions)) {\n                if (data.sdkVersions[version].isDeprecated) {\n                    continue;\n                }\n                const {\n                    data: { data: schema },\n                } = await axios.get(`https://exp.host/--/api/v2/project/configuration/schema/${version}`);\n\n                const filePath = path.join(__dirname, `../caches/schema-${version}.json`);\n                console.log('Writing', filePath);\n                writeJsonSync(filePath, schema);\n            }\n        })\n        .then(() => console.log('Caches updated.'))\n        .catch(error => {\n            console.error(error);\n            console.error('Updating caches failed.');\n            process.exit(1);\n        });\n}",
+  "FSMID_for_test": 94,
+  "Code_level": "Function-level"
+}

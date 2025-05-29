@@ -1,0 +1,13 @@
+{
+  "Task_id": 452,
+  "Github_ID": "2113510",
+  "Github_Project_Name": "autobahn-python",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "WebSocket Server-side based on autobahn+twisted in python",
+  "Instruction": "Task Description: Create a WebSocket server class in Python using autobahn+twisted that can handle WebSocket connections and optionally integrate with a WSGI application.\n\nClass Description: WebSocketServer is a class that implements a WebSocket server using autobahn and twisted frameworks. It can run standalone for WebSocket communication or be combined with a WSGI application for hybrid HTTP/WebSocket services.\n\nAttributes:\n- host: str - The host address to bind the server to (default: \"127.0.0.1\")\n- port: int - The port number to listen on (default: 8080)\n- wsFactory: WebSocketServerFactory - The factory that manages WebSocket protocol instances\n- wsResource: WebSocketResource - The resource that handles WebSocket connections\n\nMethods:\n- __init__(host: str = \"127.0.0.1\", port: int = 8080) -> None - Initializes the WebSocket server with specified host and port\n- start(wsgi_app: callable = None, ws_path: bytes = b'ws') -> None - Starts the server, optionally combining with a WSGI application at the specified path",
+  "Canonical_solution": "from twisted.internet import reactor\nfrom twisted.web.server import Site\nfrom twisted.web.wsgi import WSGIResource\nfrom autobahn.twisted.websocket import WebSocketServerFactory, WebSocketServerProtocol\nfrom autobahn.twisted.resource import WebSocketResource, WSGIRootResource\n\nclass EchoServerProtocol(WebSocketServerProtocol):\n    def onMessage(self, payload, isBinary):\n        self.sendMessage(payload, isBinary)\n\nclass WebSocketServer:\n    def __init__(self, host=\"127.0.0.1\", port=8080):\n        self.host = host\n        self.port = port\n        \n        # Create WebSocket factory and protocol\n        self.wsFactory = WebSocketServerFactory(f\"ws://{self.host}:{self.port}\")\n        self.wsFactory.protocol = EchoServerProtocol\n        self.wsResource = WebSocketResource(self.wsFactory)\n\n    def start(self, wsgi_app=None, ws_path=b'ws'):\n        # Create root resource combining WSGI and WebSocket\n        if wsgi_app:\n            wsgiResource = WSGIResource(reactor, reactor.getThreadPool(), wsgi_app)\n            rootResource = WSGIRootResource(wsgiResource, {ws_path: self.wsResource})\n        else:\n            rootResource = self.wsResource\n\n        # Create site and start server\n        site = Site(rootResource)\n        reactor.listenTCP(self.port, site)\n        reactor.run()",
+  "FSMID_for_test": 52,
+  "Code_level": "Class-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 328,
+  "Github_ID": "715605",
+  "Github_Project_Name": "jedis",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "Redis in Java",
+  "Instruction": "Task Description: Create a Java class that manages a pool of Redis connections using Jedis, allowing concurrent operations on Redis with connection pooling for efficient resource utilization.\n\nClass Description: RedisConnectionPool is a utility class that manages a pool of Redis connections. It provides thread-safe access to Redis operations and handles connection lifecycle management.\n\nAttributes:\n- pool: JedisPool - The connection pool instance managing Redis connections\n- endpoint: EndpointConfig - Configuration object containing Redis connection details (host, port, password)\n\nMethods:\n- RedisConnectionPool(EndpointConfig endpoint) -> void - Constructor that initializes the Redis connection pool with the given endpoint configuration\n- executeOperations(int totalOperations) -> void - Executes a specified number of Redis SET/GET operations across multiple threads (50 threads by default)\n- close() -> void - Properly shuts down the connection pool and releases all resources",
+  "Canonical_solution": "import redis.clients.jedis.*;\nimport org.apache.commons.pool2.impl.GenericObjectPoolConfig;\nimport java.util.concurrent.atomic.AtomicInteger;\n\npublic class RedisConnectionPool {\n\n    private JedisPool pool;\n    private EndpointConfig endpoint;\n\n    public RedisConnectionPool(EndpointConfig endpoint) {\n        this.endpoint = endpoint;\n        this.pool = new JedisPool(new GenericObjectPoolConfig<Jedis>(), \n            endpoint.getHost(), endpoint.getPort(), 2000, endpoint.getPassword());\n    }\n\n    public void executeOperations(int totalOperations) {\n        AtomicInteger ind = new AtomicInteger();\n        for (int i = 0; i < 50; i++) {\n            new Thread(() -> {\n                for (int j = 0; (j = ind.getAndIncrement()) < totalOperations;) {\n                    try (Jedis jedis = pool.getResource()) {\n                        String key = \"foo\" + j;\n                        jedis.set(key, key);\n                        jedis.get(key);\n                    } catch (Exception e) {\n                        e.printStackTrace();\n                    }\n                }\n            }).start();\n        }\n    }\n\n    public void close() {\n        if (pool != null) {\n            pool.destroy();\n        }\n    }\n}",
+  "FSMID_for_test": 37,
+  "Code_level": "Class-level"
+}

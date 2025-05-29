@@ -1,0 +1,13 @@
+{
+  "Task_id": 192,
+  "Github_ID": "350369033",
+  "Github_Project_Name": "obsidian-outliner",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "WebSocket Client-side based on Node.js",
+  "Instruction": "Task Description: Create a WebSocket client class in Node.js that manages connections, sends commands, and handles responses asynchronously.\n\nClass Description: The CustomEnvironment class provides a WebSocket client implementation that establishes and manages a connection to a WebSocket server. It handles command execution with unique IDs, callback management for responses, and connection lifecycle.\n\nAttributes:\n- callbacks: [Map] - Stores pending callbacks mapped by unique IDs for command responses\n- idSeq: [Number] - Sequence counter for generating unique command IDs\n- ws: [WebSocket] - The active WebSocket connection instance\n\nMethods:\n- initWs(): [Promise<void>] - Initializes WebSocket connection and sets up message handler. Resolves when connection is open.\n- runCommand(type: [String], data: [Any]): [Promise<Any>] - Sends a command to the server and returns a promise that resolves with response data or rejects with error\n- teardown(): [void] - Closes the WebSocket connection if it exists\n\nThe implementation should:\n1. Use the 'ws' library for WebSocket functionality\n2. Maintain connection state and automatically reconnect if needed\n3. Handle message parsing and callback execution\n4. Manage command IDs and response correlation\n5. Provide proper error handling for connection and command execution",
+  "Canonical_solution": "const WebSocket = require(\"ws\");\n\nclass CustomEnvironment {\n  constructor() {\n    this.callbacks = new Map();\n    this.idSeq = 1;\n  }\n\n  async initWs() {\n    this.ws = new WebSocket(\"ws://127.0.0.1:8080\");\n\n    await new Promise((resolve) => this.ws.on(\"open\", resolve));\n\n    this.ws.on(\"message\", (message) => {\n      const { id, data, error } = JSON.parse(message);\n      const cb = this.callbacks.get(id);\n      if (cb) {\n        this.callbacks.delete(id);\n        cb(error, data);\n      }\n    });\n  }\n\n  async runCommand(type, data) {\n    if (!this.ws) {\n      await this.initWs();\n    }\n\n    return new Promise((resolve, reject) => {\n      const id = String(this.idSeq++);\n\n      this.callbacks.set(id, (error, data) => {\n        if (error) {\n          reject(new Error(error));\n        } else {\n          resolve(data);\n        }\n      });\n\n      this.ws.send(JSON.stringify({ id, type, data }));\n    });\n  }\n\n  async teardown() {\n    if (this.ws) {\n      this.ws.close();\n    }\n  }\n}",
+  "FSMID_for_test": 91,
+  "Code_level": "Class-level"
+}

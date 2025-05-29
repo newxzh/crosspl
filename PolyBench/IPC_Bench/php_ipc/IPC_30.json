@@ -1,0 +1,13 @@
+{
+  "Task_id": 30,
+  "Github_ID": "10046072",
+  "Github_Project_Name": "emoji-data",
+  "Programming_Language": "PHP",
+  "suffix": ".php",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP client using cURL in PHP",
+  "Instruction": "Task Description: Create a PHP function that downloads a file from a specified URL and saves it to a local file using cURL.\n\nFunction Description: The function `http_fetch` uses PHP's cURL library to make an HTTP request to a specified URL and writes the response directly to a local file. It includes custom headers (User-Agent and Referer) to mimic a browser request and handles the cURL session lifecycle properly.\n\nInput:\n- `$url` (string): The URL of the resource to download\n- `$filename` (string): The local file path where the downloaded content should be saved\n\nOutput:\n- The function does not explicitly return a value, but it writes the downloaded content to the specified file\n- The cURL session information is captured in `$ret` but not returned (could be modified to return this if needed)",
+  "Canonical_solution": "function http_fetch($url, $filename)\n{\n    $fh = fopen($filename, 'w');\n\n    $options = array(\n        CURLOPT_FILE    => $fh,\n        CURLOPT_TIMEOUT => 60,\n        CURLOPT_URL     => $url,\n    );\n\n    $options[CURLOPT_HTTPHEADER] = array(\n        'Referer: https://www.facebook.com/',\n        'User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36',\n    );\n\n    $ch = curl_init();\n    curl_setopt_array($ch, $options);\n    curl_exec($ch);\n    $ret = curl_getinfo($ch);\n    curl_close($ch);\n\n    fclose($fh);\n}",
+  "FSMID_for_test": 132,
+  "Code_level": "Function-level"
+}

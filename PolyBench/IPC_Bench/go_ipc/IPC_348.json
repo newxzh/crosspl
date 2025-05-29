@@ -1,0 +1,13 @@
+{
+    "Task_id": 348,
+    "Github_ID": "36529854",
+    "Github_Project_Name": "doctl",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "gorilla-based websocket server in Go",
+    "Instruction": "Task Description: Implement a WebSocket handler function in Go that manages WebSocket connections, including upgrading HTTP connections, reading incoming messages, writing periodic messages, and properly closing the connection.\n\nFunction Description: The `wsHandler` function creates an HTTP handler that upgrades incoming HTTP requests to WebSocket connections. It continuously writes numbered messages to the client while concurrently reading any incoming messages from the client. The function stops after sending a specified number of messages and closes the connection gracefully.\n\nInput:\n- `t *testing.T`: Testing context for error reporting\n- `recvBuffer *bytes.Buffer`: Buffer to store received messages from the WebSocket client\n\nOutput:\n- Returns an `http.HandlerFunc` that implements the WebSocket handling logic\n\nNote: The function doesn't directly return values but rather creates a handler function that manages WebSocket communication through the provided buffer and testing context.",
+    "Canonical_solution": "import (\n\t\"bytes\"\n\t\"context\"\n\t\"encoding/json\"\n\t\"fmt\"\n\t\"net/http\"\n\t\"net/url\"\n\t\"strings\"\n\t\"time\"\n\n\t\"github.com/gorilla/websocket\"\n)\n\nvar (\n\tupgrader = websocket.Upgrader{}\n)\n\nfunc wsHandler(t *testing.T, recvBuffer *bytes.Buffer) http.HandlerFunc {\n\treturn func(w http.ResponseWriter, r *http.Request) {\n\t\tc, err := upgrader.Upgrade(w, r, nil)\n\t\trequire.NoError(t, err)\n\t\tdefer c.Close()\n\t\ti := 0\n\t\tfinish := 5\n\t\tgo func() {\n\t\t\tfor {\n\t\t\t\t_, message, err := c.ReadMessage()\n\t\t\t\tif err != nil {\n\t\t\t\t\treturn\n\t\t\t\t}\n\t\t\t\trecvBuffer.Write(message)\n\t\t\t}\n\t\t}()\n\t\tfor {\n\t\t\ttime.Sleep(time.Millisecond * 10)\n\n\t\t\ti++\n\t\t\tdata := struct {\n\t\t\t\tMessage string `json:\"message\"`\n\t\t\t}{\n\t\t\t\tMessage: fmt.Sprintf(\"%d\\n\", i),\n\t\t\t}\n\t\t\tbuf := new(bytes.Buffer)\n\t\t\terr := json.NewEncoder(buf).Encode(data)\n\t\t\trequire.NoError(t, err)\n\n\t\t\terr = c.WriteMessage(websocket.TextMessage, buf.Bytes())\n\t\t\trequire.NoError(t, err)\n\n\t\t\tif i == finish {\n\t\t\t\tbreak\n\t\t\t}\n\t\t}\n\t\terr = c.WriteMessage(websocket.CloseMessage, websocket.FormatCloseMessage(websocket.CloseNormalClosure, \"\"))\n\t\trequire.NoError(t, err)\n\t}\n}",
+    "FSMID_for_test": 114,
+    "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 155,
+  "Github_ID": "991475",
+  "Github_Project_Name": "node-postgres",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "TCP Server - side based on node.js net",
+  "Instruction": "Task Description: Create a TCP server class in JavaScript using Node.js's 'net' module that can handle client connections, respond to incoming data, and manage server lifecycle events.\n\nClass Description: The Server class represents a TCP server that listens on a dynamically assigned port. It handles client connections, processes incoming data, and sends appropriate responses. The server can be started, stopped, and connections can be dropped.\n\nAttributes:\n- server: [Object] - The TCP server instance created using the 'net' module\n- socket: [Object] - The current client socket connection\n- response: [Buffer|Object] - The predefined response to send to clients (optional)\n\nMethods:\n- constructor(response) -> [Server] - Initializes a new Server instance with an optional response buffer/object\n- start(cb) -> [void] - Starts the server on a random available port and invokes the callback with connection details (host and port)\n- drop() -> [void] - Terminates the current client connection\n- close(cb) -> [void] - Stops the server and invokes the callback when complete",
+  "Canonical_solution": "var net = require('net');\n\nclass Server {\n  constructor(response) {\n    this.server = undefined;\n    this.socket = undefined;\n    this.response = response;\n  }\n\n  start(cb) {\n    this.server = net.createServer(\n      function(socket) {\n        this.socket = socket;\n        if (this.response) {\n          this.socket.on(\n            'data',\n            function(data) {\n              if (data.length == 8) {\n                this.socket.write(Buffer.from('N', 'utf8'));\n              } else if (!data[0]) {\n                this.socket.write(buffers.authenticationOk());\n              } else {\n                this.socket.write(this.response);\n              }\n            }.bind(this)\n          );\n        }\n      }.bind(this)\n    );\n\n    const host = 'localhost';\n    this.server.listen({ host, port: 0 }, () => {\n      const port = this.server.address().port;\n      cb({\n        host,\n        port,\n      });\n    });\n  }\n\n  drop() {\n    this.socket.destroy();\n  }\n\n  close(cb) {\n    this.server.close(cb);\n  }\n}",
+  "FSMID_for_test": 97,
+  "Code_level": "Class-level"
+}

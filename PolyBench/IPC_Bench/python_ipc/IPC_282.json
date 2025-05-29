@@ -1,0 +1,13 @@
+{
+  "Task_id": 282,
+  "Github_ID": "7899791",
+  "Github_Project_Name": "Vintageous",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "Pipe based on subprocess in python",
+  "Instruction": "Task Description: The task involves creating Python functions that utilize subprocess and pipes to execute shell commands and handle their input/output streams. The functions should be able to run commands directly or filter text through commands in a shell environment.\n\nFunction Description: \n\n1. `run_and_read`: Executes a shell command and captures its standard output and error streams, then returns the decoded output (prioritizing stdout over stderr if available).\n\n2. `filter_region`: Takes a text input, pipes it through a shell command (using the system's default shell or a specified shell), and returns the processed output from the command.\n\nInput:\n\n- For `run_and_read`:\n  - `view`: (object) - A view object (contextual, typically from an editor/IDE)\n  - `cmd`: (str) - The shell command to execute\n\n- For `filter_region`:\n  - `view`: (object) - A view object (contextual, typically from an editor/IDE)\n  - `text`: (str) - The text to be processed by the command\n  - `command`: (str) - The shell command to process the text\n\nOutput:\n\n- For `run_and_read`: (str) - The decoded output from the command (stdout if available, otherwise stderr)\n- For `filter_region`: (str) - The decoded output from the command after processing the input text",
+  "Canonical_solution": "import os\nimport subprocess\nfrom subprocess import PIPE\n\ndef run_and_read(view, cmd):\n    out, err = subprocess.Popen([cmd],\n            stdout=PIPE,\n            stderr=PIPE,\n            shell=True).communicate()\n    try:\n        return (out or err).decode('utf-8')\n    except AttributeError:\n        return ''\n\ndef filter_region(view, text, command):\n    shell = view.settings().get('VintageousEx_linux_shell')\n    shell = shell or os.path.expandvars(\"$SHELL\")\n    p = subprocess.Popen([shell, '-c', 'echo \"%s\" | %s' % (text, command)],\n             stderr=subprocess.PIPE,\n             stdout=subprocess.PIPE)\n    return p.communicate()[0][:-1].decode('utf-8')",
+  "FSMID_for_test": 76,
+  "Code_level": "Function-level"
+}

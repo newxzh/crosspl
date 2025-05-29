@@ -1,0 +1,13 @@
+{
+    "Task_id": 150,
+    "Github_ID": "522195286",
+    "Github_Project_Name": "golang-guide",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Gin-based HTTP Server in Go",
+    "Instruction": "Task Description: Create a Go function that sets up a simple HTTP server using the Gin framework to retrieve and return the client's IP address.\n\nFunction Description: The function initializes a Gin HTTP server with default middleware (Logger and Recovery), registers a GET endpoint \"/getip\" that retrieves the client's IP address from the request context, and returns it as a JSON response. The server listens on port 8080.\n\nInput: None (The function takes no input parameters)\n\nOutput: None (The function does not return any value but starts an HTTP server that runs indefinitely)",
+    "Canonical_solution": "import (\n\t\"github.com/gin-gonic/gin\"\n\t\"net/http\"\n)\nfunc main() {\n\tr := gin.Default()\n\n\tr.GET(\"/getip\", func(c *gin.Context) {\n\t\tip := c.ClientIP()\n\t\tc.JSON(http.StatusOK, gin.H{\"ip\": ip})\n\t})\n\n\tr.Run(\":8080\")\n}",
+    "FSMID_for_test": 105,
+    "Code_level": "Function-level"
+}

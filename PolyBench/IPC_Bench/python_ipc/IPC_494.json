@@ -1,0 +1,13 @@
+{
+  "Task_id": 494,
+  "Github_ID": "385532537",
+  "Github_Project_Name": "towhee",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "gRPC Server - side based on grpcio in python",
+  "Instruction": "Task Description: Implement a gRPC server class in Python that can handle concurrent requests and manage the server lifecycle (start, run, wait, and stop).\n\nClass Description: The GRPCServer class is responsible for creating and managing a gRPC server instance. It initializes the server with a thread pool executor for handling concurrent requests, binds the server to a specified host and port, and provides methods to start, run, wait for termination, and stop the server.\n\nAttributes:\n- _server: grpc.Server - The gRPC server instance that handles incoming requests.\n\nMethods:\n- __init__(api_service: 'APIService', max_workers: int = 20) -> None - Initializes the gRPC server with a thread pool executor and binds the API service implementation to the server.\n- start(host: str, port: int) -> None - Starts the gRPC server by binding it to the specified host and port.\n- run(host: str, port: int) -> None - Combines the start and wait methods to run the server indefinitely.\n- wait() -> None - Blocks the current thread until the server is terminated.\n- stop() -> None - Stops the gRPC server gracefully.",
+  "Canonical_solution": "import typing as T\nimport inspect\nimport traceback\nfrom concurrent import futures\nimport grpc\nfrom towhee.serve.io import JSON, TEXT, BYTES, NDARRAY\nfrom towhee.serve.api_service import RouterConfig\nfrom towhee.utils.log import engine_log\n\nclass GRPCServer:\n    def __init__(self, api_service: 'APIService', max_workers: int = 20):\n        self._server = grpc.server(futures.ThreadPoolExecutor(max_workers=max_workers))\n        service_pb2_grpc.add_PipelineServicesServicer_to_server(_PipelineImpl(api_service), self._server)\n\n    def start(self, host: str, port: int):\n        uri = str(host) + ':' + str(port)\n        self._server.add_insecure_port(uri)\n        self._server.start()\n        engine_log.info('Start grpc server at %s.', uri)\n\n    def run(self, host: str, port: int):\n        self.start(host, port)\n        self.wait()\n\n    def wait(self):\n        self._server.wait_for_termination()\n\n    def stop(self):\n        self._server.stop(None)",
+  "FSMID_for_test": 74,
+  "Code_level": "Class-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 238,
+  "Github_ID": "88256245",
+  "Github_Project_Name": "AndroidControl",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "WebSocket Client-side based on browser native API in JavaScript",
+  "Instruction": "Task Description: Create a WebSocket client class in JavaScript that establishes a connection to a server, handles communication events, and provides methods for sending data.\n\nClass Description: The NetWork class encapsulates WebSocket functionality for connecting to a server at a specified IP and port. It manages connection events (open, close, message) through configurable callbacks and provides methods for sending both structured and raw data.\n\nAttributes:\n- ip: string - The IP address of the WebSocket server\n- port: string|number - The port number of the WebSocket server\n- webSocket: WebSocket - The underlying WebSocket connection instance\n\nMethods:\n- constructor(ip, port) -> void - Initializes the NetWork instance with server connection details\n- connect(config) -> void - Establishes WebSocket connection and sets up event handlers\n  - config: object - Configuration object containing callback functions\n    - onopen: function - Called when connection is established\n    - onclose: function - Called when connection is closed\n    - onmessage: function - Called when message is received (receives message data)\n- request(name, argobj) -> void - Sends structured data to server in \"name://{json}\" format\n  - name: string - The message identifier/type\n  - argobj: object|null - Optional arguments to be sent as JSON\n- send(str) -> void - Sends raw string data to server\n  - str: string - The raw message to send",
+  "Canonical_solution": "class NetWork {\n    constructor(ip, port) {\n        this.ip = ip\n        this.port = port\n    }\n\n    connect(config) {\n        let webSocket = new WebSocket(\"ws://\" + this.ip + \":\" + this.port)\n        webSocket.onopen = function() {\n            config.onopen()\n        }\n        webSocket.onclose = function() {\n            config.onclose()\n        }\n        webSocket.onmessage = function(data) { \n            config.onmessage(data)\n        }\n        this.webSocket = webSocket\n    }\n\n    request(name, argobj) {\n        let ss = name + \"://\" + (argobj ? JSON.stringify(argobj) : \"{}\");\n        this.webSocket.send(ss);\n    }\n\n    send(str) {\n        this.webSocket.send(str)\n    }\n}",
+  "FSMID_for_test": 89,
+  "Code_level": "Class-level"
+}

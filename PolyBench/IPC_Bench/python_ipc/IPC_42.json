@@ -1,0 +1,13 @@
+{
+  "Task_id": 42,
+  "Github_ID": "571186647",
+  "Github_Project_Name": "pathway",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Client-side by using httpx+asyncio in python",
+  "Instruction": "Task Description: Create an asynchronous function to send HTTP POST requests using httpx library in Python, handling JSON data and potential errors.\n\nFunction Description: The function sends an asynchronous HTTP POST request to a specified URL with JSON data, optional headers, and timeout settings. It automatically raises exceptions for non-success status codes and returns the parsed JSON response.\n\nInput:\n- url: str - The target URL for the POST request\n- data: dict - The JSON data to be sent in the request body\n- headers: dict (optional) - Additional HTTP headers to include (default: empty dict)\n- timeout: int | None (optional) - Request timeout in seconds (default: None)\n\nOutput:\n- dict - Parsed JSON response from the server if the request is successful\n- Raises httpx.HTTPStatusError if the response status code indicates an error (4xx or 5xx)",
+  "Canonical_solution": "import json\nimport httpx\n\nasync def a_send_post_request(\n    url: str, data: dict, headers: dict = {}, timeout: int | None = None\n):\n    async with httpx.AsyncClient() as client:\n        response = await client.post(url, json=data, headers=headers, timeout=timeout)\n        response.raise_for_status()\n        return response.json()",
+  "FSMID_for_test": 59,
+  "Code_level": "Function-level"
+}

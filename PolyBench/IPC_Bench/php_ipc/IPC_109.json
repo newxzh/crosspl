@@ -1,0 +1,13 @@
+{
+  "Task_id": 109,
+  "Github_ID": "31595609",
+  "Github_Project_Name": "mpdf",
+  "Programming_Language": "PHP",
+  "suffix": ".php",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP client using fsockopen in PHP",
+  "Instruction": "Task Description: Create a PHP function that retrieves content from a specified URL using low-level socket operations (fsockopen) rather than higher-level HTTP client libraries. The function should handle both HTTP and HTTPS protocols, manage connection timeouts, and properly process the HTTP response.\n\nFunction Description: The function establishes a TCP connection to the specified HTTP server, sends a GET request, reads the response (separating headers from body), and returns the content. It handles both HTTP and HTTPS connections with appropriate ports, includes basic error handling, and follows proper HTTP protocol for request/response cycles.\n\nInput:\n- $url (string): The URL to fetch content from (e.g., \"http://example.com\" or \"https://example.com\")\n- &$data (string, passed by reference): Variable that will contain the response body content\n\nOutput:\n- bool: Returns true if the request was successful and content was retrieved, false if any error occurred (connection failure, empty response, etc.)\n- The response body content is stored in the $data parameter passed by reference\n\nNote: The function does not return the content directly but instead modifies the $data parameter. This follows the pattern seen in the reference code where output is handled via parameter reference rather than return value.",
+  "Canonical_solution": "function file_get_contents_by_socket($url, &$data)\n{\n    $timeout = 1;\n    $p = parse_url($url);\n    $file = $p['path'];\n    if ($p['scheme'] == 'https') {\n        $prefix = 'ssl://';\n        $port = ($p['port'] ? $p['port'] : 443);\n    } else {\n        $prefix = '';\n        $port = ($p['port'] ? $p['port'] : 80);\n    }\n    if ($p['query']) {\n        $file .= '?' . $p['query'];\n    }\n    if (!($fh = @fsockopen($prefix . $p['host'], $port, $errno, $errstr, $timeout))) {\n        return false;\n    }\n\n    $getstring =\n        \"GET \" . $file . \" HTTP/1.0 \\r\\n\" .\n        \"Host: \" . $p['host'] . \" \\r\\n\" .\n        \"Connection: close\\r\\n\\r\\n\";\n    fwrite($fh, $getstring);\n    $s = fgets($fh, 1024);\n    if (!$s) {\n        return false;\n    }\n    $httpheader .= $s;\n    while (!feof($fh)) {\n        $s = fgets($fh, 1024);\n        if ($s == \"\\r\\n\") {\n            break;\n        }\n    }\n    $data = '';\n    while (!feof($fh)) {\n        $data .= fgets($fh, 1024);\n    }\n    fclose($fh);\n}",
+  "FSMID_for_test": 131,
+  "Code_level": "Function-level"
+}

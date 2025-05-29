@@ -1,0 +1,13 @@
+{
+  "Task_id": 139,
+  "Github_ID": "119001901",
+  "Github_Project_Name": "canvas-confetti",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "Pipe Server-side based on fs+http in JavaScript",
+  "Instruction": "Task Description: Create a function that sets up an HTTP server to serve static files with specific Content Security Policy (CSP) rules, using pipe to stream file contents to the response.\n\nFunction Description: The function `createServer` creates and returns an HTTP server instance that serves static files from the root directory. It handles incoming requests by resolving the file path, applying CSP headers for security, and piping the file content to the response. If the request URL is '/', it defaults to serving 'index.html'.\n\nInput: None\n\nOutput: Returns an instance of `http.Server` configured to serve static files with CSP headers.",
+  "Canonical_solution": "function createServer() {\n  const http = require('http');\n  const send = require('send');\n  const path = require('path');\n  const root = require('rootrequire');\n\n  return http.createServer(function (req, res) {\n    const url = req.url === '/' ? '/index.html' : req.url;\n    const file = path.resolve(root, url.slice(1));\n\n    const cspRules = [\n      `default-src 'self' https://cdnjs.cloudflare.com`,\n      `img-src * data: blob:`,\n      `media-src * data: blob:`,\n      `font-src https://fonts.googleapis.com https://fonts.gstatic.com`,\n      `style-src 'self' 'unsafe-inline' https://fonts.googleapis.com`,\n      `script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com`,\n      `worker-src 'self' blob:`\n    ];\n\n    res.setHeader('content-security-policy', cspRules.join('; '));\n\n    send(req, file).pipe(res);\n  });\n}",
+  "FSMID_for_test": 100,
+  "Code_level": "Function-level"
+}

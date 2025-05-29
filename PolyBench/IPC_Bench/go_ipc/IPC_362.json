@@ -1,0 +1,13 @@
+{
+    "Task_id": 362,
+    "Github_ID": "5519412",
+    "Github_Project_Name": "geodns",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "net-based UDP Client with DialUDP in Go",
+    "Instruction": "Task Description: Implement a Go struct that tests the health of an NTP (Network Time Protocol) server by checking its stratum level through UDP communication.\n\nStruct Description: The NtpHealthTester struct is responsible for verifying the health of an NTP server by establishing a UDP connection, sending a query, and validating the server's response based on its stratum level. The struct includes methods for testing the server and providing a string representation of the maximum allowed stratum.\n\nFields:\nmaxStratum: int - The maximum acceptable stratum level for the NTP server to be considered healthy.\n\nMethods:\nTest: (ht *HealthTest) -> bool - Tests the health of an NTP server by sending a UDP packet and validating the response. Returns true if the server's stratum is within the acceptable range, false otherwise.\nString: () -> string - Returns a string representation of the maximum allowed stratum level.\nnewNtpHealthTester: (params map[string]interface{}, htp *HealthTestParameters) -> HealthTester - A constructor function that creates a new NtpHealthTester instance with the specified maximum stratum level.",
+    "Canonical_solution": "import (\n\t\"net\"\n\t\"time\"\n)\n\ntype NtpHealthTester struct {\n\tmaxStratum int\n}\n\nfunc (t *NtpHealthTester) Test(ht *HealthTest) bool {\n\tudpAddress, err := net.ResolveUDPAddr(\"udp\", net.JoinHostPort(ht.ipAddress.String(), \"123\"))\n\tif err != nil {\n\t\treturn false\n\t}\n\n\tdata := make([]byte, 48)\n\tdata[0] = 4<<3 | 3\n\n\tconn, err := net.DialUDP(\"udp\", nil, udpAddress)\n\tif err != nil {\n\t\treturn false\n\t}\n\n\tdefer conn.Close()\n\n\t_, err = conn.Write(data)\n\tif err != nil {\n\t\treturn false\n\t}\n\n\tconn.SetDeadline(time.Now().Add(ht.timeout))\n\n\t_, err = conn.Read(data)\n\tif err != nil {\n\t\treturn false\n\t}\n\n\tstratum := data[1]\n\n\tif stratum == 0 || stratum > byte(t.maxStratum) {\n\t\treturn false\n\t}\n\n\treturn true\n}\n\nfunc (t *NtpHealthTester) String() string {\n\treturn fmt.Sprintf(\"%d\", t.maxStratum)\n}\n\nfunc newNtpHealthTester(params map[string]interface{}, htp *HealthTestParameters) HealthTester {\n\tmaxStratum := 3\n\tif v, ok := params[\"max_stratum\"]; ok {\n\t\tmaxStratum = typeutil.ToInt(v)\n\t}\n\treturn &NtpHealthTester{maxStratum: maxStratum}\n}",
+    "FSMID_for_test": 113,
+    "Code_level": "Class-level"
+}

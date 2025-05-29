@@ -1,0 +1,13 @@
+{
+  "Task_id": 188,
+  "Github_ID": "190687137",
+  "Github_Project_Name": "python-machine-learning-book-3rd-edition",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Server - side by using Flask in python",
+  "Instruction": "Task Description: Create a Flask-based web application that handles form submissions and displays responses, using a class structure to encapsulate the application logic.\n\nClass Description: The `FlaskApp` class encapsulates a Flask web application that provides two routes: a main page with a form and a submission handler that processes the form data. It uses WTForms for form validation and template rendering for responses.\n\nAttributes:\n\napp: [Flask] - The Flask application instance that handles HTTP requests and routes.\n\nMethods:\n\n__init__: [Name]() -> [None] - Initializes the Flask application and sets up the routes by calling _setup_routes.\n\n_setup_routes: [Name]() -> [None] - Configures the application routes by binding URL paths to their respective handler methods.\n\nindex: [Name]() -> [str] - Handles requests to the root URL ('/'), renders and returns the main form page using the 'first_app.html' template with an instance of HelloForm.\n\nhello: [Name]() -> [str] - Handles POST requests to the '/hello' URL, validates the submitted form data, and either renders a greeting page ('hello.html') with the submitted name or returns the form page with validation errors.\n\nrun: [Name](debug: [bool] = True) -> [None] - Starts the Flask development server with optional debug mode enabled.",
+  "Canonical_solution": "from flask import Flask, request\nfrom wtforms import Form, TextAreaField, validators\n\nclass HelloForm(Form):\n    sayhello = TextAreaField('', [validators.DataRequired()])\n\nclass FlaskApp:\n    def __init__(self):\n        self.app = Flask(__name__)\n        self._setup_routes()\n\n    def _setup_routes(self):\n        self.app.route('/')(self.index)\n        self.app.route('/hello', methods=['POST'])(self.hello)\n\n    def index(self):\n        form = HelloForm(request.form)\n        return render_template('first_app.html', form=form)\n\n    def hello(self):\n        form = HelloForm(request.form)\n        if request.method == 'POST' and form.validate():\n            name = request.form['sayhello']\n            return render_template('hello.html', name=name)\n        return render_template('first_app.html', form=form)\n\n    def run(self, debug=True):\n        self.app.run(debug=debug)",
+  "FSMID_for_test": 60,
+  "Code_level": "Class-level"
+}

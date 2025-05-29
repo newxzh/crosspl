@@ -1,0 +1,13 @@
+{
+    "Task_id": 45,
+    "Github_ID": "40453691",
+    "Github_Project_Name": "GolangTraining",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Basic HTTP server using net/http with HandleFunc and ListenAndServe",
+    "Instruction": "Task Description: Create a simple HTTP server in Go that sets a cookie when the root path (\"/\") is accessed.\n\nFunction Description: The main function sets up an HTTP server that listens on port 9000. When a request is made to the root path, it responds by setting a cookie named \"my-cookie\" with the value \"some value\".\n\nInput: None (The function takes no direct input parameters; it handles incoming HTTP requests)\n\nOutput: None (The function doesn't return any value; it runs an HTTP server indefinitely until interrupted)",
+    "Canonical_solution": "import (\n\t\"net/http\"\n)\nfunc main() {\n\thttp.HandleFunc(\"/\", func(res http.ResponseWriter, req *http.Request) {\n\t\thttp.SetCookie(res, &http.Cookie{\n\t\t\tName:  \"my-cookie\",\n\t\t\tValue: \"some value\",\n\t\t})\n\t})\n\thttp.ListenAndServe(\":9000\", nil)\n}",
+    "FSMID_for_test": 103,
+    "Code_level": "Function-level"
+}

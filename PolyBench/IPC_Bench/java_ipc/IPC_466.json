@@ -1,0 +1,13 @@
+{
+  "Task_id": 466,
+  "Github_ID": "481412",
+  "Github_Project_Name": "Java-WebSocket",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "WebSocket Client Implementation using org.java_websocket",
+  "Instruction": "Task Description: Implement a WebSocket client class in Java using the org.java_websocket library to establish a WebSocket connection, handle connection events, and manage message exchange with a WebSocket server.\n\nClass Description: The MyWebSocketClient class extends WebSocketClient to create a WebSocket client that connects to a specified URI. It overrides key WebSocket event-handling methods to manage connection lifecycle events and message processing. The class uses a CountDownLatch to synchronize thread operations during connection closure.\n\nAttributes:\n- onCloseLatch: CountDownLatch - A synchronization aid that allows one or more threads to wait until a set of operations being performed in other threads completes, specifically used to signal when the WebSocket connection is closed.\n\nMethods:\n- MyWebSocketClient(URI uri, CountDownLatch latch) -> None - Constructor that initializes the WebSocket client with the server URI and a CountDownLatch for connection closure synchronization.\n- onOpen(ServerHandshake handshakedata) -> None - Callback method invoked when a WebSocket connection is successfully established.\n- onMessage(String message) -> None - Callback method invoked when a message is received from the WebSocket server.\n- onClose(int code, String reason, boolean remote) -> None - Callback method invoked when the WebSocket connection is closed, triggers the CountDownLatch.\n- onError(Exception ex) -> None - Callback method invoked when an error occurs on the WebSocket connection.",
+  "Canonical_solution": "import org.java_websocket.client.WebSocketClient;\nimport org.java_websocket.handshake.ServerHandshake;\nimport java.net.URI;\nimport java.util.concurrent.CountDownLatch;\n\npublic class MyWebSocketClient extends WebSocketClient {\n    private final CountDownLatch onCloseLatch;\n\n    public MyWebSocketClient(URI uri, CountDownLatch latch) {\n        super(uri);\n        onCloseLatch = latch;\n    }\n\n    @Override\n    public void onOpen(ServerHandshake handshakedata) {\n        // Connection opened callback\n    }\n\n    @Override\n    public void onMessage(String message) {\n        // Message received callback\n    }\n\n    @Override\n    public void onClose(int code, String reason, boolean remote) {\n        onCloseLatch.countDown();\n    }\n\n    @Override\n    public void onError(Exception ex) {\n        // Error handling callback\n    }\n}",
+  "FSMID_for_test": 27,
+  "Code_level": "Class-level"
+}

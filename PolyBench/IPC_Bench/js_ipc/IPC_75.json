@@ -1,0 +1,13 @@
+{
+  "Task_id": 75,
+  "Github_ID": "173529836",
+  "Github_Project_Name": "javascript_playground",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP based on express in javascript",
+  "Instruction": "Task Description: Create a function to set up an Express server that connects to a PostgreSQL database and provides an endpoint to retrieve employee data.\n\nFunction Description: The function `setupExpressServer` initializes an Express application, establishes a connection pool to a PostgreSQL database, and defines a GET endpoint '/employees' that queries employee data from the database. It measures the query execution time and returns the results along with the elapsed time.\n\nInput: None (The function takes no parameters as all configuration is hardcoded within the function)\n\nOutput: None (The function doesn't return anything but starts an Express server listening on port 2015 and provides an endpoint that sends JSON responses)",
+  "Canonical_solution": "function setupExpressServer() {\n    const app = require(\"express\")();\n    const {Pool} = require(\"pg\");\n\n    const pool = new Pool({\n        \"host\": \"husseinmac.local\",\n        \"port\": 5432,\n        \"user\":\"postgres\",\n        \"password\" : \"postgres\",\n        \"database\" : \"husseindb\",\n        \"max\": 20,\n        \"connectionTimeoutMillis\" : 0,\n        \"idleTimeoutMillis\": 0\n    });\n\n    app.get(\"/employees\", async (req, res) => {\n        const fromDate = new Date();\n        const results = await pool.query(\"select employeeid eid,firstname,ssn from employees\");\n        console.table(results.rows);\n        console.log(new Date());\n        const toDate = new Date();\n        const elapsed = toDate.getTime() - fromDate.getTime();\n        res.send({\"rows\": results.rows, \"elapsed\": elapsed, \"method\": \"pool\"});\n    });\n\n    app.listen(2015, () => console.log(\"Listening on port 2015\"));\n}",
+  "FSMID_for_test": 96,
+  "Code_level": "Function-level"
+}

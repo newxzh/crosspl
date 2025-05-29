@@ -1,0 +1,13 @@
+{
+    "Task_id": 122,
+    "Github_ID": "173227087",
+    "Github_Project_Name": "examples",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Gin-based HTTP Server in Go",
+    "Instruction": "Task Description: Create a reverse proxy server using Gin framework in Go that forwards incoming HTTP requests to a load-balanced backend server and returns the response to the client.\n\nFunction Description: The main function initializes a Gin HTTP server that acts as a reverse proxy. It handles incoming GET requests, forwards them to a backend server obtained from a load balancer, and returns the backend's response to the client while preserving all headers.\n\nInput:\n- Path parameter: \":path\" (string) - The path component of the URL to be forwarded to the backend server\n- HTTP request headers and body (automatically handled by Gin context)\n\nOutput:\n- HTTP response with:\n  - Status code from backend server (or 500 if proxy fails)\n  - Headers from backend server\n  - Body content from backend server\n- Error logs if any step in the proxying process fails\n\nThe function uses the Gin context (c *gin.Context) to:\n1. Extract the original request\n2. Parse the load-balanced backend address\n3. Modify the request URL to point to the backend\n4. Use HTTP transport to forward the request\n5. Copy backend response headers to client response\n6. Stream the backend response body to the client",
+    "Canonical_solution": "import (\n\t\"bufio\"\n\t\"log\"\n\t\"net/http\"\n\t\"net/url\"\n\n\t\"github.com/gin-gonic/gin\"\n)\nfunc main() {\n\tr := gin.Default()\n\tr.GET(\"/:path\", func(c *gin.Context) {\n\t\treq := c.Request\n\t\tproxy, err := url.Parse(getLoadBalanceAddr())\n\t\tif err != nil {\n\t\t\tlog.Printf(\"error in parse addr: %v\", err)\n\t\t\tc.String(500, \"error\")\n\t\t\treturn\n\t\t}\n\t\treq.URL.Scheme = proxy.Scheme\n\t\treq.URL.Host = proxy.Host\n\n\t\ttransport := http.DefaultTransport\n\t\tresp, err := transport.RoundTrip(req)\n\t\tif err != nil {\n\t\t\tlog.Printf(\"error in roundtrip: %v\", err)\n\t\t\tc.String(500, \"error\")\n\t\t\treturn\n\t\t}\n\n\t\tfor k, vv := range resp.Header {\n\t\t\tfor _, v := range vv {\n\t\t\t\tc.Header(k, v)\n\t\t\t}\n\t\t}\n\t\tdefer resp.Body.Close()\n\t\tbufio.NewReader(resp.Body).WriteTo(c.Writer)\n\t\treturn\n\t})\n\n\tif err := r.Run(ReverseServerAddr); err != nil {\n\t\tlog.Printf(\"Error: %v\", err)\n\t}\n}",
+    "FSMID_for_test": 105,
+    "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 308,
+  "Github_ID": "425205324",
+  "Github_Project_Name": "austin",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "Redis in Java",
+  "Instruction": "Task Description: Implement a utility class for Redis pipeline operations using Lettuce client in Java, enabling batch Redis commands execution with asynchronous processing.\n\nClass Description: LettuceRedisUtils is a singleton utility class that provides a method for executing Redis commands in pipeline mode using Lettuce client. It manages Redis connections and asynchronous command execution.\n\nAttributes:\n- REDIS_CLIENT: [RedisClient] - The singleton Redis client instance initialized with connection details (host, port, password)\n\nMethods:\n- pipeline: [pipeline](RedisPipelineCallBack pipelineCallBack) -> [void] - Executes Redis commands in pipeline mode. Takes a callback interface that contains the Redis operations to be performed. Handles connection management, command flushing, and waiting for completion of all operations. The callback should return a list of RedisFuture objects representing the asynchronous operations.",
+  "Canonical_solution": "import io.lettuce.core.LettuceFutures;\nimport io.lettuce.core.RedisClient;\nimport io.lettuce.core.RedisFuture;\nimport io.lettuce.core.RedisURI;\nimport io.lettuce.core.api.StatefulRedisConnection;\nimport io.lettuce.core.api.async.RedisAsyncCommands;\nimport io.lettuce.core.codec.ByteArrayCodec;\n\nimport java.util.List;\nimport java.util.concurrent.TimeUnit;\n\npublic class LettuceRedisUtils {\n\n    private static final RedisClient REDIS_CLIENT;\n\n    static {\n        RedisURI redisUri = RedisURI.Builder.redis(AustinFlinkConstant.REDIS_IP)\n                .withPort(Integer.parseInt(AustinFlinkConstant.REDIS_PORT))\n                .withPassword(AustinFlinkConstant.REDIS_PASSWORD.toCharArray())\n                .build();\n        REDIS_CLIENT = RedisClient.create(redisUri);\n    }\n\n    private LettuceRedisUtils() {\n    }\n\n    public static void pipeline(RedisPipelineCallBack pipelineCallBack) {\n        StatefulRedisConnection<byte[], byte[]> connect = REDIS_CLIENT.connect(new ByteArrayCodec());\n        RedisAsyncCommands<byte[], byte[]> commands = connect.async();\n\n        List<RedisFuture<?>> futures = pipelineCallBack.invoke(commands);\n\n        commands.flushCommands();\n        LettuceFutures.awaitAll(10, TimeUnit.SECONDS,\n                futures.toArray(new RedisFuture[0]));\n        connect.close();\n    }\n}",
+  "FSMID_for_test": 37,
+  "Code_level": "Class-level"
+}

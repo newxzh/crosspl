@@ -1,0 +1,13 @@
+{
+  "Task_id": 71,
+  "Github_ID": "690777908",
+  "Github_Project_Name": "instagraph",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Client-side by using requests in python",
+  "Instruction": "Task Description: Create a function that scrapes and extracts text content from paragraphs of a given URL using HTTP requests and HTML parsing.\n\nFunction Description: The function should make an HTTP GET request to the specified URL, parse the HTML response to extract text from all paragraph elements (<p>), and return the combined text. It should handle potential errors in the HTTP request and log successful operations.\n\nInput: \n- url (str): The URL of the webpage to scrape text from.\n\nOutput: \n- str: The combined text extracted from all paragraph elements on the webpage, or an error message if the request fails.",
+  "Canonical_solution": "import requests\nfrom bs4 import BeautifulSoup\nimport logging\n\ndef scrape_text_from_url(url):\n    response = requests.get(url)\n    if response.status_code != 200:\n        return \"Error: Could not retrieve content from URL.\"\n    soup = BeautifulSoup(response.text, \"html.parser\")\n    paragraphs = soup.find_all(\"p\")\n    text = \" \".join([p.get_text() for p in paragraphs])\n    logging.info(\"web scrape done\")\n    return text",
+  "FSMID_for_test": 57,
+  "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 100,
+  "Github_ID": "37983532",
+  "Github_Project_Name": "movim",
+  "Programming_Language": "PHP",
+  "suffix": ".php",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP client using cURL in PHP",
+  "Instruction": "Task Description: Create a PHP class that handles downloading and processing images with size limitations and compression capabilities.\n\nClass Description: The Picture class is designed to download images from given URLs while enforcing size limits and compression thresholds. It uses cURL for HTTP requests and provides mechanisms to control download size and handle response data efficiently.\n\nAttributes:\n- compressLimit: [int] - The maximum size (in bytes) for downloaded content before compression is considered\n- sizeLimit: [int] - The maximum dimension (in pixels) for the image width/height\n\nMethods:\n- downloadImage: [downloadImage]($url: string) -> string - Downloads an image from the specified URL while respecting size limits. Returns the image body content.\n  - $url: The URL of the image to download\n  - Returns: The binary content of the downloaded image",
+  "Canonical_solution": "namespace App\\Widgets\\Picture;\n\nuse Movim\\Image;\n\nclass Picture\n{\n    private $compressLimit = SMALL_PICTURE_LIMIT * 6;\n    private $sizeLimit = 1920;\n\n    public function downloadImage($url)\n    {\n        $headers = requestHeaders($url);\n        $chunks = '';\n\n        $max = $headers[\"download_content_length\"] > $this->compressLimit ? $this->compressLimit : $headers[\"download_content_length\"];\n\n        $ch = curl_init();\n        curl_setopt($ch, CURLOPT_URL, $url);\n        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);\n        curl_setopt($ch, CURLOPT_HEADER, true);\n        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);\n        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);\n        curl_setopt($ch, CURLOPT_RANGE, '0-' . $max);\n        curl_setopt($ch, CURLOPT_BUFFERSIZE, 12800);\n        curl_setopt($ch, CURLOPT_NOPROGRESS, false);\n        curl_setopt($ch, CURLOPT_USERAGENT, DEFAULT_HTTP_USER_AGENT);\n        curl_setopt($ch, CURLOPT_WRITEFUNCTION, function ($ch, $chunk) use (&$chunks) {\n            $chunks .= $chunk;\n            return (strlen($chunks) >= $this->compressLimit + 1) ? 0 : strlen($chunk);\n        });\n\n        curl_exec($ch);\n\n        $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);\n        curl_close($ch);\n\n        $headers = preg_split('/[\\r\\n]+/', substr($chunks, 0, $headerSize));\n        $body = substr($chunks, $headerSize);\n\n        return $body;\n    }\n}",
+  "FSMID_for_test": 132,
+  "Code_level": "Class-level"
+}

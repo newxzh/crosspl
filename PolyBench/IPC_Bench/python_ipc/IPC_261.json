@@ -1,0 +1,13 @@
+{
+  "Task_id": 261,
+  "Github_ID": "571186647",
+  "Github_Project_Name": "pathway",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "Kafka producer in python",
+  "Instruction": "Task Description: Implement a Kafka producer function that reads data from a CSV file and sends it as JSON messages to a specified Kafka topic, with special commit markers before and after the data transmission.\n\nFunction Description: The function establishes a connection to a Kafka broker, reads movie rating data from a CSV file, converts each record to JSON format, and sends them to a predefined Kafka topic. It sends a \"*COMMIT*\" marker before and after the data transmission to indicate the start and end of the dataset. The function includes delays to ensure proper message delivery and resource cleanup.\n\nInput: None (The function uses hardcoded values for the Kafka broker configuration and file path)\n\nOutput: None (The function's effect is the messages sent to the Kafka topic)",
+  "Canonical_solution": "import csv\nimport json\nimport time\nfrom kafka import KafkaProducer\n\ndef kafka_producer():\n    topic = \"ratings\"\n    time.sleep(30)\n    producer = KafkaProducer(\n        bootstrap_servers=[\"redpanda:9092\"],\n        security_protocol=\"PLAINTEXT\",\n        api_version=(0, 10, 2),\n    )\n    producer.send(topic, \"*COMMIT*\".encode(\"utf-8\"))\n    time.sleep(2)\n\n    with open(\"./dataset.csv\", newline=\"\") as csvfile:\n        dataset_reader = csv.reader(csvfile, delimiter=\",\")\n        first_line = True\n        for row in dataset_reader:\n            if first_line:\n                first_line = False\n                continue\n            message_json = {\n                \"userId\": int(row[0]),\n                \"movieId\": int(row[1]),\n                \"rating\": float(row[2]),\n                \"timestamp\": int(row[3]),\n            }\n            producer.send(topic, (json.dumps(message_json)).encode(\"utf-8\"))\n            time.sleep(0.1)\n\n    producer.send(topic, \"*COMMIT*\".encode(\"utf-8\"))\n    time.sleep(2)\n    producer.close()",
+  "FSMID_for_test": 78,
+  "Code_level": "Function-level"
+}

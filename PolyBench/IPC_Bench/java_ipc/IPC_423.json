@@ -1,0 +1,13 @@
+{
+  "Task_id": 423,
+  "Github_ID": "5103785",
+  "Github_Project_Name": "undertow",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "TCP Client-side Java.io",
+  "Instruction": "Task Description: Create a Java function that establishes a TCP client connection to a server, sends HTTP upgrade requests and echo messages, and verifies server responses.\n\nFunction Description: The function connects to a predefined server using TCP, sends an HTTP upgrade request followed by echo messages, and asserts the correctness of server responses. It handles basic client-server communication including connection establishment, data exchange, and connection termination.\n\nInput: \n- url: String - The URL path to be used in the HTTP GET request\n\nOutput: \n- None (void) - The function performs assertions to verify server responses but doesn't return any value. It throws IOException if any network communication fails.\n\nNote: The function uses predefined host address and port from DefaultServer class, and includes a helper method readBytes() (not shown) to read data from the input stream.",
+  "Canonical_solution": "import java.io.IOException;\nimport java.io.InputStream;\nimport java.io.OutputStream;\nimport java.net.Socket;\n\npublic void runTest(final String url) throws IOException {\n    final Socket socket = new Socket(DefaultServer.getHostAddress(\"default\"), DefaultServer.getHostPort(\"default\"));\n\n    InputStream in = socket.getInputStream();\n    OutputStream out = socket.getOutputStream();\n    out.write((\"GET \" + url + \" HTTP/1.1\\r\\nHost:default\\r\\nConnection: upgrade\\r\\nUpgrade: servlet\\r\\n\\r\\n\").getBytes());\n    out.flush();\n    Assert.assertTrue(readBytes(in).startsWith(\"HTTP/1.1 101 Switching Protocols\\r\\n\"));\n\n    out.write(\"Echo Messages\\r\\n\\r\\n\".getBytes());\n    out.flush();\n    Assert.assertEquals(\"Echo Messages\\r\\n\\r\\n\", readBytes(in));\n\n    out.write(\"Echo Messages2\\r\\n\\r\\n\".getBytes());\n    out.flush();\n    Assert.assertEquals(\"Echo Messages2\\r\\n\\r\\n\", readBytes(in));\n\n    out.write(\"exit\\r\\n\\r\\n\".getBytes());\n    out.flush();\n    out.close();\n}",
+  "FSMID_for_test": 15,
+  "Code_level": "Function-level"
+}

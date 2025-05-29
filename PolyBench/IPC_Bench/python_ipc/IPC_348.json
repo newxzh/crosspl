@@ -1,0 +1,13 @@
+{
+  "Task_id": 348,
+  "Github_ID": "9294498",
+  "Github_Project_Name": "python-cookbook",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "TCP Client - side by using socket in python",
+  "Instruction": "Task Description: Implement a secure TCP client using SSL/TLS for encrypted communication with a server. The client should establish a secure connection, send data, receive responses, and properly close the connection.\n\nFunction Description: The code consists of two functions:\n1. `ssl_client_connect` - Creates and returns an SSL-wrapped socket connected to the specified host and port, with certificate verification\n2. `ssl_client_communicate` - Sends a message through the secure socket, receives the response, and closes the connection\n\nInput:\n- For `ssl_client_connect`:\n  - host: str - The target server's hostname or IP address\n  - port: int - The target server's port number\n  - cert_file: str - Path to the CA certificate file for server verification\n\n- For `ssl_client_communicate`:\n  - ssl_socket: ssl.SSLSocket - The established SSL socket connection\n  - message: bytes - The data to send to the server\n\nOutput:\n- For `ssl_client_connect`: Returns an established SSL socket connection (ssl.SSLSocket)\n- For `ssl_client_communicate`: Returns the server's response as bytes",
+  "Canonical_solution": "from socket import socket, AF_INET, SOCK_STREAM\nimport ssl\n\ndef ssl_client_connect(host, port, cert_file):\n    s = socket(AF_INET, SOCK_STREAM)\n    ssl_s = ssl.wrap_socket(s,\n                           cert_reqs=ssl.CERT_REQUIRED,\n                           ca_certs=cert_file)\n    ssl_s.connect((host, port))\n    return ssl_s\n\ndef ssl_client_communicate(ssl_socket, message):\n    ssl_socket.send(message)\n    resp = ssl_socket.recv(8192)\n    ssl_socket.close()\n    return resp",
+  "FSMID_for_test": 67,
+  "Code_level": "Function-level"
+}

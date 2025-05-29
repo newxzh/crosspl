@@ -1,0 +1,13 @@
+{
+  "Task_id": 253,
+  "Github_ID": "676672661",
+  "Github_Project_Name": "langgraph",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "Kafka producer in python",
+  "Instruction": "Task Description: Create a Python class that extends the KafkaProducer class to provide enhanced message sending capabilities with future-based callbacks and context manager support.\n\nClass Description: DefaultProducer is a specialized Kafka producer that wraps the standard KafkaProducer functionality. It provides a more convenient interface for sending messages with built-in future callbacks and supports context management for proper resource cleanup.\n\nAttributes:\n(Inherits all attributes from KafkaProducer class)\n\nMethods:\nMethod1: send(topic: str, *, key: Optional[bytes] = None, value: Optional[bytes] = None) -> concurrent.futures.Future - Sends a message to the specified Kafka topic. Returns a Future object that will be completed when the message is successfully delivered or fails. The key and value parameters are optional message components.\n\nMethod2: __enter__() -> DefaultProducer - Enables the class to be used as a context manager. Returns the producer instance itself when entering the context.\n\nMethod3: __exit__(*args) -> None - Handles context manager exit by closing the producer and releasing resources. Accepts variable arguments for exception handling if needed.",
+  "Canonical_solution": "from kafka import KafkaProducer\nimport concurrent.futures\nfrom typing import Optional\n\nclass DefaultProducer(KafkaProducer):\n    def send(\n        self,\n        topic: str,\n        *,\n        key: Optional[bytes] = None,\n        value: Optional[bytes] = None,\n    ) -> concurrent.futures.Future:\n        fut = concurrent.futures.Future()\n        kfut = super().send(topic, key=key, value=value)\n        kfut.add_callback(fut.set_result)\n        kfut.add_errback(fut.set_exception)\n        return fut\n\n    def __enter__(self):\n        return self\n\n    def __exit__(self, *args):\n        self.close()",
+  "FSMID_for_test": 78,
+  "Code_level": "Class-level"
+}

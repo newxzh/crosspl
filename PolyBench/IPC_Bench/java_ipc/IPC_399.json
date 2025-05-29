@@ -1,0 +1,13 @@
+{
+  "Task_id": 399,
+  "Github_ID": "30628859",
+  "Github_Project_Name": "netty-4-user-guide-demos",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "TCP Client-side Java.io",
+  "Instruction": "Task Description: Create a TCP client class in Java that establishes a connection to a server, sends data to the server, and properly closes the connection.\n\nClass Description: The `TcpClient` class provides functionality to connect to a TCP server, send data to it, and manage the connection lifecycle. It encapsulates the socket and output stream for communication.\n\nAttributes:\n- socket: Socket - The socket object used for the TCP connection\n- out: OutputStream - The output stream for sending data to the server\n\nMethods:\n- connect(String host, int port) -> void - Establishes a connection to the specified server host and port\n- sendData(String data) -> void - Converts the input string to UTF-8 bytes and sends it to the server\n- close() -> void - Closes the output stream and socket connection",
+  "Canonical_solution": "import java.io.IOException;\nimport java.io.OutputStream;\nimport java.net.Socket;\n\npublic class TcpClient {\n    private Socket socket;\n    private OutputStream out;\n\n    public void connect(String host, int port) throws IOException {\n        socket = new Socket(host, port);\n        out = socket.getOutputStream();\n    }\n\n    public void sendData(String data) throws IOException {\n        byte[] outputBytes = data.getBytes(\"UTF-8\");\n        out.write(outputBytes);\n        out.flush();\n    }\n\n    public void close() throws IOException {\n        if (out != null) {\n            out.close();\n        }\n        if (socket != null) {\n            socket.close();\n        }\n    }\n}",
+  "FSMID_for_test": 15,
+  "Code_level": "Class-level"
+}

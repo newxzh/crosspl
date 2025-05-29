@@ -1,0 +1,13 @@
+{
+  "Task_id": 123,
+  "Github_ID": "655209",
+  "Github_Project_Name": "formidable",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "Pipe Client-side based on fs+http in JavaScript",
+  "Instruction": "Task Description: Create a function that uploads a file to a server using HTTP POST request with streaming capability to handle large files efficiently.\n\nFunction Description: The function uploads a specified file to a server using Node.js's filesystem and HTTP modules. It streams the file content directly to the HTTP request using pipe(), avoiding loading the entire file into memory. The function sets appropriate headers including content-type (multipart/form-data) and content-length.\n\nInput:\n- FIXTURE: [String] - Path to the file to be uploaded\n- TEST_PORT: [Number] - Port number of the server to upload to\n- BOUNDARY: [String] - Boundary string for multipart form data\n\nOutput: None (The function makes an HTTP request but doesn't return any value. The actual upload result would be handled by the server's response, which isn't captured in this function.)",
+  "Canonical_solution": "function uploadFile() {\n  const fs = require('fs');\n  const http = require('http');\n  \n  const stat = fs.statSync(FIXTURE);\n  const request = http.request({\n    port: TEST_PORT,\n    path: '/',\n    method: 'POST',\n    headers: {\n      'content-type': `multipart/form-data; boundary=${BOUNDARY}`,\n      'content-length': stat.size,\n    },\n  });\n  \n  fs.createReadStream(FIXTURE).pipe(request);\n}",
+  "FSMID_for_test": 99,
+  "Code_level": "Function-level"
+}

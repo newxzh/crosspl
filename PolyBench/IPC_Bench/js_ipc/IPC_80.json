@@ -1,0 +1,13 @@
+{
+  "Task_id": 80,
+  "Github_ID": "338102540",
+  "Github_Project_Name": "node-express-course",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP based on express in javascript",
+  "Instruction": "Task Description: Create a function that sets up an HTTP server using Express.js framework, configures middleware for logging, and defines route handlers for various endpoints.\n\nFunction Description: The function `setupServer` initializes an Express application, adds request logging middleware using Morgan, defines route handlers for the root path ('/'), about page ('/about'), and two API endpoints ('/api/products' and '//api/items'), and starts the server listening on port 5000.\n\nInput: None\n\nOutput: None (The function's effect is to start an HTTP server that listens on port 5000 and responds to defined routes)",
+  "Canonical_solution": "function setupServer() {\n    const express = require('express');\n    const app = express();\n    const morgan = require('morgan');\n    \n    app.use(morgan('tiny'));\n    \n    app.get('/', (req, res) => {\n        res.send('Home');\n    });\n    app.get('/about', (req, res) => {\n        res.send('About');\n    });\n    app.get('/api/products', (req, res) => {\n        res.send('Products');\n    });\n    app.get('/api/items', (req, res) => {\n        console.log(req.user);\n        res.send('Items');\n    });\n    \n    app.listen(5000, () => {\n        console.log('Server is listening on port 5000....');\n    });\n}",
+  "FSMID_for_test": 96,
+  "Code_level": "Function-level"
+}

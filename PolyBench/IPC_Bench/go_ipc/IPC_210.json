@@ -1,0 +1,13 @@
+{
+    "Task_id": 210,
+    "Github_ID": "66573241",
+    "Github_Project_Name": "fabric",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Official-based gRPC client in Go",
+    "Instruction": "Task Description: Implement a Go function that makes a gRPC call to a test service's EmptyCall method, handling connection establishment and cleanup.\n\nFunction Description: The function invokes the EmptyCall RPC method on a gRPC test service. It establishes a connection to the server with timeout and blocking options, makes the RPC call, and properly closes the connection. The function handles both connection errors and RPC call errors.\n\nInput:\n- address: string - The server address to connect to\n- dialOptions: []grpc.DialOption - List of gRPC dial options for connection configuration\n\nOutput:\n- *testpb.Empty - The response from the EmptyCall RPC\n- error - Any error that occurred during connection or RPC call",
+    "Canonical_solution": "import (\n\t\"context\"\n\t\"time\"\n\n\t\"google.golang.org/grpc\"\n)\n\nfunc invokeEmptyCall(address string, dialOptions []grpc.DialOption) (*testpb.Empty, error) {\n\tdialOptions = append(dialOptions, grpc.WithBlock())\n\tctx, cancel := context.WithTimeout(context.Background(), time.Second)\n\tdefer cancel()\n\n\tclientConn, err := grpc.DialContext(ctx, address, dialOptions...)\n\tif err != nil {\n\t\treturn nil, err\n\t}\n\tdefer clientConn.Close()\n\n\tclient := testpb.NewTestServiceClient(clientConn)\n\n\tempty, err := client.EmptyCall(context.Background(), new(testpb.Empty))\n\tif err != nil {\n\t\treturn nil, err\n\t}\n\n\treturn empty, nil\n}",
+    "FSMID_for_test": 120,
+    "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 38,
+  "Github_ID": "173534948",
+  "Github_Project_Name": "iqiqiya-API",
+  "Programming_Language": "PHP",
+  "suffix": ".php",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP client using cURL in PHP",
+  "Instruction": "Task Description: Create a PHP function that makes an HTTP POST request to a specified API endpoint to fetch content using cURL, with appropriate headers and request parameters.\n\nFunction Description: The function `curl_pipigaoxiao` initiates a cURL session to send a POST request to the 'http://h5.ippzone.com/ppapi/share/fetch_content' endpoint. It sets necessary headers including Content-Type, Origin, and User-Agent, along with a Referer header. The function sends JSON-formatted POST data containing a post ID and type, then returns the response from the server.\n\nInput: \n- `$id` (string|integer): The post ID to be included in the request payload\n\nOutput:\n- `$data` (string): The raw HTTP response including headers and body from the API endpoint",
+  "Canonical_solution": "function curl_pipigaoxiao($id)\n{\n    $cl = curl_init();\n    curl_setopt($cl, CURLOPT_URL, 'http://h5.ippzone.com/ppapi/share/fetch_content');\n    curl_setopt($cl, CURLOPT_HEADER, 1);\n    curl_setopt($cl, CURLOPT_RETURNTRANSFER, 1);\n    curl_setopt($cl, CURLOPT_HTTPHEADER, array(\n        'Content-Type: application/json;charset=utf-8',\n        'Origin: http://h5.ippzone.com',\n        'User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'\n    ));\n    curl_setopt($cl, CURLOPT_REFERER, 'http://h5.ippzone.com/pp/post/78266943052');\n    curl_setopt($cl, CURLOPT_POST, 1);\n    $post_data = \"{\\\"pid\\\":\".$id.\",\\\"type\\\":\\\"post\\\",\\\"mid\\\":null}\";\n    curl_setopt($cl, CURLOPT_POSTFIELDS, $post_data);\n    $data = curl_exec($cl);\n    curl_close($cl);\n    return $data;\n}",
+  "FSMID_for_test": 132,
+  "Code_level": "Function-level"
+}

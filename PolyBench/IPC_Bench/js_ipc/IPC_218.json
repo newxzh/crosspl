@@ -1,0 +1,13 @@
+{
+  "Task_id": 218,
+  "Github_ID": "199952039",
+  "Github_Project_Name": "Golang-100-Days",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "WebSocket Client-side based on browser native API in JavaScript",
+  "Instruction": "Task Description: Create a WebSocket client in JavaScript that automatically reconnects to a server upon connection loss and triggers a page reload when receiving a message from the server.\n\nFunction Description: The function establishes a WebSocket connection to a specified URL. It handles connection closure by attempting to reconnect after a delay (2 seconds) and automatically reloads the page when a message is received from the server. This is particularly useful for development environments where live-reloading of web pages is desired.\n\nInput: \n- a [String] - The WebSocket server URL to connect to (e.g., \"ws://localhost:12450/reload\")\n\nOutput: None (This function establishes a persistent connection and handles events asynchronously)",
+  "Canonical_solution": "function b(a) {\n    var c = new WebSocket(a);\n    c.onclose = function() {\n        setTimeout(function() {\n            b(a)\n        }, 2E3)\n    };\n    c.onmessage = function() {\n        location.reload()\n    }\n}\ntry {\n    if (window.WebSocket) {\n        try {\n            b(\"ws://localhost:12450/reload\")\n        } catch (a) {\n            console.error(a)\n        }\n    } else {\n        console.log(\"Your browser does not support WebSockets.\")\n    }\n} catch (a) {\n    console.error(\"Exception during connecting to Reload:\", a)\n}",
+  "FSMID_for_test": 89,
+  "Code_level": "Function-level"
+}

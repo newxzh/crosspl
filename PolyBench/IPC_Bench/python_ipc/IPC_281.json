@@ -1,0 +1,13 @@
+{
+  "Task_id": 281,
+  "Github_ID": "25875083",
+  "Github_Project_Name": "miasm",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "Pipe based on subprocess in python",
+  "Instruction": "Task Description: Create a function that runs a Python subprocess with pipe communication, compares the output with expected results from a JSON file, and asserts their equality.\n\nFunction Description: The function `run_subprocess_with_pipe` executes a Python subprocess with given arguments, captures its output through a pipe, and compares this output with expected results loaded from a JSON file. The comparison includes checking the length of the results and verifying that all elements match between the expected and actual outputs.\n\nInput:\n- `expected_file`: [str] - Path to the JSON file containing the expected output data.\n- `*args`: [variable arguments] - Additional command-line arguments to pass to the subprocess.\n\nOutput: None (The function performs assertions to validate the output against the expected results. If assertions fail, an AssertionError is raised.)",
+  "Canonical_solution": "import sys\nimport subprocess\nimport json\n\ndef run_subprocess_with_pipe(expected_file, *args):\n    dg = subprocess.Popen([sys.executable] + list(args), stdout=subprocess.PIPE)\n    stdout, _ = dg.communicate()\n    expected = json.load(open(expected_file))\n    result = json.loads(stdout.decode())\n    \n    assert len(expected) == len(result)\n    assert all(r in result for r in expected)\n    assert all(r in expected for r in result)",
+  "FSMID_for_test": 76,
+  "Code_level": "Function-level"
+}

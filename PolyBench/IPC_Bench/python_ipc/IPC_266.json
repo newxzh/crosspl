@@ -1,0 +1,13 @@
+{
+  "Task_id": 266,
+  "Github_ID": "5934517",
+  "Github_Project_Name": "kafka-python",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "Kafka producer in python",
+  "Instruction": "Task Description: Implement a Kafka producer wrapper class that can continuously send messages to a specified Kafka topic until stopped, with proper resource management.\n\nClass Description: A thread-safe Kafka producer wrapper that manages message production to a specified topic, with graceful shutdown capabilities.\n\nAttributes:\n- bootstrap_servers: [str] - Comma-separated list of Kafka broker addresses (default: 'localhost:9092')\n- topic: [str] - Target Kafka topic for message production (default: 'my-topic')\n- stop_event: [threading.Event] - Threading event flag to control producer execution\n- producer: [KafkaProducer] - Underlying Kafka producer instance\n\nMethods:\n- __init__(bootstrap_servers: str = 'localhost:9092', topic: str = 'my-topic') -> None - Initializes the producer with given configuration\n- stop() -> None - Signals the producer to stop sending messages\n- run() -> None - Continuously sends test messages to the topic until stopped, then closes the producer",
+  "Canonical_solution": "from kafka import KafkaProducer\nimport threading\nimport time\n\nclass KafkaProducerWrapper:\n    def __init__(self, bootstrap_servers='localhost:9092', topic='my-topic'):\n        self.bootstrap_servers = bootstrap_servers\n        self.topic = topic\n        self.stop_event = threading.Event()\n        self.producer = KafkaProducer(bootstrap_servers=self.bootstrap_servers)\n\n    def stop(self):\n        self.stop_event.set()\n\n    def run(self):\n        while not self.stop_event.is_set():\n            self.producer.send(self.topic, b\"test\")\n            self.producer.send(self.topic, b\"\\xc2Hola, mundo!\")\n            time.sleep(1)\n        self.producer.close()",
+  "FSMID_for_test": 78,
+  "Code_level": "Class-level"
+}

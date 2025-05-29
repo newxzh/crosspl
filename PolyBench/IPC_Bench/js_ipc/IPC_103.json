@@ -1,0 +1,13 @@
+{
+  "Task_id": 103,
+  "Github_ID": "43770860",
+  "Github_Project_Name": "you-dont-know-node",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP based on express in javascript",
+  "Instruction": "Task Description: Implement a function to set up an Express server that demonstrates different methods of file handling (streaming vs non-streaming) for serving large files, with performance monitoring capabilities.\n\nFunction Description: The function `setupExpressServer` creates an Express.js server that serves a large image file through four different endpoints, comparing streaming and non-streaming approaches. It includes response time monitoring middleware to measure performance. The server listens on port 3000 by default.\n\nInput: None (The function takes no parameters. All paths and configurations are internally defined.)\n\nOutput: None (The function doesn't return anything but starts an Express server that continues running until manually stopped.)\n\nNote: The function internally uses:\n1. Express framework for HTTP server\n2. Node.js filesystem module for file operations\n3. Path module for file path resolution\n4. response-time middleware for performance monitoring\n5. Predefined port (3000) and image path (CapitalOne_Digital_Skills_Infographic_BW.jpg in same directory)",
+  "Canonical_solution": "function setupExpressServer() {\n    var express = require('express');\n    var fs = require('fs');\n    var path = require('path');\n    var port = 3000;\n    var app = express();\n    var responseTime = require('response-time');\n    var largeImagePath = path.join(__dirname,'CapitalOne_Digital_Skills_Infographic_BW.jpg');\n\n    app.use(responseTime());\n\n    app.get('/non-stream', function(req, res) {\n        var file = fs.readFile(largeImagePath, function(error, data){\n            res.end(data);\n        });\n    });\n\n    app.get('/non-stream2', function(req, res) {\n        var file = fs.readFileSync(largeImagePath);\n        res.end(file);\n    });\n\n    app.get('/stream', function(req, res) {\n        var stream = fs.createReadStream(largeImagePath);\n        stream.pipe(res);\n    });\n\n    app.get('/stream2', function(req, res) {\n        var stream = fs.createReadStream(largeImagePath);\n        stream.on('data', function(data) {\n            res.write(data);\n        });\n        stream.on('end', function() {\n            res.end();\n        });\n    });\n\n    app.listen(port);\n}",
+  "FSMID_for_test": 96,
+  "Code_level": "Function-level"
+}

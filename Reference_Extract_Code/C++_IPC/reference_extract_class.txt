@@ -1,0 +1,65 @@
+#include <boost/asio.hpp>
+#include <boost/system/error_code.hpp>
+#include <boost/bind/bind.hpp>
+#include <memory>
+#include <string>
+#include <windows.h>
+using boost::asio::ip::tcp;
+using boost::asio::windows::random_access_handle;
+
+typedef boost::asio::basic_stream_socket<tcp,
+    boost::asio::io_context::executor_type> tcp_socket;
+template <typename Handler>
+void transmit_file(tcp_socket& socket,
+    random_access_handle& file, Handler handler);
+
+class connection
+  : public std::enable_shared_from_this<connection>
+{
+public:
+  typedef std::shared_ptr<connection> pointer;
+
+  static pointer create(boost::asio::io_context& io_context,
+      const std::string& filename)
+  {
+    return pointer(new connection(io_context, filename));
+  }
+
+  tcp_socket& socket()
+  {
+    return socket_;
+  }
+
+  void start()
+  {
+    boost::system::error_code ec;
+    file_.assign(::CreateFile(filename_.c_str(), GENERIC_READ, 0, 0,
+          OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL | FILE_FLAG_OVERLAPPED, 0), ec);
+    if (file_.is_open())
+    {
+      transmit_file(socket_, file_,
+          std::bind(&connection::handle_write, shared_from_this(),
+            boost::asio::placeholders::error,
+            boost::asio::placeholders::bytes_transferred));
+    }
+  }
+
+private:
+  connection(boost::asio::io_context& io_context, const std::string& filename)
+    : socket_(io_context),
+      filename_(filename),
+      file_(io_context)
+  {
+  }
+
+  void handle_write(const boost::system::error_code& /*error*/,
+      size_t /*bytes_transferred*/)
+  {
+    boost::system::error_code ignored_ec;
+    socket_.shutdown(tcp_socket::shutdown_both, ignored_ec);
+  }
+
+  tcp_socket socket_;
+  std::string filename_;
+  random_access_handle file_;
+};

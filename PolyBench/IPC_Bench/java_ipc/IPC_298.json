@@ -1,0 +1,13 @@
+{
+  "Task_id": 298,
+  "Github_ID": "252523575",
+  "Github_Project_Name": "jobrunr",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "ProcessBuilder in java.io",
+  "Instruction": "Task Description: Create a Java function that disassembles a Java class file using the `javap` command-line tool and returns the disassembled output as a string.\n\nFunction Description: The function `disassembleClassFromJava` takes a Java class file as input, executes the `javap -c` command on it to disassemble the bytecode, and returns the disassembled output as a string. It handles the process execution, stream management, and error handling.\n\nInput: \n- `resourceFile` (String): The path or name of the Java class file to be disassembled.\n\nOutput: \n- (String): The disassembled bytecode output from the `javap` command. If an error occurs, returns an error message string.",
+  "Canonical_solution": "import java.io.IOException;\nimport java.io.StringWriter;\nimport java.net.URL;\n\npublic String disassembleClassFromJava(String resourceFile) {\n    try {\n        ProcessBuilder pb = new ProcessBuilder(\"javap\", \"-c\", resourceFile)\n                .redirectErrorStream(true);\n\n        final Process process = pb.start();\n        final StringWriter writer = new StringWriter();\n        new Thread(() -> IOUtils.copyStreamNoException(process.getInputStream(), writer)).start();\n\n        final int ignored = process.waitFor();\n        final String processOutput = writer.toString();\n        return processOutput;\n    } catch (InterruptedException e) {\n        Thread.currentThread().interrupt();\n        return \"Unable to run javap command (\" + e.getMessage() + \").\";\n    } catch (IOException e) {\n        return \"Unable to run javap command (\" + e.getMessage() + \").\";\n    }\n}",
+  "FSMID_for_test": 44,
+  "Code_level": "Function-level"
+}

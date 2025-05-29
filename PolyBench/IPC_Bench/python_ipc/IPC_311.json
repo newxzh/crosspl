@@ -1,0 +1,13 @@
+{
+  "Task_id": 311,
+  "Github_ID": "123195515",
+  "Github_Project_Name": "pytorch-kaldi",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "Pipe based on subprocess in python",
+  "Instruction": "Task Description: Implement a set of utility functions for executing shell commands in Python using subprocess.PIPE for inter-process communication, with options for real-time output display and logging.\n\nFunction Description: The functions provide different ways to execute shell commands and handle their output:\n1. run_command - Executes a command and collects all output lines\n2. run_shell_display - Executes a command and displays output in real-time\n3. run_shell - Executes a command and logs output to a file\n\nInput:\n- For run_command: cmd [str] - The shell command to execute\n- For run_shell_display: cmd [str] - The shell command to execute\n- For run_shell: cmd [str] - The shell command to execute, log_file [str] - Path to log file\n\nOutput:\n- For run_command: [str] - Combined stdout/stderr output\n- For run_shell_display: None (output is displayed in real-time)\n- For run_shell: [bytes] - Raw command output (also written to log file)",
+  "Canonical_solution": "import subprocess\n\ndef run_command(cmd):\n    p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)\n    stdout = []\n    while True:\n        line = p.stdout.readline()\n        stdout.append(line)\n        print(line.decode(\"utf-8\"))\n        if line == \"\" and p.poll() != None:\n            break\n    return \"\".join(stdout)\n\ndef run_shell_display(cmd):\n    p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)\n    while True:\n        out = p.stdout.read(1).decode(\"utf-8\")\n        if out == \"\" and p.poll() != None:\n            break\n        if out != \"\":\n            sys.stdout.write(out)\n            sys.stdout.flush()\n    return\n\ndef run_shell(cmd, log_file):\n    p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)\n    (output, err) = p.communicate()\n    p.wait()\n    with open(log_file, \"a+\") as logfile:\n        logfile.write(output.decode(\"utf-8\") + \"\\n\")\n        logfile.write(err.decode(\"utf-8\") + \"\\n\")\n    return output",
+  "FSMID_for_test": 76,
+  "Code_level": "Function-level"
+}

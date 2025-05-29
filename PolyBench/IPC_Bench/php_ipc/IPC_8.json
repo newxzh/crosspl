@@ -1,0 +1,13 @@
+{
+  "Task_id": 8,
+  "Github_ID": "15165001",
+  "Github_Project_Name": "php-html-parser",
+  "Programming_Language": "PHP",
+  "suffix": ".php",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP client using Guzzle in PHP",
+  "Instruction": "Task Description: Create a PHP class that utilizes the Guzzle HTTP client to fetch content from a URL and load it into a DOM object.\n\nClass Description: The `Dom` class provides functionality to load HTML content from a URL using the Guzzle HTTP client. It allows for optional customization of the HTTP client and request objects, and handles the response to extract the content for DOM processing.\n\nMethods:\n\nMethod1: `loadFromUrl(string $url, ?Options $options = null, ?ClientInterface $client = null, ?RequestInterface $request = null)` -> `Dom` - Loads HTML content from the specified URL using the provided or default Guzzle HTTP client and request objects. The content is then loaded into a DOM object. Throws various exceptions for error handling.\n\nInput Parameters:\n- `$url`: string - The URL from which to fetch the HTML content.\n- `$options`: ?Options - Optional configuration options for the DOM loading process.\n- `$client`: ?ClientInterface - Optional Guzzle HTTP client instance. If not provided, a default client is created.\n- `$request`: ?RequestInterface - Optional Guzzle HTTP request instance. If not provided, a default GET request is created.\n\nOutput:\n- Returns an instance of `Dom` with the loaded HTML content.",
+  "Canonical_solution": "use GuzzleHttp\\Client;\nuse GuzzleHttp\\Psr7\\Request;\nuse Psr\\Http\\Client\\ClientExceptionInterface;\nuse Psr\\Http\\Client\\ClientInterface;\nuse Psr\\Http\\Message\\RequestInterface;\n\nclass Dom implements DomInterface\n{\n    /**\n     * Use a curl interface implementation to attempt to load\n     * the content from a url.\n     *\n     * @throws ChildNotFoundException\n     * @throws CircularException\n     * @throws Exceptions\\ContentLengthException\n     * @throws LogicalException\n     * @throws StrictException\n     * @throws ClientExceptionInterface\n     */\n    public function loadFromUrl(string $url, ?Options $options = null, ?ClientInterface $client = null, ?RequestInterface $request = null): Dom\n    {\n        if ($client === null) {\n            $client = new Client();\n        }\n        if ($request === null) {\n            $request = new Request('GET', $url);\n        }\n\n        $response = $client->sendRequest($request);\n        $content = $response->getBody()->getContents();\n\n        return $this->loadStr($content, $options);\n    }\n}",
+  "FSMID_for_test": 133,
+  "Code_level": "Class-level"
+}

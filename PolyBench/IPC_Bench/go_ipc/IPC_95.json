@@ -1,0 +1,13 @@
+{
+    "Task_id": 95,
+    "Github_ID": "57028434",
+    "Github_Project_Name": "manba",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Echo-based HTTP Server in Go",
+    "Instruction": "Task Description: Create an HTTP server using the Echo framework in Go that serves basic server information and runs on a configurable address.\n\nFunction Description: The main function initializes an Echo HTTP server, configures middleware for logging and compression, sets up a route handler for server information, and starts the server on the specified address.\n\nInput: \n- Command-line argument (optional): \"--addr\" to specify the server address (default: \"127.0.0.1:9090\")\n\nOutput: \n- Running HTTP server that responds to GET requests at \"/serverinfo\" with server hostname and address\n- No explicit return value (runs indefinitely until interrupted)\n\nNote: The reference code shows a complete implementation at the package level (main function) rather than a standalone function or struct level. The instruction follows the function-level format as the code primarily demonstrates functional behavior through the main function.",
+    "Canonical_solution": "import (\n\t\"flag\"\n\t\"net/http\"\n\t\"os\"\n\n\t\"github.com/labstack/echo\"\n\tmd \"github.com/labstack/echo/middleware\"\n)\n\nvar (\n\taddr = flag.String(\"addr\", \"127.0.0.1:9090\", \"addr for backend\")\n)\n\nfunc main() {\n\tflag.Parse()\n\n\tserver := echo.New()\n\tserver.Use(md.Logger())\n\tserver.Use(md.Gzip())\n\n\tserver.GET(\"/serverinfo\", func(c echo.Context) error {\n\t\thostname, _ := os.Hostname()\n\t\treturn c.String(http.StatusOK, hostname+\"\\n\"+*addr)\n\t})\n\n\tserver.Start(*addr)\n}",
+    "FSMID_for_test": 106,
+    "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 36,
+  "Github_ID": "791124680",
+  "Github_Project_Name": "wiseflow",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Client-side by using httpx in python",
+  "Instruction": "Task Description: Create a Python function that performs HTTP requests using the httpx library to fetch and process content from a given URL, with proper error handling and logging.\n\nFunction Description: The function should make a synchronous HTTP GET request to the specified URL using custom headers, handle potential exceptions, decode the response content using detected encoding, and return the extracted data along with a status code. If the request fails, it should log the error and return an error code with an empty dictionary.\n\nInput:\n- url: str | Path - The target URL to fetch content from\n- logger: logging.Logger - A logger instance for error logging\n\nOutput:\n- Tuple[int, dict] - A tuple containing:\n  - Status code (negative for errors, positive for HTTP status codes)\n  - Dictionary containing extracted data (empty if an error occurs)",
+  "Canonical_solution": "import httpx\n\nheader = {\n    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/604.1 Edg/112.0.100.0'\n}\n\ndef simple_crawler(url: str | Path, logger) -> (int, dict):\n    try:\n        with httpx.Client() as client:\n            response = client.get(url, headers=header, timeout=30)\n            rawdata = response.content\n            encoding = chardet.detect(rawdata)['encoding']\n            text = rawdata.decode(encoding)\n        result = extractor.extract(text)\n    except Exception as e:\n        logger.warning(f\"cannot get content from {url}\\n{e}\")\n        return -7, {}",
+  "FSMID_for_test": 58,
+  "Code_level": "Function-level"
+}

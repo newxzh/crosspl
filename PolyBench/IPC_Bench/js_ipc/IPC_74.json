@@ -1,0 +1,13 @@
+{
+  "Task_id": 74,
+  "Github_ID": "51420370",
+  "Github_Project_Name": "react-router-tutorial",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP based on express in javascript",
+  "Instruction": "Task Description: Create a function to start an Express server that serves static files and handles client requests.\n\nFunction Description: The function `startServer` initializes an Express application, configures middleware for compression and static file serving, sets up a catch-all route to serve the main HTML file, and starts the server on a specified port.\n\nInput: None\n\nOutput: None (The function starts a server that listens on the specified port and logs the server status to the console.)",
+  "Canonical_solution": "function startServer() {\n    var express = require('express');\n    var path = require('path');\n    var compression = require('compression');\n\n    var app = express();\n\n    app.use(compression());\n    app.use(express.static(path.join(__dirname, 'public')));\n\n    app.get('*', function (req, res) {\n        res.sendFile(path.join(__dirname, 'public', 'index.html'));\n    });\n\n    var PORT = process.env.PORT || 8080;\n    app.listen(PORT, function() {\n        console.log('Production Express server running at localhost:' + PORT);\n    });\n}",
+  "FSMID_for_test": 96,
+  "Code_level": "Function-level"
+}

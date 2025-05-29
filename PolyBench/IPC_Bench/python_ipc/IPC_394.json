@@ -1,0 +1,13 @@
+{
+  "Task_id": 394,
+  "Github_ID": "9294498",
+  "Github_Project_Name": "python-cookbook",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "TCP Server - side by using socket in python",
+  "Instruction": "Task Description: Implement a TCP server that accepts client connections and delegates the handling of these connections to a worker process using inter-process communication (IPC).\n\nFunction Description: The function `server` establishes a TCP server that listens for incoming client connections. When a client connects, the server sends the client's file descriptor to a pre-connected worker process using `send_handle`, allowing the worker to take over the client communication. The server then closes its end of the connection, leaving the worker to handle further interaction with the client.\n\nInput:\n- `work_address`: [str] - The address (e.g., a named pipe or network address) where the worker process is listening for connections.\n- `port`: [int] - The TCP port number on which the server should listen for incoming client connections.\n\nOutput: None (The function runs indefinitely in a loop, accepting and delegating client connections.)",
+  "Canonical_solution": "from multiprocessing.connection import Listener\nfrom multiprocessing.reduction import send_handle\nimport socket\n\ndef server(work_address, port):\n    # Wait for the worker to connect\n    work_serv = Listener(work_address, authkey=b'peekaboo')\n    worker = work_serv.accept()\n    worker_pid = worker.recv()\n\n    # Now run a TCP/IP server and send clients to worker\n    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\n    s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, True)\n    s.bind(('', port))\n    s.listen(1)\n    while True:\n        client, addr = s.accept()\n        print('SERVER: Got connection from', addr)\n        send_handle(worker, client.fileno(), worker_pid)\n        client.close()",
+  "FSMID_for_test": 66,
+  "Code_level": "Function-level"
+}

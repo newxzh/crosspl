@@ -1,0 +1,13 @@
+{
+  "Task_id": 320,
+  "Github_ID": "44634390",
+  "Github_Project_Name": "find",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "TCP Client - side by using socket in python",
+  "Instruction": "Task Description: Create a TCP client function that establishes a connection to a server, sends a message, and receives a response.\n\nFunction Description: The function creates a TCP socket, connects to a specified server, sends a UTF-8 encoded message, receives a response, and then closes the connection. It handles the basic TCP client-server interaction.\n\nInput:\n- host: str - The IP address or hostname of the target server\n- port: int - The port number on which the server is listening\n- message: str - The message to be sent to the server\n\nOutput:\n- str - The decoded response received from the server",
+  "Canonical_solution": "import socket\n\ndef tcp_client_interaction(host: str, port: int, message: str):\n    \"\"\"\n    TCP client interaction function that sends a message to server and receives response\n    \n    Args:\n        host: Server host address\n        port: Server port number\n        message: Message to send to server\n        \n    Returns:\n        The response received from server\n    \"\"\"\n    # Create TCP socket\n    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\n    \n    # Connect to server\n    s.connect((host, port))\n    \n    # Send message\n    len_sent = s.send(message.encode('utf-8'))\n    \n    # Receive response\n    response = s.recv(1024)\n    \n    # Clean up\n    s.close()\n    \n    return response.decode('utf-8')",
+  "FSMID_for_test": 67,
+  "Code_level": "Function-level"
+}

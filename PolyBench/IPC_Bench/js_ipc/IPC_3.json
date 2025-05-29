@@ -1,0 +1,13 @@
+{
+  "Task_id": 3,
+  "Github_ID": "743723",
+  "Github_Project_Name": "store.js",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Client - side based on request in javascript",
+  "Instruction": "Task Description: Create a SauceLabs API client class in JavaScript that handles HTTP requests to the SauceLabs REST API, including authentication and basic GET/POST operations.\n\nClass Description: The SauceLabsClient class provides methods to interact with the SauceLabs REST API. It handles authentication and provides simplified methods for making GET and POST requests to the API endpoints.\n\nAttributes:\n- auth: [Object] - An object containing user authentication credentials (username and access token)\n\nMethods:\n- setAuth: [setAuth](saucelabsUsername: String, saucelabsToken: String) -> Void - Sets the authentication credentials for API requests\n- get: [get](path: String, callback: Function) -> Void - Makes a GET request to the specified API path and handles the response through a callback\n- post: [post](path: String, data: Object, callback: Function) -> Void - Makes a POST request to the specified API path with provided data and handles the response through a callback",
+  "Canonical_solution": "var request = require('request');\n\nclass SauceLabsClient {\n  constructor() {\n    this.auth = {\n      user: null,\n      password: null\n    };\n  }\n\n  setAuth(saucelabsUsername, saucelabsToken) {\n    this.auth.user = saucelabsUsername;\n    this.auth.password = saucelabsToken;\n  }\n\n  get(path, callback) {\n    var params = {\n      url: 'https://saucelabs.com/rest/v1/' + path,\n      auth: this.auth\n    };\n    request.get(params, function(err, res, body) {\n      if (err) {\n        throw err;\n      }\n      if (res.statusCode != 200) {\n        console.log(params);\n        throw new Error('Non-200 status code: ' + body);\n      }\n      callback(JSON.parse(body));\n    });\n  }\n\n  post(path, data, callback) {\n    var params = {\n      url: 'https://saucelabs.com/rest/v1/' + this.auth.user + '/' + path,\n      auth: { user: this.auth.user, password: this.auth.password },\n      json: data\n    };\n    request.post(params, function(err, res, body) {\n      if (err) {\n        throw err;\n      }\n      if (res.statusCode != 200) {\n        throw new Error('Non-200 status code: ' + body);\n      }\n      callback(body);\n    });\n  }\n}",
+  "FSMID_for_test": 95,
+  "Code_level": "Class-level"
+}

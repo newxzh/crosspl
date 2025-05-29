@@ -1,0 +1,13 @@
+{
+    "Task_id": 6,
+    "Github_ID": "158171016",
+    "Github_Project_Name": "KubeOperator",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Advanced HTTP client with custom http.Client and request headers",
+    "Instruction": "Task Description: Create a function that checks the health status of a Kubernetes cluster by making an HTTP GET request to the cluster's livez endpoint using a custom HTTP client with TLS configuration.\n\nFunction Description: The function `GetClusterStatusByAPI` verifies the health of a Kubernetes cluster by sending an HTTPS request to the cluster's `/livez` endpoint. It uses a custom `http.Client` with TLS configuration loaded from the cluster's connection settings. The function returns a boolean indicating the cluster's health status and a string containing any error messages or the response body if the check fails.\n\nInput: \n- `addr` [string]: The address of the Kubernetes cluster API server.\n- `cluster` [*model.Cluster]: A pointer to a cluster object containing connection configuration details.\n\nOutput: \n- [bool]: `true` if the cluster is healthy (HTTP status code 200), `false` otherwise.\n- [string]: An empty string if the cluster is healthy, otherwise an error message or the response body.",
+    "Canonical_solution": "import (\n\t\"context\"\n\t\"fmt\"\n\t\"io/ioutil\"\n\t\"net/http\"\n\t\"time\"\n\n\t\"k8s.io/client-go/rest\"\n)\n\nfunc GetClusterStatusByAPI(addr string, cluster *model.Cluster) (bool, string) {\n\treqURL := fmt.Sprintf(\"https://%s/livez\", addr)\n\tconf, err := clusterUtil.LoadConnConf(cluster, addr)\n\tif err != nil {\n\t\t_, _ = false, fmt.Sprintf(\"load cluster config error %s\", err.Error())\n\t}\n\ttls2, err := rest.TransportFor(conf)\n\tif err != nil {\n\t\t_, _ = false, fmt.Sprintf(\"config transport error %s\", err.Error())\n\t}\n\tclient := &http.Client{Timeout: 1 * time.Second, Transport: tls2}\n\trequest, _ := http.NewRequest(\"GET\", reqURL, nil)\n\tresponse, err := client.Do(request)\n\tif err != nil {\n\t\treturn false, fmt.Sprintf(\"Https get error %s\", err.Error())\n\t}\n\tdefer response.Body.Close()\n\tif response.StatusCode == 200 {\n\t\treturn true, \"\"\n\t}\n\ts, _ := ioutil.ReadAll(response.Body)\n\treturn false, fmt.Sprintf(\"Api check error %s\", string(s))\n}",
+    "FSMID_for_test": 102,
+    "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 466,
+  "Github_ID": "267440221",
+  "Github_Project_Name": "_hyperscript",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "WebSocket Server-side by using asyncio+websockets in python",
+  "Instruction": "Task Description: Implement a WebSocket server using Python's asyncio and websockets libraries to handle client connections, process incoming JSON messages, and send responses back to clients.\n\nFunction Description: The server function handles WebSocket connections, processes incoming JSON messages, performs specified operations (echo, ask, throw), and sends back appropriate responses. The start_websocket_server function initializes and runs the WebSocket server.\n\nInput:\n- websocket: WebSocket connection object (provided by websockets library)\n- path: str - The path requested by the client (provided by websockets library)\n\nOutput:\n- None (The function runs indefinitely, processing messages and sending responses through the WebSocket connection)\n\nNote: The server expects JSON messages with the following structure:\n{\n  \"function\": \"echo|ask|throw\",  // Operation to perform\n  \"args\": [...]                // Arguments for the operation\n}",
+  "Canonical_solution": "import asyncio\nimport websockets\nimport json\n\nasync def server(websocket, path):\n  while True:\n    # Get received data from websocket\n    data = await websocket.recv()\n    print (\"Received: \" + data)\n    json_data = json.loads(data)\n    if json_data.get('function') == 'echo':\n      #echo back the first argument\n      json_data['return'] = json_data['args'][0]\n    elif json_data.get('function') == 'ask':\n      #echo back the first argument\n      json_data['return'] = input(json_data['args'][0])\n    elif json_data.get('function') == 'throw':\n      #throw the first argument\n      json_data['throw'] = json_data['args'][0]\n    elif not json_data.get('function') is None:\n      json_data['throw'] = 'Unknown function : ' + json_data['function']\n\n    # Send response back to client to acknowledge receiving message\n    response = json.dumps(json_data)\n    print (\"Responding: \" + response)\n    await websocket.send(response)\n\ndef start_websocket_server():\n    # Create websocket server\n    start_server = websockets.serve(server, \"localhost\", 5150)\n    # Start and run websocket server forever\n    asyncio.get_event_loop().run_until_complete(start_server)\n    print(\"Starting loop\")\n    asyncio.get_event_loop().run_forever()",
+  "FSMID_for_test": 45,
+  "Code_level": "Function-level"
+}

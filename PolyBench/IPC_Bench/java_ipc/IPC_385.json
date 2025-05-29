@@ -1,0 +1,13 @@
+{
+  "Task_id": 385,
+  "Github_ID": "163721192",
+  "Github_Project_Name": "flink-learning",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "RocketMQ Producer in Java",
+  "Instruction": "Task Description: Create a Java class that implements a simple RocketMQ producer to send messages to a specified topic.\n\nClass Description: The SimpleProducer class provides basic functionality to send messages to a RocketMQ broker. It handles producer initialization, message sending, and cleanup.\n\nAttributes:\n- producer: DefaultMQProducer - The RocketMQ producer instance that handles message sending operations\n\nMethods:\n- SimpleProducer(String producerGroup, String namesrvAddr) -> Constructor - Initializes the producer with the specified producer group and NameServer address\n- start() -> void - Starts the producer instance to begin sending messages\n- sendMessage(String topic, String tags, String keys, byte[] body) -> void - Creates and sends a message with the specified topic, tags, keys, and body content\n- shutdown() -> void - Shuts down the producer instance and releases resources",
+  "Canonical_solution": "import org.apache.rocketmq.client.exception.MQClientException;\nimport org.apache.rocketmq.client.producer.DefaultMQProducer;\nimport org.apache.rocketmq.common.message.Message;\n\npublic class SimpleProducer {\n    private DefaultMQProducer producer;\n\n    public SimpleProducer(String producerGroup, String namesrvAddr) {\n        producer = new DefaultMQProducer(producerGroup);\n        producer.setNamesrvAddr(namesrvAddr);\n    }\n\n    public void start() throws MQClientException {\n        producer.start();\n    }\n\n    public void sendMessage(String topic, String tags, String keys, byte[] body) throws Exception {\n        Message msg = new Message(topic, tags, keys, body);\n        producer.send(msg);\n    }\n\n    public void shutdown() {\n        producer.shutdown();\n    }\n}",
+  "FSMID_for_test": 42,
+  "Code_level": "Class-level"
+}

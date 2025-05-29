@@ -1,0 +1,13 @@
+{
+    "Task_id": 258,
+    "Github_ID": "27729907",
+    "Github_Project_Name": "grpc-go",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Official-based gRPC server in Go",
+    "Instruction": "Task Description: Implement a gRPC server in Go that handles greeting requests and responses.\n\nStruct Description: The server struct implements the GreeterServer interface generated from the protobuf definition, providing the SayHello method to handle incoming gRPC requests.\n\nFields:\nUnimplementedGreeterServer: pb.UnimplementedGreeterServer - Embedded type to ensure forward compatibility with future gRPC updates\n\nMethods:\nSayHello: [Name](ctx context.Context, in *pb.HelloRequest) -> (*pb.HelloReply, error) - Processes incoming HelloRequest, logs the received name, and returns a HelloReply with a greeting message",
+    "Canonical_solution": "import (\n\t\"context\"\n\t\"fmt\"\n\t\"log\"\n\t\"net\"\n\n\t\"google.golang.org/grpc\"\n\tpb \"google.golang.org/grpc/examples/helloworld/helloworld\"\n)\n\ntype server struct {\n\tpb.UnimplementedGreeterServer\n}\n\nfunc (s *server) SayHello(_ context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {\n\tlog.Printf(\"Received: %v\", in.GetName())\n\treturn &pb.HelloReply{Message: \"Hello \" + in.GetName()}, nil\n}\n\nfunc main() {\n\tflag.Parse()\n\tlis, err := net.Listen(\"tcp\", fmt.Sprintf(\":%d\", *port))\n\tif err != nil {\n\t\tlog.Fatalf(\"failed to listen: %v\", err)\n\t}\n\ts := grpc.NewServer()\n\tpb.RegisterGreeterServer(s, &server{})\n\tlog.Printf(\"server listening at %v\", lis.Addr())\n\n\tif err := s.Serve(lis); err != nil {\n\t\tlog.Fatalf(\"failed to serve: %v\", err)\n\t}\n}",
+    "FSMID_for_test": 119,
+    "Code_level": "Class-level"
+}

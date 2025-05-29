@@ -1,0 +1,13 @@
+{
+    "Task_id": 103,
+    "Github_ID": "37374972",
+    "Github_Project_Name": "go-starter-kit",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Echo-based HTTP Server in Go",
+    "Instruction": "Task Description: Create a Go struct that represents an HTTP server application using the Echo framework, with configurable options and standard middleware.\n\nStruct Description: The `App` struct represents an HTTP server application built on the Echo framework. It encapsulates the Echo engine instance and provides methods to initialize and run the server with common middleware (recovery, logging) and default routes.\n\nFields:\n- Engine: *echo.Echo - The core Echo framework instance that handles HTTP routing and middleware\n- Conf: *conf.Conf - Configuration object for server settings (port, debug mode, etc.)\n\nMethods:\n- NewApp: func(opts ...AppOptions) *App - Constructor that initializes a new App instance with optional configuration. Applies default middleware (recovery, logging) and sets up basic routes.\n  Input: opts ...AppOptions (variadic parameter for configuration options)\n  Output: *App (new App instance)\n\n- Run: func() - Starts the HTTP server using the configured port from Conf. Panics if server fails to start.\n  Input: None\n  Output: None (runs indefinitely until server stops)\n\n- Must: func(error) - Helper function (not shown in reference) that panics on error, typically used for server startup\n  Input: error\n  Output: None",
+    "Canonical_solution": "import (\n\t\"net/http\"\n\n\t\"github.com/labstack/echo\"\n\t\"github.com/labstack/echo/middleware\"\n)\n\ntype App struct {\n\tEngine *echo.Echo\n}\n\nfunc NewApp(opts ...AppOptions) *App {\n\toptions := AppOptions{}\n\tfor _, i := range opts {\n\t\toptions = i\n\t\tbreak\n\t}\n\n\toptions.init()\n\n\tengine := echo.New()\n\n\tengine.Debug = conf.UBool(\"debug\")\n\n\tengine.Use(middleware.Recover())\n\n\tengine.GET(\"/favicon.ico\", func(c echo.Context) error {\n\t\treturn c.Redirect(http.StatusMovedPermanently, \"/static/images/favicon.ico\")\n\t})\n\n\tengine.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{\n\t\tFormat: `${method} | ${status} | ${uri} -> ${latency_human}` + \"\\n\",\n\t}))\n\n\tapp := &App{\n\t\tEngine: engine,\n\t}\n\n\treturn app\n}\n\nfunc (app *App) Run() {\n\tMust(app.Engine.Start(\":\" + app.Conf.UString(\"port\")))\n}",
+    "FSMID_for_test": 106,
+    "Code_level": "Class-level"
+}

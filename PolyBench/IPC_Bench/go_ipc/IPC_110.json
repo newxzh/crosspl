@@ -1,0 +1,13 @@
+{
+    "Task_id": 110,
+    "Github_ID": "37374972",
+    "Github_Project_Name": "go-starter-kit",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Echo-based HTTP Server in Go",
+    "Instruction": "Task Description: Create an HTTP server using the Echo framework in Go that handles user-related requests with CORS support and logging middleware.\n\nFunction Description: The main function initializes an Echo server instance, configures middleware (logger, recovery, and CORS), sets up route handlers, and starts the server on port 1323.\n\nInput: None (The function takes no direct input parameters)\n\nOutput: None (The function doesn't return anything but starts an HTTP server that continues running until interrupted)\n\nNote: The actual route handler function `getUsers` would need to be implemented separately to handle the GET request to \"/api/users\".",
+    "Canonical_solution": "import (\n\t\"net/http\"\n\n\t\"github.com/labstack/echo\"\n\t\"github.com/labstack/echo/middleware\"\n)\nfunc main() {\n\te := echo.New()\n\te.Use(middleware.Logger())\n\te.Use(middleware.Recover())\n\n\te.Use(middleware.CORSWithConfig(middleware.CORSConfig{\n\t\tAllowOrigins: []string{\"https://labstack.com\", \"https://labstack.net\"},\n\t\tAllowMethods: []string{echo.GET, echo.PUT, echo.POST, echo.DELETE},\n\t}))\n\n\te.GET(\"/api/users\", getUsers)\n\n\te.Logger.Fatal(e.Start(\":1323\"))\n}",
+    "FSMID_for_test": 106,
+    "Code_level": "Function-level"
+}

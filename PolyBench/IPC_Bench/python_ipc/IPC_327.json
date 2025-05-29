@@ -1,0 +1,13 @@
+{
+  "Task_id": 327,
+  "Github_ID": "168183997",
+  "Github_Project_Name": "Vxscan",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "TCP Client - side by using socket in python",
+  "Instruction": "Task Description: Write a Python function to check for unauthorized access to a Redis server by attempting to connect and retrieve server information without authentication.\n\nFunction Description: The function attempts to connect to a Redis server at a specified IP address and port (default 6379) using a TCP socket. It sends a Redis INFO command payload and checks the response for server version information, which would indicate unauthorized access is possible. The function includes error handling and a timeout for the connection attempt.\n\nInput:\n- ip: str - The IP address of the target Redis server\n- port: int (optional, default=6379) - The port number of the Redis server\n- timeout: int (optional, default=5) - Connection timeout in seconds\n\nOutput:\n- str or None - Returns a warning message '6379 Redis Unauthorized Access' if unauthorized access is detected, otherwise returns None",
+  "Canonical_solution": "import socket\n\ndef check_redis_unauthorized_access(ip, port=6379, timeout=5):\n    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\n    s.settimeout(timeout)\n    try:\n        s.connect((ip, port))\n        payload = b'\\x2a\\x31\\x0d\\x0a\\x24\\x34\\x0d\\x0a\\x69\\x6e\\x66\\x6f\\x0d\\x0a'\n        s.send(payload)\n        data = s.recv(1024)\n        s.close()\n        if b\"redis_version\" in data:\n            return '6379 Redis Unauthorized Access'\n    except Exception as e:\n        s.close()\n    return None",
+  "FSMID_for_test": 67,
+  "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 116,
+  "Github_ID": "610110374",
+  "Github_Project_Name": "openai-scf-proxy",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP based on express in javascript",
+  "Instruction": "Task Description: Create a function that sets up a proxy server using Express and http-proxy-middleware to forward requests to a target API while modifying request and response headers.\n\nFunction Description: The function `createProxyServer` initializes an Express application that acts as a proxy server. It configures middleware to forward all incoming requests to a specified target API (https://api.openai.com in this case), removes certain headers from outgoing requests, and adds CORS headers to responses. The server listens on port 9000 by default.\n\nInput: None (The function takes no parameters as all configurations are hardcoded)\n\nOutput: None (The function doesn't return anything but starts a server process that continues running)",
+  "Canonical_solution": "function createProxyServer() {\n    const express = require('express');\n    const { createProxyMiddleware } = require('http-proxy-middleware');\n    const app = express();\n    const port = 9000;\n\n    app.use('/', createProxyMiddleware({\n        target: 'https://api.openai.com',\n        changeOrigin: true,\n        onProxyReq: (proxyReq, req, res) => {\n            proxyReq.removeHeader('x-forwarded-for');\n            proxyReq.removeHeader('x-real-ip');\n        },\n        onProxyRes: function (proxyRes, req, res) {\n            proxyRes.headers['Access-Control-Allow-Origin'] = '*';\n        }\n    }));\n\n    app.listen(port, () => {\n        console.log(`Example app listening at http://localhost:${port}`);\n    });\n}",
+  "FSMID_for_test": 96,
+  "Code_level": "Function-level"
+}

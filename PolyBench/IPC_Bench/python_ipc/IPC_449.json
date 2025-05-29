@@ -1,0 +1,13 @@
+{
+  "Task_id": 449,
+  "Github_ID": "1421258",
+  "Github_Project_Name": "Cactus",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "WebSocket Server - side by using Tornado in python",
+  "Instruction": "Task Description: Implement a WebSocket server using Tornado in Python to handle real-time communication between clients and the server. The server should manage WebSocket connections, handle incoming messages, and broadcast messages to all connected clients.\n\nClass Description: The WebServer class encapsulates the functionality to start a Tornado-based WebSocket server, manage client connections, and publish messages to all connected clients.\n\nAttributes:\n- path: str - The base path for the WebSocket endpoint.\n- port: int - The port number on which the server will listen (default is 8080).\n- application: tornado.web.Application - The Tornado application instance that handles WebSocket routes.\n- _server: tornado.httpserver.HTTPServer - The HTTP server instance that serves the application.\n\nMethods:\n- __init__(path, port=8080) -> None - Initializes the WebServer instance with the specified path and port. Sets up the Tornado application and initializes the list of WebSocket handlers.\n- start() -> None - Starts the Tornado HTTP server and begins listening for WebSocket connections on the specified port. This method blocks and runs the Tornado I/O loop.\n- publish(message) -> None - Broadcasts the given message to all connected WebSocket clients. The message should be a string or JSON-serializable object.",
+  "Canonical_solution": "import tornado.websocket\nimport tornado.web\nimport logging\n\nclass WebSocketHandler(tornado.websocket.WebSocketHandler):\n    def open(self):\n        if self not in self.application._socketHandlers:\n            self.application._socketHandlers.append(self)\n\n    def on_close(self):\n        if self in self.application._socketHandlers:\n            self.application._socketHandlers.remove(self)\n\n    def on_message(self, msg):\n        pass\n\nclass WebServer:\n    def __init__(self, path, port=8080):\n        self.path = path\n        self.port = port\n        self.application = tornado.web.Application([\n            (r'/_cactus/ws', WebSocketHandler),\n        ])\n        self.application._socketHandlers = []\n\n    def start(self):\n        self._server = tornado.httpserver.HTTPServer(self.application)\n        self._server.listen(self.port)\n        tornado.ioloop.IOLoop.instance().start()\n\n    def publish(self, message):\n        for ws in self.application._socketHandlers:\n            ws.write_message(message)",
+  "FSMID_for_test": 50,
+  "Code_level": "Class-level"
+}

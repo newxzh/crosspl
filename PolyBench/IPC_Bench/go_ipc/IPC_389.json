@@ -1,0 +1,13 @@
+{
+    "Task_id": 389,
+    "Github_ID": "102555965",
+    "Github_Project_Name": "pouch",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "os.pipe-based pipe in Go",
+    "Instruction": "Task Description: Create a Go struct that manages a proxy command process with inter-process communication capabilities using pipes for error handling and status reporting.\n\nStruct Description: The proxyCommand struct represents a proxy process manager that uses os.Pipe for IPC to monitor the startup status of a userland proxy. It handles process execution, pipe communication, and timeout management.\n\nFields:\ncmd: *exec.Cmd - The command to be executed as the proxy process\n\nMethods:\nStart: () -> error - Starts the proxy command and monitors its initialization status through a pipe. Returns nil if successful or an error if the proxy fails to start or times out. Uses a pipe to communicate startup status from the child process and implements a 16-second timeout.",
+    "Canonical_solution": "import (\n\t\"fmt\"\n\t\"io\"\n\t\"os\"\n)\n\ntype proxyCommand struct {\n\tcmd *exec.Cmd\n}\n\nfunc (p *proxyCommand) Start() error {\n\tr, w, err := os.Pipe()\n\tif err != nil {\n\t\treturn fmt.Errorf(\"proxy unable to open os.Pipe %s\", err)\n\t}\n\tdefer r.Close()\n\tp.cmd.ExtraFiles = []*os.File{w}\n\tif err := p.cmd.Start(); err != nil {\n\t\treturn err\n\t}\n\tw.Close()\n\n\terrchan := make(chan error, 1)\n\tgo func() {\n\t\tbuf := make([]byte, 2)\n\t\tr.Read(buf)\n\n\t\tif string(buf) != \"0\\n\" {\n\t\t\terrStr, err := ioutil.ReadAll(r)\n\t\t\tif err != nil {\n\t\t\t\terrchan <- fmt.Errorf(\"Error reading exit status from userland proxy: %v\", err)\n\t\t\t\treturn\n\t\t\t}\n\n\t\t\terrchan <- fmt.Errorf(\"Error starting userland proxy: %s\", errStr)\n\t\t\treturn\n\t\t}\n\t\terrchan <- nil\n\t}()\n\n\tselect {\n\tcase err := <-errchan:\n\t\treturn err\n\tcase <-time.After(16 * time.Second):\n\t\treturn fmt.Errorf(\"Timed out proxy starting the userland proxy\")\n\t}\n}",
+    "FSMID_for_test": 118,
+    "Code_level": "Class-level"
+}

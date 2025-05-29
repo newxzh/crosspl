@@ -1,0 +1,13 @@
+{
+    "Task_id": 359,
+    "Github_ID": "173227087",
+    "Github_Project_Name": "examples",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "gorilla-based websocket server in Go",
+    "Instruction": "Task Description: Implement a WebSocket echo server function in Go that handles WebSocket connections, reads incoming messages, and echoes them back to the client.\n\nFunction Description: The `echo` function upgrades an HTTP connection to a WebSocket connection, continuously reads messages from the client, and echoes them back. It handles connection errors and ensures proper cleanup by closing the connection when done.\n\nInput: \n- `ctx *gin.Context`: A Gin context object containing the HTTP request and response writer needed for WebSocket upgrade.\n\nOutput: \n- None (void function), but it performs the following operations:\n  - Upgrades the HTTP connection to WebSocket\n  - Reads and echoes messages until connection is closed\n  - Handles and logs errors\n  - Closes the WebSocket connection when done",
+    "Canonical_solution": "import (\n\t\"log\"\n\n\t\"github.com/gin-gonic/gin\"\n\t\"github.com/gorilla/websocket\"\n)\n\nvar upgrader = websocket.Upgrader{}\n\nfunc echo(ctx *gin.Context) {\n\tw,r := ctx.Writer, ctx.Request\n\tc, err := upgrader.Upgrade(w, r, nil)\n\tif err != nil {\n\t\tlog.Println(\"upgrade:\", err)\n\t\treturn\n\t}\n\tdefer c.Close()\n\tfor {\n\t\tmt, message, err := c.ReadMessage()\n\t\tif err != nil {\n\t\t\tlog.Println(\"read:\", err)\n\t\t\tbreak\n\t\t}\n\t\tlog.Printf(\"recv:%s\", message)\n\t\terr = c.WriteMessage(mt, message)\n\t\tif err != nil {\n\t\t\tlog.Println(\"write:\", err)\n\t\t\tbreak\n\t\t}\n\t}\n}",
+    "FSMID_for_test": 114,
+    "Code_level": "Function-level"
+}

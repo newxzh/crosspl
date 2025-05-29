@@ -1,0 +1,13 @@
+{
+  "Task_id": 297,
+  "Github_ID": "12366195",
+  "Github_Project_Name": "word2vec",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "Pipe based on subprocess in python",
+  "Instruction": "Task Description: Create a function that executes a system command in a subprocess, captures its output and error streams, and handles potential errors appropriately.\n\nFunction Description: The function `run_cmd` executes a given system command as a subprocess, with options for verbose output. It captures both stdout and stderr streams, provides real-time output when in verbose mode, and raises an exception if the command fails (non-zero return code). The function ensures proper process cleanup and returns the command's output and error streams.\n\nInput:\n- command: List[str] - A list of strings representing the command and its arguments to be executed\n- verbose: bool (optional, default=False) - If True, prints real-time output of the command execution\n\nOutput:\n- Returns: Tuple[bytes, bytes] - A tuple containing the stdout and stderr output from the command\n- Raises: Exception - If the command returns a non-zero exit code, includes the return code and output streams in the exception message",
+  "Canonical_solution": "import subprocess\nimport sys\n\ndef run_cmd(command, verbose=False):\n    if verbose:\n        print(\"Running command:\", \" \".join(command))\n    proc = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n\n    if verbose:\n        while proc.poll() is None:\n            string = b\"\"\n            for c in iter(lambda: proc.stdout.read(1), string):\n                c = c.decode(\"ascii\")\n                sys.stdout.write(c)\n\n        sys.stdout.flush()\n\n    proc.wait()\n    if proc.returncode != 0:\n        out, err = proc.communicate()\n        raise Exception(\n            \"The training could not be completed (returncode=%i): %s %s\"\n            % (proc.returncode, out, err)\n        )\n\n    out, err = proc.communicate()",
+  "FSMID_for_test": 76,
+  "Code_level": "Function-level"
+}

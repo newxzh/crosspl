@@ -1,0 +1,13 @@
+{
+    "Task_id": 61,
+    "Github_ID": "27522271",
+    "Github_Project_Name": "net",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Basic HTTP server using net/http with HandleFunc and ListenAndServe",
+    "Instruction": "Task Description: Create a Go HTTP server that implements WebDAV functionality with custom logging and special handling for specific HTTP headers.\n\nStruct Description: The webdav.Handler struct provides WebDAV server functionality with in-memory storage for files and locks. We'll wrap this with custom request handling.\n\nFields:\n- FileSystem: webdav.FileSystem - In-memory filesystem implementation\n- LockSystem: webdav.LockSystem - In-memory lock system implementation\n- Logger: func(*http.Request, error) - Custom logging function for request tracking\n\nMethods:\n- ServeHTTP: (http.ResponseWriter, *http.Request) -> () - Main handler method that processes HTTP requests\n- NewMemFS: () -> webdav.FileSystem - Creates new in-memory filesystem\n- NewMemLS: () -> webdav.LockSystem - Creates new in-memory lock system\n\nAdditional Functions:\n- main: () -> () - Entry point that sets up the server and routes\n- requestHandler: (http.ResponseWriter, *http.Request) -> () - Custom middleware for special header handling",
+    "Canonical_solution": "import (\n\t\"fmt\"\n\t\"log\"\n\t\"net/http\"\n\t\"net/url\"\n\n\t\"golang.org/x/net/webdav\"\n)\nfunc main() {\n\tflag.Parse()\n\tlog.SetFlags(0)\n\th := &webdav.Handler{\n\t\tFileSystem: webdav.NewMemFS(),\n\t\tLockSystem: webdav.NewMemLS(),\n\t\tLogger: func(r *http.Request, err error) {\n\t\t\tlitmus := r.Header.Get(\"X-Litmus\")\n\t\t\tif len(litmus) > 19 {\n\t\t\t\tlitmus = litmus[:16] + \"...\"\n\t\t\t}\n\n\t\t\tswitch r.Method {\n\t\t\tcase \"COPY\", \"MOVE\":\n\t\t\t\tdst := \"\"\n\t\t\t\tif u, err := url.Parse(r.Header.Get(\"Destination\")); err == nil {\n\t\t\t\t\tdst = u.Path\n\t\t\t\t}\n\t\t\t\to := r.Header.Get(\"Overwrite\")\n\t\t\t\tlog.Printf(\"%-20s%-10s%-30s%-30so=%-2s%v\", litmus, r.Method, r.URL.Path, dst, o, err)\n\t\t\tdefault:\n\t\t\t\tlog.Printf(\"%-20s%-10s%-30s%v\", litmus, r.Method, r.URL.Path, err)\n\t\t\t}\n\t\t},\n\t}\n\n\thttp.Handle(\"/\", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {\n\t\tif r.Header.Get(\"X-Litmus\") == \"props: 3 (propfind_invalid2)\" {\n\t\t\thttp.Error(w, \"400 Bad Request\", http.StatusBadRequest)\n\t\t\treturn\n\t\t}\n\t\th.ServeHTTP(w, r)\n\t}))\n\n\taddr := fmt.Sprintf(\":%d\", *port)\n\tlog.Printf(\"Serving %v\", addr)\n\tlog.Fatal(http.ListenAndServe(addr, nil))\n}",
+    "FSMID_for_test": 103,
+    "Code_level": "Class-level"
+}

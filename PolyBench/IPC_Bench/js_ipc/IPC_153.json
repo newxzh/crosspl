@@ -1,0 +1,13 @@
+{
+  "Task_id": 153,
+  "Github_ID": "98419904",
+  "Github_Project_Name": "android_interview",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "TCP Server - side based on node.js net",
+  "Instruction": "Task Description: Create a TCP server that handles client connections with authentication and provides a random quote service upon successful authentication.\n\nFunction Description: The function `createServer` establishes a TCP server that listens on a specified port. It uses the `dnode` library for remote procedure calls (RPC) and implements an authentication mechanism. Upon successful authentication, clients gain access to a `randomQuote` service. The server logs connection and disconnection events.\n\nInput:  \n- `port` (Number): The port number on which the TCP server should listen for incoming connections.\n\nOutput:  \n- None (The function creates and starts a server instance but doesn't return anything. Side effects include logging connection events to the console.)  \n\nNote: The function relies on an undefined `randomQuote` function which should be implemented elsewhere to provide quote generation functionality. The authentication hardcodes credentials (user: 'moo', pass: 'hax') for demonstration purposes.",
+  "Canonical_solution": "var dnode = require('dnode');\nvar fs = require('fs');\nvar net = require('net');\n\nfunction createServer(port) {\n    var server = net.createServer(function (stream) {\n        var d = dnode({ auth : auth });\n        d.pipe(stream).pipe(d);\n        \n        function auth (user, pass, cb) {\n            if (typeof cb !== 'function') return;\n            \n            if (user === 'moo' && pass === 'hax') {\n                console.log('signed in: ' + user);\n                d.on('end', function () {\n                    console.log('disconnected: ' + user);\n                });\n                \n                cb(null, { quote : randomQuote });\n            }\n            else cb('ACCESS DENIED')\n        }\n    });\n    server.listen(port);\n}",
+  "FSMID_for_test": 97,
+  "Code_level": "Function-level"
+}

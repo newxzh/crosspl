@@ -1,0 +1,13 @@
+{
+  "Task_id": 10,
+  "Github_ID": "433303514",
+  "Github_Project_Name": "30dayMakeCppServer",
+  "Programming_Language": "C++",
+  "suffix": ".cpp",
+  "Interface_class": "IPC",
+  "Interface_name": "TCP Client based on socket+inet in C++",
+  "Instruction": "Task Description: Implement a TCP client in C++ that can establish a connection to a server, send messages, and receive responses.\n\nFunction Description: The code consists of two functions that together implement a basic TCP client. The first function creates and connects the socket, while the second handles the communication loop with the server.\n\nInput:\n- create_tcp_client:\n  - server_ip: const char* - The IP address of the server to connect to\n  - port: int - The port number of the server to connect to\n- tcp_client_communication:\n  - sockfd: int - The socket file descriptor returned by create_tcp_client\n\nOutput:\n- create_tcp_client:\n  - Returns: int - The socket file descriptor if successful, -1 if failed\n- tcp_client_communication:\n  - No return value (void), but prints server responses and error messages to console",
+  "Canonical_solution": "#include <sys/socket.h>\n#include <arpa/inet.h>\n#include <string.h>\n#include <unistd.h>\n\nint create_tcp_client(const char* server_ip, int port) {\n    int sockfd = socket(AF_INET, SOCK_STREAM, 0);\n    if(sockfd == -1) return -1;\n\n    struct sockaddr_in serv_addr;\n    bzero(&serv_addr, sizeof(serv_addr));\n    serv_addr.sin_family = AF_INET;\n    serv_addr.sin_addr.s_addr = inet_addr(server_ip);\n    serv_addr.sin_port = htons(port);\n\n    if(connect(sockfd, (sockaddr*)&serv_addr, sizeof(serv_addr)) == -1) {\n        close(sockfd);\n        return -1;\n    }\n    \n    return sockfd;\n}\n\nvoid tcp_client_communication(int sockfd) {\n    while(true){\n        char buf[1024];\n        bzero(&buf, sizeof(buf));\n        scanf(\"%s\", buf);\n        ssize_t write_bytes = write(sockfd, buf, sizeof(buf));\n        if(write_bytes == -1){\n            printf(\"socket already disconnected, can't write any more!\\n\");\n            break;\n        }\n        bzero(&buf, sizeof(buf));\n        ssize_t read_bytes = read(sockfd, buf, sizeof(buf));\n        if(read_bytes > 0){\n            printf(\"message from server: %s\\n\", buf);\n        }else if(read_bytes == 0){\n            printf(\"server socket disconnected!\\n\");\n            break;\n        }else if(read_bytes == -1){\n            close(sockfd);\n            break;\n        }\n    }\n}",
+  "FSMID_for_test": 149,
+  "Code_level": "Function-level"
+}

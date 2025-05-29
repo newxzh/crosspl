@@ -1,0 +1,13 @@
+{
+    "Task_id": 134,
+    "Github_ID": "173227087",
+    "Github_Project_Name": "examples",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Gin-based HTTP Server in Go",
+    "Instruction": "Task Description: Create a Go function that sets up a basic HTTP server using the Gin framework, with routes for login and home pages, including cookie handling for authentication.\n\nFunction Description: The function initializes a Gin web server with default middleware (Logger and Recovery), defines two routes (/login and /home), and starts the server on port 8080. The /login route sets a cookie, while the /home route requires cookie authentication through middleware and returns JSON data.\n\nInput: None (The function takes no input parameters as it's the main entry point)\n\nOutput: None (The function doesn't return anything but starts an HTTP server that listens indefinitely)\n\nNote: The CookieTool() middleware referenced in the home route would need to be defined separately to verify the cookie set by the login route.",
+    "Canonical_solution": "import (\n\t\"net/http\"\n\n\t\"github.com/gin-gonic/gin\"\n)\nfunc main() {\n\troute := gin.Default()\n\n\troute.GET(\"/login\", func(c *gin.Context) {\n\t\tc.SetCookie(\"label\", \"ok\", 30, \"/\", \"localhost\", false, true)\n\t\tc.String(200, \"Login success!\")\n\t})\n\n\troute.GET(\"/home\", CookieTool(), func(c *gin.Context) {\n\t\tc.JSON(200, gin.H{\"data\": \"Your home page\"})\n\t})\n\n\troute.Run(\":8080\")\n}",
+    "FSMID_for_test": 105,
+    "Code_level": "Function-level"
+}

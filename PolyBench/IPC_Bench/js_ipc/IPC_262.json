@@ -1,0 +1,13 @@
+{
+  "Task_id": 262,
+  "Github_ID": "9156525",
+  "Github_Project_Name": "sharedb",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "WebSocket Server-side based on Node.js",
+  "Instruction": "Task Description: Implement a WebSocket server using Node.js that facilitates real-time communication between clients and initializes sample data for a collaborative application.\n\nFunction Description: The function `setupWebSocketServer` creates a WebSocket server integrated with ShareDB for real-time data synchronization. It sets up an Express server to serve static files, initializes a WebSocket server, and populates the database with sample player data if empty. The server listens on port 8080.\n\nInput: None\n\nOutput: None (The function sets up a server and initializes data but does not return any value)",
+  "Canonical_solution": "function setupWebSocketServer() {\n    var http = require('http');\n    var ShareDB = require('sharedb');\n    var express = require('express');\n    var ShareDBMingoMemory = require('sharedb-mingo-memory');\n    var WebSocketJSONStream = require('@teamwork/websocket-json-stream');\n    var WebSocket = require('ws');\n\n    var share = new ShareDB({db: new ShareDBMingoMemory()});\n\n    var app = express();\n    app.use(express.static('static'));\n    var server = http.createServer(app);\n    var wss = new WebSocket.Server({server: server});\n    server.listen(8080);\n    console.log('Listening on http://localhost:8080');\n\n    wss.on('connection', function(ws) {\n        var stream = new WebSocketJSONStream(ws);\n        share.listen(stream);\n    });\n\n    var connection = share.connect();\n    connection.createFetchQuery('players', {}, {}, function(err, results) {\n        if (err) {\n            throw err;\n        }\n\n        if (results.length === 0) {\n            var names = ['Ada Lovelace', 'Grace Hopper', 'Marie Curie',\n                'Carl Friedrich Gauss', 'Nikola Tesla', 'Claude Shannon'];\n\n            names.forEach(function(name, index) {\n                var doc = connection.get('players', ''+index);\n                var data = {name: name, score: Math.floor(Math.random() * 10) * 5};\n                doc.create(data);\n            });\n        }\n    });\n}",
+  "FSMID_for_test": 90,
+  "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 180,
+  "Github_ID": "1844251",
+  "Github_Project_Name": "todomvc",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "TCP Server - side based on node.js net",
+  "Instruction": "Task Description: Create a TCP server using Node.js's built-in 'net' module to handle client connections, parse incoming JSON data streams, and manage server lifecycle events.\n\nFunction Description: The function creates a TCP server that listens on a specified port for incoming client connections. It sets up a JSON stream parser to handle incoming data, with error handling and server cleanup on parser errors or stream end. The server automatically closes when parsing fails or the stream ends.\n\nInput: None (The port number 9999 is hardcoded in the implementation)\n\nOutput: None (The function creates and manages a server instance but doesn't return anything)",
+  "Canonical_solution": "function createTcpServer() {\n    var net = require('net');\n    var server = net.createServer(function(client) {\n        var data_calls = 0;\n        var parser = JSONStream.parse();\n        parser.on('error', function(err) {\n            console.log(err);\n            server.close();\n        });\n\n        parser.on('end', function() {\n            console.log('END');\n            server.close();\n        });\n        client.pipe(parser);\n    });\n    server.listen(9999);\n}",
+  "FSMID_for_test": 97,
+  "Code_level": "Function-level"
+}

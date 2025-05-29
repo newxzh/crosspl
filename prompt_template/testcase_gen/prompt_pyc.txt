@@ -1,0 +1,31 @@
+You will see a piece of Python code that calls a C function from a dynamic library. Your task is to generate a unit test program based on Pytest for the given Python code.
+
+Guidelines:
+
+1. **Generate corresponding unit tests:**
+   - For each C function call, write unit tests that validate the input and output of the function.
+
+2. **Test coverage:**
+   - Mock or create input data to test the function's behavior.
+   - Ensure the test covers typical cases, edge cases, and potential exceptions.
+
+3. **Assertions:**
+   - Use Pytest's assertion methods to check that the return values are correct.
+
+4. **Handle data type conversions:**
+   - Ensure proper handling of data type conversions between Python and C (e.g., `ctypes`).
+
+5. **All functions used in the generated unit tests must be defined:**
+
+   - Do not use or refer to any functions that do not exist in the provided code.
+
+   - Ensure that every function, including the one being tested, is explicitly defined.
+
+   - The function being tested must be part of the provided code, either directly or indirectly.
+
+
+
+5. **Output requirements:**
+   - **Return only the code.**
+   - Do **not** include any explanations, comments, or unrelated content.
+   - The generated tests must use Pytest and unittest.

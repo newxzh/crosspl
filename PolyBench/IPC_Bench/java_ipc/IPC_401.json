@@ -1,0 +1,13 @@
+{
+  "Task_id": 401,
+  "Github_ID": "28906288",
+  "Github_Project_Name": "jvm.go",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "TCP Client-side Java.io",
+  "Instruction": "Task Description: Create a Java class that implements TCP client functionality for establishing a connection to a server, sending messages, and closing the connection.\n\nClass Description: The `SocketConnectTest` class provides basic TCP client capabilities using Java's Socket and I/O classes. It handles connection establishment, message transmission, and resource cleanup.\n\nAttributes:\n- client: [Socket] - The socket object representing the connection to the server\n- writer: [Writer] - The output stream writer for sending data to the server\n\nMethods:\n- connect: [connect(String host, int port)] -> [void] - Establishes a connection to the specified server host and port, initializing the socket and writer\n- sendMessage: [sendMessage(String message)] -> [void] - Sends the specified message to the connected server\n- close: [close()] -> [void] - Closes the writer and socket connection, releasing system resources",
+  "Canonical_solution": "import java.io.*;\nimport java.net.Socket;\n\npublic class SocketConnectTest {\n\n    private Socket client;\n    private Writer writer;\n\n    public void connect(String host, int port) throws IOException {\n        client = new Socket(host, port);\n        writer = new OutputStreamWriter(client.getOutputStream());\n    }\n\n    public void sendMessage(String message) throws IOException {\n        writer.write(message);\n        writer.flush();\n    }\n\n    public void close() throws IOException {\n        writer.close();\n        client.close();\n    }\n}",
+  "FSMID_for_test": 15,
+  "Code_level": "Class-level"
+}

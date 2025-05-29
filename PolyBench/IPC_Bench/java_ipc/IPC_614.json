@@ -1,0 +1,13 @@
+{
+  "Task_id": 614,
+  "Github_ID": "75989169",
+  "Github_Project_Name": "KuaiChuan",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "java.net UDP Server or Client",
+  "Instruction": "Task Description: Implement a UDP server function that continuously listens for incoming packets, processes the received data by converting it to uppercase, and sends the modified data back to the client.\n\nFunction Description: The function sets up a UDP server that binds to a specific port (9876) and enters an infinite loop to receive incoming packets. Upon receiving a packet, it extracts the data, converts it to uppercase, and sends the modified data back to the client's address and port. The function handles all necessary UDP communication steps including socket creation, packet reception, data processing, and response transmission.\n\nInput: None (The function takes no parameters as it binds to a fixed port and processes incoming UDP packets)\n\nOutput: None (The function does not return any value but prints received messages to the console and sends responses back to clients)",
+  "Canonical_solution": "import java.net.DatagramSocket;\nimport java.net.DatagramPacket;\nimport java.net.InetAddress;\n\nprivate void receiveServerUdpInfo() throws Exception {\n    DatagramSocket serverSocket = new DatagramSocket(9876);\n    byte[] receiveData = new byte[1024];\n    byte[] sendData = new byte[1024];\n    while(true) {\n        DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);\n        serverSocket.receive(receivePacket);\n        String sentence = new String(receivePacket.getData());\n        System.out.println(\"RECEIVED: \" + sentence);\n        InetAddress IPAddress = receivePacket.getAddress();\n        int port = receivePacket.getPort();\n        String capitalizedSentence = sentence.toUpperCase();\n        sendData = capitalizedSentence.getBytes();\n        DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, port);\n        serverSocket.send(sendPacket);\n    }\n}",
+  "FSMID_for_test": 2,
+  "Code_level": "Function-level"
+}

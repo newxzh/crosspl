@@ -1,0 +1,13 @@
+{
+  "Task_id": 280,
+  "Github_ID": "131510015",
+  "Github_Project_Name": "cppinsights",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "Pipe based on subprocess in python",
+  "Instruction": "Task Description: Implement a function to execute system commands and handle input/output communication between processes using pipes.\n\nFunction Description: The function `runCmd` executes a system command in a subprocess and facilitates communication via pipes. It can handle both cases where input data is provided to the subprocess and where no input is required. The function captures the standard output, standard error, and return code of the executed command.\n\nInput:\n- `cmd`: [List or String] - The command to be executed, either as a list of arguments or a single string.\n- `data`: [Bytes, optional] - Input data to be sent to the subprocess's standard input. Defaults to None if no input is required.\n\nOutput:\n- A tuple containing:\n  - `stdout`: [String] - The decoded standard output of the command.\n  - `stderr`: [String] - The decoded standard error of the command.\n  - `returncode`: [Integer] - The return code of the executed command.",
+  "Canonical_solution": "import sys\nimport subprocess\n\ndef runCmd(cmd, data=None):\n    if input is None:\n        p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n        stdout, stderr = p.communicate()\n    else:\n        p = subprocess.Popen(cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n        stdout, stderr = p.communicate(input=data)\n\n    return stdout.decode('utf-8'), stderr.decode('utf-8'), p.returncode",
+  "FSMID_for_test": 76,
+  "Code_level": "Function-level"
+}

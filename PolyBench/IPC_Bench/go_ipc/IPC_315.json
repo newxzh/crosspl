@@ -1,0 +1,13 @@
+{
+    "Task_id": 315,
+    "Github_ID": "23272510",
+    "Github_Project_Name": "heapster",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Simple HTTP GET client using net/http",
+    "Instruction": "Task Description: Create a function that retrieves the version information from an etcd server using a simple HTTP GET request.\n\nFunction Description: The function `GetEtcdVersion` makes an HTTP GET request to the specified etcd server's `/version` endpoint, reads the response, and returns the version information as a string. It handles errors for connection issues, unsuccessful HTTP responses, and response body reading failures.\n\nInput: \n- `host` (string): The base URL of the etcd server (e.g., \"http://localhost:2379\")\n\nOutput: \n- (string): The version information returned by the etcd server\n- (error): An error object if any step fails (connection, non-200 response, or body reading error)",
+    "Canonical_solution": "import (\n\t\"fmt\"\n\t\"io/ioutil\"\n\t\"net/http\"\n)\nfunc GetEtcdVersion(host string) (string, error) {\n\tresponse, err := http.Get(host + \"/version\")\n\tif err != nil {\n\t\treturn \"\", err\n\t}\n\tdefer response.Body.Close()\n\tif response.StatusCode != http.StatusOK {\n\t\treturn \"\", fmt.Errorf(\"unsuccessful response from etcd server %q: %v\", host, err)\n\t}\n\tversionBytes, err := ioutil.ReadAll(response.Body)\n\tif err != nil {\n\t\treturn \"\", err\n\t}\n\treturn string(versionBytes), nil\n}",
+    "FSMID_for_test": 101,
+    "Code_level": "Function-level"
+}

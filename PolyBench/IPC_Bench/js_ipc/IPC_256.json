@@ -1,0 +1,13 @@
+{
+  "Task_id": 256,
+  "Github_ID": "82643171",
+  "Github_Project_Name": "extension-boilerplate",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "WebSocket Client-side based on browser native API in JavaScript",
+  "Instruction": "Task Description: Implement a WebSocket client function in JavaScript that establishes a connection to a LiveReload server and handles reload commands for browser extensions.\n\nFunction Description: The function `setupWebSocketReload` creates a WebSocket connection to a LiveReload server running on localhost. It sets up event handlers to manage connection errors and incoming messages. When a reload command is received, it triggers the browser extension's reload functionality.\n\nInput: None (The function uses predefined constants for host and port)\n\nOutput: None (The function's side effects are establishing a WebSocket connection and setting up event handlers that may trigger a browser extension reload)\n\nNote: The actual WebSocket URL is constructed using the constants LIVERELOAD_HOST and LIVERELOAD_PORT, with the path '/livereload'. The function handles JSON messages where a 'reload' command triggers the extension reload.",
+  "Canonical_solution": "function setupWebSocketReload() {\n    var LIVERELOAD_HOST = 'localhost:';\n    var LIVERELOAD_PORT = 35729;\n    var connection = new WebSocket('ws://' + LIVERELOAD_HOST + LIVERELOAD_PORT + '/livereload');\n\n    connection.onerror = function (error) {\n        console.log('reload connection got error:', error);\n    };\n\n    connection.onmessage = function (e) {\n        if (e.data) {\n            var data = JSON.parse(e.data);\n            if (data && data.command === 'reload') {\n                ext.runtime.reload();\n            }\n        }\n    };\n}",
+  "FSMID_for_test": 89,
+  "Code_level": "Function-level"
+}

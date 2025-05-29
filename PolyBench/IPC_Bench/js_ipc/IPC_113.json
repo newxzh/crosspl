@@ -1,0 +1,13 @@
+{
+  "Task_id": 113,
+  "Github_ID": "192476541",
+  "Github_Project_Name": "nodejs-basics",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP based on express in javascript",
+  "Instruction": "Task Description: Create a function to set up an Express.js server with middleware configuration, route handling, and database synchronization.\n\nFunction Description: The function `setupExpressServer` initializes an Express.js web server with CORS support, request body parsing, and database synchronization. It configures middleware, defines basic routes, and starts the server on a specified port. The server integrates authentication and user management routes from external modules.\n\nInput: None (The function takes no parameters as it's self-contained for server setup)\n\nOutput: None (The function doesn't return anything but starts a server process that listens on the specified port)",
+  "Canonical_solution": "function setupExpressServer() {\n    const express = require(\"express\");\n    const bodyParser = require(\"body-parser\");\n    const cors = require(\"cors\");\n\n    const app = express();\n\n    var corsOptions = {\n        origin: \"http://localhost:8081\"\n    };\n\n    app.use(cors(corsOptions));\n    app.use(bodyParser.json());\n    app.use(bodyParser.urlencoded({ extended: true }));\n\n    const db = require(\"./app/models\");\n    const Role = db.role;\n\n    db.sequelize.sync();\n\n    app.get(\"/\", (req, res) => {\n        res.json({ message: \"Welcome to bezkoder application.\" });\n    });\n\n    require('./app/routes/auth.routes')(app);\n    require('./app/routes/user.routes')(app);\n\n    const PORT = process.env.PORT || 8080;\n    app.listen(PORT, () => {\n        console.log(`Server is running on port ${PORT}.`);\n    });\n}",
+  "FSMID_for_test": 96,
+  "Code_level": "Function-level"
+}

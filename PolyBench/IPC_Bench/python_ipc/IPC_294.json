@@ -1,0 +1,13 @@
+{
+  "Task_id": 294,
+  "Github_ID": "5739134",
+  "Github_Project_Name": "powerline-shell",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "Pipe based on subprocess in python",
+  "Instruction": "Task Description: Implement a set of functions to interact with the Mercurial (hg) version control system to retrieve branch information and repository status using subprocess communication.\n\nFunction Description: The functions use Python's subprocess module to execute Mercurial commands and capture their output through pipes. The functions handle process creation, communication, and output parsing to provide repository information.\n\nInput: None (functions retrieve information directly from the Mercurial repository in the current working directory)\n\nOutput:\n\n_get_hg_branch() -> str - Returns the current Mercurial branch name as a string\n_get_hg_status(output: tuple) -> list - Returns a list of status lines from Mercurial output\nbuild_stats() -> tuple - Returns a tuple containing (status_list, branch_name) or (None, None) if an error occurs",
+  "Canonical_solution": "import subprocess\nfrom ..utils import get_subprocess_env\n\ndef _get_hg_branch():\n    p = subprocess.Popen([\"hg\", \"branch\"],\n                         stdout=subprocess.PIPE,\n                         stderr=subprocess.PIPE,\n                         env=get_subprocess_env())\n    branch = p.communicate()[0].decode(\"utf-8\").rstrip('\\n')\n    return branch\n\ndef _get_hg_status(output):\n    return output[0].decode(\"utf-8\").splitlines()\n\ndef build_stats():\n    try:\n        p = subprocess.Popen([\"hg\", \"status\"],\n                             stdout=subprocess.PIPE,\n                             stderr=subprocess.PIPE,\n                             env=get_subprocess_env())\n    except OSError:\n        return None, None\n    pdata = p.communicate()\n    if p.returncode != 0:\n        return None, None\n    status = _get_hg_status(pdata)\n    branch = _get_hg_branch()\n    return status, branch",
+  "FSMID_for_test": 76,
+  "Code_level": "Function-level"
+}

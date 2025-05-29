@@ -1,0 +1,13 @@
+{
+    "Task_id": 316,
+    "Github_ID": "178999736",
+    "Github_Project_Name": "minikeyvalue",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Simple HTTP GET client using net/http",
+    "Instruction": "Task Description: Create a function that performs a simple HTTP GET request to a remote URL and returns the response body as a string.\n\nFunction Description: The function `remote_get` makes an HTTP GET request to the specified remote URL. It handles the response by checking the status code, reading the response body, and returning it as a string. If any errors occur during the request or response processing, they are returned as part of the error output.\n\nInput: \n- `remote` (string): The URL to which the HTTP GET request will be sent.\n\nOutput: \n- (string, error): A tuple containing the response body as a string and an error. If the request is successful, the error will be nil. If an error occurs, the string will be empty, and the error will contain the relevant error message.",
+    "Canonical_solution": "import (\n\t\"errors\"\n\t\"fmt\"\n\t\"io/ioutil\"\n\t\"net/http\"\n)\n\nfunc remote_get(remote string) (string, error) {\n\tresp, err := http.Get(remote)\n\tif err != nil {\n\t\treturn \"\", err\n\t}\n\tdefer resp.Body.Close()\n\tif resp.StatusCode != 200 {\n\t\treturn \"\", errors.New(fmt.Sprintf(\"remote_get: wrong status code %d\", resp.StatusCode))\n\t}\n\tbody, err := ioutil.ReadAll(resp.Body)\n\tif err != nil {\n\t\treturn \"\", err\n\t}\n\treturn string(body), nil\n}",
+    "FSMID_for_test": 101,
+    "Code_level": "Function-level"
+}

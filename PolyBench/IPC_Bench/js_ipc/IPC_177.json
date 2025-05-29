@@ -1,0 +1,13 @@
+{
+  "Task_id": 177,
+  "Github_ID": "1844251",
+  "Github_Project_Name": "todomvc",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "TCP Server - side based on node.js net",
+  "Instruction": "Task Description: Create a TCP server in Node.js that listens on a specified port and handles incoming client connections, data, and disconnections.\n\nFunction Description: The function `createTCPServer` initializes a TCP server using Node.js's built-in `net` module. It sets up event handlers for incoming data and client disconnections, and starts listening on the specified port. The server pipes incoming data to the provided data handler.\n\nInput:\n- `port` [Number] - The port number on which the TCP server should listen.\n- `dataHandler` [Function] - A callback function to handle incoming data from clients. It receives the data as its argument.\n- `endHandler` [Function] - A callback function to handle client disconnections. It is called when a client disconnects.\n\nOutput:\n- Returns the TCP server instance [Object] - The created TCP server object, which can be used to further control the server (e.g., close it).",
+  "Canonical_solution": "var net = require('net');\n\nfunction createTCPServer(port, dataHandler, endHandler) {\n    var server = net.createServer(function(client) {\n        client.on('data', dataHandler);\n        client.on('end', endHandler);\n        client.pipe(dataHandler);\n    });\n    server.listen(port);\n    return server;\n}",
+  "FSMID_for_test": 97,
+  "Code_level": "Function-level"
+}

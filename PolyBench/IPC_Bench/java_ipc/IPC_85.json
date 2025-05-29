@@ -1,0 +1,13 @@
+{
+  "Task_id": 85,
+  "Github_ID": "6106472",
+  "Github_Project_Name": "Surviving-with-android",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "Http client-side based on Java.io & HttpURLConnection",
+  "Instruction": "Task Description: Create a function that sends an HTTP POST request to a specified URL with a given parameter and returns the response as a string.\n\nFunction Description: The function establishes an HTTP connection to the provided URL, sends a POST request with the specified parameter, reads the response from the server, and returns it as a string. It handles the connection setup, request configuration, data transmission, and response processing.\n\nInput:\n- url (String): The target URL to which the HTTP POST request will be sent.\n- name (String): The parameter value to be sent in the request body (as \"name=[value]\").\n\nOutput:\n- String: The response received from the server as a string. If an error occurs, the function will return an empty string after printing the stack trace.",
+  "Canonical_solution": "import java.io.IOException;\nimport java.io.InputStream;\nimport java.net.HttpURLConnection;\nimport java.net.URL;\n\nprivate String sendHttpRequest(String url, String name) {\n    StringBuffer buffer = new StringBuffer();\n    try {\n        HttpURLConnection con = (HttpURLConnection) ( new URL(url)).openConnection();\n        con.setRequestMethod(\"POST\");\n        con.setDoInput(true);\n        con.setDoOutput(true);\n        con.connect();\n        con.getOutputStream().write( (\"name=\" + name).getBytes());\n        \n        InputStream is = con.getInputStream();\n        byte[] b = new byte[1024];\n        \n        while ( is.read(b) != -1)\n            buffer.append(new String(b));\n        \n        con.disconnect();\n    }\n    catch(Throwable t) {\n        t.printStackTrace();\n    }\n    \n    return buffer.toString();\n}",
+  "FSMID_for_test": 16,
+  "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 161,
+  "Github_ID": "41762759",
+  "Github_Project_Name": "ml-class",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Server - side by using Flask in python",
+  "Instruction": "Task Description: Create a Flask-based web server that serves a pre-trained scikit-learn sentiment analysis model, allowing users to submit text via a web form and receive sentiment predictions.\n\nFunction Description: The code implements a simple web application with Flask that loads a pre-trained sentiment analysis model and provides both a web interface for user interaction and an API endpoint for predictions.\n\nInput:\n- None (for the Flask app initialization)\n- Optional 'text' query parameter (for the prediction functionality)\n\nOutput:\n- HTML page with a form and prediction results (when accessed via web browser)\n- Text prediction result (when accessed programmatically)\n\nClass Description: N/A (The reference code is function-based rather than class-based)\n\nAttributes: N/A\n\nMethods:\n- pred(text: str) -> str - Takes a text string as input and returns the sentiment prediction using the loaded model\n- index() -> str - Handles the root route ('/'), processes GET requests with optional 'text' parameter, and returns an HTML response with the form and prediction results",
+  "Canonical_solution": "from sklearn.externals import joblib\nfrom flask import Flask, request\nfrom jinja2 import Template\n\np = joblib.load('sentiment-model.pkl')\napp = Flask(__name__)\n\ndef pred(text):\n    return p.predict([text])[0]\n\n@app.route('/')\ndef index():\n    text = request.args.get('text')\n    if text:\n        prediction = pred(text)\n    else:\n        prediction = \"\"\n\n    template = Template(\"\"\"\n    <html>\n        <body>\n            <h1>Scikit Model Server</h1>\n            <form>\n                <input type=\"text\" name=\"text\">\n                <input type=\"submit\" >\n            </form>\n            <p>Prediction: {{ prediction }}</p>\n        </body>\n    </html>\n    \"\"\")\n    return template.render(prediction=prediction)\n\nif __name__ == '__main__':\n    app.run(port=8000)",
+  "FSMID_for_test": 60,
+  "Code_level": "Function-level"
+}

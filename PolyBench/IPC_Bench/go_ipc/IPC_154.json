@@ -1,0 +1,13 @@
+{
+    "Task_id": 154,
+    "Github_ID": "115840068",
+    "Github_Project_Name": "gim",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Gin-based HTTP Server in Go",
+    "Instruction": "Task Description: Create a Go HTTP server using the Gin framework that handles file uploads, saves them to a specified directory, and returns the file URL.\n\nFunction Description: The main function initializes a Gin HTTP server with file upload capabilities. It sets up a static file server for serving uploaded files and implements a POST endpoint for uploading files. The server saves uploaded files with unique names and returns their access URLs.\n\nInput: \n- HTTP POST request with multipart/form-data containing a file field named \"file\"\n- File content in the request body\n\nOutput:\n- JSON response containing:\n  - Status code (0 for success, non-zero for errors)\n  - Message describing the operation result\n  - Data object containing the URL to access the uploaded file (on success)\n  OR\n  - Error message (on failure)\n\nThe server runs on port 8085 and serves static files from \"/root/file/\" directory. Uploaded files are saved with names formatted as \"timestamp-randomstring.extension\".",
+    "Canonical_solution": "import (\n\t\"net/http\"\n\t\"strconv\"\n\t\"strings\"\n\t\"time\"\n\n\t\"github.com/gin-gonic/gin\"\n\t\"gim/pkg/util\"\n)\n\nconst baseUrl = \"http://111.229.238.28:8085/file/\"\n\ntype Response struct {\n\tCode    int         `json:\"code\"`\n\tMessage string      `json:\"message\"`\n\tData    interface{} `json:\"data\"`\n}\n\nfunc main() {\n\trouter := gin.Default()\n\trouter.Static(\"/file\", \"/root/file\")\n\trouter.MaxMultipartMemory = 8 << 20\n\trouter.POST(\"/upload\", func(c *gin.Context) {\n\t\tfile, err := c.FormFile(\"file\")\n\t\tif err != nil {\n\t\t\tc.JSON(http.StatusOK, Response{Code: 1001, Message: err.Error()})\n\t\t\treturn\n\t\t}\n\n\t\tfilenames := strings.Split(file.Filename, \".\")\n\t\tname := strconv.FormatInt(time.Now().UnixNano(), 10) + \"-\" + util.RandString(30) + \".\" + filenames[len(filenames)-1]\n\t\tfilePath := \"/root/file/\" + name\n\t\terr = c.SaveUploadedFile(file, filePath)\n\t\tif err != nil {\n\t\t\tc.JSON(http.StatusOK, Response{Code: 1001, Message: err.Error()})\n\t\t\treturn\n\t\t}\n\n\t\tc.JSON(http.StatusOK, Response{\n\t\t\tCode:    0,\n\t\t\tMessage: \"success\",\n\t\t\tData:    map[string]string{\"url\": baseUrl + name},\n\t\t})\n\t})\n\terr := router.Run(\":8085\")\n\tif err != nil {\n\t\tlogger.Logger.Error(\"Run error\", zap.Error(err))\n\t}\n}",
+    "FSMID_for_test": 105,
+    "Code_level": "Function-level"
+}

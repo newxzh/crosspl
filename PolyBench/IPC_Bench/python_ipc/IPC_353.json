@@ -1,0 +1,13 @@
+{
+  "Task_id": 353,
+  "Github_ID": "9294498",
+  "Github_Project_Name": "python-cookbook",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "TCP Client - side by using socket in python",
+  "Instruction": "Task Description: Implement a TCP client function in Python that communicates with a server using sockets. The function should establish a connection, send a message, receive a response, and close the connection.\n\nFunction Description: The function `tcp_client_communication` creates a TCP socket, connects to a specified server, sends a message, receives a response, and then closes the connection. It uses IPv4 for the socket connection.\n\nInput:\n- `host` (str, optional): The IP address or hostname of the server. Defaults to 'localhost'.\n- `port` (int, optional): The port number on which the server is listening. Defaults to 16000.\n- `message` (bytes, optional): The message to be sent to the server. Defaults to b'Hello\\n'.\n\nOutput:\n- `response` (bytes): The data received from the server as a response.",
+  "Canonical_solution": "from socket import socket, AF_INET, SOCK_STREAM\n\ndef tcp_client_communication(host='localhost', port=16000, message=b'Hello\\n'):\n    s = socket(AF_INET, SOCK_STREAM)\n    s.connect((host, port))\n    s.send(message)\n    response = s.recv(8192)\n    s.close()\n    return response",
+  "FSMID_for_test": 67,
+  "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 31,
+  "Github_ID": "347434932",
+  "Github_Project_Name": "epg",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Client-side based on Axios",
+  "Instruction": "Task Description: Write a function that retrieves TV channel information from multiple regions, processes the data, and returns a unique list of channels based on their site IDs.\n\nFunction Description: The function `channels` makes HTTP GET requests to a TV channel API for multiple regions, collects channel data from all available pages for each region, and returns a deduplicated list of channels. It uses axios for HTTP requests and lodash for data processing.\n\nInput: None (The function uses hardcoded region IDs internally)\n\nOutput: An array of objects representing unique TV channels, where each object contains:\n- lang: string - Language code ('ru' for Russian)\n- name: string - Name of the TV channel\n- site_id: string/number - Unique identifier for the channel on the site\n\nThe output is deduplicated based on the site_id field using lodash's uniqBy function.",
+  "Canonical_solution": "async function channels() {\n    const _ = require('lodash')\n    const axios = require('axios')\n\n    const regions = [5506, 1096, 1125, 285]\n    let channels = []\n    for (let region of regions) {\n        const totalPages = await getTotalPageCount(region)\n        const pages = Array.from(Array(totalPages).keys())\n        for (let page of pages) {\n            const data = await axios\n                .get('https://tv.mail.ru/ajax/channel/list/', {\n                    params: { page },\n                    headers: {\n                        cookie: `s=fver=0|geo=${region};`\n                    }\n                })\n                .then(r => r.data)\n                .catch(console.log)\n\n            data.channels.forEach(item => {\n                channels.push({\n                    lang: 'ru',\n                    name: item.name,\n                    site_id: item.id\n                })\n            })\n        }\n    }\n    return _.uniqBy(channels, 'site_id')\n}",
+  "FSMID_for_test": 94,
+  "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+    "Task_id": 106,
+    "Github_ID": "37374972",
+    "Github_Project_Name": "go-starter-kit",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Echo-based HTTP Server in Go",
+    "Instruction": "Task Description: Create a Go function that sets up an HTTP server using the Echo framework, which acts as a reverse proxy to route requests to different host servers based on the request's host header.\n\nFunction Description: The function initializes an Echo instance, configures middleware, sets up route handlers, and starts an HTTP server that proxies requests to different Echo instances based on the host header. It maintains a map of hostnames to their corresponding Echo instances for routing purposes.\n\nInput: None (The function takes no parameters but internally uses a map of hostnames to Echo instances)\n\nOutput: None (The function doesn't return anything but starts an HTTP server that runs indefinitely)\n\n---\n\nTask Description: Create a Go struct that represents a virtual host configuration for an Echo-based HTTP server.\n\nStruct Description: The Host struct represents a virtual host configuration that holds an Echo instance for handling requests to a specific hostname.\n\nFields:\nEcho: *echo.Echo - Pointer to an Echo instance that handles requests for this host\n\nMethods:\nNone (The struct is simple and only holds a reference to an Echo instance)",
+    "Canonical_solution": "import (\n\t\"net/http\"\n\n\t\"github.com/labstack/echo\"\n\t\"github.com/labstack/echo/middleware\"\n)\nfunc main() {\n\thosts := make(map[string]*Host)\n\n\tapi := echo.New()\n\tapi.Use(middleware.Logger())\n\tapi.Use(middleware.Recover())\n\n\thosts[\"api.localhost:1323\"] = &Host{api}\n\n\tapi.GET(\"/\", func(c echo.Context) error {\n\t\treturn c.String(http.StatusOK, \"API\")\n\t})\n\n\te := echo.New()\n\te.Any(\"/*\", func(c echo.Context) (err error) {\n\t\treq := c.Request()\n\t\tres := c.Response()\n\t\thost := hosts[req.Host]\n\n\t\tif host == nil {\n\t\t\terr = echo.ErrNotFound\n\t\t} else {\n\t\t\thost.Echo.ServeHTTP(res, req)\n\t\t}\n\n\t\treturn\n\t})\n\te.Logger.Fatal(e.Start(\":1323\"))\n}",
+    "FSMID_for_test": 106,
+    "Code_level": "Function-level"
+}

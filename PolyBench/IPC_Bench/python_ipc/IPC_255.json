@@ -1,0 +1,13 @@
+{
+  "Task_id": 255,
+  "Github_ID": "319496271",
+  "Github_Project_Name": "EasyRec",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "Kafka producer in python",
+  "Instruction": "Task Description: Implement a function that sends messages to a Kafka topic, ensuring the topic exists before sending messages and properly managing resources.\n\nFunction Description: The function `kafka_producer` sends messages from a file to a specified Kafka topic. It first checks if the topic exists and creates it if necessary. Then, it reads lines from the input file, encodes them, and sends them to the Kafka topic using a producer instance. The function includes logging for progress tracking and ensures proper cleanup by closing the producer and admin client.\n\nInput:  \n- `servers`: [str] - Comma-separated list of Kafka bootstrap servers.  \n- `topic`: [str] - The name of the Kafka topic to which messages will be sent.  \n- `input_path`: [str] - The path to the input file containing messages to be sent.  \n- `timeout`: [int] - The timeout in seconds for the Kafka producer request.  \n\nOutput:  \n- None: The function does not return any value but sends messages to the specified Kafka topic and logs progress.",
+  "Canonical_solution": "import argparse\nimport logging\nimport sys\nfrom kafka import KafkaAdminClient\nfrom kafka import KafkaProducer\nfrom kafka.admin import NewTopic\n\ndef kafka_producer(servers, topic, input_path, timeout):\n    admin_clt = KafkaAdminClient(bootstrap_servers=servers)\n    if topic not in admin_clt.list_topics():\n        admin_clt.create_topics(\n            new_topics=[\n                NewTopic(\n                    name=topic,\n                    num_partitions=1,\n                    replication_factor=1,\n                    topic_configs={'max.message.bytes': 1024 * 1024 * 1024})\n            ],\n            validate_only=False)\n        logging.info('create increment save topic: %s' % topic)\n    admin_clt.close()\n\n    producer = KafkaProducer(\n        bootstrap_servers=servers,\n        request_timeout_ms=timeout * 1000,\n        api_version=(0, 10, 1))\n\n    i = 1\n    with open(input_path, 'r') as fin:\n        for line_str in fin:\n            producer.send(topic, line_str.encode('utf-8'))\n            i += 1\n            break\n            if i % 100 == 0:\n                logging.info('progress: %d' % i)\n    producer.close()",
+  "FSMID_for_test": 78,
+  "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 3,
+  "Github_ID": "15682781",
+  "Github_Project_Name": "sitewhere",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "ActiveMQ Producer in Java",
+  "Instruction": "Task Description: Create a Java class that implements an ActiveMQ producer for sending byte array messages to a specified queue.\n\nClass Description: The ActiveMQProducer class establishes a connection to an ActiveMQ broker, creates a message producer, and provides functionality to send byte array messages to a specified queue. It handles connection management and resource cleanup.\n\nAttributes:\n- connectionFactory: ActiveMQConnectionFactory - Factory for creating connections to the ActiveMQ broker\n- connection: javax.jms.Connection - The connection to the ActiveMQ broker\n- session: Session - JMS session for creating messages and producers\n- destination: Destination - The target queue for messages\n- producer: MessageProducer - The message producer for sending messages\n\nMethods:\n- ActiveMQProducer(String brokerUrl, String queueName) -> void - Constructor that initializes the connection to the ActiveMQ broker and sets up the message producer for the specified queue\n- sendBytesMessage(byte[] messageData) -> void - Creates and sends a bytes message containing the provided byte array to the configured queue\n- close() -> void - Closes the session and connection to release resources",
+  "Canonical_solution": "import javax.jms.BytesMessage;\nimport javax.jms.Destination;\nimport javax.jms.JMSException;\nimport javax.jms.MessageProducer;\nimport javax.jms.Session;\nimport org.apache.activemq.ActiveMQConnectionFactory;\n\npublic class ActiveMQProducer {\n\n    private ActiveMQConnectionFactory connectionFactory;\n    private javax.jms.Connection connection;\n    private Session session;\n    private Destination destination;\n    private MessageProducer producer;\n\n    public ActiveMQProducer(String brokerUrl, String queueName) throws JMSException {\n        connectionFactory = new ActiveMQConnectionFactory(brokerUrl);\n        connection = connectionFactory.createConnection();\n        connection.start();\n        session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);\n        destination = session.createQueue(queueName);\n        producer = session.createProducer(destination);\n    }\n\n    public void sendBytesMessage(byte[] messageData) throws JMSException {\n        BytesMessage message = session.createBytesMessage();\n        message.writeBytes(messageData);\n        producer.send(message);\n    }\n\n    public void close() throws JMSException {\n        session.close();\n        connection.close();\n    }\n}",
+  "FSMID_for_test": 38,
+  "Code_level": "Class-level"
+}

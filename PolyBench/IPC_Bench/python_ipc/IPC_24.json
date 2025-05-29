@@ -1,0 +1,13 @@
+{
+  "Task_id": 24,
+  "Github_ID": "1266228",
+  "Github_Project_Name": "blueprint",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Client - side by using http.client in python",
+  "Instruction": "Task Description: Create a function to send metric data to the Librato metrics service using HTTP POST requests with basic authentication.\n\nFunction Description: The function `count` sends a counter metric to Librato's API. It establishes an HTTPS connection to the metrics API server, sends the metric data as a URL-encoded form, and includes basic authentication headers. The function handles the case where authentication credentials are not configured by doing nothing.\n\nInput:\n- `name` (str): The name of the counter metric to be sent\n- `value` (int, optional): The value to increment the counter by (defaults to 1)\n\nOutput: None (The function doesn't return any value, but sends data to the external metrics service)",
+  "Canonical_solution": "from ConfigParser import NoOptionError, NoSectionError\nimport base64\nimport httplib\nimport urllib\nfrom blueprint import cfg\n\ntry:\n    token = cfg.get('librato', 'token')\n    username = cfg.get('librato', 'username')\n    auth = 'Basic {0}'.format(base64.b64encode('{0}:{1}'.format(username,\n                                                                token)))\nexcept (NoOptionError, NoSectionError):\n    auth = None\n\ndef count(name, value=1):\n    if auth is None:\n        return\n    conn = httplib.HTTPSConnection('metrics-api.librato.com')\n    conn.request('POST',\n                 '/v1/counters/{0}.json'.format(urllib.quote(name)),\n                 urllib.urlencode({'value': value}),\n                 {'Authorization': auth,\n                  'Content-Type': 'application/x-www-form-urlencoded'})\n    r = conn.getresponse()\n    conn.close()",
+  "FSMID_for_test": 56,
+  "Code_level": "Function-level"
+}

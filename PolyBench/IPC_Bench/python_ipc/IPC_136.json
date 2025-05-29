@@ -1,0 +1,13 @@
+{
+  "Task_id": 136,
+  "Github_ID": "51702566",
+  "Github_Project_Name": "uwsgi-nginx-flask-docker",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Server - side by using Flask in python",
+  "Instruction": "Task Description: Create a simple Flask web application that serves responses to HTTP requests on different routes.\n\nFunction Description: The application should have two main functions:\n1. A root route handler that returns a welcome message with Python version information\n2. A static file route handler that returns a simple text response\n\nInput:\n- For the root route (\"/\"): No input parameters required\n- For the static route (\"/static/test.txt\"): No input parameters required\n\nOutput:\n- For the root route: A string containing a welcome message with Python version information\n- For the static route: A string containing a static text response",
+  "Canonical_solution": "from flask import Flask\n\napp = Flask(__name__)\n\n@app.route(\"/\")\ndef hello():\n    version = \"{}.{}\".format(sys.version_info.major, sys.version_info.minor)\n    message = \"Hello World from Flask in a uWSGI Nginx Docker container with Python {} - testing\".format(\n        version\n    )\n    return message\n\n@app.route(\"/static/test.txt\")\ndef static_test():\n    return \"Static, from Flask\"\n\nif __name__ == \"__main__\":\n    app.run(host=\"0.0.0.0\", debug=True, port=80)",
+  "FSMID_for_test": 60,
+  "Code_level": "Function-level"
+}

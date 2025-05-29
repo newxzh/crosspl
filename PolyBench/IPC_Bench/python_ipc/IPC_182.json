@@ -1,0 +1,13 @@
+{
+  "Task_id": 182,
+  "Github_ID": "47042287",
+  "Github_Project_Name": "py",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Server - side by using Flask in python",
+  "Instruction": "Task Description: Create a Flask-based HTTP server endpoint that predicts home prices based on input parameters.\n\nFunction Description: The function `predict_home_price` is a Flask route handler that processes incoming HTTP requests (GET or POST) containing home features, uses these features to predict a home price, and returns the estimated price as a JSON response with CORS headers enabled.\n\nInput:\n- `total_sqft`: [float] - Total square footage of the home\n- `location`: [str] - Location of the home\n- `bhk`: [int] - Number of bedrooms/hall/kitchen\n- `bath`: [int] - Number of bathrooms\n\nOutput:\n- [JSON] - A JSON response containing the key 'estimated_price' with the predicted value, and CORS headers allowing access from any origin.",
+  "Canonical_solution": "from flask import Flask, request, jsonify\nimport util\n\napp = Flask(__name__)\n\n@app.route('/predict_home_price', methods=['GET', 'POST'])\ndef predict_home_price():\n    total_sqft = float(request.form['total_sqft'])\n    location = request.form['location']\n    bhk = int(request.form['bhk'])\n    bath = int(request.form['bath'])\n\n    response = jsonify({\n        'estimated_price': util.get_estimated_price(location,total_sqft,bhk,bath)\n    })\n    response.headers.add('Access-Control-Allow-Origin', '*')\n\n    return response",
+  "FSMID_for_test": 60,
+  "Code_level": "Function-level"
+}

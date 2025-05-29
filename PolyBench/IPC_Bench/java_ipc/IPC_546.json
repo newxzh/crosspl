@@ -1,0 +1,13 @@
+{
+  "Task_id": 546,
+  "Github_ID": "100704079",
+  "Github_Project_Name": "javacore",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "java.net ServerSocket",
+  "Instruction": "Task Description: Create a Java class that implements a simple TCP server capable of accepting client connections and sending messages to connected clients.\n\nClass Description: The HelloServer class represents a basic TCP server that listens for incoming client connections on a specified port. Once a client connects, the server can send messages to that client through the established connection.\n\nAttributes:\n- server: [ServerSocket] - The ServerSocket instance used to listen for incoming client connections\n- client: [Socket] - The Socket instance representing the connected client\n- out: [PrintStream] - The output stream used to send messages to the connected client\n\nMethods:\n- start: [Name]([int port]) -> [void] - Starts the server on the specified port, waits for a client connection, and prepares the output stream for communication\n- sendMessage: [Name]([String message]) -> [void] - Sends the specified message to the connected client\n- stop: [Name]() -> [void] - Closes the client connection and server socket, releasing all resources",
+  "Canonical_solution": "import java.io.PrintStream;\nimport java.net.ServerSocket;\nimport java.net.Socket;\n\npublic class HelloServer {\n\n    private ServerSocket server;\n    private Socket client;\n    private PrintStream out;\n\n    public void start(int port) throws Exception {\n        server = new ServerSocket(port);\n        System.out.println(\"\u670d\u52a1\u5668\u8fd0\u884c\u4e2d\uff0c\u7b49\u5f85\u5ba2\u6237\u7aef\u8fde\u63a5\u3002\");\n        client = server.accept();\n        out = new PrintStream(client.getOutputStream());\n    }\n\n    public void sendMessage(String message) throws Exception {\n        out.println(message);\n    }\n\n    public void stop() throws Exception {\n        client.close();\n        server.close();\n        System.out.println(\"\u670d\u52a1\u5668\u5df2\u5411\u5ba2\u6237\u7aef\u53d1\u9001\u6d88\u606f\uff0c\u9000\u51fa\u3002\");\n    }\n\n}",
+  "FSMID_for_test": 0,
+  "Code_level": "Class-level"
+}

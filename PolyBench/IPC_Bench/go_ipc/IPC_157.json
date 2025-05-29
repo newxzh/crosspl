@@ -1,0 +1,13 @@
+{
+    "Task_id": 157,
+    "Github_ID": "173227087",
+    "Github_Project_Name": "examples",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Gin-based HTTP Server in Go",
+    "Instruction": "Task Description: Create a Go function that initializes and runs a Gin HTTP server with custom template delimiters and a date formatting function, serving HTML content from a template file.\n\nFunction Description: The function initializes a Gin router with custom template delimiters \"{[{\" and \"}]}\", registers a template formatting function \"formatAsDate\", loads an HTML template file, and sets up a GET route handler that renders the template with a predefined date value. The server listens on port 8080.\n\nInput: None (The function takes no input parameters as it's the main entry point)\n\nOutput: None (The function doesn't return anything but starts an HTTP server that continues running)",
+    "Canonical_solution": "import (\n\t\"fmt\"\n\t\"html/template\"\n\t\"net/http\"\n\t\"time\"\n\n\t\"github.com/gin-gonic/gin\"\n)\nfunc main() {\n\trouter := gin.Default()\n\trouter.Delims(\"{[{\", \"}]}\")\n\trouter.SetFuncMap(template.FuncMap{\n\t\t\"formatAsDate\": formatAsDate,\n\t})\n\trouter.LoadHTMLFiles(\"./testdata/raw.tmpl\")\n\n\trouter.GET(\"/raw\", func(c *gin.Context) {\n\t\tc.HTML(http.StatusOK, \"raw.tmpl\", gin.H{\n\t\t\t\"now\": time.Date(2017, 0o7, 0o1, 0, 0, 0, 0, time.UTC),\n\t\t})\n\t})\n\n\trouter.Run(\":8080\")\n}",
+    "FSMID_for_test": 105,
+    "Code_level": "Function-level"
+}

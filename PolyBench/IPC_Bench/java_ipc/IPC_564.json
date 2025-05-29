@@ -1,0 +1,13 @@
+{
+  "Task_id": 564,
+  "Github_ID": "5103785",
+  "Github_Project_Name": "undertow",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "java.net Socket",
+  "Instruction": "Task Description: Write a function that tests abnormal request termination behavior in a client-server communication scenario using TCP sockets. The function should simulate sending a malformed HTTP request with incorrect content length and verify proper connection handling.\n\nFunction Description: The function establishes a TCP connection to a server, sends an HTTP POST request with intentionally incorrect Content-Length header, immediately closes the streams, and verifies if the completion listener is called within a timeout period. This tests the server's handling of abruptly terminated requests.\n\nInput: \n- None (uses class-level DefaultServer.getDefaultServerAddress() and completionListenerCalledLatch)\n- Implicit input through class attributes:\n  - DefaultServerAddress: Server endpoint address\n  - completionListenerCalledLatch: CountDownLatch for synchronization\n  - completionListenerCalled: boolean flag to verify listener invocation\n\nOutput: \n- None (void return type)\n- Side effects:\n  - Throws IOException if socket operations fail\n  - Throws InterruptedException if await is interrupted\n  - Asserts completionListenerCalled is true\n  - Closes socket resources in finally block",
+  "Canonical_solution": "import java.io.IOException;\nimport java.io.InputStream;\nimport java.io.OutputStream;\nimport java.net.Socket;\nimport java.util.concurrent.CountDownLatch;\nimport java.util.concurrent.TimeUnit;\n\npublic void testAbnormalRequestTermination() throws IOException, InterruptedException {\n    Socket socket = new Socket();\n    socket.connect(DefaultServer.getDefaultServerAddress());\n    try {\n        StringBuilder sb = new StringBuilder();\n        for (int i = 0; i < 10000; ++i) {\n            sb.append(\"hello world\\r\\n\");\n        }\n        String request = \"POST / HTTP/1.1\\r\\nHost:localhost\\r\\nContent-Length:\" + sb.length() + 100 + \"\\r\\n\\r\\n\" + sb.toString();\n        OutputStream outputStream = socket.getOutputStream();\n\n        outputStream.write(request.getBytes(\"US-ASCII\"));\n        socket.getInputStream().close();\n        outputStream.close();\n\n        completionListenerCalledLatch.await(5, TimeUnit.SECONDS);\n        Assert.assertTrue(completionListenerCalled);\n    } finally {\n        IoUtils.safeClose(socket);\n    }\n}",
+  "FSMID_for_test": 1,
+  "Code_level": "Function-level"
+}

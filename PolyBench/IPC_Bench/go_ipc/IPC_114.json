@@ -1,0 +1,13 @@
+{
+    "Task_id": 114,
+    "Github_ID": "616027609",
+    "Github_Project_Name": "llama.go",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Fiber-based HTTP Server in Go",
+    "Instruction": "Task Description: Create a function that initializes and runs a Fiber-based HTTP server with specific routes for job management, while also starting a background engine process.\n\nFunction Description: The function `Run` initializes a Fiber web server with disabled startup messages, sets up three routes for job management (creating new jobs, checking job status, and retrieving jobs), starts a background engine process in a goroutine, and finally starts listening on a specified host and port.\n\nInput: None (uses package-level constants Host and Port for server configuration)\n\nOutput: None (runs indefinitely as a web server, but technically returns an error if the server fails to start)\n\nNote: The function uses package-level constants Host and Port for server configuration and assumes the existence of handler functions NewJob, GetStatus, and GetJob, as well as an Engine function for background processing.",
+    "Canonical_solution": "import (\n\t\"github.com/gofiber/fiber/v2\"\n)\n\nfunc Run() {\n\tapp := fiber.New(fiber.Config{\n\t\tDisableStartupMessage: true,\n\t})\n\n\tapp.Post(\"/jobs/\", NewJob)\n\tapp.Get(\"/jobs/status/:id\", GetStatus)\n\tapp.Get(\"/jobs/:id\", GetJob)\n\n\tgo Engine()\n\n\tapp.Listen(Host + \":\" + Port)\n}",
+    "FSMID_for_test": 107,
+    "Code_level": "Function-level"
+}

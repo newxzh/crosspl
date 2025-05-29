@@ -1,0 +1,13 @@
+{
+    "Task_id": 58,
+    "Github_ID": "40453691",
+    "Github_Project_Name": "GolangTraining",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Basic HTTP server using net/http with HandleFunc and ListenAndServe",
+    "Instruction": "Task Description: Create a simple HTTP server in Go that handles form submissions and displays the submitted value. The server should respond to both GET and POST requests on the root path (\"/\") and render an HTML form with a checkbox input.\n\nFunction Description: The main function sets up an HTTP server with a single route handler for the root path (\"/\"). The handler processes form submissions, extracts the form value, and returns an HTML response containing the form and the submitted value.\n\nInput: None (The function takes no direct input parameters. Input is received through HTTP requests.)\n\nOutput: None (The function doesn't return any value. Output is sent through the HTTP response writer.)\n\nNote: The function internally uses http.ResponseWriter to send responses and *http.Request to receive requests. The handler checks for a form value with key \"q\" and includes it in the response. The server listens on port 9000.",
+    "Canonical_solution": "import (\n\t\"fmt\"\n\t\"io\"\n\t\"net/http\"\n)\nfunc main() {\n\thttp.HandleFunc(\"/\", func(res http.ResponseWriter, req *http.Request) {\n\t\tkey := \"q\"\n\t\tval := req.FormValue(key)\n\t\tfmt.Println(\"value: \", val)\n\t\tres.Header().Set(\"Content-Type\", \"text/html\")\n\t\tio.WriteString(res, `<form method=\"POST\">\n\n\t\t<input type=\"checkbox\" name=\"q\">\n\t\t<input type=\"submit\">\n\n\t\t</form>`+val)\n\t})\n\thttp.ListenAndServe(\":9000\", nil)\n}",
+    "FSMID_for_test": 103,
+    "Code_level": "Function-level"
+}

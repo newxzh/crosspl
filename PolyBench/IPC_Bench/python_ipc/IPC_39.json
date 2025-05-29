@@ -1,0 +1,13 @@
+{
+  "Task_id": 39,
+  "Github_ID": "488641606",
+  "Github_Project_Name": "phidata",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Client-side by using httpx in python",
+  "Instruction": "Task Description: Create a Python class that handles downloading files from a given URL and provides methods to retrieve the file name and read the file content.\n\nClass Description: The `UrlFile` class is designed to download files from a specified URL, manage temporary storage of the downloaded file, and provide methods to access the file name and content. It uses the `httpx` library for HTTP requests and handles temporary file storage with `tempfile`.\n\nAttributes:\n\n- url: str - The URL from which the file will be downloaded.\n- name: Optional[str] - An optional custom name for the downloaded file. If not provided, the name is derived from the URL.\n\nMethods:\n\n- get_filename() -> Optional[str] - Returns the filename derived from the URL or the custom name if provided.\n- read() -> Any - Downloads the file from the URL, saves it to a temporary directory, and returns a file-like object for reading the content. Raises an exception if the download fails or if the filename cannot be determined.",
+  "Canonical_solution": "import httpx\nfrom pathlib import Path\nfrom typing import Any, Optional\nfrom tempfile import TemporaryDirectory\n\nclass UrlFile:\n    def __init__(self, url: str, name: Optional[str] = None):\n        self.url = url\n        self.name = name\n\n    def get_filename(self) -> Optional[str]:\n        return self.name or self.url.split(\"/\")[-1]\n\n    def read(self) -> Any:\n        logger.debug(f\"Downloading url: {self.url}\")\n        with httpx.Client() as client:\n            response = client.get(self.url)\n            response.raise_for_status()\n\n            with TemporaryDirectory() as temp_dir:\n                file_name = self.get_filename()\n                if file_name is None:\n                    raise ValueError(\"Could not determine a file name, please set `name`\")\n\n                file_path = Path(temp_dir).joinpath(file_name)\n                file_path.write_bytes(response.content)\n                logger.debug(f\"File downloaded and saved to {file_path.name}\")\n                return file_path.open(\"rb\")",
+  "FSMID_for_test": 58,
+  "Code_level": "Class-level"
+}

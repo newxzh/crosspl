@@ -1,0 +1,13 @@
+{
+  "Task_id": 65,
+  "Github_ID": "1145302",
+  "Github_Project_Name": "Locker",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP based on express in javascript",
+  "Instruction": "Task Description: Create a function to start an HTTP server using Express framework that serves static files and handles specific routes, with logging upon server startup.\n\nFunction Description: The function initializes an Express server with middleware for request processing, sets up static file serving, defines a route handler for CSV data, and starts listening on a specified port. Upon successful startup, it logs server information.\n\nInput: \n- None (uses module-level `processInfo.port` for port configuration)\n- Implicitly uses `csv` variable for the CSV endpoint response\n\nOutput: \n- No direct return value\n- Side effects:\n  - Creates and starts an HTTP server\n  - Logs server information to console upon successful startup\n  - Serves static files from './static' directory\n  - Responds to GET requests at '/csv' endpoint with CSV data",
+  "Canonical_solution": "function startServer() {\n    var express = require('express'),\n        connect = require('connect');\n    var app = express.createServer(connect.bodyParser(), connect.cookieParser());\n    \n    app.set('views', __dirname);\n    app.use(express.static(__dirname + '/static'));\n    \n    app.get('/csv', function(req, res) {\n        res.writeHead(200, {'Content-Type': 'text/plain'});\n        res.end(csv);\n    });\n    \n    app.listen(processInfo.port, function() {\n        var returnedInfo = {};\n        console.log(JSON.stringify(returnedInfo));\n    });\n}",
+  "FSMID_for_test": 96,
+  "Code_level": "Function-level"
+}

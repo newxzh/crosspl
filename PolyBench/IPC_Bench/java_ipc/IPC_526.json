@@ -1,0 +1,13 @@
+{
+  "Task_id": 526,
+  "Github_ID": "7997879",
+  "Github_Project_Name": "client_java",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "java.net ServerSocket",
+  "Instruction": "Task Description: Create a Java class that implements a TCP server using ServerSocket to accept client connections and read data from them.\n\nClass Description: The GraphiteBridge class provides functionality to start a TCP server, accept client connections, read data from connected clients, and properly close all connections and resources.\n\nAttributes:\n- serverSocket: ServerSocket - The server socket that listens for incoming client connections\n- clientSocket: Socket - The socket representing an accepted client connection\n- inputReader: BufferedReader - The reader used to read data from the client connection\n\nMethods:\n- startServer(int port) -> void - Starts the server socket listening on the specified port\n- acceptConnection() -> void - Accepts an incoming client connection and initializes the input reader\n- readData() -> String - Reads a line of data from the connected client\n- closeConnection() -> void - Closes all open resources including the input reader, client socket, and server socket",
+  "Canonical_solution": "import java.io.BufferedReader;\nimport java.io.IOException;\nimport java.io.InputStreamReader;\nimport java.net.ServerSocket;\nimport java.net.Socket;\n\npublic class GraphiteBridge {\n\n    private ServerSocket serverSocket;\n    private Socket clientSocket;\n    private BufferedReader inputReader;\n\n    public void startServer(int port) throws IOException {\n        serverSocket = new ServerSocket(port);\n    }\n\n    public void acceptConnection() throws IOException {\n        clientSocket = serverSocket.accept();\n        inputReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));\n    }\n\n    public String readData() throws IOException {\n        return inputReader.readLine();\n    }\n\n    public void closeConnection() throws IOException {\n        if (inputReader != null) {\n            inputReader.close();\n        }\n        if (clientSocket != null) {\n            clientSocket.close();\n        }\n        if (serverSocket != null) {\n            serverSocket.close();\n        }\n    }\n}",
+  "FSMID_for_test": 0,
+  "Code_level": "Class-level"
+}

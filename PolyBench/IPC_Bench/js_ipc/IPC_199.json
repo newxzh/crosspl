@@ -1,0 +1,13 @@
+{
+  "Task_id": 199,
+  "Github_ID": "5880912",
+  "Github_Project_Name": "pomelo",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "WebSocket Client-side based on Node.js",
+  "Instruction": "Task Description: Create a WebSocket processor class that manages WebSocket connections and integrates with an HTTP server for handling real-time communication.\n\nClass Description: The Processor class extends EventEmitter to handle WebSocket connections over an HTTP server. It manages the server lifecycle, connection events, and data transmission between client and server.\n\nAttributes:\n- httpServer: [Object] - Instance of Node.js HTTP server used as base for WebSocket server\n- wsServer: [Object] - WebSocket server instance attached to the HTTP server\n- state: [Number] - Tracks the server state (ST_STARTED or ST_CLOSED)\n\nMethods:\n- constructor() -> [void] - Initializes the HTTP and WebSocket servers, sets up connection event handling\n- add(socket: [Object], data: [Buffer|String]) -> [void] - Processes incoming socket connection and data\n- close() -> [void] - Properly shuts down the WebSocket and HTTP servers",
+  "Canonical_solution": "var HttpServer = require('http').Server;\nvar EventEmitter = require('events').EventEmitter;\nvar util = require('util');\nvar WebSocketServer = require('ws').Server;\n\nvar ST_STARTED = 1;\nvar ST_CLOSED = 2;\n\nclass Processor extends EventEmitter {\n  constructor() {\n    super();\n    this.httpServer = new HttpServer();\n    this.wsServer = new WebSocketServer({server: this.httpServer});\n    this.state = ST_STARTED;\n\n    this.wsServer.on('connection', (socket) => {\n      this.emit('connection', socket);\n    });\n  }\n\n  add(socket, data) {\n    if(this.state !== ST_STARTED) {\n      return;\n    }\n    this.httpServer.emit('connection', socket);\n    if(typeof socket.ondata === 'function') {\n      socket.ondata(data, 0, data.length);\n    } else {\n      socket.emit('data', data);\n    }\n  }\n\n  close() {\n    if(this.state !== ST_STARTED) {\n      return;\n    }\n    this.state = ST_CLOSED;\n    this.wsServer.close();\n    this.wsServer = null;\n    this.httpServer = null;\n  }\n}",
+  "FSMID_for_test": 91,
+  "Code_level": "Class-level"
+}

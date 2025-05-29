@@ -1,0 +1,13 @@
+{
+    "Task_id": 39,
+    "Github_ID": "218706050",
+    "Github_Project_Name": "gochat",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Basic HTTP server using net/http with HandleFunc and ListenAndServe",
+    "Instruction": "Task Description: Create a Go struct that represents a basic HTTP server capable of serving static files from a specified directory, with fallback to a default page when files are not found.\n\nStruct Description: The Site struct represents a simple HTTP server that serves static files from a \"./site\" directory. It handles file requests and falls back to serving \"index.html\" when the requested file is not found.\n\nFields: (This struct has no explicit fields as it's used purely for organizing HTTP server functionality)\n\nMethods:\n\nMethod1: New() -> *Site - A constructor function that creates and returns a new instance of the Site struct.\n\nMethod2: Run() - Starts the HTTP server on the port specified in the configuration. It sets up a file server handler with custom 404 behavior and begins listening for requests.\n\nMethod3: notFound(http.ResponseWriter, *http.Request) - A helper function that serves the \"./site/index.html\" file when a requested resource is not found. Takes standard HTTP handler parameters and returns nothing.\n\nMethod4: server(http.FileSystem) -> http.Handler - A helper function that creates a custom file server handler with fallback behavior. Takes a filesystem interface and returns an HTTP handler.",
+    "Canonical_solution": "import (\n\t\"fmt\"\n\t\"net/http\"\n\t\"os\"\n\t\"path\"\n)\n\ntype Site struct {\n}\n\nfunc New() *Site {\n\treturn &Site{}\n}\n\nfunc notFound(w http.ResponseWriter, r *http.Request) {\n\tdata, _ := ioutil.ReadFile(\"./site/index.html\")\n\t_, _ = fmt.Fprintf(w, string(data))\n\treturn\n}\n\nfunc server(fs http.FileSystem) http.Handler {\n\tfileServer := http.FileServer(fs)\n\treturn http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {\n\t\tfilePath := path.Clean(\"./site\" + r.URL.Path)\n\t\t_, err := os.Stat(filePath)\n\t\tif err != nil {\n\t\t\tnotFound(w, r)\n\t\t\treturn\n\t\t}\n\t\tfileServer.ServeHTTP(w, r)\n\t})\n}\n\nfunc (s *Site) Run() {\n\tport := config.Conf.Site.SiteBase.ListenPort\n\taddr := fmt.Sprintf(\":%d\", port)\n\thttp.ListenAndServe(addr, server(http.Dir(\"./site\")))\n}",
+    "FSMID_for_test": 103,
+    "Code_level": "Class-level"
+}

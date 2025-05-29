@@ -1,0 +1,13 @@
+{
+    "Task_id": 117,
+    "Github_ID": "44634390",
+    "Github_Project_Name": "find",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Gin-based HTTP Server in Go",
+    "Instruction": "Task Description: Create a Go function that initializes and runs a secure HTTPS server using Gin framework with automatic TLS certificate management from Let's Encrypt.\n\nFunction Description: The function initializes a Gin web server with default middleware (Logger and Recovery), sets up a simple GET route handler, configures automatic TLS certificate management using autocert, and starts the HTTPS server. The server will automatically obtain and renew TLS certificates from Let's Encrypt for specified domains.\n\nInput: None (The function takes no parameters as all configurations are internally defined)\n\nOutput: None (The function doesn't return anything as it runs the server indefinitely. It will log.Fatal if there's an error starting the server.)\n\nNote: The function demonstrates a complete setup for a production-ready HTTPS server with automatic certificate management. The domains and cache directory are hardcoded in this example but could be parameterized in a real implementation.",
+    "Canonical_solution": "import (\n\t\"log\"\n\n\t\"github.com/gin-gonic/autotls\"\n\t\"github.com/gin-gonic/gin\"\n\t\"golang.org/x/crypto/acme/autocert\"\n)\nfunc main() {\n\tr := gin.Default()\n\n\tr.GET(\"/ping\", func(c *gin.Context) {\n\t\tc.String(200, \"pong\")\n\t})\n\n\tm := autocert.Manager{\n\t\tPrompt:     autocert.AcceptTOS,\n\t\tHostPolicy: autocert.HostWhitelist(\"example1.com\", \"example2.com\"),\n\t\tCache:      autocert.DirCache(\"/var/www/.cache\"),\n\t}\n\n\tlog.Fatal(autotls.RunWithManager(r, m))\n}",
+    "FSMID_for_test": 105,
+    "Code_level": "Function-level"
+}

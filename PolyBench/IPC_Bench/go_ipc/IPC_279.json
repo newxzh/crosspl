@@ -1,0 +1,13 @@
+{
+    "Task_id": 279,
+    "Github_ID": "124346949",
+    "Github_Project_Name": "gitkube",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Official-based gRPC server in Go",
+    "Instruction": "Task Description: Create a gRPC server in Go that handles Bigtable administration and operations, with proper initialization and cleanup capabilities.\n\nStruct Description: The Server struct represents a gRPC server instance that manages Bigtable table administration and operations. It handles network connections, server lifecycle, and maintains internal state.\n\nFields:\nAddr: [string] - The network address the server is listening on\nl: [net.Listener] - The network listener for incoming connections\nsrv: [*grpc.Server] - The gRPC server instance\ns: [*server] - The internal server implementation handling business logic\n\nMethods:\nNewServer: [func(laddr string, opt ...grpc.ServerOption) (*Server, error)] -> Creates and starts a new Server instance\n- Input: laddr (string) - The address to listen on, opt (...grpc.ServerOption) - Optional gRPC server configurations\n- Output: (*Server, error) - Returns the server instance or an error if initialization fails\n- Description: Initializes the server, sets up the listener, registers gRPC services, and starts serving requests in a goroutine\n\nClose: [func(s *Server)] -> Properly shuts down the Server instance\n- Input: None (method receiver)\n- Output: None\n- Description: Stops the gRPC server, closes the listener, and cleans up internal resources",
+    "Canonical_solution": "import (\n\t\"net\"\n\t\"google.golang.org/grpc\"\n)\n\ntype Server struct {\n\tAddr string\n\tl   net.Listener\n\tsrv *grpc.Server\n\ts   *server\n}\n\nfunc NewServer(laddr string, opt ...grpc.ServerOption) (*Server, error) {\n\tl, err := net.Listen(\"tcp\", laddr)\n\tif err != nil {\n\t\treturn nil, err\n\t}\n\n\ts := &Server{\n\t\tAddr: l.Addr().String(),\n\t\tl:    l,\n\t\tsrv:  grpc.NewServer(opt...),\n\t\ts: &server{\n\t\t\ttables: make(map[string]*table),\n\t\t},\n\t}\n\tbtapb.RegisterBigtableTableAdminServer(s.srv, s.s)\n\tbtpb.RegisterBigtableServer(s.srv, s.s)\n\n\tgo s.srv.Serve(s.l)\n\n\treturn s, nil\n}\n\nfunc (s *Server) Close() {\n\ts.s.mu.Lock()\n\tif s.s.gcc != nil {\n\t\tclose(s.s.gcc)\n\t}\n\ts.s.mu.Unlock()\n\n\ts.srv.Stop()\n\ts.l.Close()\n}",
+    "FSMID_for_test": 119,
+    "Code_level": "Class-level"
+}

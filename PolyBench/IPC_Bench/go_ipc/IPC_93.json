@@ -1,0 +1,13 @@
+{
+    "Task_id": 93,
+    "Github_ID": "37374972",
+    "Github_Project_Name": "go-starter-kit",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Echo-based HTTP Server in Go",
+    "Instruction": "Task Description: Create an HTTP server using the Echo framework in Go that serves static files from an embedded filesystem using the go.rice package.\n\nFunction Description: The main function initializes an Echo web server, sets up route handlers for serving static files from an embedded directory (\"app\"), and starts the server on port 1323. The static files are served under the root path (\"/\") and a static prefix path (\"/static/*\").\n\nInput: None (The function takes no explicit parameters)\n\nOutput: None (The function doesn't return anything explicitly but starts an HTTP server that runs indefinitely until interrupted)\n\nNote: The reference code shows the complete implementation at the package level (main function) rather than as an isolated function or struct. The instruction follows the function-level format as the code primarily demonstrates functional behavior rather than object-oriented structure.",
+    "Canonical_solution": "import (\n\t\"net/http\"\n\n\trice \"github.com/GeertJohan/go.rice\"\n\t\"github.com/labstack/echo\"\n)\nfunc main() {\n\te := echo.New()\n\tassetHandler := http.FileServer(rice.MustFindBox(\"app\").HTTPBox())\n\te.GET(\"/\", echo.WrapHandler(assetHandler))\n\te.GET(\"/static/*\", echo.WrapHandler(http.StripPrefix(\"/static/\", assetHandler)))\n\te.Logger.Fatal(e.Start(\":1323\"))\n}",
+    "FSMID_for_test": 106,
+    "Code_level": "Function-level"
+}

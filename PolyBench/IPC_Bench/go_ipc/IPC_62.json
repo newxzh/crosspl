@@ -1,0 +1,13 @@
+{
+    "Task_id": 62,
+    "Github_ID": "40453691",
+    "Github_Project_Name": "GolangTraining",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Basic HTTP server using net/http with HandleFunc and ListenAndServe",
+    "Instruction": "Task Description: Create a Go HTTP server that handles user sessions through cookies, specifically managing a session ID cookie that can be updated with a user's email address via form submission.\n\nFunction Description: The main function sets up an HTTP server with a single route (\"/\") that handles both displaying a form and processing form submissions. It manages a session cookie named \"session-id\" which initially has no value but can be updated with the user's email when submitted through the form. The function writes an HTML response containing the current cookie value and a form for submitting an email address.\n\nInput: None (The function takes no direct input parameters, but handles HTTP requests which may contain form data in the \"email\" field)\n\nOutput: None (The function doesn't return any value but starts an HTTP server that listens on port 9000 and responds to requests with HTML content and cookie operations)",
+    "Canonical_solution": "import (\n\t\"io\"\n\t\"net/http\"\n)\nfunc main() {\n\thttp.HandleFunc(\"/\", func(res http.ResponseWriter, req *http.Request) {\n\t\tcookie, err := req.Cookie(\"session-id\")\n\t\tif err != nil {\n\t\t\tcookie = &http.Cookie{\n\t\t\t\tName: \"session-id\",\n\t\t\t}\n\t\t}\n\n\t\tif req.FormValue(\"email\") != \"\" {\n\t\t\tcookie.Value = req.FormValue(\"email\")\n\t\t}\n\n\t\thttp.SetCookie(res, cookie)\n\n\t\tio.WriteString(res, `<!DOCTYPE html>\n<html>\n  <body>\n    <form>\n    `+cookie.Value+`\n      <input type=\"email\" name=\"email\">\n      <input type=\"submit\">\n    </form>\n  </body>\n</html>`)\n\t})\n\thttp.ListenAndServe(\":9000\", nil)\n}",
+    "FSMID_for_test": 103,
+    "Code_level": "Function-level"
+}

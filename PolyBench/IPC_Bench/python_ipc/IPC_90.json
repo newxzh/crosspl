@@ -1,0 +1,13 @@
+{
+  "Task_id": 90,
+  "Github_ID": "240315046",
+  "Github_Project_Name": "serve",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Client-side by using requests in python",
+  "Instruction": "Task Description: Create a Python function that extends a FastAPI application with a new REST endpoint and tests it using the requests library.\n\nFunction Description: The function `test_extend_fastapi` demonstrates how to extend a FastAPI application (wrapped in a Jina Flow) with a new GET endpoint '/hello' that returns a simple JSON message. It then tests this endpoint by making an HTTP request and verifying the response.\n\nInput: None (The function takes no parameters as it's self-contained for demonstration purposes)\n\nOutput: None (The function performs assertions to verify the endpoint works correctly but doesn't return any value)",
+  "Canonical_solution": "import requests\nfrom jina import Flow\n\ndef test_extend_fastapi():\n    def extend_rest_function(app):\n        @app.get('/hello', tags=['My Extended APIs'])\n        async def foo():\n            return {'msg': 'hello world'}\n\n        return app\n\n    jina.helper.extend_rest_interface = extend_rest_function\n    f = Flow(protocol='http')\n\n    with f:\n        response = requests.get(f'http://localhost:{f.port}/hello')\n        assert response.status_code == 200\n        assert response.json() == {'msg': 'hello world'}",
+  "FSMID_for_test": 57,
+  "Code_level": "Function-level"
+}

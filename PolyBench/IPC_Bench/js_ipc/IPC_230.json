@@ -1,0 +1,13 @@
+{
+  "Task_id": 230,
+  "Github_ID": "389786846",
+  "Github_Project_Name": "AI-Writer",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "WebSocket Client-side based on browser native API in JavaScript",
+  "Instruction": "Task Description: Implement a WebSocket client in JavaScript that establishes a connection to a server, handles incoming messages (including PING-PONG mechanism), manages connection errors, and automatically reconnects when the connection is closed.\n\nFunction Description: The `connect` function initializes a WebSocket connection to a specified server URL and sets up event handlers for various WebSocket events. It handles connection opening, incoming messages (with special handling for PING messages and JSON data), connection errors, and automatic reconnection when the connection closes. Received text data is displayed in a textarea element and stored in localStorage.\n\nInput: None (The WebSocket URL is hardcoded as \"ws://127.0.0.1:8266/\" in the function)\n\nOutput: None (The function's effects are through side effects: establishing WebSocket connection, updating UI elements, and storing data in localStorage)",
+  "Canonical_solution": "function connect() {\n    ws = new WebSocket(\"ws://127.0.0.1:8266/\");\n\n    ws.onopen = function () {\n        myLog('ws connected')\n    };\n\n    ws.onmessage = function (e) {\n        var d = e.data\n        if (d == '[PING]')\n            ws.send('[PONG]')\n        else {\n            if (d[0] == '{') {\n                d = JSON.parse(d)\n                document.getElementById(\"textArea\").value += d.txt\n                localStorage.setItem('txt_stored', document.getElementById(\"textArea\").value);\n            }\n        }\n    }\n\n    ws.onclose = function (e) {\n        setTimeout(function () {\n            connect();\n        }, 2000);\n    };\n\n    ws.onerror = function (e) {\n        myLog('ws error', e.message);\n        ws.close();\n    };\n}",
+  "FSMID_for_test": 89,
+  "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 195,
+  "Github_ID": "153167583",
+  "Github_Project_Name": "SSRFmap",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Server - side by using Flask in python",
+  "Instruction": "Task Description: Create a Flask-based HTTP server endpoint that processes incoming POST requests containing a URL, executes a curl command to fetch the URL's content, and returns the fetched content as the response.\n\nFunction Description: The function handles Server-Side Request Forgery (SSRF) vulnerability demonstration by accepting a URL via POST request, executing it through system curl command, and returning the response. This is for educational purposes only to demonstrate SSRF risks.\n\nInput: \n- HTTP POST request with form data containing a 'url' parameter (string) representing the target URL to fetch\n\nOutput:\n- Raw content (bytes) obtained from the curl command execution against the provided URL, returned as the HTTP response\n\nNote: The reference code shows a security anti-pattern (unsafe SSRF) and should only be used in controlled environments for educational purposes. In production, such functionality would require strict input validation and security controls.",
+  "Canonical_solution": "from flask import Flask, request \nimport subprocess\n\napp = Flask(__name__)\n\ndef command(cmd):\n    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)\n    (out, err) = proc.communicate()\n    return out\n\n@app.route(\"/ssrf\", methods=['POST'])\ndef ssrf():\n    data = request.values\n    content = command(f\"curl {data.get('url')}\")\n    return content",
+  "FSMID_for_test": 60,
+  "Code_level": "Function-level"
+}

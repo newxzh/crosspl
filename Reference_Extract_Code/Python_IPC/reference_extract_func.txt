@@ -1,0 +1,34 @@
+import os
+import socket
+import threading
+import sys
+sys.path.append("..")
+ROOTFS = os.environ.get('ROOTFS', r'./rootfs/tendaac15')
+def nvram_listener():
+    server_address = fr'{ROOTFS}/var/cfm_socket'
+    if os.path.exists(server_address):
+        os.unlink(server_address)
+    # Create UDS socket
+    sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+    sock.bind(server_address)
+    sock.listen(1)
+    data = bytearray()
+    with open('cfm_socket.log', 'wb') as ofile:
+        while True:
+            connection, _ = sock.accept()
+            try:
+                while True:
+                    data += connection.recv(1024)
+
+                    if b'lan.webiplansslen' not in data:
+                        break
+
+                    connection.send(b'192.168.170.169')
+
+                    ofile.write(data)
+                    data.clear()
+            finally:
+                connection.close()
+if __name__ == '__main__':
+    nvram_listener_therad = threading.Thread(target=nvram_listener, daemon=True)
+    nvram_listener_therad.start()

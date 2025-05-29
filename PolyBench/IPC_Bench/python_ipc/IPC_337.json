@@ -1,0 +1,13 @@
+{
+  "Task_id": 337,
+  "Github_ID": "6371338",
+  "Github_Project_Name": "Responder",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "TCP Client - side by using socket in python",
+  "Instruction": "Task Description: Create a Python function that establishes a TCP connection to a specified host, sends an SMB2 negotiation packet, and processes the server's response to determine SMBv2 support and potential vulnerabilities.\n\nFunction Description: The function connects to a target host using TCP, constructs and sends an SMB2 negotiation packet, then analyzes the response to check for SMBv2 support and potential vulnerabilities. The function handles socket operations including connection, timeout setting, data sending/receiving, and proper connection closure.\n\nInput:\n- host: tuple - A tuple containing (IP_address: str, port: int) representing the target server's address and port\n\nOutput:\n- None (prints messages to console about SMBv2 support and potential vulnerabilities)\n- Raises exceptions for connection or communication errors\n\nThe function performs the following key operations:\n1. Creates a TCP/IPv4 socket\n2. Connects to the specified host with a 5-second timeout\n3. Constructs SMB2 negotiation packet with appropriate headers\n4. Sends the packet prefixed with its length\n5. Receives and analyzes the server response\n6. Determines SMBv2 support from the response\n7. Checks for potential vulnerabilities if SMBv2 is supported\n8. Closes the connection properly in all cases",
+  "Canonical_solution": "import sys\nimport os\nimport datetime\nimport struct\nimport socket\n\nsys.path.insert(0, os.path.realpath(os.path.join(os.path.dirname(__file__), '..')))\nfrom packets import SMB2Header, SMB2Nego, SMB2NegoData\n\ndef run(host):\n    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\n    s.connect(host)  \n    s.settimeout(5) \n\n    Header = SMB2Header(Cmd=\"\\x72\",Flag1=\"\\x18\",Flag2=\"\\x53\\xc8\")\n    Nego = SMB2Nego(Data = SMB2NegoData())\n    Nego.calculate()\n\n    Packet = str(Header)+str(Nego)\n    Buffer = struct.pack(\">i\", len(Packet)) + Packet\n    s.send(Buffer)\n\n    try:\n        data = s.recv(1024)\n        if data[4:5] == \"\\xff\":\n           print \"This host doesn't support SMBv2\" \n        if data[4:5] == \"\\xfe\":\n           IsDCVuln(GetBootTime(data[116:124]))\n    except Exception:\n        s.close()\n        raise",
+  "FSMID_for_test": 67,
+  "Code_level": "Function-level"
+}

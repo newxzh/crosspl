@@ -1,0 +1,13 @@
+{
+  "Task_id": 123,
+  "Github_ID": "2784293",
+  "Github_Project_Name": "php-amqplib",
+  "Programming_Language": "PHP",
+  "suffix": ".php",
+  "Interface_class": "IPC",
+  "Interface_name": "RabbitMQ producer in PHP",
+  "Instruction": "Task Description: Implement a PHP function that sends a message to a RabbitMQ queue using the PhpAmqpLib library. The function should handle connection establishment, message publishing, and resource cleanup.\n\nFunction Description: The function `send_rabbitmq_message` sends a given message to a predefined RabbitMQ queue. It establishes a connection to the RabbitMQ server, declares the necessary exchange and queue, publishes the message, and then closes the connection. The function returns a boolean indicating success or failure.\n\nInput:  \n- `$message_content` (string): The content of the message to be sent to the RabbitMQ queue.\n\nOutput:  \n- (bool): Returns `true` if the message was successfully sent, `false` if an error occurred.",
+  "Canonical_solution": "function send_rabbitmq_message($message_content)\n{\n    include(__DIR__ . '/config.php');\n    use PhpAmqpLib\\Connection\\AMQPStreamConnection;\n    use PhpAmqpLib\\Exchange\\AMQPExchangeType;\n    use PhpAmqpLib\\Message\\AMQPMessage;\n\n    $exchange = 'basic_get_test';\n    $queue = 'basic_get_queue';\n\n    try {\n        $connection = new AMQPStreamConnection(HOST, PORT, USER, PASS, VHOST);\n        $channel = $connection->channel();\n\n        $channel->queue_declare($queue, false, true, false, false);\n        $channel->exchange_declare($exchange, AMQPExchangeType::DIRECT, false, true, false);\n        $channel->queue_bind($queue, $exchange);\n\n        $message = new AMQPMessage($message_content, array('content_type' => 'text/plain', 'delivery_mode' => 2));\n        $channel->basic_publish($message, $exchange);\n\n        $channel->close();\n        $connection->close();\n\n        return true;\n    } catch (Exception $e) {\n        return false;\n    }\n}",
+  "FSMID_for_test": 142,
+  "Code_level": "Function-level"
+}

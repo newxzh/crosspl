@@ -1,0 +1,13 @@
+{
+  "Task_id": 178,
+  "Github_ID": "11542228",
+  "Github_Project_Name": "qmlbook",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Server - side by using Flask in python",
+  "Instruction": "Task Description: Create a Flask-based HTTP server to manage color resources with CRUD (Create, Read, Update, Delete) operations. The server should handle JSON data and respond with appropriate JSON responses.\n\nFunction Description: The code implements a RESTful API for managing color resources stored in a JSON file. It provides endpoints to retrieve all colors, get a specific color by name, create a new color, update an existing color, and delete a color.\n\nInput:\n- For GET /colors: No input parameters\n- For GET /colors/<name>: 'name' parameter in URL path\n- For POST /colors: JSON payload with 'name' and 'value' fields\n- For PUT /colors/<name>: 'name' parameter in URL path and JSON payload with optional 'value' field\n- For DELETE /colors/<name>: 'name' parameter in URL path\n\nOutput:\n- For GET /colors: JSON response containing all colors\n- For GET /colors/<name>: JSON response with the specific color or error\n- For POST /colors: JSON response with the created color and HTTP status 201\n- For PUT /colors/<name>: JSON response with the updated color or error\n- For DELETE /colors/<name>: JSON response with the deleted color or error",
+  "Canonical_solution": "from flask import Flask, jsonify, request\nimport json\n\ncolors = json.load(file('colors.json', 'r'))\napp = Flask(__name__)\n\n@app.route('/colors', methods = ['GET'])\ndef get_colors():\n    return jsonify( { \"data\" :  colors })\n\n@app.route('/colors/<name>', methods = ['GET'])\ndef get_color(name):\n    for color in colors:\n        if color[\"name\"] == name:\n            return jsonify( color )\n    return jsonify( { 'error' : True } )\n\n@app.route('/colors', methods= ['POST'])\ndef create_color():\n    color = {\n        'name': request.json['name'],\n        'value': request.json['value']\n    }\n    colors.append(color)\n    return jsonify( color ), 201\n\n@app.route('/colors/<name>', methods= ['PUT'])\ndef update_color(name):\n    for color in colors:\n        if color[\"name\"] == name:\n            color['value'] = request.json.get('value', color['value'])\n            return jsonify( color )\n    return jsonify( { 'error' : True } )\n\n@app.route('/colors/<name>', methods=['DELETE'])\ndef delete_color(name):\n    for color in colors:\n        if color[\"name\"] == name:\n            colors.remove(color)\n            return jsonify(color)\n    return jsonify( { 'error' : True } )",
+  "FSMID_for_test": 60,
+  "Code_level": "Function-level"
+}

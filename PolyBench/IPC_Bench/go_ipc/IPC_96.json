@@ -1,0 +1,13 @@
+{
+    "Task_id": 96,
+    "Github_ID": "37374972",
+    "Github_Project_Name": "go-starter-kit",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Echo-based HTTP Server in Go",
+    "Instruction": "Task Description: Create an HTTP server using the Echo framework in Go that handles GET requests on two different endpoints (\"/request\" and \"/stream\") and serves over HTTPS.\n\nFunction Description: The main function initializes an Echo server instance, registers route handlers for two GET endpoints, and starts an HTTPS server using provided TLS certificate files.\n\nInput: None (The function takes no direct input parameters, but relies on external TLS certificate files \"cert.pem\" and \"key.pem\")\n\nOutput: None (The function doesn't return anything but starts a persistent HTTP server process)\n\nNote: The actual route handler functions (request and stream) would need to be implemented separately to handle the respective endpoints. The server will run indefinitely until interrupted, listening on port 1323 with TLS encryption.",
+    "Canonical_solution": "import (\n\t\"fmt\"\n\t\"net/http\"\n\t\"time\"\n\n\t\"github.com/labstack/echo\"\n)\nfunc main() {\n\te := echo.New()\n\te.GET(\"/request\", request)\n\te.GET(\"/stream\", stream)\n\te.Logger.Fatal(e.StartTLS(\":1323\", \"cert.pem\", \"key.pem\"))\n}",
+    "FSMID_for_test": 106,
+    "Code_level": "Function-level"
+}

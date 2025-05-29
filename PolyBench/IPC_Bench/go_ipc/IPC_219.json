@@ -1,0 +1,13 @@
+{
+    "Task_id": 219,
+    "Github_ID": "150713223",
+    "Github_Project_Name": "kubeedge",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Official-based gRPC client in Go",
+    "Instruction": "Task Description: Implement a gRPC client function in Go that reports device status to a gRPC server using a Unix domain socket connection.\n\nFunction Description: The function `ReportDeviceStatus` establishes a connection to a gRPC server through a Unix domain socket, sends a device status report request, and handles the response. It manages connection lifecycle including setup, error handling, and cleanup.\n\nInput: \n- request *dmiapi.ReportDeviceStatusRequest: A pointer to the gRPC request message containing device status information to be reported.\n\nOutput:\n- error: Returns an error if any step fails (connection establishment, RPC call, etc.), or nil if successful.\n\nNote: The function uses configuration from `config.Cfg()` to determine the Unix socket path and includes proper connection timeout handling.",
+    "Canonical_solution": "import (\n\t\"context\"\n\t\"fmt\"\n\t\"net\"\n\t\"time\"\n\n\t\"google.golang.org/grpc\"\n\n\tdmiapi \"github.com/kubeedge/api/apis/dmi/v1beta1\"\n\t\"github.com/kubeedge/mapper-framework/pkg/config\"\n)\nfunc ReportDeviceStatus(request *dmiapi.ReportDeviceStatusRequest) error {\n\tcfg := config.Cfg()\n\n\tconn, err := grpc.Dial(cfg.Common.EdgeCoreSock,\n\t\tgrpc.WithInsecure(),\n\t\tgrpc.WithBlock(),\n\t\tgrpc.WithContextDialer(\n\t\t\tfunc(ctx context.Context, s string) (net.Conn, error) {\n\t\t\t\tunixAddress, err := net.ResolveUnixAddr(\"unix\", cfg.Common.EdgeCoreSock)\n\t\t\t\tif err != nil {\n\t\t\t\t\treturn nil, err\n\t\t\t\t}\n\t\t\t\treturn net.DialUnix(\"unix\", nil, unixAddress)\n\t\t\t},\n\t\t),\n\t)\n\tif err != nil {\n\t\treturn fmt.Errorf(\"did not connect: %v\", err)\n\t}\n\tdefer conn.Close()\n\n\tc := dmiapi.NewDeviceManagerServiceClient(conn)\n\n\tctx, cancel := context.WithTimeout(context.Background(), time.Second)\n\tdefer cancel()\n\n\t_, err = c.ReportDeviceStatus(ctx, request)\n\treturn err\n}",
+    "FSMID_for_test": 120,
+    "Code_level": "Function-level"
+}

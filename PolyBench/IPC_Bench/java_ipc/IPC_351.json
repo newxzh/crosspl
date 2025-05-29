@@ -1,0 +1,13 @@
+{
+  "Task_id": 351,
+  "Github_ID": "19641638",
+  "Github_Project_Name": "lettuce",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "Redis in Java",
+  "Instruction": "Task Description: Create a Java class that establishes and manages a connection to a Redis master-slave setup using Lettuce client, allowing read operations to prefer the master node while maintaining failover capabilities.\n\nClass Description: The RedisMasterSlaveConnector class provides functionality to connect to a Redis master-slave cluster, manage the connection, and properly clean up resources when done. It uses Lettuce's MasterReplica API for high availability support.\n\nAttributes:\n- redisClient: RedisClient - The underlying Redis client instance used for connection management\n- connection: StatefulRedisMasterReplicaConnection<String, String> - The active connection to the Redis master-slave cluster\n\nMethods:\n- RedisMasterSlaveConnector() -> void - Constructor that initializes the RedisClient instance\n- connect(List<RedisURI> nodes) -> void - Establishes a connection to the Redis master-slave cluster using the provided node URIs and configures read preference\n- getConnection() -> StatefulRedisMasterReplicaConnection<String, String> - Returns the active Redis master-slave connection\n- close() -> void - Properly closes the connection and shuts down the Redis client to release resources",
+  "Canonical_solution": "import io.lettuce.core.ReadFrom;\nimport io.lettuce.core.RedisClient;\nimport io.lettuce.core.RedisURI;\nimport io.lettuce.core.codec.StringCodec;\nimport io.lettuce.core.masterreplica.MasterReplica;\nimport io.lettuce.core.masterreplica.StatefulRedisMasterReplicaConnection;\nimport java.util.Arrays;\nimport java.util.List;\n\npublic class RedisMasterSlaveConnector {\n\n    private RedisClient redisClient;\n    private StatefulRedisMasterReplicaConnection<String, String> connection;\n\n    public RedisMasterSlaveConnector() {\n        this.redisClient = RedisClient.create();\n    }\n\n    public void connect(List<RedisURI> nodes) {\n        this.connection = MasterReplica.connect(redisClient, StringCodec.UTF8, nodes);\n        connection.setReadFrom(ReadFrom.UPSTREAM_PREFERRED);\n    }\n\n    public StatefulRedisMasterReplicaConnection<String, String> getConnection() {\n        return this.connection;\n    }\n\n    public void close() {\n        if (connection != null) {\n            connection.close();\n        }\n        if (redisClient != null) {\n            redisClient.shutdown();\n        }\n    }\n}",
+  "FSMID_for_test": 37,
+  "Code_level": "Class-level"
+}

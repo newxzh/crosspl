@@ -1,0 +1,13 @@
+{
+    "Task_id": 360,
+    "Github_ID": "21141781",
+    "Github_Project_Name": "beehive",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "net-based UDP Client with DialUDP in Go",
+    "Instruction": "Task Description: Create a UDP client in Go that can send data to a specified server address and port using the net package's DialUDP function.\n\nStruct Description: The SocketBee struct represents a UDP client capable of sending data to a server. It embeds a bees.Bee for base functionality and includes a channel for event handling.\n\nFields:\neventChan: chan bees.Event - Channel for handling events within the bee framework.\n\nMethods:\nAction: [Name](action bees.Action) -> []bees.Placeholder - Handles the \"send\" action to transmit data to a UDP server. Takes an action object containing the target address, port, and data to send. Returns a list of placeholders (currently unused). Panics on errors during address resolution, connection establishment, or data transmission.",
+    "Canonical_solution": "import (\n\t\"log\"\n\t\"net\"\n\t\"strconv\"\n\n\t\"github.com/muesli/beehive/bees\"\n)\n\ntype SocketBee struct {\n\tbees.Bee\n\n\teventChan chan bees.Event\n}\n\nfunc (mod *SocketBee) Action(action bees.Action) []bees.Placeholder {\n\touts := []bees.Placeholder{}\n\n\tvar data string\n\tvar addr string\n\tvar port int\n\n\taction.Options.Bind(\"address\", &addr)\n\taction.Options.Bind(\"port\", &port)\n\taction.Options.Bind(\"data\", &data)\n\n\tswitch action.Name {\n\tcase \"send\":\n\t\tsa, err := net.ResolveUDPAddr(\"udp\", addr+\":\"+strconv.Itoa(port))\n\t\tif err != nil {\n\t\t\tlog.Panicln(err)\n\t\t}\n\n\t\tconn, err := net.DialUDP(\"udp\", nil, sa)\n\t\tif err != nil {\n\t\t\tlog.Panicln(err)\n\t\t}\n\n\t\tdefer conn.Close()\n\t\t_, err = conn.Write([]byte(data))\n\t\tif err != nil {\n\t\t\tlog.Panicln(err)\n\t\t}\n\n\tdefault:\n\t\tpanic(\"Unknown action triggered in \" + mod.Name() + \": \" + action.Name)\n\t}\n\n\treturn outs\n}",
+    "FSMID_for_test": 113,
+    "Code_level": "Class-level"
+}

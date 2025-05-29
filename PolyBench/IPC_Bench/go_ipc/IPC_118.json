@@ -1,0 +1,13 @@
+{
+    "Task_id": 118,
+    "Github_ID": "21525599",
+    "Github_Project_Name": "contrib",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Gin-based HTTP Server in Go",
+    "Instruction": "Task Description: Create a Go function that initializes and runs a Gin HTTP server with static file serving capabilities and a simple ping endpoint.\n\nFunction Description: The function initializes a Gin web server with default middleware (Logger and Recovery), serves static files from a binary filesystem at the \"/static\" route, and sets up a GET endpoint at \"/ping\" that returns a simple text response. The server listens on port 8080.\n\nInput: None (The function takes no parameters)\n\nOutput: None (The function doesn't return anything but starts an HTTP server that runs indefinitely)",
+    "Canonical_solution": "import (\n\t\"net/http\"\n\t\"strings\"\n\n\tassetfs \"github.com/elazarl/go-bindata-assetfs\"\n\t\"github.com/gin-gonic/contrib/static\"\n\t\"github.com/gin-gonic/gin\"\n)\nfunc main() {\n\tr := gin.Default()\n\n\tr.Use(static.Serve(\"/static\", BinaryFileSystem(\"data\")))\n\tr.GET(\"/ping\", func(c *gin.Context) {\n\t\tc.String(200, \"test\")\n\t})\n\tr.Run(\":8080\")\n}",
+    "FSMID_for_test": 105,
+    "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 329,
+  "Github_ID": "19641638",
+  "Github_Project_Name": "lettuce",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "Redis in Java",
+  "Instruction": "Task Description: Create a Java class that provides basic Redis interaction capabilities using the Lettuce client library, including connection management and key-value operations.\n\nClass Description: The RedisInteraction class encapsulates Redis connection and basic operations, providing methods to set/get values and manage the connection lifecycle.\n\nAttributes:\n- redisClient: RedisClient - The main Redis client instance used to create connections\n- connection: StatefulRedisConnection<String, String> - The active Redis connection\n- syncCommands: RedisCommands<String, String> - Synchronous command interface for Redis operations\n\nMethods:\n- RedisInteraction(String redisUri) -> void - Constructor that initializes the Redis client and establishes a connection using the provided URI\n- setValue(String key, String value) -> void - Stores a key-value pair in Redis\n- getValue(String key) -> String - Retrieves the value associated with the given key from Redis\n- closeConnection() -> void - Properly closes the Redis connection and shuts down the client",
+  "Canonical_solution": "import io.lettuce.core.RedisClient;\nimport io.lettuce.core.RedisURI;\nimport io.lettuce.core.api.StatefulRedisConnection;\nimport io.lettuce.core.api.sync.RedisCommands;\n\npublic class RedisInteraction {\n\n    private RedisClient redisClient;\n    private StatefulRedisConnection<String, String> connection;\n    private RedisCommands<String, String> syncCommands;\n\n    public RedisInteraction(String redisUri) {\n        this.redisClient = RedisClient.create(RedisURI.create(redisUri));\n        this.connection = redisClient.connect();\n        this.syncCommands = connection.sync();\n    }\n\n    public void setValue(String key, String value) {\n        syncCommands.set(key, value);\n    }\n\n    public String getValue(String key) {\n        return syncCommands.get(key);\n    }\n\n    public void closeConnection() {\n        connection.close();\n        redisClient.shutdown();\n    }\n}",
+  "FSMID_for_test": 37,
+  "Code_level": "Class-level"
+}

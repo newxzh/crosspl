@@ -1,0 +1,13 @@
+{
+  "Task_id": 34,
+  "Github_ID": "791124680",
+  "Github_Project_Name": "wiseflow",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Client-side by using httpx in python",
+  "Instruction": "Task Description: Create a function to crawl content from Weixin Official Account Platform (mp.weixin.qq.com) URLs using HTTP requests with proper error handling and logging.\n\nFunction Description: The function mp_crawler takes a URL and a logger object as input, validates the URL, makes an HTTPS request to the Weixin Official Account Platform, and returns a status code along with response data (empty in case of errors). It includes URL validation, HTTP request handling with timeout, and proper error logging.\n\nInput:\n- url: str - The target URL to crawl (must be from mp.weixin.qq.com domain)\n- logger: logging.Logger - Logger object for recording warnings and errors\n\nOutput:\n- Tuple[int, dict] - Returns a tuple containing:\n  - First element: int status code (-5 for invalid URL, -7 for request failure, or HTTP status code for success)\n  - Second element: dict containing response data (empty dict in case of errors)",
+  "Canonical_solution": "import httpx\nfrom bs4 import BeautifulSoup\nfrom datetime import datetime\nimport re\n\nheader = {\n    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/604.1 Edg/112.0.100.0'}\n\ndef mp_crawler(url: str, logger) -> (int, dict):\n    if not url.startswith('https://mp.weixin.qq.com') and not url.startswith('http://mp.weixin.qq.com'):\n        logger.warning(f'{url} is not a mp url, you should not use this function')\n        return -5, {}\n\n    url = url.replace(\"http://\", \"https://\", 1)\n\n    try:\n        with httpx.Client() as client:\n            response = client.get(url, headers=header, timeout=30)\n    except Exception as e:\n        logger.warning(f\"cannot get content from {url}\\n{e}\")\n        return -7, {}",
+  "FSMID_for_test": 58,
+  "Code_level": "Function-level"
+}

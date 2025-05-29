@@ -1,0 +1,13 @@
+{
+  "Task_id": 225,
+  "Github_ID": "12414592",
+  "Github_Project_Name": "javaee7-samples",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "WebSocket Client-side based on browser native API in JavaScript",
+  "Instruction": "Task Description: Implement a WebSocket client function in JavaScript that establishes a connection to a server, sends a message, and handles incoming messages.\n\nFunction Description: The function `echo` creates a WebSocket connection to a specified URI, sends a message from an input field upon successful connection, and logs received messages. It also provides visual feedback for connection status and message exchange.\n\nInput: \n- None (implicitly uses `myField.value` from the DOM as the message to send)\n- The WebSocket URI is constructed from the current document's host and path\n\nOutput: \n- No direct return value\n- Side effects:\n  - Logs connection status to console\n  - Writes connection status to screen\n  - Sends message from input field\n  - Writes sent message to screen\n  - Writes received messages to screen",
+  "Canonical_solution": "function echo() {\n    var wsUri = \"ws://\" + document.location.host + document.location.pathname + \"websocket\";\n    console.log(\"Connecting to \" + wsUri);\n    var websocket = new WebSocket(wsUri);\n    websocket.onopen = function() { \n        writeToScreen(\"CONNECTED\");\n        websocket.send(myField.value);\n        writeToScreen(\"SENT: \" + myField.value);\n    };\n    websocket.onmessage = function(evt) { \n        writeToScreen(\"RECEIVED: \" + evt.data); \n    };\n}",
+  "FSMID_for_test": 89,
+  "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 127,
+  "Github_ID": "1283503",
+  "Github_Project_Name": "request",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "Pipe Server-side based on fs+http in JavaScript",
+  "Instruction": "Task Description: Create a function that sets up an HTTP server to handle incoming requests and pipe the request data directly back as the response.\n\nFunction Description: The function `setupServer` creates an HTTP server that listens on an available port. When a request is received, the server responds with a 202 status code and pipes the incoming request data directly back to the response. The server's URL is stored in the `url` property of the server instance once it starts listening.\n\nInput: None\n\nOutput: Returns an HTTP server instance that is actively listening for requests. The server instance has a `url` property containing the server's address (e.g., 'http://localhost:PORT') once the server starts listening.",
+  "Canonical_solution": "function setupServer() {\n  var http = require('http');\n  var server = http.createServer();\n  server.on('request', function (req, res) {\n    res.writeHead(202);\n    req.pipe(res);\n  });\n  server.listen(0, function () {\n    server.url = 'http://localhost:' + this.address().port;\n  });\n  return server;\n}",
+  "FSMID_for_test": 100,
+  "Code_level": "Function-level"
+}

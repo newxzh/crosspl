@@ -1,0 +1,13 @@
+{
+  "Task_id": 86,
+  "Github_ID": "631600154",
+  "Github_Project_Name": "ComfyUI-Manager",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Client-side by using requests in python",
+  "Instruction": "Task Description: Create a Python function that interacts with a REST API to retrieve node version information for installation or to list all available versions of a node.\n\nFunction Description: The function should use the Python requests library to make HTTP GET requests to a specified API endpoint. It should handle both the case where a specific version is requested and where all versions are requested. The function should properly process successful responses and handle errors.\n\nInput:\n- For install_node function:\n  - node_id (str): The unique identifier of the node\n  - version (str, optional): Specific version of the node to retrieve (defaults to None for latest version)\n\n- For all_versions_of_node function:\n  - node_id (str): The unique identifier of the node\n\nOutput:\n- For install_node function:\n  - On success (HTTP 200): Returns parsed NodeVersion data (converted from JSON response)\n  - On failure: Returns None\n\n- For all_versions_of_node function:\n  - On success (HTTP 200): Returns the JSON response containing all versions\n  - On failure: Returns None",
+  "Canonical_solution": "import requests\nbase_url = \"https://api.comfy.org\"\n\ndef install_node(node_id, version=None):\n    \"\"\"\n    Retrieves the node version for installation.\n\n    Args:\n      node_id (str): The unique identifier of the node.\n      version (str, optional): Specific version of the node to retrieve. If omitted, the latest version is returned.\n\n    Returns:\n      NodeVersion: Node version data or error message.\n    \"\"\"\n    if version is None:\n        url = f\"{base_url}/nodes/{node_id}/install\"\n    else:\n        url = f\"{base_url}/nodes/{node_id}/install?version={version}\"\n\n    response = requests.get(url)\n    if response.status_code == 200:\n        # Convert the API response to a NodeVersion object\n        return map_node_version(response.json())\n    else:\n        return None\n\ndef all_versions_of_node(node_id):\n    url = f\"https://api.comfy.org/nodes/{node_id}/versions\"\n\n    response = requests.get(url)\n    if response.status_code == 200:\n        return response.json()\n    else:\n        return None",
+  "FSMID_for_test": 57,
+  "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 167,
+  "Github_ID": "15887579",
+  "Github_Project_Name": "node-open-mining-portal",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "TCP Server - side based on node.js net",
+  "Instruction": "Task Description: Create a TCP server class in JavaScript using Node.js's 'net' module to listen for incoming connections, handle client messages, and emit events for commands received.\n\nClass Description: TCPListener is a class that creates a TCP server to listen for incoming connections on a specified port. It handles client connections, processes incoming data, and emits events when commands are received. The class extends Node.js's EventEmitter to provide event-driven functionality.\n\nAttributes:\n- port: [Number] - The port number on which the TCP server will listen\n- server: [Object] - The TCP server instance created by the 'net' module\n\nMethods:\n- constructor(port) -> [TCPListener] - Initializes the TCPListener instance with the specified port\n- start() -> [void] - Creates and starts the TCP server, sets up event handlers for client connections, data reception, and errors. Emits 'command' events when valid messages are received and 'log' events for server status updates\n\nThe class emits the following events:\n- 'command': (command, params, options, callback) - Emitted when a valid command message is received from a client\n- 'log': (message) - Emitted for logging server status and errors",
+  "Canonical_solution": "var events = require('events');\nvar net = require('net');\n\nclass TCPListener {\n    constructor(port) {\n        this.port = port;\n        this.server = null;\n    }\n\n    start() {\n        this.server = net.createServer((c) => {\n            var data = '';\n            try {\n                c.on('data', (d) => {\n                    data += d;\n                    if (data.slice(-1) === '\\n') {\n                        var message = JSON.parse(data);\n                        this.emit('command', message.command, message.params, message.options, (message) => {\n                            c.end(message);\n                        });\n                    }\n                });\n                c.on('end', () => {});\n                c.on('error', () => {});\n            }\n            catch(e) {\n                this.emit('log', 'CLI listener failed to parse message ' + data);\n            }\n        }).listen(this.port, '127.0.0.1', () => {\n            this.emit('log', 'CLI listening on port ' + this.port);\n        });\n    }\n}\n\nTCPListener.prototype.__proto__ = events.EventEmitter.prototype;",
+  "FSMID_for_test": 97,
+  "Code_level": "Class-level"
+}

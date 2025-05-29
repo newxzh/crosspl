@@ -1,0 +1,13 @@
+{
+    "Task_id": 260,
+    "Github_ID": "110539997",
+    "Github_Project_Name": "runtime",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Official-based gRPC server in Go",
+    "Instruction": "Task Description: Create a Go struct that implements a mock gRPC server proxy for testing purposes, with start and stop functionality.\n\nStruct Description: The ProxyGRPCMock struct provides a mock implementation of a gRPC server that can be started and stopped programmatically. It allows for custom gRPC service implementations and registration routines to be injected for testing purposes.\n\nFields:\n- GRPCImplementer: [interface{}] - The implementation of the gRPC service handler\n- GRPCRegister: [func(s *grpc.Server, srv interface{})] - The function to register the gRPC service implementation with the server\n- listener: [net.Listener] - The network listener for the gRPC server\n\nMethods:\n- Start: [func(URL string) error] -> [error] - Starts the gRPC server on the specified URL (format \"scheme://path\"). Returns error if initialization fails.\n- Stop: [func() error] -> [error] - Stops the gRPC server by closing the listener. Returns error if no listener exists or closing fails.",
+    "Canonical_solution": "import (\n\t\"net\"\n\t\"net/url\"\n\t\"google.golang.org/grpc\"\n)\n\ntype ProxyGRPCMock struct {\n\tGRPCImplementer interface{}\n\tGRPCRegister func(s *grpc.Server, srv interface{})\n\tlistener net.Listener\n}\n\nfunc (p *ProxyGRPCMock) Start(URL string) error {\n\tif p.GRPCImplementer == nil {\n\t\treturn fmt.Errorf(\"Missing gRPC handler\")\n\t}\n\n\tif p.GRPCRegister == nil {\n\t\treturn fmt.Errorf(\"Missing gRPC registration routine\")\n\t}\n\n\turl, err := url.Parse(URL)\n\tif err != nil {\n\t\treturn err\n\t}\n\n\tl, err := net.Listen(url.Scheme, url.Path)\n\tif err != nil {\n\t\treturn err\n\t}\n\n\tp.listener = l\n\n\tgrpcServer := grpc.NewServer()\n\tp.GRPCRegister(grpcServer, p.GRPCImplementer)\n\n\tgo func() {\n\t\tgrpcServer.Serve(l)\n\t}()\n\n\treturn nil\n}\n\nfunc (p *ProxyGRPCMock) Stop() error {\n\tif p.listener == nil {\n\t\treturn fmt.Errorf(\"Missing proxy listener\")\n\t}\n\n\treturn p.listener.Close()\n}",
+    "FSMID_for_test": 119,
+    "Code_level": "Class-level"
+}

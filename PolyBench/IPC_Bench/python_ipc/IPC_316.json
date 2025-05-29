@@ -1,0 +1,13 @@
+{
+  "Task_id": 316,
+  "Github_ID": "114459569",
+  "Github_Project_Name": "cryptofeed",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "RabbitMQ consumer based on pika in python",
+  "Instruction": "Task Description: Implement a RabbitMQ message consumer function in Python using the pika library to receive and process messages from a specified queue.\n\nFunction Description: The function establishes a connection to a RabbitMQ server, declares a topic exchange and a queue, binds them together, and starts consuming messages. Each received message is processed by a callback function that prints the message body.\n\nInput:\n- port: [int] - The port number of the RabbitMQ server to connect to (default is typically 5672)\n\nOutput: None (The function runs indefinitely, consuming messages until interrupted)",
+  "Canonical_solution": "import pika\nfrom multiprocessing import Process\n\ndef callback(ch, method, properties, body):\n    print(\" [x] Received %r\" % body.decode())\n\ndef receiver(port):\n    connection = pika.BlockingConnection(\n        pika.ConnectionParameters(host='localhost', port=port))\n    channel = connection.channel()\n    exchange_name = 'amq.topic'\n    exchange_type = 'topic'\n    channel.exchange_declare(exchange=exchange_name, exchange_type=exchange_type, durable=True)\n    queue_name = 'cryptofeed'\n    channel.queue_declare(queue=queue_name)\n    channel.queue_bind(exchange=exchange_name, queue=queue_name)\n    channel.basic_consume(queue=queue_name, on_message_callback=callback, auto_ack=True)\n    print(' [*] Waiting for messages. To exit press CTRL+C')\n    channel.start_consuming()",
+  "FSMID_for_test": 77,
+  "Code_level": "Function-level"
+}

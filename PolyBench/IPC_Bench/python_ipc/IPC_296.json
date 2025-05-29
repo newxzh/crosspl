@@ -1,0 +1,13 @@
+{
+  "Task_id": 296,
+  "Github_ID": "501535202",
+  "Github_Project_Name": "ecs",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "Pipe based on subprocess in python",
+  "Instruction": "Task Description: Create a function that executes a system command using Python's subprocess module with pipe-based inter-process communication.\n\nFunction Description: The function should take a system command as input, execute it in a subprocess, capture the output through a pipe, and return the decoded output string. It should handle the process creation, communication, and cleanup automatically.\n\nInput: \n- com: [str] - The system command to be executed as a string\n\nOutput:\n- [str] - The decoded output from the executed command, as a string",
+  "Canonical_solution": "import sys\nimport subprocess\n\ndef excuteCommand(com):\n    ex = subprocess.Popen(com, stdout=subprocess.PIPE, shell=True)\n    out, err = ex.communicate()\n    status = ex.wait()\n    return out.decode()",
+  "FSMID_for_test": 76,
+  "Code_level": "Function-level"
+}

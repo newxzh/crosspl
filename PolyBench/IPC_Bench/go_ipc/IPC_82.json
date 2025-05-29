@@ -1,0 +1,13 @@
+{
+    "Task_id": 82,
+    "Github_ID": "140654872",
+    "Github_Project_Name": "mosn",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Basic HTTP server using net/http with HandleFunc and ListenAndServe",
+    "Instruction": "Task Description: Create a basic HTTP server in Go that echoes back the request headers to the client. The server should handle requests on the root path (\"/\") and respond by writing the request headers to the response.\n\nFunction Description: The `ServeHTTP` function is an HTTP handler that writes the request headers to the response writer. It is registered to handle requests on the root path (\"/\") and starts an HTTP server listening on `127.0.0.1:8080`.\n\nInput: \n- `w http.ResponseWriter`: Used to construct the HTTP response.\n- `r *http.Request`: Contains the incoming HTTP request details, including headers.\n\nOutput: None (writes directly to the `http.ResponseWriter`).",
+    "Canonical_solution": "import (\n\t\"net/http\"\n)\n\nfunc ServeHTTP(w http.ResponseWriter, r *http.Request) {\n\tr.Header.Write(w)\n}\n\nfunc main() {\n\thttp.HandleFunc(\"/\", ServeHTTP)\n\thttp.ListenAndServe(\"127.0.0.1:8080\", nil)\n}",
+    "FSMID_for_test": 103,
+    "Code_level": "Function-level"
+}

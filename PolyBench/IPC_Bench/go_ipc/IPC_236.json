@@ -1,0 +1,13 @@
+{
+    "Task_id": 236,
+    "Github_ID": "137360315",
+    "Github_Project_Name": "learning_tools",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Official-based gRPC client in Go",
+    "Instruction": "Task Description: Create a function that demonstrates how to establish a gRPC client connection, make a login request to a user service, and handle the response.\n\nFunction Description: The function connects to a gRPC server at a specified address, creates a client for the User service, sends a login request with account credentials, and returns the authentication token. It includes error handling and connection cleanup.\n\nInput: \n- serviceAddress (string): The address of the gRPC server in \"host:port\" format\n- account (string): The user's account name for login\n- password (string): The user's password for login\n\nOutput:\n- token (string): The authentication token returned by the server upon successful login\n- error: Any error that occurs during the connection or RPC call\n\nNote: The function assumes the existence of generated gRPC client code from a protobuf definition that includes a User service with RpcUserLogin method.",
+    "Canonical_solution": "import (\n\t\"context\"\n\t\"testing\"\n\n\t\"github.com/hwholiday/learning_tools/go-kit/v5/v5_user/pb\"\n\t\"google.golang.org/grpc\"\n\t\"google.golang.org/grpc/metadata\"\n)\n\nfunc TestGrpc(t *testing.T) {\n\tserviceAddress := \"127.0.0.1:8881\"\n\tconn, err := grpc.Dial(serviceAddress, grpc.WithInsecure())\n\tif err != nil {\n\t\tpanic(\"connect error\")\n\t}\n\tdefer conn.Close()\n\tuserClient := pb.NewUserClient(conn)\n\tUUID := uuid.NewV5(uuid.NewV4(), \"req_uuid\").String()\n\tmd := metadata.Pairs(v5_service.ContextReqUUid, UUID)\n\tctx := metadata.NewOutgoingContext(context.Background(), md)\n\tres, err := userClient.RpcUserLogin(ctx, &pb.Login{\n\t\tAccount:  \"hw\",\n\t\tPassword: \"123\",\n\t})\n\tif err != nil {\n\t\tt.Error(err)\n\t\treturn\n\t}\n\tt.Log(res.Token)\n}",
+    "FSMID_for_test": 120,
+    "Code_level": "Function-level"
+}

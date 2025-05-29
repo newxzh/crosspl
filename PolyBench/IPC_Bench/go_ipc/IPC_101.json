@@ -1,0 +1,13 @@
+{
+    "Task_id": 101,
+    "Github_ID": "37374972",
+    "Github_Project_Name": "go-starter-kit",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Echo-based HTTP Server in Go",
+    "Instruction": "Task Description: Create an HTTP server using the Echo framework in Go that handles basic routes and includes middleware for logging and recovery.\n\nFunction Description: The main function initializes a new Echo instance, sets up middleware for logging and panic recovery, defines a route handler for the root path (\"/\"), and starts the HTTP server on port 1323.\n\nInput: None (The function takes no direct input parameters; configuration is done internally)\n\nOutput: None (The function does not return any value; it starts an HTTP server that runs indefinitely until interrupted)",
+    "Canonical_solution": "import (\n\t\"net/http\"\n\n\t\"github.com/labstack/echo\"\n\t\"github.com/labstack/echo/middleware\"\n)\nfunc main() {\n\te := echo.New()\n\n\te.Use(middleware.Logger())\n\te.Use(middleware.Recover())\n\n\te.GET(\"/\", func(c echo.Context) error {\n\t\treturn c.String(http.StatusOK, \"Hello, World!\\n\")\n\t})\n\n\te.Logger.Fatal(e.Start(\":1323\"))\n}",
+    "FSMID_for_test": 106,
+    "Code_level": "Function-level"
+}

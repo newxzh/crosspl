@@ -1,0 +1,13 @@
+{
+  "Task_id": 406,
+  "Github_ID": "5103785",
+  "Github_Project_Name": "undertow",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "TCP Client-side Java.io",
+  "Instruction": "Task Description: Write a Java function that tests a server's handling of a malformed HTTP request by sending a bad request and verifying the server's response.\n\nFunction Description: The function `testBadRequest` attempts to send a deliberately malformed HTTP POST request to a server and verifies that the server responds with a \"400 Bad Request\" error. The function creates a TCP socket connection to the server, sends the malformed request, reads the server's response, and compares it to the expected response. If the response matches, the test passes; otherwise, it may throw an IOException if the connection is closed prematurely.\n\nInput: None (The server address and port are obtained from `DefaultServer.getDefaultServerAddress()` internally)\n\nOutput: None (The function asserts the server's response matches the expected \"400 Bad Request\" response. Any mismatch or IOException will result in a test failure or exception.)",
+  "Canonical_solution": "import java.io.IOException;\nimport java.net.Socket;\n\npublic void testBadRequest() throws IOException {\n    String request = \"POST /\\r HTTP/1.1\\r\\nTrailer:foo, bar\\r\\nTransfer-Encoding: chunked\\r\\n\\r\\n9\\r\\nabcdefghi\\r\\n0\\r\\nfoo: fooVal\\r\\n bar: barVal\\r\\n\\r\\n\";\n    String response1 = \"HTTP/1.1 400 Bad Request\\r\\nContent-Length: 0\\r\\nConnection: close\\r\\n\\r\\n\";\n    Socket s = new Socket(DefaultServer.getDefaultServerAddress().getAddress(), DefaultServer.getDefaultServerAddress().getPort());\n    try {\n        s.getOutputStream().write(request.getBytes());\n\n        StringBuilder sb = new StringBuilder();\n        int read = 0;\n        byte[] buf = new byte[100];\n        while (read < response1.length()) {\n            int r = s.getInputStream().read(buf);\n            if (r <= 0) break;\n            if (r > 0) {\n                read += r;\n                sb.append(new String(buf, 0, r));\n            }\n        }\n        Assert.assertEquals(response1, sb.toString());\n\n    } catch (IOException expected) {\n        //this can happen as well, as in some cases we may not have fully consumed the read side\n        //before the connection is shutdown, namely when we are running in test.single\n    } finally {\n        s.close();\n    }\n}",
+  "FSMID_for_test": 15,
+  "Code_level": "Function-level"
+}

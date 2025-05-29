@@ -1,0 +1,13 @@
+{
+  "Task_id": 210,
+  "Github_ID": "171410703",
+  "Github_Project_Name": "reactpy",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Server - side by using Sanic in python",
+  "Instruction": "Task Description: Create a Python application using Sanic framework that serves a basic web page and integrates a ReactPy component. The application should have a root route serving an HTML file and a separate route prefix for ReactPy components.\n\nFunction Description: The code sets up a Sanic web server with two main functionalities: serving static content (index.html) and hosting ReactPy components. It demonstrates basic route handling and ReactPy integration with Sanic.\n\nInput: None (The functions don't take explicit parameters but rely on framework-specific objects)\n\nOutput: A running Sanic web server that responds to HTTP requests\n\nMethods:\n\nconfigure_reactpy: None -> None - Configures the ReactPy integration with Sanic, setting up the necessary routes and options for ReactPy components under the \"/_reactpy\" prefix.\n\nrun_server: None -> None - Starts the Sanic web server on localhost (127.0.0.1) port 5000.\n\nRoute Handlers:\n\nindex: (request: sanic.Request) -> sanic.response.HTTPResponse - Asynchronous route handler for the root path (\"/\") that serves the index.html file.\n\nReactPyView: None -> reactpy.types.Component - ReactPy component function that returns basic HTML content to be rendered by the ReactPy backend.",
+  "Canonical_solution": "from sanic import Sanic\nfrom sanic.response import file\nfrom reactpy import component, html\nfrom reactpy.backend.sanic import Options, configure\n\napp = Sanic(\"MyApp\")\n\n@app.route(\"/\")\nasync def index(request):\n    return await file(\"index.html\")\n\n@component\ndef ReactPyView():\n    return html.code(\"This text came from an ReactPy App\")\n\ndef configure_reactpy():\n    configure(app, ReactPyView, Options(url_prefix=\"/_reactpy\"))\n\ndef run_server():\n    app.run(host=\"127.0.0.1\", port=5000)\n\nif __name__ == \"__main__\":\n    configure_reactpy()\n    run_server()",
+  "FSMID_for_test": 62,
+  "Code_level": "Function-level"
+}

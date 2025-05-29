@@ -1,0 +1,13 @@
+{
+  "Task_id": 482,
+  "Github_ID": "13512018",
+  "Github_Project_Name": "Diamond",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "ZeroMQ Producer in Python(PUB/SUB)",
+  "Instruction": "Task Description: Create a ZeroMQ Publisher (PUB) handler class that can send metrics over a TCP connection using the PUB/SUB pattern.\n\nClass Description: The `zmqHandler` class is a ZeroMQ-based publisher that inherits from a base `Handler` class. It establishes a PUB socket to publish metrics to subscribers. The class handles socket creation, binding, and message sending.\n\nAttributes:\n- context: [zmq.Context] - ZeroMQ context for managing sockets\n- socket: [zmq.Socket] - PUB socket for sending messages\n- port: [int] - Port number to bind the socket to\n- enabled: [bool] - Flag indicating if the handler is operational (inherited)\n- config: [dict] - Configuration dictionary (inherited)\n- log: [Logger] - Logger instance (inherited)\n\nMethods:\n- __init__(config: dict) -> None - Constructor that initializes the handler with configuration\n  Input: config - Dictionary containing configuration parameters\n  Output: None\n\n- _bind() -> None - Internal method to create and bind the PUB socket\n  Input: None\n  Output: None\n\n- process(metric: Any) -> None - Publishes a metric through the PUB socket\n  Input: metric - The data to be published (converted to string)\n  Output: None",
+  "Canonical_solution": "import zmq\nfrom Handler import Handler\n\nclass zmqHandler(Handler):\n    def __init__(self, config=None):\n        Handler.__init__(self, config)\n        \n        if not zmq:\n            self.log.error('zmq import failed. Handler disabled')\n            self.enabled = False\n            return\n\n        self.context = None\n        self.socket = None\n        self.port = int(self.config['port'])\n        self._bind()\n\n    def _bind(self):\n        if not zmq:\n            return\n        self.context = zmq.Context()\n        self.socket = self.context.socket(zmq.PUB)\n        self.socket.bind(\"tcp://*:%i\" % self.port)\n\n    def process(self, metric):\n        if not zmq:\n            return\n        self.socket.send(\"%s\" % str(metric))",
+  "FSMID_for_test": 88,
+  "Code_level": "Class-level"
+}

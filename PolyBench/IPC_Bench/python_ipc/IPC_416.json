@@ -1,0 +1,13 @@
+{
+  "Task_id": 416,
+  "Github_ID": "9294498",
+  "Github_Project_Name": "python-cookbook",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "TCP Server - side by using socketserver in python",
+  "Instruction": "Task Description: Implement a TCP server using Python's socketserver module to handle client connections and echo back received messages.\n\nClass Description: The solution consists of two classes: EchoHandler for processing client requests and TCPServerWrapper for managing the TCP server instance.\n\nAttributes:\n- host: str - The host address to bind the server to (default: '' for all interfaces)\n- port: int - The port number to listen on (default: 20000)\n- server: TCPServer - The TCP server instance created with specified host and port\n\nMethods:\n- EchoHandler.handle() -> None - Processes client requests by continuously receiving messages and echoing them back until connection is closed\n- TCPServerWrapper.__init__(host: str = '', port: int = 20000) -> None - Initializes the TCP server with given host and port\n- TCPServerWrapper.serve_forever() -> None - Starts the server and keeps it running indefinitely while printing status information",
+  "Canonical_solution": "from socketserver import BaseRequestHandler, TCPServer\n\nclass EchoHandler(BaseRequestHandler):\n    def handle(self):\n        print('Got connection from', self.client_address)\n        while True:\n            msg = self.request.recv(8192)\n            if not msg:\n                break\n            self.request.send(msg)\n\nclass TCPServerWrapper:\n    def __init__(self, host='', port=20000):\n        self.host = host\n        self.port = port\n        self.server = TCPServer((self.host, self.port), EchoHandler)\n\n    def serve_forever(self):\n        print(f'Echo server running on port {self.port}')\n        self.server.serve_forever()",
+  "FSMID_for_test": 70,
+  "Code_level": "Class-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 29,
+  "Github_ID": "718425655",
+  "Github_Project_Name": "Xboard",
+  "Programming_Language": "PHP",
+  "suffix": ".php",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP client using cURL in PHP",
+  "Instruction": "Task Description: Implement a PHP class that interacts with the Coinbase API to handle payment processing using cURL for HTTP requests.\n\nClass Description: The Coinbase class implements the PaymentInterface and provides functionality to make POST requests to the Coinbase API. It handles API key authentication and request configuration.\n\nAttributes:\n- config: [array] - Stores the configuration settings including the Coinbase API key.\n\nMethods:\n- __construct($config): [void] - Initializes the class with the provided configuration.\n  - Input: $config [array] - Configuration array containing API credentials\n  - Output: None\n\n- _curlPost($url, $params = false): [mixed] - Makes a POST request to the specified URL with optional parameters.\n  - Input: \n    - $url [string] - The API endpoint URL\n    - $params [mixed|false] - Optional request payload parameters\n  - Output: [mixed] - The API response or false on failure",
+  "Canonical_solution": "namespace App\\Payments;\n\nuse App\\Contracts\\PaymentInterface;\nuse App\\Exceptions\\ApiException;\n\nclass Coinbase implements PaymentInterface\n{\n    protected $config;\n    public function __construct($config)\n    {\n        $this->config = $config;\n    }\n\n    private function _curlPost($url, $params = false)\n    {\n        $ch = curl_init();\n        curl_setopt($ch, CURLOPT_URL, $url);\n        curl_setopt($ch, CURLOPT_HEADER, 0);\n        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);\n        curl_setopt($ch, CURLOPT_TIMEOUT, 300);\n        curl_setopt($ch, CURLOPT_POSTFIELDS, $params);\n        curl_setopt(\n            $ch,\n            CURLOPT_HTTPHEADER,\n            array('X-CC-Api-Key:' . $this->config['coinbase_api_key'], 'X-CC-Version: 2018-03-22')\n        );\n        $result = curl_exec($ch);\n        curl_close($ch);\n        return $result;\n    }\n}",
+  "FSMID_for_test": 132,
+  "Code_level": "Class-level"
+}

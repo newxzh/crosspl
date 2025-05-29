@@ -1,0 +1,13 @@
+{
+  "Task_id": 302,
+  "Github_ID": "79890843",
+  "Github_Project_Name": "real-world-onion-sites",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "Pipe based on subprocess in python",
+  "Instruction": "Task Description: Create a function that uses subprocess.Popen with pipes to execute a curl command, handle its output, and store the results in a database.\n\nFunction Description: The function executes a curl command as a subprocess to fetch HTTP headers from a URL using a SOCKS proxy. It handles timeouts, processes the output to extract HTTP status codes, and records all results (including errors) in a global database. The function includes a small delay between calls to avoid overwhelming the system.\n\nInput:\n- self: The object instance containing URL and attempt count (implicit in method context)\n- url: [str] - The target URL to fetch (accessed via self.url)\n- USER_AGENT: [str] - The user agent string for the HTTP request\n- SOCKS_PROXY: [str] - The SOCKS proxy address to use\n- CURL_TIMEOUT: [int] - Maximum time allowed for the curl command to complete\n\nOutput:\n- None (direct return value), but the function:\n  - Updates self.last_code with the HTTP status code\n  - Increments self.attempt counter\n  - Inserts a record into GLOBAL_DB containing:\n    - url: [str] - The requested URL\n    - attempt: [int] - The attempt number\n    - out: [bytes/str] - The curl command's stdout output\n    - err: [bytes/str] - The curl command's stderr output or error message\n    - http_code: [int] - The extracted HTTP status code\n    - curl_exit: [int] - The curl process's exit code",
+  "Canonical_solution": "import subprocess\nimport time\n\ndef fetch1(self):\n    args = [ 'curl', '--head', '--user-agent', USER_AGENT, '--proxy', SOCKS_PROXY, self.url ]\n    time.sleep(1) # slight breathing space because MP\n    try:\n        p = subprocess.Popen(args, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=subprocess.PIPE) # todo: text=True\n        (out, err) = p.communicate(timeout=CURL_TIMEOUT)\n        hcode = extract_hcode(str(out)) # str() not needed if text=True\n        if hcode == 200: err = PLACEHOLDER\n        ecode = p.returncode\n    except subprocess.TimeoutExpired as e:\n        (out, err) = (PLACEHOLDER, str(e))\n        hcode = BADNESS + 10\n        ecode = BADNESS + 10\n    self.last_code = hcode\n    self.attempt += 1\n    GLOBAL_DB.insert(dict(\n        url=self.url,\n        attempt=self.attempt,\n        out=out,\n        err=err,\n        http_code=hcode,\n        curl_exit=ecode,\n    ))",
+  "FSMID_for_test": 76,
+  "Code_level": "Function-level"
+}

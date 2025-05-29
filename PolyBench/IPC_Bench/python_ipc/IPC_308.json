@@ -1,0 +1,13 @@
+{
+  "Task_id": 308,
+  "Github_ID": "21858929",
+  "Github_Project_Name": "ipv6-hosts",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "Pipe based on subprocess in python",
+  "Instruction": "Task Description: Write a Python function that queries DNS information for a given domain using the `dig` command, with options for TCP protocol and IPv6.\n\nFunction Description: The function `query_domain` executes a DNS query using the `dig` command-line tool. It retrieves the CNAME and IP address for the specified domain, with configurable query type and DNS server. The function supports TCP protocol and IPv6 queries. It parses the output to extract the first valid CNAME and IP address.\n\nInput:\n- `domain`: [str] - The domain name to query\n- `tcp`: [bool] - Whether to use TCP protocol for the DNS query (default: False)\n- `config`: [dict] - Configuration dictionary containing:\n  - `querytype`: [str] - DNS query type (e.g., 'A', 'AAAA')\n  - `dns`: [str] - DNS server address to query\n\nOutput:\n- [tuple] - A tuple containing:\n  - First valid CNAME found (str), empty string if none\n  - First valid IP address found (str), empty string if none",
+  "Canonical_solution": "import subprocess\nimport shlex\n\ndef query_domain(domain, tcp):\n    cmd = \"dig +short +time=2 -6 %s @'%s' '%s'\"\\\n        % (config['querytype'], config['dns'], domain)\n\n    if tcp:\n        cmd = cmd + ' +tcp'\n\n    proc = subprocess.Popen(shlex.split(cmd), stdout=subprocess.PIPE)\n    out, _ = proc.communicate()\n    outarr = out.decode('utf-8').splitlines()\n\n    cname = ip = ''\n    for v in outarr:\n        if cname == '' and validate_domain(v[:-1]):\n            cname = v[:-1]\n        if ip == '' and validate_ip_addr(v):\n            ip = v\n            break\n\n    return (cname, ip)",
+  "FSMID_for_test": 76,
+  "Code_level": "Function-level"
+}

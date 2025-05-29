@@ -1,0 +1,13 @@
+{
+    "Task_id": 80,
+    "Github_ID": "40453691",
+    "Github_Project_Name": "GolangTraining",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Basic HTTP server using net/http with HandleFunc and ListenAndServe",
+    "Instruction": "Task Description: Create a basic HTTP server in Go that handles requests and responds with the requested URL path.\n\nFunction Description: The main function sets up an HTTP server that listens on port 9000. It registers a handler function for the root path (\"/\") that writes the requested URL path as plain text in the response.\n\nInput: None (The function takes no direct input parameters; it handles incoming HTTP requests through the registered handler)\n\nOutput: None (The function doesn't return any value; it continuously serves HTTP requests until terminated)\n\nNote: The handler function takes two parameters:\n1. res http.ResponseWriter - used to write the HTTP response\n2. req *http.Request - contains information about the incoming request",
+    "Canonical_solution": "import (\n\t\"fmt\"\n\t\"net/http\"\n)\nfunc main() {\n\thttp.HandleFunc(\"/\", func(res http.ResponseWriter, req *http.Request) {\n\t\tres.Header().Set(\"Content-Type\", \"text/plain\")\n\t\tfmt.Fprint(res, req.URL.Path)\n\t})\n\n\thttp.ListenAndServe(\":9000\", nil)\n}",
+    "FSMID_for_test": 103,
+    "Code_level": "Function-level"
+}

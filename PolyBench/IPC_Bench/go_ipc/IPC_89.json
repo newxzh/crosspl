@@ -1,0 +1,13 @@
+{
+    "Task_id": 89,
+    "Github_ID": "180593078",
+    "Github_Project_Name": "sentinel-golang",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Echo-based HTTP Server in Go",
+    "Instruction": "Task Description: Create an HTTP server using the Echo framework in Go, which includes middleware for request logging and rate limiting using Sentinel. The server should handle a GET request at the \"/test\" endpoint.\n\nFunction Description: The function sets up an Echo HTTP server with middleware for logging and rate limiting. The rate limiting is implemented using Sentinel middleware, which extracts the client's real IP from the request headers and applies a block fallback response when the rate limit is exceeded. The server listens on port 1323.\n\nInput: None (The function does not take any input parameters.)\n\nOutput: None (The function does not return any value but starts an HTTP server that listens on port 1323.)",
+    "Canonical_solution": "import (\n\t\"github.com/labstack/echo/v4\"\n\t\"github.com/labstack/echo/v4/middleware\"\n)\nfunc Example() {\n\tr := echo.New()\n\tr.Use(middleware.Logger())\n\tr.Use(\n\t\tSentinelMiddleware(\n\t\t\tWithResourceExtractor(func(ctx echo.Context) string {\n\t\t\t\tif res, ok := ctx.Get(\"X-Real-IP\").(string); ok {\n\t\t\t\t\treturn res\n\t\t\t\t}\n\t\t\t\treturn \"\"\n\t\t\t}),\n\t\t\tWithBlockFallback(func(ctx echo.Context) error {\n\t\t\t\treturn ctx.JSON(400, map[string]interface{}{\n\t\t\t\t\t\"err\":  \"too many requests; the quota used up\",\n\t\t\t\t\t\"code\": 10222,\n\t\t\t\t})\n\t\t\t}),\n\t\t),\n\t)\n\n\tr.GET(\"/test\", func(c echo.Context) error {\n\t\treturn nil\n\t})\n\tr.Logger.Fatal(r.Start(\":1323\"))\n}",
+    "FSMID_for_test": 106,
+    "Code_level": "Function-level"
+}

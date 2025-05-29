@@ -1,0 +1,13 @@
+{
+  "Task_id": 147,
+  "Github_ID": "69691727",
+  "Github_Project_Name": "PocketMine-MP",
+  "Programming_Language": "PHP",
+  "suffix": ".php",
+  "Interface_class": "IPC",
+  "Interface_name": "pipe based on proc_open in PHP",
+  "Instruction": "Task Description: Create a function that executes a shell command and captures its standard output and error streams using PHP's proc_open.\n\nFunction Description: The function should execute a given shell command, capture both stdout and stderr streams, properly close all resources, and return the exit code of the process. It should handle cases where process creation fails.\n\nInput:\n- $command: string - The shell command to execute\n- &$stdout: ?string (optional reference) - Variable to store the standard output\n- &$stderr: ?string (optional reference) - Variable to store the standard error\n\nOutput:\n- int - The exit code of the executed process. Returns -1 if process creation fails.",
+  "Canonical_solution": "function execute(string $command, ?string &$stdout = null, ?string &$stderr = null) : int\n{\n    $process = proc_open($command, [\n        [\"pipe\", \"r\"],\n        [\"pipe\", \"w\"],\n        [\"pipe\", \"w\"]\n    ], $pipes);\n\n    if($process === false){\n        $stderr = \"Failed to open process\";\n        $stdout = \"\";\n        return -1;\n    }\n\n    $stdout = stream_get_contents($pipes[1]);\n    $stderr = stream_get_contents($pipes[2]);\n\n    foreach($pipes as $p){\n        fclose($p);\n    }\n\n    return proc_close($process);\n}",
+  "FSMID_for_test": 145,
+  "Code_level": "Function-level"
+}

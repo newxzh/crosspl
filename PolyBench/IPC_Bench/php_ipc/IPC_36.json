@@ -1,0 +1,13 @@
+{
+  "Task_id": 36,
+  "Github_ID": "230089878",
+  "Github_Project_Name": "IYUUAutoReseed",
+  "Programming_Language": "PHP",
+  "suffix": ".php",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP client using cURL in PHP",
+  "Instruction": "Task Description: Create a PHP function that performs HTTP requests using cURL with support for GET/POST methods, custom headers, cookies, and SSL configuration.\n\nFunction Description: The function should make HTTP requests to a specified URL with optional cookies and user agent. It should handle both HTTP and HTTPS protocols, with configurable SSL verification. The function should follow redirects (302 status) and return the response data or false on failure. Timeouts should be configurable for connection and request execution.\n\nInput:\n- $url: string - The target URL for the HTTP request\n- $cookies: string (optional) - Cookie string to be sent with the request\n- $useragent: string (optional) - User-Agent header value\n- $method: string (optional) - HTTP method ('GET' or 'POST'), defaults to 'GET'\n\nOutput:\n- Returns: mixed - The response data as string on success (HTTP 200), follows redirects automatically (HTTP 302), or returns false on failure",
+  "Canonical_solution": "function download($url, $cookies='', $useragent='', $method = 'GET')\n{\n    $header = array(\n        \"Content-Type:application/x-www-form-urlencoded\",\n        'User-Agent: '.$useragent);\n    $ch = curl_init();\n    if ($method === 'POST') {\n        curl_setopt($ch, CURLOPT_POST, true);\n    }\n    if (stripos($url, 'https://') === 0) {\n        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);\n        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);\n        curl_setopt($ch, CURLOPT_SSLVERSION, 1);\n    }\n    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);\n    curl_setopt($ch, CURLOPT_HTTPHEADER, $header);\n    curl_setopt($ch, CURLOPT_COOKIE, $cookies);\n    curl_setopt($ch, CURLOPT_URL, $url);\n    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60);\n    curl_setopt($ch, CURLOPT_TIMEOUT, 600);\n    $data = curl_exec($ch);\n    $status = curl_getinfo($ch);\n    curl_close($ch);\n    if (isset($status['http_code']) && $status['http_code'] == 200) {\n        return $data;\n    }\n    if (isset($status['http_code']) && $status['http_code'] == 302) {\n        return download($status['redirect_url'], $cookies, $useragent);\n    }\n    return $data;\n}",
+  "FSMID_for_test": 132,
+  "Code_level": "Function-level"
+}

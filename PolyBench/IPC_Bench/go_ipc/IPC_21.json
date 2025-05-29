@@ -1,0 +1,13 @@
+{
+    "Task_id": 21,
+    "Github_ID": "13234395",
+    "Github_Project_Name": "confd",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Advanced HTTP client with custom http.Client and request headers",
+    "Instruction": "Task Description: Create a Go client for interacting with Rancher metadata service, capable of making HTTP requests with custom headers and handling connection testing with exponential backoff.\n\nStruct Description: The Client struct represents a Rancher metadata client that manages HTTP connections to Rancher metadata service endpoints.\n\nFields:\nurl: string - The base URL for Rancher metadata service (default: \"http://rancher-metadata\")\nhttpClient: *http.Client - The HTTP client used for making requests\n\nMethods:\nNewRancherClient: (backendNodes []string) -> (*Client, error) - Creates a new Rancher client instance, optionally using the first backend node if provided, and tests the connection\nmakeMetaDataRequest: (path string) -> ([]byte, error) - Makes a GET request to the specified path with JSON accept header, returns response body\ntestConnection: () -> error - Tests the connection to the metadata service with exponential backoff retry logic (up to 20 seconds)",
+    "Canonical_solution": "import (\n\t\"encoding/json\"\n\t\"fmt\"\n\t\"io/ioutil\"\n\t\"net/http\"\n\t\"strings\"\n\t\"time\"\n)\n\ntype Client struct {\n\turl        string\n\thttpClient *http.Client\n}\n\nfunc NewRancherClient(backendNodes []string) (*Client, error) {\n\turl := \"http://rancher-metadata\"\n\n\tif len(backendNodes) > 0 {\n\t\turl = \"http://\" + backendNodes[0]\n\t}\n\n\tclient := &Client{\n\t\turl:        url,\n\t\thttpClient: &http.Client{},\n\t}\n\n\terr := client.testConnection()\n\treturn client, err\n}\n\nfunc (c *Client) makeMetaDataRequest(path string) ([]byte, error) {\n\treq, _ := http.NewRequest(\"GET\", strings.Join([]string{c.url, path}, \"\"), nil)\n\treq.Header.Set(\"Accept\", \"application/json\")\n\n\tresp, err := c.httpClient.Do(req)\n\tif err != nil {\n\t\treturn nil, err\n\t}\n\tdefer resp.Body.Close()\n\n\treturn ioutil.ReadAll(resp.Body)\n}\n\nfunc (c *Client) testConnection() error {\n\tvar err error\n\tmaxTime := 20 * time.Second\n\n\tfor i := 1 * time.Second; i < maxTime; i *= time.Duration(2) {\n\t\tif _, err = c.makeMetaDataRequest(\"/\"); err != nil {\n\t\t\ttime.Sleep(i)\n\t\t} else {\n\t\t\treturn nil\n\t\t}\n\t}\n\treturn err\n}",
+    "FSMID_for_test": 102,
+    "Code_level": "Class-level"
+}

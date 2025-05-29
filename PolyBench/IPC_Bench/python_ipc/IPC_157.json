@@ -1,0 +1,13 @@
+{
+  "Task_id": 157,
+  "Github_ID": "97429942",
+  "Github_Project_Name": "Machine-Learning-with-Python",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Server - side by using Flask in python",
+  "Instruction": "Task Description: Create a Flask-based HTTP server endpoint that receives JSON data, processes it using a pre-trained machine learning model, and returns predictions in JSON format.\n\nFunction Description: The function handles POST requests to the '/predict' endpoint. It receives JSON data, validates it, loads a pre-trained model, makes predictions, and returns the results. It also includes error handling for bad requests.\n\nInput: \n- HTTP POST request with JSON payload containing data for prediction\n- The function accesses this through Flask's request.get_json()\n\nOutput:\n- Successful case: JSON response containing prediction results with HTTP status code 200\n- Error case: JSON error message with HTTP status code 400 for bad requests",
+  "Canonical_solution": "from flask import Flask, jsonify, request\n\napp = Flask(__name__)\n\n@app.route('/predict', methods=['POST'])\ndef apicall():\n    try:\n        test_json = request.get_json()\n        test = pd.read_json(test_json)\n        print(\"The test data received are as follows...\")\n        print(test)\n        print()\n\n    except Exception as e:\n        raise e\n\n    clf = 'lm_model_v1.pk'\n    \n    if test.empty:\n        return(bad_request())\n    else:\n        print(\"Loading the model...\")\n        loaded_model = None\n        with open('./models/'+clf,'rb') as f:\n            loaded_model = pickle.load(f)\n\n        print(\"The model has been loaded...doing predictions now...\")\n        print()\n        predictions = loaded_model.predict(test)\n            \n        prediction_series = pd.Series(predictions)\n        response = jsonify(prediction_series.to_json())\n        response.status_code = 200\n        return (response)\n\n@app.errorhandler(400)\ndef bad_request(error=None):\n    message = {\n            'status': 400,\n            'message': 'Bad Request: ' + request.url + '--> Please check your data payload...',\n    }\n    resp = jsonify(message)\n    resp.status_code = 400\n\n    return resp",
+  "FSMID_for_test": 60,
+  "Code_level": "Function-level"
+}

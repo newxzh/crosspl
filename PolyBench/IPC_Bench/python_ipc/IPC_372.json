@@ -1,0 +1,13 @@
+{
+  "Task_id": 372,
+  "Github_ID": "221836131",
+  "Github_Project_Name": "Stowaway",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "TCP Client - side by using socket in python",
+  "Instruction": "Task Description: Implement a TCP client function that communicates with a server to send specific control codes derived from a secret key, with options to start or stop port reuse.\n\nFunction Description: The function establishes a TCP connection to a specified server, generates two MD5 checkcodes from a secret, combines portions of them to create a final checkcode, extracts control codes from this checkcode, and sends either a start or stop command based on the action parameter. It handles connection errors gracefully and closes the connection after sending the command.\n\nInput:\n- ip: [str] - The IP address of the target server\n- port: [str/int] - The port number of the target server\n- action: [str] - Either \"start\" or \"stop\" to determine which control code to send\n\nOutput:\n- None (prints status messages to console)\n- Prints \"[*] Cannot connect to target\" if connection fails\n- Prints \"[*] Done!\" when operation completes (successfully or after handling failure)",
+  "Canonical_solution": "import socket\nimport hashlib\n\nSECRET = \"\"\n\ndef tcp_client_communication(ip, port, action):\n    first_checkcode = hashlib.md5(SECRET.encode()).hexdigest()\n    second_checkcode = hashlib.md5(first_checkcode.encode()).hexdigest()\n    final_checkcode = first_checkcode[:24] + second_checkcode[:24]\n\n    START_PORT_REUSE = final_checkcode[16:32]\n    STOP_PORT_REUSE = final_checkcode[32:]\n\n    data = START_PORT_REUSE if action == \"start\" else STOP_PORT_REUSE\n\n    try:\n        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\n        s.settimeout(2)\n        s.connect((ip, int(port)))\n        s.send(data.encode())\n    except:\n        print(\"[*] Cannot connect to target\")\n\n    try:\n        s.recv(1024)\n    except:\n        pass\n\n    s.close()\n    print(\"[*] Done!\")",
+  "FSMID_for_test": 67,
+  "Code_level": "Function-level"
+}

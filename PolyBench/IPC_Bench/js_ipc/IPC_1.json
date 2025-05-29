@@ -1,0 +1,13 @@
+{
+  "Task_id": 1,
+  "Github_ID": "28468993",
+  "Github_Project_Name": "curlconverter",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Client - side based on request in javascript",
+  "Instruction": "Task Description: Create a function that makes an HTTP request using the 'request' module in JavaScript and handles the response via a callback.\n\nFunction Description: The function 'makeHttpRequest' is designed to simplify making HTTP requests by wrapping the 'request' module's functionality. It takes an options object and a callback function, makes the HTTP request, and invokes the callback with the response body if the request is successful (status code 200 and no errors).\n\nInput:  \n- options: [Object] - Configuration object for the HTTP request, including properties like URL, headers, and data.  \n- callback: [Function] - A function to be called with the response body upon successful request completion.  \n\nOutput:  \n- None (The result is handled asynchronously via the callback function).",
+  "Canonical_solution": "var request = require('request');\n\nfunction makeHttpRequest(options, callback) {\n    request(options, function(error, response, body) {\n        if (!error && response.statusCode == 200) {\n            callback(body);\n        }\n    });\n}",
+  "FSMID_for_test": 95,
+  "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 252,
+  "Github_ID": "5934517",
+  "Github_Project_Name": "kafka-python",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "Kafka producer in python",
+  "Instruction": "Task Description: Implement a Kafka message producer class in Python that can continuously send messages to a specified Kafka topic until stopped, with configurable server settings and message size.\n\nClass Description: The KafkaMessageProducer class provides functionality to send messages to a Kafka topic using a background thread. It maintains message statistics and allows graceful shutdown.\n\nAttributes:\n- producer: KafkaProducer - The Kafka producer instance for sending messages\n- topic: str - The Kafka topic to which messages will be sent\n- message: bytes - The message content to be sent (filled with '1's by default)\n- sent_count: int - Counter for tracking the number of messages sent\n- stop_event: threading.Event - Event flag to control the producer thread\n\nMethods:\n- __init__(bootstrap_servers: str = 'localhost:9092', topic: str = 'my-topic', message_size: int = 524288) -> None - Initializes the producer with server configuration, topic name, and message size\n- send_message() -> None - Sends a single message to the configured topic and increments the counter\n- run_producer() -> None - Continuously sends messages until stop_event is set, then flushes the producer\n- close() -> None - Signals the producer to stop and closes the Kafka producer connection",
+  "Canonical_solution": "from kafka import KafkaProducer\nimport threading\n\nclass KafkaMessageProducer:\n    def __init__(self, bootstrap_servers='localhost:9092', topic='my-topic', message_size=524288):\n        self.producer = KafkaProducer(bootstrap_servers=bootstrap_servers)\n        self.topic = topic\n        self.message = b'1' * message_size\n        self.sent_count = 0\n        self.stop_event = threading.Event()\n\n    def send_message(self):\n        self.producer.send(self.topic, self.message)\n        self.sent_count += 1\n\n    def run_producer(self):\n        while not self.stop_event.is_set():\n            self.send_message()\n        self.producer.flush()\n\n    def close(self):\n        self.stop_event.set()\n        self.producer.close()",
+  "FSMID_for_test": 78,
+  "Code_level": "Class-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 47,
+  "Github_ID": "179492861",
+  "Github_Project_Name": "httpx",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Client-side by using httpx+asyncio in python",
+  "Instruction": "Task Description: Create an asynchronous HTTP client function that can send various types of HTTP requests (GET, POST, PUT, DELETE, PATCH, HEAD, OPTIONS) and return the response.\n\nFunction Description: The function `make_http_request` is an asynchronous HTTP client that sends HTTP requests using the `httpx` library. It supports multiple HTTP methods and can handle both raw content and JSON data for POST requests. The function uses a context manager to ensure proper resource management and returns the HTTP response object.\n\nInput:\n- `url`: str - The target URL for the HTTP request.\n- `method`: str (optional, default=\"GET\") - The HTTP method to use (GET, POST, PUT, DELETE, PATCH, HEAD, OPTIONS).\n- `content`: typing.Optional[bytes] (optional) - Raw bytes content to send in the request body (for POST, PUT, PATCH).\n- `json`: typing.Optional[dict] (optional) - JSON data to send in the request body (for POST).\n- `headers`: typing.Optional[dict] (optional) - Custom headers to include in the request.\n\nOutput:\n- `httpx.Response` - The HTTP response object containing status code, headers, and response body.",
+  "Canonical_solution": "import httpx\nimport typing\nfrom datetime import timedelta\n\nasync def make_http_request(url: str, method: str = \"GET\", content: typing.Optional[bytes] = None, json: typing.Optional[dict] = None, headers: typing.Optional[dict] = None) -> httpx.Response:\n    async with httpx.AsyncClient() as client:\n        if method == \"GET\":\n            response = await client.get(url)\n        elif method == \"POST\":\n            if content:\n                response = await client.post(url, content=content)\n            elif json:\n                response = await client.post(url, json=json)\n        elif method == \"PUT\":\n            response = await client.put(url, content=content)\n        elif method == \"DELETE\":\n            response = await client.delete(url)\n        elif method == \"PATCH\":\n            response = await client.patch(url, content=content)\n        elif method == \"HEAD\":\n            response = await client.head(url)\n        elif method == \"OPTIONS\":\n            response = await client.options(url)\n        \n        return response",
+  "FSMID_for_test": 59,
+  "Code_level": "Function-level"
+}

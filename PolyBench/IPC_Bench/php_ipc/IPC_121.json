@@ -1,0 +1,13 @@
+{
+  "Task_id": 121,
+  "Github_ID": "2784293",
+  "Github_Project_Name": "php-amqplib",
+  "Programming_Language": "PHP",
+  "suffix": ".php",
+  "Interface_class": "IPC",
+  "Interface_name": "RabbitMQ producer in PHP",
+  "Instruction": "Task Description: Create a function that sends a message to a RabbitMQ queue using PHP and the PhpAmqpLib library.\n\nFunction Description: The function establishes a connection to a RabbitMQ server, declares a queue and exchange, binds them, publishes a message with persistent delivery mode, and then closes the connection. It handles errors gracefully by returning false if an exception occurs.\n\nInput:  \n- $messageBody: [string] - The content of the message to be sent  \n- $exchange: [string] - The name of the exchange (default: 'router')  \n- $queue: [string] - The name of the queue (default: 'msgs')  \n\nOutput:  \n- [bool] - Returns true if the message was successfully sent, false if an error occurred",
+  "Canonical_solution": "function send_rabbitmq_message($messageBody, $exchange = 'router', $queue = 'msgs')\n{\n    include(__DIR__ . '/config.php');\n    use PhpAmqpLib\\Connection\\AMQPStreamConnection;\n    use PhpAmqpLib\\Exchange\\AMQPExchangeType;\n    use PhpAmqpLib\\Message\\AMQPMessage;\n\n    try {\n        $connection = new AMQPStreamConnection(HOST, PORT, USER, PASS, VHOST);\n        $channel = $connection->channel();\n\n        $channel->queue_declare($queue, false, true, false, false);\n        $channel->exchange_declare($exchange, AMQPExchangeType::DIRECT, false, true, false);\n        $channel->queue_bind($queue, $exchange);\n\n        $message = new AMQPMessage($messageBody, array(\n            'content_type' => 'text/plain',\n            'delivery_mode' => AMQPMessage::DELIVERY_MODE_PERSISTENT\n        ));\n        \n        $channel->basic_publish($message, $exchange);\n        \n        $channel->close();\n        $connection->close();\n        \n        return true;\n    } catch (Exception $e) {\n        return false;\n    }\n}",
+  "FSMID_for_test": 142,
+  "Code_level": "Function-level"
+}

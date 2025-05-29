@@ -1,0 +1,13 @@
+{
+  "Task_id": 272,
+  "Github_ID": "48129918",
+  "Github_Project_Name": "paho.mqtt.python",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "Mosquitto Consumer based on mqtt in Python",
+  "Instruction": "Task Description: Create a Python function that implements an MQTT subscriber using the Paho MQTT client library to connect to a broker, subscribe to topics, and continuously process incoming messages.\n\nFunction Description: The function `mqtt_subscriber` establishes a connection to an MQTT broker, subscribes to specified topics, and enters a loop to continuously handle incoming messages. It includes logging for debugging purposes.\n\nInput: None (The broker address, port, and topic are hardcoded in the function for simplicity, but could be parameterized if needed.)\n\nOutput: None (The function runs indefinitely, processing incoming messages and logging events.)",
+  "Canonical_solution": "import logging\nimport paho.mqtt.client as mqtt\n\ndef mqtt_subscriber():\n    logging.basicConfig(level=logging.DEBUG)\n    mqttc = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)\n    logger = logging.getLogger(__name__)\n    mqttc.enable_logger(logger)\n    mqttc.connect(\"mqtt.eclipseprojects.io\", 1883, 60)\n    mqttc.subscribe(\"$SYS/#\", 0)\n    mqttc.loop_forever()",
+  "FSMID_for_test": 84,
+  "Code_level": "Function-level"
+}

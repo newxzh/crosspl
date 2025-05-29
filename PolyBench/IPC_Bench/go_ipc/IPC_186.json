@@ -1,0 +1,13 @@
+{
+    "Task_id": 186,
+    "Github_ID": "124346949",
+    "Github_Project_Name": "gitkube",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Net-based TCP Server in Go",
+    "Instruction": "Task Description: Create a TCP server in Go that listens for incoming connections, handles IPv6 traffic with specific settings, and sends an acknowledgment message to connected clients.\n\nFunction Description: The function establishes a TCP server on port 1024 that continuously accepts client connections. For each connection, it checks if the client is using IPv6 and applies specific traffic class and hop limit settings if so. It then sends a fixed acknowledgment message (\"HELLO-R-U-THERE-ACK\") to the client before closing the connection. The server runs indefinitely until terminated.\n\nInput: None (The function takes no parameters)\n\nOutput: None (The function doesn't return any value but maintains persistent network operations)",
+    "Canonical_solution": "import (\n\t\"fmt\"\n\t\"log\"\n\t\"net\"\n\t\"os\"\n)\n\nfunc ExampleConn_markingTCP() {\n\tln, err := net.Listen(\"tcp\", \"[::]:1024\")\n\tif err != nil {\n\t\tlog.Fatal(err)\n\t}\n\tdefer ln.Close()\n\n\tfor {\n\t\tc, err := ln.Accept()\n\t\tif err != nil {\n\t\t\tlog.Fatal(err)\n\t\t}\n\t\tgo func(c net.Conn) {\n\t\t\tdefer c.Close()\n\t\t\tif c.RemoteAddr().(*net.TCPAddr).IP.To16() != nil && c.RemoteAddr().(*net.TCPAddr).IP.To4() == nil {\n\t\t\t\tp := ipv6.NewConn(c)\n\t\t\t\tif err := p.SetTrafficClass(0x28); err != nil {\n\t\t\t\t\tlog.Fatal(err)\n\t\t\t\t}\n\t\t\t\tif err := p.SetHopLimit(128); err != nil {\n\t\t\t\t\tlog.Fatal(err)\n\t\t\t\t}\n\t\t\t}\n\t\t\tif _, err := c.Write([]byte(\"HELLO-R-U-THERE-ACK\")); err != nil {\n\t\t\t\tlog.Fatal(err)\n\t\t\t}\n\t\t}(c)\n\t}\n}",
+    "FSMID_for_test": 109,
+    "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+    "Task_id": 47,
+    "Github_ID": "113219518",
+    "Github_Project_Name": "venus",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Basic HTTP server using net/http with HandleFunc and ListenAndServe",
+    "Instruction": "Task Description: Create a function that serves a genesis file over HTTP on a specified port, setting the appropriate content type and handling the file serving.\n\nFunction Description: The function `ServeGenesisFileAtPort` creates a basic HTTP server that serves a specified genesis file when requested at the `/genesis.car` endpoint. The server sets the content type to `application/octet-stream` and uses the `http.ServeFile` function to handle the file serving. The server runs on the specified port and panics if it fails to start.\n\nInput:  \n- `genesisFilePath` (string): The file path to the genesis file that will be served.  \n- `port` (int): The port number on which the HTTP server will listen.  \n\nOutput:  \n- None (the function does not return; it panics if the server fails to start).",
+    "Canonical_solution": "import (\n\t\"fmt\"\n\t\"net/http\"\n)\n\nfunc ServeGenesisFileAtPort(genesisFilePath string, port int) {\n\thttp.HandleFunc(\"/genesis.car\", func(w http.ResponseWriter, r *http.Request) {\n\t\tw.Header().Set(\"Content-Type\", \"application/octet-stream\")\n\t\thttp.ServeFile(w, r, genesisFilePath)\n\t})\n\tpanic(http.ListenAndServe(fmt.Sprintf(\":%d\", port), nil))\n}",
+    "FSMID_for_test": 103,
+    "Code_level": "Function-level"
+}

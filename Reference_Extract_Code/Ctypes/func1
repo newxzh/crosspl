@@ -1,0 +1,14 @@
+import ctypes
+import os
+import timeit
+import array
+import numpy as np
+import random
+from typing import Tuple
+_path = '../libsample.so'
+_mod = ctypes.cdll.LoadLibrary(_path)
+gcd = _mod.gcd
+gcd.argtypes = (ctypes.c_int, ctypes.c_int)
+gcd.restype = ctypes.c_int
+def py_gcd(a: int, b: int) -> int:
+    return gcd(a, b)

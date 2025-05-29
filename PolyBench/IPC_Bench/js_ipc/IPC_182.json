@@ -1,0 +1,13 @@
+{
+  "Task_id": 182,
+  "Github_ID": "173529836",
+  "Github_Project_Name": "javascript_playground",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "UDP based on node.js dgram",
+  "Instruction": "Task Description: Create a UDP server using Node.js's dgram module to listen for incoming messages on a specified port.\n\nFunction Description: The function `createUDPServer` initializes a UDP server socket, binds it to a specified port, and listens for incoming messages. When a message is received, it logs the message content and the sender's address and port.\n\nInput: None\n\nOutput: None (The function does not return any value but logs incoming messages to the console.)",
+  "Canonical_solution": "function createUDPServer() {\n    const dgram = require('dgram');\n    const socket = dgram.createSocket('udp4');\n\n    socket.on('message', (msg, rinfo) => {\n        console.log(`server got: ${msg} from ${rinfo.address}:${rinfo.port}`);\n    });\n\n    socket.bind(8081);\n}",
+  "FSMID_for_test": 98,
+  "Code_level": "Function-level"
+}

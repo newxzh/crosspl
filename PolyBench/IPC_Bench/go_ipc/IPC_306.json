@@ -1,0 +1,13 @@
+{
+    "Task_id": 306,
+    "Github_ID": "2281177",
+    "Github_Project_Name": "GoSublime",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Simple HTTP GET client using net/http",
+    "Instruction": "Task Description: Implement a function to download a file from a given URL, apply an optional filter to the content, and save it to specified directories.\n\nFunction Description: The function `dl` downloads a file from a provided URL, reads its content, applies an optional filter (if provided), and writes the content to one or more specified directories. It handles errors during the HTTP request, reading the response, and file writing, and provides status feedback via console output.\n\nInput:  \n- `f` (type `dlFile`): A struct containing the following fields:  \n  - `name` (string): The name of the file to be saved.  \n  - `url` (string): The URL from which the file will be downloaded.  \n  - `filt` (func([]byte) []byte): An optional function to filter/modify the downloaded content. Can be `nil` if no filtering is needed.  \n  - `dirs` ([]string): A slice of directory paths where the file will be saved.  \n\nOutput:  \n- None (void): The function does not return any value but prints status messages to the console (e.g., \"Sync [filename]: ok\" on success or error messages on failure).  \n\nNote: The function handles errors for HTTP requests, reading response bodies, and file writing, and ensures the response body is closed properly to prevent resource leaks.",
+    "Canonical_solution": "import (\n\t\"fmt\"\n\t\"io/ioutil\"\n\t\"net/http\"\n\t\"path/filepath\"\n)\n\nfunc dl(f dlFile) {\n\tfmt.Printf(\"Sync %s: \", f.name)\n\n\tresp, err := http.Get(f.url)\n\tif err != nil {\n\t\tfmt.Println(err)\n\t\treturn\n\t}\n\tdefer resp.Body.Close()\n\n\tcontent, err := ioutil.ReadAll(resp.Body)\n\tif err != nil {\n\t\tfmt.Println(err)\n\t\treturn\n\t}\n\n\tif f.filt != nil {\n\t\tcontent = f.filt(content)\n\t}\n\n\tfor _, dir := range f.dirs {\n\t\tioutil.WriteFile(filepath.Join(dir, f.name), content, 0644)\n\t\tif err != nil {\n\t\t\tfmt.Println(err)\n\t\t\treturn\n\t\t}\n\t}\n\n\tfmt.Println(\"ok\")\n}",
+    "FSMID_for_test": 101,
+    "Code_level": "Function-level"
+}

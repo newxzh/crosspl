@@ -1,0 +1,13 @@
+{
+  "Task_id": 9,
+  "Github_ID": "100402355",
+  "Github_Project_Name": "cruise-control",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "Create and Configure Kafka AdminClient in java",
+  "Instruction": "Task Description: Create a Java class that provides functionality for managing Kafka topics using the Kafka AdminClient API. The class should be able to create and configure an AdminClient instance and use it to create new Kafka topics.\n\nClass Description: The KafkaTopicManager class encapsulates operations for interacting with Kafka topics through the AdminClient API. It provides methods to initialize an AdminClient connection and create new topics with specified configurations.\n\nAttributes:\n- adminClient: AdminClient - The Kafka AdminClient instance used for topic management operations\n\nMethods:\n- createAndConfigureAdminClient(String bootstrapServers) -> AdminClient - Creates and configures a Kafka AdminClient instance with the specified bootstrap servers\n- autoCreateMetricsTopic(AdminClient adminClient, String topicName) -> TopicDescription - Creates a new Kafka topic with default configuration (1 partition and replication factor of 1) and returns its description",
+  "Canonical_solution": "import org.apache.kafka.clients.admin.AdminClient;\nimport org.apache.kafka.clients.admin.CreateTopicsResult;\nimport org.apache.kafka.clients.admin.NewTopic;\nimport org.apache.kafka.clients.admin.TopicDescription;\nimport java.util.Collections;\nimport java.util.Properties;\nimport java.util.concurrent.ExecutionException;\n\npublic AdminClient createAndConfigureAdminClient(String bootstrapServers) {\n    Properties adminProps = new Properties();\n    adminProps.setProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);\n    AdminClient adminClient = AdminClient.create(adminProps);\n    return adminClient;\n}\n\npublic TopicDescription autoCreateMetricsTopic(AdminClient adminClient, String topicName) throws ExecutionException, InterruptedException {\n    NewTopic testTopic = new NewTopic(topicName, 1, (short) 1);\n    CreateTopicsResult createTopicsResult = adminClient.createTopics(Collections.singleton(testTopic));\n    createTopicsResult.all().get();\n    TopicDescription topicDescription = adminClient.describeTopics(Collections.singleton(topicName)).values().get(topicName).get();\n    return topicDescription;\n}",
+  "FSMID_for_test": 33,
+  "Code_level": "Function-level"
+}

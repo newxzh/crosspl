@@ -1,0 +1,13 @@
+{
+  "Task_id": 235,
+  "Github_ID": "138113181",
+  "Github_Project_Name": "go-push",
+  "Programming_Language": "JavaScript",
+  "suffix": ".html",
+  "Interface_class": "IPC",
+  "Interface_name": "WebSocket Client-side based on browser native API in JavaScript",
+  "Instruction": "Task Description: Implement a WebSocket client in JavaScript that establishes a connection to a server, handles various connection events, sends periodic ping messages, and provides functions to join/leave rooms and close the connection.\n\nFunction Description: The functions collectively manage a WebSocket connection, including initialization, sending messages, and cleanup. The main function initializes the connection and sets up event handlers, while helper functions send specific message types and close the connection.\n\nInput:\n- initWebSocket(): No parameters\n- sendJoinMessage(ws, room): \n  - ws: WebSocket - The active WebSocket connection\n  - room: string - The room identifier to join\n- sendLeaveMessage(ws, room):\n  - ws: WebSocket - The active WebSocket connection\n  - room: string - The room identifier to leave\n- closeWebSocket(ws):\n  - ws: WebSocket - The active WebSocket connection to close\n\nOutput:\n- initWebSocket(): Returns WebSocket - The initialized WebSocket connection object\n- sendJoinMessage(): Returns boolean - Always returns false\n- sendLeaveMessage(): Returns boolean - Always returns false\n- closeWebSocket(): Returns boolean - Always returns false",
+  "Canonical_solution": "function initWebSocket() {\n    var ws;\n    ws = new WebSocket(\"ws://localhost:7777/connect\");\n    ws.onopen = function(evt) {\n        print(\"OPEN\");\n    }\n    ws.onclose = function(evt) {\n        print(\"CLOSE\");\n        ws = null;\n    }\n    ws.onmessage = function(evt) {\n        print(\"RESPONSE: \" + evt.data);\n    }\n    ws.onerror = function(evt) {\n        print(\"ERROR: \" + evt.data);\n    }\n    setInterval(function() {\n        ws.send(JSON.stringify({type: \"PING\", data: {}}))\n    }, 10000)\n    return ws;\n}\n\nfunction sendJoinMessage(ws, room) {\n    if (!ws) {\n        return false;\n    }\n    print(\"JOIN: \" + room);\n    ws.send(JSON.stringify({type: \"JOIN\", data: {room: room}}));\n    return false;\n}\n\nfunction sendLeaveMessage(ws, room) {\n    if (!ws) {\n        return false;\n    }\n    print(\"LEAVE: \" + room);\n    ws.send(JSON.stringify({type: \"LEAVE\", data: {room: room}}));\n    return false;\n}\n\nfunction closeWebSocket(ws) {\n    if (!ws) {\n        return false;\n    }\n    ws.close();\n    return false;\n}",
+  "FSMID_for_test": 89,
+  "Code_level": "Function-level"
+}

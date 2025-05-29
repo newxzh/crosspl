@@ -1,0 +1,13 @@
+{
+  "Task_id": 6,
+  "Github_ID": "87859908",
+  "Github_Project_Name": "micrometer",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "Create Kafka topic instance in AdminClient in java",
+  "Instruction": "Task Description: Create a Kafka topic using the AdminClient API in Java.\n\nFunction Description: This function creates a new Kafka topic with the specified name, number of partitions, and replication factor. It uses the Kafka AdminClient to interact with the Kafka broker and handles potential exceptions during the topic creation process.\n\nInput: \n- topic: String - The name of the Kafka topic to be created.\n\nOutput: \n- void - The function does not return any value but creates the topic in Kafka and stores the AdminClient instance in the class field.\n\nExceptions:\n- InterruptedException: If the thread is interrupted while waiting for the topic creation to complete.\n- ExecutionException: If the topic creation fails during execution.\n- TimeoutException: If the topic creation takes longer than the specified timeout period.",
+  "Canonical_solution": "import org.apache.kafka.clients.admin.AdminClient;\nimport org.apache.kafka.clients.admin.AdminClientConfig;\nimport org.apache.kafka.clients.admin.NewTopic;\nimport java.util.Collection;\nimport java.util.Collections;\nimport java.util.concurrent.ExecutionException;\nimport java.util.concurrent.TimeUnit;\nimport java.util.concurrent.TimeoutException;\nimport wiremock.com.google.common.collect.ImmutableMap;\n\nprivate AdminClient adminClient;\n\nprivate void createTopic(String topic) throws InterruptedException, ExecutionException, TimeoutException {\n    AdminClient adminClient = AdminClient\n        .create(ImmutableMap.of(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaContainer.getBootstrapServers()));\n    Collection<NewTopic> topics = Collections.singletonList(new NewTopic(topic, 3, (short) 1));\n    adminClient.createTopics(topics).all().get(30, TimeUnit.SECONDS);\n    this.adminClient = adminClient;\n}",
+  "FSMID_for_test": 34,
+  "Code_level": "Function-level"
+}

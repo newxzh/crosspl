@@ -1,0 +1,13 @@
+{
+    "Task_id": 140,
+    "Github_ID": "21525599",
+    "Github_Project_Name": "contrib",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Gin-based HTTP Server in Go",
+    "Instruction": "Task Description: Create a simple HTTP server using the Gin framework in Go that responds to GET requests with a timestamped message.\n\nFunction Description: The main function initializes a Gin HTTP server with default middleware (Logger and Recovery), sets up a single GET route handler at \"/ping\" that responds with a \"pong\" message concatenated with the current Unix timestamp, and starts the server on port 8080.\n\nInput: None (The function takes no direct input parameters, but handles HTTP GET requests to the \"/ping\" endpoint)\n\nOutput: None (The function doesn't return any value, but sends HTTP responses with status code 200 and the message \"pong [current_unix_timestamp]\" when the \"/ping\" endpoint is accessed)",
+    "Canonical_solution": "import (\n\t\"fmt\"\n\t\"github.com/gin-gonic/gin\"\n\t\"time\"\n)\nfunc main() {\n\tr := gin.Default()\n\n\tr.GET(\"/ping\", func(c *gin.Context) {\n\t\tc.String(200, \"pong \"+fmt.Sprint(time.Now().Unix()))\n\t})\n\n\tr.Run(\":8080\")\n}",
+    "FSMID_for_test": 105,
+    "Code_level": "Function-level"
+}

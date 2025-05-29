@@ -1,0 +1,13 @@
+{
+    "Task_id": 234,
+    "Github_ID": "19608522",
+    "Github_Project_Name": "google-cloud-go",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Official-based gRPC client in Go",
+    "Instruction": "Task Description: Create a function that establishes a connection to a gRPC server for Google Pub/Sub emulator testing, creates a Pub/Sub client, and properly handles resource cleanup.\n\nFunction Description: The function demonstrates how to set up a testing environment for Google Pub/Sub using the pstest server (in-memory emulator). It creates a gRPC connection to the emulator server, initializes a Pub/Sub client with this connection, and ensures all resources are properly closed when done. This is typically used for local testing and development.\n\nInput: None (The function takes no parameters as it's a self-contained example)\n\nOutput: None (The function doesn't return anything as it's a demonstration, though it creates and manages a Pub/Sub client instance)",
+    "Canonical_solution": "import (\n\t\"context\"\n\n\t\"cloud.google.com/go/pubsub\"\n\t\"cloud.google.com/go/pubsub/pstest\"\n\t\"google.golang.org/api/option\"\n\t\"google.golang.org/grpc\"\n)\nfunc ExampleNewServer() {\n\tctx := context.Background()\n\tsrv := pstest.NewServer()\n\tdefer srv.Close()\n\tconn, err := grpc.Dial(srv.Addr, grpc.WithInsecure())\n\tif err != nil {\n\t}\n\tdefer conn.Close()\n\tclient, err := pubsub.NewClient(ctx, \"project\", option.WithGRPCConn(conn))\n\tif err != nil {\n\t}\n\tdefer client.Close()\n\t_ = client\n}",
+    "FSMID_for_test": 120,
+    "Code_level": "Function-level"
+}

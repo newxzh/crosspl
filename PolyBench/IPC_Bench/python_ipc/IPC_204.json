@@ -1,0 +1,13 @@
+{
+  "Task_id": 204,
+  "Github_ID": "185478926",
+  "Github_Project_Name": "opentelemetry-python",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Server - side by using Flask in python",
+  "Instruction": "Task Description: Create a simple HTTP server using Flask that handles GET requests on a specific endpoint and returns a response.\n\nFunction Description: The function `server_request` is a Flask route handler that processes incoming GET requests to the \"/server_request\" endpoint. It retrieves a query parameter named \"param\" from the request, prints it to the console, and returns a simple response string \"served\".\n\nInput: \n- The function receives an implicit Flask `request` object containing the HTTP request data.\n- The input parameter is passed as a query string parameter named \"param\" (e.g., \"/server_request?param=value\").\n\nOutput: \n- The function prints the value of the \"param\" query parameter to the console.\n- The function returns a string response \"served\" with HTTP status code 200.",
+  "Canonical_solution": "from flask import Flask, request\n\napp = Flask(__name__)\n\n@app.route(\"/server_request\")\ndef server_request():\n    print(request.args.get(\"param\"))\n    return \"served\"\n\nif __name__ == \"__main__\":\n    app.run(port=8082)",
+  "FSMID_for_test": 60,
+  "Code_level": "Function-level"
+}

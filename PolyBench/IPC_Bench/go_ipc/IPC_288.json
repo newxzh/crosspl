@@ -1,0 +1,13 @@
+{
+    "Task_id": 288,
+    "Github_ID": "27729907",
+    "Github_Project_Name": "grpc-go",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Official-based gRPC server in Go",
+    "Instruction": "Task Description: Create a gRPC server in Go that listens for incoming requests and handles them using the specified gRPC service.\n\nFunction Description: The main function sets up a gRPC server that listens on a specified TCP port, configures keepalive policies, registers the Echo service, and starts serving requests. It handles any errors that occur during setup or serving.\n\nInput: \n- port (string): The port number on which the server should listen, formatted as a string (e.g., \":50051\").\n- kaep (keepalive.EnforcementPolicy): The keepalive enforcement policy for the server.\n- kasp (keepalive.ServerParameters): The keepalive server parameters.\n\nOutput: \n- None (the function runs indefinitely until an error occurs or the server is stopped).\n- Errors during setup or serving are logged and the program exits.\n\nNote: The function assumes the existence of a pre-defined `server` struct that implements the `EchoServer` interface from the generated protobuf code.",
+    "Canonical_solution": "import (\n\t\"context\"\n\t\"fmt\"\n\t\"log\"\n\t\"net\"\n\t\"time\"\n\n\t\"google.golang.org/grpc\"\n\t\"google.golang.org/grpc/keepalive\"\n\n\tpb \"google.golang.org/grpc/examples/features/proto/echo\"\n)\nfunc main() {\n\tflag.Parse()\n\n\taddress := fmt.Sprintf(\":%v\", *port)\n\tlis, err := net.Listen(\"tcp\", address)\n\tif err != nil {\n\t\tlog.Fatalf(\"failed to listen: %v\", err)\n\t}\n\n\ts := grpc.NewServer(grpc.KeepaliveEnforcementPolicy(kaep), grpc.KeepaliveParams(kasp))\n\tpb.RegisterEchoServer(s, &server{})\n\n\tif err := s.Serve(lis); err != nil {\n\t\tlog.Fatalf(\"failed to serve: %v\", err)\n\t}\n}",
+    "FSMID_for_test": 119,
+    "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 339,
+  "Github_ID": "35228769",
+  "Github_Project_Name": "honggfuzz",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "TCP Client - side by using socket in python",
+  "Instruction": "Task Description: Create a Python class that implements TCP client functionality for testing server connections and sending data to a server.\n\nClass Description: The TargetSocket class provides TCP client capabilities to check server availability and send data to a specified port on localhost. It handles connection establishment, data transmission, and proper resource cleanup.\n\nAttributes:\n- sock: [socket.socket] - The socket object used for TCP communication (initially None)\n- targetPort: [int] - The target port number for server communication (default: 5001)\n\nMethods:\n- testServerConnectionTcp() -> [bool] - Tests if a connection can be established with the target server. Returns True if successful, False otherwise.\n- sendToSocket(data: str) -> [bool] - Attempts to send the provided string data to the target server. Makes up to 10 connection attempts with 100ms delays between attempts. Returns True if data was sent successfully, False otherwise.",
+  "Canonical_solution": "import socket\n\nclass TargetSocket:\n    def __init__(self, target_port=5001):\n        self.sock = None\n        self.targetPort = target_port\n\n    def testServerConnectionTcp(self):\n        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\n        server_address = ('localhost', self.targetPort)\n\n        try:\n            sock.connect(server_address)\n        except socket.error as exc:\n            return False\n\n        sock.close()\n        return True\n\n    def sendToSocket(self, data):\n        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\n        s.settimeout(1)\n\n        host = 'localhost'\n        port = self.targetPort\n\n        isOpen = False\n        n = 0\n        while isOpen is False:\n            try:\n                s.connect((host, port))\n                isOpen = True\n            except Exception as e:\n                time.sleep(0.1)\n                n += 1\n                isOpen = False\n\n            if n == 10:\n                return False\n\n        try:\n            s.send(str.encode(data))\n        except Exception as e:\n            print(\"B: \" + str(e))\n\n        s.close()\n        return True",
+  "FSMID_for_test": 67,
+  "Code_level": "Class-level"
+}

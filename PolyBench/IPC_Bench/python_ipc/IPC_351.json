@@ -1,0 +1,13 @@
+{
+  "Task_id": 351,
+  "Github_ID": "329620403",
+  "Github_Project_Name": "EasyMocap",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "TCP Client - side by using socket in python",
+  "Instruction": "Task Description: Create a TCP client class in Python that establishes a connection to a server, sends data with length prefixing, and properly closes the connection.\n\nClass Description: BaseSocketClient is a TCP client implementation that handles socket creation, connection management, and data transmission with length-prefixed messages. It supports both simple and detected encoding modes for data transmission.\n\nAttributes:\n- s: [socket.socket] - The underlying TCP socket object used for communication\n\nMethods:\n- __init__(host: str, port: int) -> None - Initializes the client and establishes a connection to the specified host and port. If host is 'auto', uses the local hostname.\n- send(data: Any) -> None - Sends data to the server after encoding detection, prefixing the message with its length in bytes.\n- send_smpl(data: Any) -> None - Sends data to the server using simple encoding, prefixing the message with its length in bytes.\n- close() -> None - Closes the connection with the server.",
+  "Canonical_solution": "import socket\n\nclass BaseSocketClient:\n    def __init__(self, host, port) -> None:\n        if host == 'auto':\n            host = socket.gethostname()\n        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\n        s.connect((host, port))\n        self.s = s\n    \n    def send(self, data):\n        val = encode_detect(data)\n        self.s.send(bytes('{}\\n'.format(len(val)), 'ascii'))\n        self.s.sendall(val)\n    \n    def send_smpl(self, data):\n        val = encode_smpl(data)\n        self.s.send(bytes('{}\\n'.format(len(val)), 'ascii'))\n        self.s.sendall(val)\n    \n    def close(self):\n        self.s.close()",
+  "FSMID_for_test": 67,
+  "Code_level": "Class-level"
+}

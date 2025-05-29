@@ -1,0 +1,13 @@
+{
+  "Task_id": 459,
+  "Github_ID": "481412",
+  "Github_Project_Name": "Java-WebSocket",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "WebSocket Client Implementation using org.java_websocket",
+  "Instruction": "Task Description: Create a WebSocket client class in Java using the org.java_websocket library to establish a connection to a WebSocket server and handle communication events.\n\nClass Description: The MyWebSocketClient class extends WebSocketClient to provide a custom WebSocket client implementation. It supports WebSocket communication with a server, including connection establishment, message exchange, and error handling. The class includes event handlers for WebSocket lifecycle events.\n\nAttributes:\n- perMessageDeflateDraft: [Draft] - A WebSocket draft implementation with Per-Message Deflate extension for message compression.\n\nMethods:\n- MyWebSocketClient: [Constructor](String serverUri) -> [void] - Initializes the WebSocket client with the server URI. Throws URISyntaxException if the URI is invalid.\n- onOpen: [void](ServerHandshake handshakedata) -> [void] - Callback invoked when the WebSocket connection is established.\n- onMessage: [void](String message) -> [void] - Callback invoked when a message is received from the server.\n- onClose: [void](int code, String reason, boolean remote) -> [void] - Callback invoked when the WebSocket connection is closed.\n- onError: [void](Exception ex) -> [void] - Callback invoked when an error occurs during WebSocket communication.",
+  "Canonical_solution": "import java.net.URI;\nimport java.net.URISyntaxException;\nimport java.util.Collections;\nimport org.java_websocket.client.WebSocketClient;\nimport org.java_websocket.drafts.Draft;\nimport org.java_websocket.drafts.Draft_6455;\nimport org.java_websocket.extensions.permessage_deflate.PerMessageDeflateExtension;\nimport org.java_websocket.handshake.ServerHandshake;\n\npublic class MyWebSocketClient extends WebSocketClient {\n\n    private static final Draft perMessageDeflateDraft = new Draft_6455(\n        new PerMessageDeflateExtension());\n\n    public MyWebSocketClient(String serverUri) throws URISyntaxException {\n        super(new URI(serverUri), perMessageDeflateDraft);\n    }\n\n    @Override\n    public void onOpen(ServerHandshake handshakedata) {\n    }\n\n    @Override\n    public void onMessage(String message) {\n    }\n\n    @Override\n    public void onClose(int code, String reason, boolean remote) {\n    }\n\n    @Override\n    public void onError(Exception ex) {\n    }\n}",
+  "FSMID_for_test": 27,
+  "Code_level": "Class-level"
+}

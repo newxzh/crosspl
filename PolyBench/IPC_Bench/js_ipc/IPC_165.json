@@ -1,0 +1,13 @@
+{
+  "Task_id": 165,
+  "Github_ID": "66962179",
+  "Github_Project_Name": "sp-dev-fx-webparts",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "TCP Server - side based on node.js net",
+  "Instruction": "Task Description: Create a function that sets up a TCP server with WebSocket support, handling client connections and message routing.\n\nFunction Description: The function `createTCPServer` initializes a TCP server using Node.js's `net` module, integrates WebSocket functionality, and manages client connections. It sets up event handlers for connection establishment, message piping, and error handling. The server listens on the specified port for incoming connections.\n\nInput:  \n- `port` (Number): The port number on which the TCP server should listen for incoming connections.\n\nOutput:  \n- None (The function starts a TCP server but does not return any value).  \n\n---\n\n**Note**: The function internally uses the `net` module to create the server, the `websocket` library for WebSocket support, and `permessage-deflate` for compression. It pipes data between the TCP connection and WebSocket driver for bidirectional communication.",
+  "Canonical_solution": "function createTCPServer(port) {\n    var net = require('net'),\n        websocket = require('..'),\n        deflate = require('permessage-deflate');\n\n    var server = net.createServer(function(connection) {\n        var driver = websocket.server();\n        driver.addExtension(deflate);\n\n        driver.on('connect', function() {\n            if (websocket.isWebSocket(driver)) driver.start();\n        });\n\n        driver.on('close', function() { connection.end() });\n        connection.on('error', function() {});\n\n        connection.pipe(driver.io);\n        driver.io.pipe(connection);\n\n        driver.messages.pipe(driver.messages);\n    });\n\n    server.listen(port);\n}",
+  "FSMID_for_test": 97,
+  "Code_level": "Function-level"
+}

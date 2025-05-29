@@ -1,0 +1,13 @@
+{
+  "Task_id": 41,
+  "Github_ID": "618276831",
+  "Github_Project_Name": "GPTCache",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Client-side by using httpx+asyncio in python",
+  "Instruction": "Task Description: Create a Python class that implements an asynchronous HTTP client for interacting with a REST API, supporting PUT and GET operations for question-answer pairs.\n\nClass Description: The Client class provides asynchronous HTTP communication capabilities using httpx and asyncio. It handles JSON data exchange with a REST API endpoint, allowing storage (PUT) and retrieval (GET) of question-answer pairs.\n\nAttributes:\n_uri: str - The base URI of the REST API endpoint (default: \"http://localhost:8000\")\n_CLIENT_HEADER: dict - Static dictionary containing HTTP headers for JSON content type\n\nMethods:\n_put: async (question: str, answer: str) -> int - Internal async method that sends a question-answer pair to the API via POST request. Returns HTTP status code.\n_get: async (question: str) -> str - Internal async method that retrieves an answer for a given question via POST request. Returns the answer string or None.\nput: (question: str, answer: str) -> int - Synchronous wrapper for _put that runs the async operation. Returns HTTP status code.\nget: (question: str) -> str - Synchronous wrapper for _get that runs the async operation. Returns the answer string or None.",
+  "Canonical_solution": "import asyncio\nimport json\nimport httpx\n\n_CLIENT_HEADER = {\"Content-Type\": \"application/json\", \"Accept\": \"application/json\"}\n\nclass Client:\n    def __init__(self, uri: str = \"http://localhost:8000\"):\n        self._uri = uri\n\n    async def _put(self, question: str, answer: str):\n        async with httpx.AsyncClient() as client:\n            data = {\n                \"prompt\": question,\n                \"answer\": answer,\n            }\n            response = await client.post(\n                f\"{self._uri}/put\", headers=_CLIENT_HEADER, data=json.dumps(data)\n            )\n        return response.status_code\n\n    async def _get(self, question: str):\n        async with httpx.AsyncClient() as client:\n            data = {\n                \"prompt\": question,\n            }\n            response = await client.post(\n                f\"{self._uri}/get\", headers=_CLIENT_HEADER, data=json.dumps(data)\n            )\n        return response.json().get(\"answer\")\n\n    def put(self, question: str, answer: str):\n        return asyncio.run(self._put(question, answer))\n\n    def get(self, question: str):\n        return asyncio.run(self._get(question))",
+  "FSMID_for_test": 59,
+  "Code_level": "Class-level"
+}

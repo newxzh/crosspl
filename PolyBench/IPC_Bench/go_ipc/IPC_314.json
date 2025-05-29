@@ -1,0 +1,13 @@
+{
+    "Task_id": 314,
+    "Github_ID": "124951822",
+    "Github_Project_Name": "eventing",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Simple HTTP GET client using net/http",
+    "Instruction": "Task Description: Implement a function to fetch file contents from a given URL with optional caching capabilities to improve performance on repeated requests.\n\nFunction Description: The function `fetchFile` retrieves the contents of a file from a specified URL using HTTP GET. It supports caching of downloaded files to avoid redundant network requests. The function handles HTTP errors, manages resource cleanup, and provides verbose logging options.\n\nInput: \n- `fileurl` [string]: The URL of the file to be fetched\n\nOutput: \n- `[]byte`: The contents of the file as a byte slice if successful\n- `error`: An error object if any step fails (network error, HTTP error, etc.)",
+    "Canonical_solution": "import (\n\t\"fmt\"\n\t\"io/ioutil\"\n\t\"log\"\n\t\"net/http\"\n)\n\nvar fileCache map[string][]byte\nvar fileCacheMutex sync.Mutex\n\nfunc fetchFile(fileurl string) ([]byte, error) {\n\tvar bytes []byte\n\tinitializeFileCache()\n\tif fileCacheEnable {\n\t\tbytes, ok := fileCache[fileurl]\n\t\tif ok {\n\t\t\tif verboseReader {\n\t\t\t\tlog.Printf(\"Cache hit %s\", fileurl)\n\t\t\t}\n\t\t\treturn bytes, nil\n\t\t}\n\t\tif verboseReader {\n\t\t\tlog.Printf(\"Fetching %s\", fileurl)\n\t\t}\n\t}\n\tresponse, err := http.Get(fileurl)\n\tif err != nil {\n\t\treturn nil, err\n\t}\n\tdefer response.Body.Close()\n\tif response.StatusCode != 200 {\n\t\treturn nil, fmt.Errorf(\"Error downloading %s: %s\", fileurl, response.Status)\n\t}\n\tbytes, err = ioutil.ReadAll(response.Body)\n\tif fileCacheEnable && err == nil {\n\t\tfileCache[fileurl] = bytes\n\t}\n\treturn bytes, err\n}",
+    "FSMID_for_test": 101,
+    "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 612,
+  "Github_ID": "100704079",
+  "Github_Project_Name": "javacore",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "java.net UDP Server or Client",
+  "Instruction": "Task Description: Create a UDP server class in Java that can send messages to a specified target host and port using UDP protocol.\n\nClass Description: The UDPServer class implements a simple UDP server that can send messages to other hosts. It encapsulates the Java DatagramSocket functionality for UDP communication.\n\nAttributes:\n- socket: DatagramSocket - The UDP socket used for communication\n- port: int - The port number the server is bound to\n\nMethods:\n- UDPServer(int port) -> void - Constructor that creates a DatagramSocket bound to the specified port\n- send(String message, String targetHost, int targetPort) -> void - Sends a message to the specified target host and port using UDP\n- close() -> void - Closes the UDP socket and releases system resources",
+  "Canonical_solution": "import java.net.DatagramPacket;\nimport java.net.DatagramSocket;\nimport java.net.InetAddress;\n\npublic class UDPServer {\n\n    private DatagramSocket socket;\n    private int port;\n\n    public UDPServer(int port) throws Exception {\n        this.port = port;\n        this.socket = new DatagramSocket(port);\n    }\n\n    public void send(String message, String targetHost, int targetPort) throws Exception {\n        DatagramPacket packet = new DatagramPacket(\n            message.getBytes(),\n            message.length(),\n            InetAddress.getByName(targetHost),\n            targetPort\n        );\n        socket.send(packet);\n    }\n\n    public void close() {\n        if (socket != null) {\n            socket.close();\n        }\n    }\n\n}",
+  "FSMID_for_test": 2,
+  "Code_level": "Class-level"
+}

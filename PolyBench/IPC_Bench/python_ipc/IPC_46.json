@@ -1,0 +1,13 @@
+{
+  "Task_id": 46,
+  "Github_ID": "221919379",
+  "Github_Project_Name": "powertools-lambda-python",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Client-side by using httpx+asyncio in python",
+  "Instruction": "Task Description: Create an asynchronous HTTP client function that handles SQS records, makes HTTP requests, and processes responses in an AWS Lambda environment.\n\nFunction Description: The function processes SQS records asynchronously, makes HTTP GET requests to a specified endpoint using httpx, and returns the HTTP status code. It's designed to work with AWS Lambda Powertools for batch processing.\n\nInput: \n- record: SQSRecord - A single SQS record containing message data\n- (Implicit) client: httpx.AsyncClient - An asynchronous HTTP client created within the function\n\nOutput: \n- int - HTTP status code from the GET request (e.g., 200, 404, etc.)\n- (Through processor) Processed batch response for the Lambda handler",
+  "Canonical_solution": "import httpx\nfrom aws_lambda_powertools.utilities.batch import AsyncBatchProcessor, EventType, async_process_partial_response\nfrom aws_lambda_powertools.utilities.data_classes.sqs_event import SQSRecord\nfrom aws_lambda_powertools.utilities.typing import LambdaContext\n\nprocessor = AsyncBatchProcessor(event_type=EventType.SQS)\n\nasync def async_record_handler(record: SQSRecord):\n    async with httpx.AsyncClient() as client:\n        ret = await client.get(\"https://httpbin.org/get\")\n    return ret.status_code\n\ndef lambda_handler(event, context: LambdaContext):\n    return async_process_partial_response(\n        event=event,\n        record_handler=async_record_handler,\n        processor=processor,\n        context=context,\n    )",
+  "FSMID_for_test": 59,
+  "Code_level": "Function-level"
+}

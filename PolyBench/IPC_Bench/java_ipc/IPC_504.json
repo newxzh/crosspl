@@ -1,0 +1,13 @@
+{
+  "Task_id": 504,
+  "Github_ID": "77675033",
+  "Github_Project_Name": "grpc-spring",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "gRPC Client in java",
+  "Instruction": "Task Description: Implement a function to test the gRPC Server Reflection service by establishing a connection to a gRPC server, sending a reflection request, and processing the response.\n\nFunction Description: The function connects to a gRPC server running on localhost at port 9090 using plaintext communication. It creates an asynchronous stub for the Server Reflection service, sends a request to list all available services, and processes the response. The function ensures proper cleanup by shutting down the channel after completion.\n\nInput: None (The target server address is hardcoded as \"localhost:9090\")\n\nOutput: None (The function processes the reflection response internally via the checkResult method, which is not shown in the reference code)",
+  "Canonical_solution": "import io.grpc.ManagedChannel;\nimport io.grpc.ManagedChannelBuilder;\nimport io.grpc.reflection.v1alpha.ServerReflectionGrpc;\nimport io.grpc.reflection.v1alpha.ServerReflectionGrpc.ServerReflectionStub;\nimport io.grpc.reflection.v1alpha.ServerReflectionRequest;\nimport io.grpc.reflection.v1alpha.ServerReflectionResponse;\nimport io.grpc.stub.StreamObserver;\n\nvoid testReflectionService() {\n    final ManagedChannel channel = ManagedChannelBuilder.forTarget(\"localhost:9090\").usePlaintext().build();\n    try {\n        final ServerReflectionStub stub = ServerReflectionGrpc.newStub(channel);\n\n        final AwaitableStreamObserver<ServerReflectionResponse> resultObserver = new AwaitableStreamObserver<>();\n        final StreamObserver<ServerReflectionRequest> requestObserver = stub.serverReflectionInfo(resultObserver);\n        requestObserver.onNext(ServerReflectionRequest.newBuilder()\n                .setListServices(\"\")\n                .build());\n        requestObserver.onCompleted();\n        checkResult(resultObserver);\n    } finally {\n        channel.shutdown();\n    }\n}",
+  "FSMID_for_test": 23,
+  "Code_level": "Function-level"
+}

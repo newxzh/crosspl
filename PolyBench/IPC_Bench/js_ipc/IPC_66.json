@@ -1,0 +1,13 @@
+{
+  "Task_id": 66,
+  "Github_ID": "18394992",
+  "Github_Project_Name": "web-development-with-node-and-express",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP based on express in javascript",
+  "Instruction": "Task Description: Create a function to start an Express.js server that handles HTTP requests, serves static files, implements custom middleware, and manages error handling.\n\nFunction Description: The function initializes an Express application, configures it with necessary settings and middleware, defines route handlers, and starts listening on a specified port. It includes:\n1. Static file serving from a 'public' directory\n2. Custom middleware for test mode detection\n3. Route handling for the home page\n4. 404 and 500 error handlers\n5. Server startup with port configuration\n\nInput: None (The function takes no parameters as it's self-contained)\n\nOutput: None (The function doesn't return anything but starts a server process that listens for HTTP requests)",
+  "Canonical_solution": "function startServer() {\n    var express = require('express');\n    var app = express();\n\n    app.set('port', process.env.PORT || 3000);\n\n    app.use(express.static(__dirname + '/public'));\n\n    app.use(function(req, res, next){\n        res.locals.showTests = app.get('env') !== 'production' && \n            req.query.test === '1';\n        next();\n    });\n\n    app.get('/', function(req, res) {\n        res.render('home');\n    });\n\n    app.use(function(req, res, next){\n        res.status(404);\n        res.render('404');\n    });\n\n    app.use(function(err, req, res, next){\n        console.error(err.stack);\n        res.status(500);\n        res.render('500');\n    });\n\n    app.listen(app.get('port'), function(){\n        console.log('Express started on http://localhost:' + \n            app.get('port') + '; press Ctrl-C to terminate.');\n    });\n}",
+  "FSMID_for_test": 96,
+  "Code_level": "Function-level"
+}

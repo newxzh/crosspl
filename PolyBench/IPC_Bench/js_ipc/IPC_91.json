@@ -1,0 +1,13 @@
+{
+  "Task_id": 91,
+  "Github_ID": "8391910",
+  "Github_Project_Name": "node-images",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP based on express in javascript",
+  "Instruction": "Task Description: Create a function that sets up an Express server to handle file uploads, process images by resizing and adding a watermark, and serve the processed images back to the client.\n\nFunction Description: The function `setupServer` initializes an Express application, configures middleware for handling file uploads and static file serving, defines routes for the root path and file uploads, and starts the server on port 3000. The upload route processes the uploaded image by resizing it to a width of 800 pixels, adding a logo watermark, and saving it as a JPEG with 80% quality. The temporary upload file is deleted after processing.\n\nInput: None (The function does not take any input parameters.)\n\nOutput: None (The function does not return any value but starts an Express server listening on port 3000.)",
+  "Canonical_solution": "function setupServer() {\n    var fs = require('fs'),\n        path = require('path'),\n        express = require('express'),\n        images = require('../index');\n\n    var app = express();\n\n    app.use(express.bodyParser({\n        uploadDir: __dirname + '/upload'\n    }));\n\n    app.use(express.static(__dirname + '/upload'));\n\n    app.get('/', function(req, res) {\n        res.send('<form method=\"post\" enctype=\"multipart/form-data\" action=\"/upload\"><input type=\"file\" name=\"photo\" /><input type=\"submit\" /></form>');\n    });\n\n    app.post('/upload', function(req, res) {\n        var tmp_path = req.files.photo.path,\n            out_path = tmp_path + '.jpg',\n            photo;\n\n        photo = images(tmp_path);\n        photo.size(800)\n            .draw(images('./logo.png'), 800 - 421, photo.height() - 117)\n            .save(out_path, {\n            quality: 80\n        });\n\n        fs.unlink(tmp_path, function(err) {\n            if (err) throw err;\n            res.send('<a href=\"/\" title=\"upload\"><img src=\"/' + path.basename(out_path) + '\" /></a>');\n        });\n    });\n\n    app.listen(3000);\n}",
+  "FSMID_for_test": 96,
+  "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 186,
+  "Github_ID": "114629751",
+  "Github_Project_Name": "Stock-Prediction-Models",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Server - side by using Flask in python",
+  "Instruction": "Task Description: Create a Flask-based HTTP server that provides endpoints to interact with an agent's trading system, including checking inventory, queue, balance, executing trades, and resetting capital.\n\nFunction Description: The code establishes a RESTful API using Flask that allows clients to query and modify the state of a trading agent. Each endpoint handles specific functionality and returns JSON responses.\n\nInput:\n- For '/trade' endpoint: GET request with 'data' parameter in query string containing trade details as JSON\n- For '/reset' endpoint: GET request with 'money' parameter in query string containing new capital amount as JSON\n- Other endpoints: GET requests without parameters\n\nOutput:\n- All endpoints return JSON responses:\n  - '/': {'status': 'OK'}\n  - '/inventory': Agent's inventory data\n  - '/queue': Agent's queue data\n  - '/balance': Agent's capital amount\n  - '/trade': Result of trade operation\n  - '/reset': Boolean confirmation of capital reset",
+  "Canonical_solution": "from flask import Flask, request, jsonify\nimport json\n\napp = Flask(__name__)\n\n@app.route('/', methods = ['GET'])\ndef hello():\n    return jsonify({'status': 'OK'})\n\n@app.route('/inventory', methods = ['GET'])\ndef inventory():\n    return jsonify(agent._inventory)\n\n@app.route('/queue', methods = ['GET'])\ndef queue():\n    return jsonify(agent._queue)\n\n@app.route('/balance', methods = ['GET'])\ndef balance():\n    return jsonify(agent._capital)\n\n@app.route('/trade', methods = ['GET'])\ndef trade():\n    data = json.loads(request.args.get('data'))\n    return jsonify(agent.trade(data))\n\n@app.route('/reset', methods = ['GET'])\ndef reset():\n    money = json.loads(request.args.get('money'))\n    agent.reset_capital(money)\n    return jsonify(True)\n\nif __name__ == '__main__':\n    app.run(host = '0.0.0.0', port = 8005)",
+  "FSMID_for_test": 60,
+  "Code_level": "Function-level"
+}

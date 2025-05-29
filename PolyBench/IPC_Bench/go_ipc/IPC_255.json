@@ -1,0 +1,13 @@
+{
+    "Task_id": 255,
+    "Github_ID": "385439239",
+    "Github_Project_Name": "gopher",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Official-based gRPC server in Go",
+    "Instruction": "Task Description: Create a gRPC server in Go that listens for incoming requests on a specified TCP port and handles gRPC communications.\n\nFunction Description: The main function sets up a gRPC server that listens on port 50051, registers the gRPC service implementation, and starts serving requests. It includes error handling for server setup and operation.\n\nInput: None (The function takes no explicit parameters but uses a hardcoded port \":50051\" for listening)\n\nOutput: None (The function doesn't return anything but will log fatal errors if the server fails to start or serve)\n\nNote: The actual gRPC service implementation (greeter struct) is not shown in the reference code but would need to be defined separately to implement the proto.GreeterServer interface.",
+    "Canonical_solution": "import (\n\t\"context\"\n\t\"fmt\"\n\t\"log\"\n\t\"net\"\n\n\t\"google.golang.org/grpc\"\n\t\"google.golang.org/grpc/reflection\"\n\t\"grpc-hello/proto\"\n)\nfunc main() {\n\tlis, err := net.Listen(\"tcp\", \":50051\")\n\tif err != nil {\n\t\tlog.Fatalf(\"failed to listen: %v\", err)\n\t}\n\n\tserver := grpc.NewServer()\n\treflection.Register(server)\n\tproto.RegisterGreeterServer(server, &greeter{})\n\n\tfmt.Println(\"grpc server start ...\")\n\tif err := server.Serve(lis); err != nil {\n\t\tlog.Fatalf(\"failed to serve: %v\", err)\n\t}\n}",
+    "FSMID_for_test": 119,
+    "Code_level": "Function-level"
+}

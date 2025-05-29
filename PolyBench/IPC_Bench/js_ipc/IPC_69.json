@@ -1,0 +1,13 @@
+{
+  "Task_id": 69,
+  "Github_ID": "22793191",
+  "Github_Project_Name": "senna.js",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP based on express in javascript",
+  "Instruction": "Task Description: Create a function that sets up an HTTP server using Express.js to handle POST requests and serve static files.\n\nFunction Description: The function `setupServer` initializes an Express application, configures middleware for handling file uploads and static files, defines route handlers for POST requests, and starts the server on port 3000. It handles two POST endpoints: `/post` and `/post-get`. The `/post` endpoint returns a JSON string of the request body, while the `/post-get` endpoint redirects to a specified HTML file.\n\nInput: None\n\nOutput: None (The function starts an HTTP server that listens on port 3000 and does not return any value.)",
+  "Canonical_solution": "function setupServer() {\n    var express = require('express');\n    var multer = require('multer');\n    var app = express();\n    var upload = multer();\n\n    app.use(express.static('../../'));\n\n    app.post('/post', upload.array(), function(req, res, next) {\n        var content = '<div id=\"result1\">';\n        content += JSON.stringify(req.body, 5);\n        content += '</div>';\n        res.end(content);\n    });\n\n    app.post('/post-get', upload.array(), function(req, res, next) {\n        res.redirect('/examples/form/redirect.html');\n    });\n\n    app.listen(3000);\n}",
+  "FSMID_for_test": 96,
+  "Code_level": "Function-level"
+}

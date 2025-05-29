@@ -1,0 +1,13 @@
+{
+    "Task_id": 112,
+    "Github_ID": "239239351",
+    "Github_Project_Name": "webp_server_go",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Fiber-based HTTP Server in Go",
+    "Instruction": "Task Description: Create a Fiber-based HTTP server in Go that handles health checks and image conversion requests.\n\nFunction Description: The main function initializes and configures a Fiber HTTP server, sets up middleware for ETag generation, defines route handlers for health checks and image conversion, and starts the server on a specified host and port.\n\nInput:\n- Configuration parameters (host, port, read buffer size, concurrency, keepalive settings) are read from the config.Config object\n- No direct input parameters to the main function itself\n\nOutput:\n- Running HTTP server that listens on specified address\n- Console output indicating server status\n- Potential fatal error if server fails to start\n\nThe function performs these key operations:\n1. Initializes Fiber app with custom configuration\n2. Adds ETag middleware\n3. Registers route handlers:\n   - /healthz endpoint for health checks\n   - /* catch-all endpoint for image conversion\n4. Starts the server and handles startup errors",
+    "Canonical_solution": "import (\n\t\"fmt\"\n\t\"log\"\n\t\"os\"\n\n\t\"github.com/gofiber/fiber/v2\"\n\t\"webp_server_go/config\"\n\t\"webp_server_go/handler\"\n)\n\nvar app = fiber.New(fiber.Config{\n\tServerHeader:          \"WebP Server Go\",\n\tAppName:               \"WebP Server Go\",\n\tDisableStartupMessage: true,\n\tProxyHeader:           \"X-Real-IP\",\n\tReadBufferSize:        config.Config.ReadBufferSize,\n\tConcurrency:           config.Config.Concurrency,\n\tDisableKeepalive:      config.Config.DisableKeepalive,\n})\n\nfunc main() {\n\tapp.Use(etag.New(etag.Config{\n\t\tWeak: true,\n\t}))\n\n\tlistenAddress := config.Config.Host + \":\" + config.Config.Port\n\n\tapp.Get(\"/healthz\", handler.Healthz)\n\tapp.Get(\"/*\", handler.Convert)\n\n\tfmt.Println(\"WebP Server Go is Running on http://\" + listenAddress)\n\n\tbindErr := app.Listen(listenAddress)\n\tif bindErr != nil {\n\t\tlog.Fatal(\"Error starting server: \", bindErr)\n\t}\n}",
+    "FSMID_for_test": 107,
+    "Code_level": "Function-level"
+}

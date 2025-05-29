@@ -1,0 +1,13 @@
+{
+  "Task_id": 39,
+  "Github_ID": "275712523",
+  "Github_Project_Name": "Springboot-Notebook",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Server - side based on XMLHttpRequest in JavaScript",
+  "Instruction": "Task Description: Create a function to download a video file from a given URL and save it with a specified description as the filename.\n\nFunction Description: The function `downloadVideo` initiates an asynchronous HTTP GET request to download a video file from the provided URL. It handles the response as a binary blob, creates a downloadable link, and triggers the download automatically. The function includes error handling for empty URLs and checks for successful request completion.\n\nInput:\n- `url` (String): The URL of the video file to be downloaded.\n- `desc` (String): The description to be used as the filename for the downloaded video.\n\nOutput: None (The function triggers a file download but does not return any value.)",
+  "Canonical_solution": "function downloadVideo(url, desc) {\n    if (isEmpty(url)) {\n        layer.msg('\u6682\u65e0\u6570\u636e');\n        return;\n    }\n    var xhr = new XMLHttpRequest();\n    xhr.open('GET', url, true);\n    xhr.responseType = 'blob';\n    xhr.setRequestHeader(\"Access-Control-Allow-Origin\", \"*\");\n    xhr.setRequestHeader(\"Access-Control-Allow-Credentials\", true);\n    xhr.onload = function () {\n        if (xhr.readyState === 4 && xhr.status === 200) {\n            let blob = this.response;\n            let u = window.URL.createObjectURL(new Blob([blob]));\n            let a = document.createElement('a');\n            a.download = desc + '.mp4';\n            a.href = u;\n            a.style.display = 'none';\n            document.body.appendChild(a);\n            a.click();\n            a.remove();\n        }\n    };\n    xhr.send();\n}",
+  "FSMID_for_test": 93,
+  "Code_level": "Function-level"
+}

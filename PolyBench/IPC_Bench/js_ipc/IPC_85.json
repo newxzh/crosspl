@@ -1,0 +1,13 @@
+{
+  "Task_id": 85,
+  "Github_ID": "217322229",
+  "Github_Project_Name": "curso-js",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP based on express in javascript",
+  "Instruction": "Task Description: Create a function that sets up an Express.js server to handle HTTP requests, including GET and POST methods, with route parameters and query string processing.\n\nFunction Description: The function `setupExpressServer` initializes an Express.js web server that:\n1. Configures middleware for URL-encoded form data\n2. Sets up routes for:\n   - Root path (/) with both GET (returns HTML form) and POST (processes form submission) methods\n   - Dynamic route (/testes/) with optional parameters that can process both route parameters and query strings\n3. Starts the server listening on port 3000\n\nInput: None (the function takes no parameters)\n\nOutput: None (the function doesn't return anything but creates a running web server that:\n   - Logs server start information to console\n   - Responds to HTTP requests as configured\n   - Logs request parameters and body data to console)",
+  "Canonical_solution": "function setupExpressServer() {\n    const express = require(\"express\");\n    const app = express();\n\n    app.use(express.urlencoded({ extended: true }));\n\n    app.get(\"/\", (req, res) => {\n        res.send(`\n        <form action=\"/\" method=\"POST\">\n        Nome do cliente: <input type=\"text\" name=\"qualquercoisa\"><br>\n        Outro campo: <input type=\"text\" name=\"aquioutrocampo\">\n        <button>Ol\u00e1 mundo</button>\n        </form>\n        `);\n    });\n\n    app.get(\"/testes/:idUsuarios?/:parametro?\", (req, res) => {\n        console.log(req.params);\n        console.log(req.query);\n        res.send(req.query.facebookprofile);\n    });\n\n    app.post(\"/\", (req, res) => {\n        console.log(req.body);\n        res.send(`O que voc\u00ea me enviou foi: ${req.body.qualquercoisa}`);\n    });\n\n    app.listen(3000, () => {\n        console.log(\"Acessar http://localhost:3000\");\n        console.log(\"Servidor executando na porta 3000\");\n    });\n}",
+  "FSMID_for_test": 96,
+  "Code_level": "Function-level"
+}

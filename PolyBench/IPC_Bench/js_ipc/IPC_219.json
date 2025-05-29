@@ -1,0 +1,13 @@
+{
+  "Task_id": 219,
+  "Github_ID": "38206506",
+  "Github_Project_Name": "codetainer",
+  "Programming_Language": "JavaScript",
+  "suffix": ".html",
+  "Interface_class": "IPC",
+  "Interface_name": "WebSocket Client-side based on browser native API in JavaScript",
+  "Instruction": "Task Description: Implement a WebSocket client in JavaScript that establishes a connection to a WebSocket server, handles incoming messages, and sends messages from a form input.\n\nFunction Description: The `initializeWebSocket` function sets up a WebSocket client that connects to a specified WebSocket server URL. It manages the WebSocket connection lifecycle, including opening, message handling, and closing events. It also provides a form submission handler for sending messages through the WebSocket connection and displays all messages in a log area.\n\nInput:\n- None (The function uses DOM elements with IDs \"msg\", \"log\", and \"form\" from the HTML document)\n- Implicitly uses a WebSocket server URL (\"ws://{{$}}/ws\")\n\nOutput:\n- None (The function's effects are visible through DOM manipulation and WebSocket communication)\n- Side effects:\n  - Creates a WebSocket connection\n  - Modifies the DOM to display connection status and messages\n  - Handles form submission to send messages through WebSocket\n\nNote: The function assumes the presence of jQuery for DOM manipulation and requires the following HTML elements:\n- An input field with ID \"msg\" for message input\n- A container with ID \"log\" for displaying messages\n- A form with ID \"form\" for message submission",
+  "Canonical_solution": "function initializeWebSocket() {\n    var conn;\n    var msg = $(\"#msg\");\n    var log = $(\"#log\");\n\n    function appendLog(msg) {\n        var d = log[0]\n        var doScroll = d.scrollTop == d.scrollHeight - d.clientHeight;\n        msg.appendTo(log)\n        if (doScroll) {\n            d.scrollTop = d.scrollHeight - d.clientHeight;\n        }\n    }\n\n    $(\"#form\").submit(function() {\n        if (!conn) {\n            return false;\n        }\n        if (!msg.val()) {\n            return false;\n        }\n        conn.send(msg.val());\n        msg.val(\"\");\n        return false\n    });\n\n    if (window[\"WebSocket\"]) {\n        conn = new WebSocket(\"ws://{{$}}/ws\");\n        conn.onclose = function(evt) {\n            appendLog($(\"<div><b>Connection closed.</b></div>\"))\n        }\n        conn.onmessage = function(evt) {\n            appendLog($(\"<div/>\").text(evt.data))\n        }\n    } else {\n        appendLog($(\"<div><b>Your browser does not support WebSockets.</b></div>\"))\n    }\n}",
+  "FSMID_for_test": 89,
+  "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 106,
+  "Github_ID": "32219142",
+  "Github_Project_Name": "http-proxy-middleware",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP based on express in javascript",
+  "Instruction": "Task Description: Create a function that sets up a proxy server using Express and http-proxy-middleware to forward requests to a specified target URL.\n\nFunction Description: The function `createProxyServer` initializes an Express application, configures a proxy middleware to forward requests to a specified target URL (in this case, 'http://jsonplaceholder.typicode.com/users'), and starts the server on port 3000. It also handles graceful shutdown on receiving SIGINT or SIGTERM signals.\n\nInput: None (The function does not take any input parameters.)\n\nOutput: None (The function does not return any value but starts a server and logs messages to the console.)",
+  "Canonical_solution": "function createProxyServer() {\n    const express = require('express');\n    const { createProxyMiddleware } = require('../../dist');\n    \n    const jsonPlaceholderProxy = createProxyMiddleware({\n        target: 'http://jsonplaceholder.typicode.com/users',\n        changeOrigin: true,\n        logger: console,\n    });\n\n    const app = express();\n    app.use('/users', jsonPlaceholderProxy);\n    \n    const server = app.listen(3000);\n    console.log('[DEMO] Server: listening on port 3000');\n    console.log('[DEMO] Opening: http://localhost:3000/users');\n    \n    require('open')('http://localhost:3000/users');\n    \n    process.on('SIGINT', () => server.close());\n    process.on('SIGTERM', () => server.close());\n}",
+  "FSMID_for_test": 96,
+  "Code_level": "Function-level"
+}

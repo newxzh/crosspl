@@ -1,0 +1,13 @@
+{
+    "Task_id": 127,
+    "Github_ID": "21525599",
+    "Github_Project_Name": "contrib",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Gin-based HTTP Server in Go",
+    "Instruction": "Task Description: Create a simple HTTP server using the Gin framework in Go that serves static files from a local directory and handles a basic GET request.\n\nFunction Description: The main function initializes a Gin HTTP server with default middleware (Logger and Recovery), sets up static file serving from a specified directory, registers a GET route handler, and starts the server on a specified port.\n\nInput: None (The function takes no direct input parameters, but the server configuration is hardcoded in the function)\n\nOutput: None (The function doesn't return any value but starts an HTTP server that continues running until interrupted)\n\nNote: The static file directory (\"/tmp\") and server port (\":8080\") are hardcoded in this implementation but could be made configurable through parameters in a more flexible version.",
+    "Canonical_solution": "import (\n\t\"github.com/gin-gonic/contrib/static\"\n\t\"github.com/gin-gonic/gin\"\n)\nfunc main() {\n\tr := gin.Default()\n\tr.Use(static.Serve(\"/\", static.LocalFile(\"/tmp\", false)))\n\tr.GET(\"/ping\", func(c *gin.Context) {\n\t\tc.String(200, \"test\")\n\t})\n\tr.Run(\":8080\")\n}",
+    "FSMID_for_test": 105,
+    "Code_level": "Function-level"
+}

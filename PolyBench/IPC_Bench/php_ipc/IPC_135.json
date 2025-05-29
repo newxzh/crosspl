@@ -1,0 +1,13 @@
+{
+  "Task_id": 135,
+  "Github_ID": "119047018",
+  "Github_Project_Name": "Heimdall",
+  "Programming_Language": "PHP",
+  "suffix": ".php",
+  "Interface_class": "IPC",
+  "Interface_name": "pipe based on proc_open in PHP",
+  "Instruction": "Task Description: Create a function that executes a shell command and captures its output using PHP's proc_open for inter-process communication.\n\nFunction Description: The function executes a given shell command as a subprocess and returns its standard output. It handles both string and array command formats, manages Windows code page settings if applicable, and ensures proper cleanup of resources. The function returns null if proc_open is unavailable or if process creation fails.\n\nInput: \n- $command: string|array - The shell command to execute, either as a string or array of arguments\n\nOutput: \n- ?string - The captured standard output from the command, or null if execution failed",
+  "Canonical_solution": "function readFromProcess(string|array $command): ?string\n{\n    if (!\\function_exists('proc_open')) {\n        return null;\n    }\n\n    $descriptorspec = [\n        1 => ['pipe', 'w'],\n        2 => ['pipe', 'w'],\n    ];\n\n    $cp = \\function_exists('sapi_windows_cp_set') ? sapi_windows_cp_get() : 0;\n\n    $process = proc_open($command, $descriptorspec, $pipes, null, null, ['suppress_errors' => true]);\n    if (!\\is_resource($process)) {\n        return null;\n    }\n\n    $info = stream_get_contents($pipes[1]);\n    fclose($pipes[1]);\n    fclose($pipes[2]);\n    proc_close($process);\n\n    if ($cp) {\n        sapi_windows_cp_set($cp);\n    }\n\n    return $info;\n}",
+  "FSMID_for_test": 145,
+  "Code_level": "Function-level"
+}

@@ -1,0 +1,20 @@
+import ctypes
+import os
+import timeit
+import array
+import numpy as np
+import random
+from typing import Tuple
+_path = '../libsample.so'
+class Point(ctypes.Structure):
+    _fields_ = [('x', ctypes.c_double),
+                ('y', ctypes.c_double)]
+
+distance = _mod.distance
+distance.argtypes = (ctypes.POINTER(Point), ctypes.POINTER(Point))
+distance.restype = ctypes.c_double
+
+def py_distance(p1: Tuple[float, float], p2: Tuple[float, float]) -> float:
+    point1 = Point(p1[0], p1[1])
+    point2 = Point(p2[0], p2[1])
+    return distance(ctypes.byref(point1), ctypes.byref(point2))

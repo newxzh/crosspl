@@ -1,0 +1,13 @@
+{
+  "Task_id": 108,
+  "Github_ID": "41759865",
+  "Github_Project_Name": "be-mean",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP based on express in javascript",
+  "Instruction": "Task Description: Create a function that initializes and starts an HTTP server using the Express framework, defines a route to handle GET requests for user data, and renders a view with the user data.\n\nFunction Description: The function `startServer` sets up an Express application, configures a route to respond to GET requests at the '/users' endpoint, and starts the server on port 3000. When the '/users' route is accessed, it sends a response containing a list of user objects to be rendered in a view.\n\nInput: None\n\nOutput: None (The function starts a server that listens on port 3000 and logs a message to the console when the server is running.)",
+  "Canonical_solution": "function startServer() {\n    const express = require('express');\n    const app = express();\n    \n    app.get('/users', function (req, res) {\n        const users = [\n            { name: 'Suissa' },\n            { name: 'Itacir' },\n            { name: 'Caio' }\n        ];\n        res.render('users/views/list', {users});\n    });\n\n    app.listen(3000, function () {\n        console.log('Servidor rodando em localhost:3000');\n    });\n}",
+  "FSMID_for_test": 96,
+  "Code_level": "Function-level"
+}

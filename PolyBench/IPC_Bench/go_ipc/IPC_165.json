@@ -1,0 +1,13 @@
+{
+    "Task_id": 165,
+    "Github_ID": "173227087",
+    "Github_Project_Name": "examples",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Gin-based HTTP Server in Go",
+    "Instruction": "Task Description: Create a simple HTTP server using the Gin framework in Go that responds to GET requests with a basic message.\n\nFunction Description: The main function initializes a Gin router with default middleware (Logger and Recovery), sets up a GET route handler at the \"/ping\" endpoint that responds with \"pong\", and starts the server on the default port (8080).\n\nInput: None (The function takes no direct input parameters, but handles incoming HTTP GET requests to the \"/ping\" endpoint)\n\nOutput: None (The function doesn't return any value, but sends \"pong\" as a response to GET requests at \"/ping\" and runs the HTTP server continuously until interrupted)",
+    "Canonical_solution": "import (\n\t\"context\"\n\t\"log\"\n\t\"net/http\"\n\n\t\"github.com/gin-gonic/gin\"\n)\n\nfunc main() {\n\tr := gin.Default()\n\n\tr.GET(\"/ping\", func(c *gin.Context) {\n\t\tc.String(http.StatusOK, \"pong\")\n\t})\n\n\tlog.Fatal(r.Run())\n}",
+    "FSMID_for_test": 105,
+    "Code_level": "Function-level"
+}

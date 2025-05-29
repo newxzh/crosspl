@@ -1,0 +1,13 @@
+{
+  "Task_id": 87,
+  "Github_ID": "61919271",
+  "Github_Project_Name": "react-monocle",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP based on express in javascript",
+  "Instruction": "Task Description: Create a function that sets up an Express server to serve static files and handle specific routes, with different behaviors for production and development environments.\n\nFunction Description: The function `setupExpressServer` initializes an Express application, configures static file serving, defines route handlers for specific files and a catch-all route, and starts the server on port 3000. In production, it serves files directly, while in development, it redirects to a webpack dev server on port 9090.\n\nInput: None\n\nOutput: None (The function starts an Express server that listens on port 3000 and logs a message when ready)",
+  "Canonical_solution": "function setupExpressServer() {\n    const express = require('express');\n    const app = express();\n    const path = require('path');\n    \n    app.use(express.static(path.join(__dirname, './../')));\n    \n    app.get('/app.js', (req, res) => {\n        if (process.env.PRODUCTION) {\n            res.sendFile(__dirname + '/client/app.js');\n        } else {\n            res.redirect('//localhost:9090/client/app.js');\n        }\n    });\n    \n    app.get('/style.css', (req, res) => {\n        if (process.env.PRODUCTION) {\n            res.sendFile(__dirname + '/client/style.css');\n        } else {\n            res.redirect('//localhost:9090/client/style.css');\n        }\n    });\n    \n    app.get('*', (req, res) => {\n        res.sendFile(path.join(__dirname, '../', 'index.html'));\n    });\n    \n    const server = app.listen(3000, () => {\n        console.log('listening on 3000....');\n    });\n}",
+  "FSMID_for_test": 96,
+  "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+    "Task_id": 72,
+    "Github_ID": "237778673",
+    "Github_Project_Name": "kube-vip",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Basic HTTP server using net/http with HandleFunc and ListenAndServe",
+    "Instruction": "Task Description: Create a basic HTTP server in Go that listens on a specified port and responds with a simple greeting message to all incoming requests.\n\nFunction Description: The main function sets up an HTTP server with a single route (\"/\") that handles all incoming requests. When a request is received, it writes a \"Hello!\" response. The server listens on port 80 and logs any errors that occur during startup.\n\nInput: None (The function takes no direct input parameters; configuration is hardcoded)\n\nOutput: None (The function doesn't return anything directly but starts a long-running HTTP server process that handles incoming requests and writes responses)",
+    "Canonical_solution": "import (\n\t\"fmt\"\n\t\"net/http\"\n\t\"log/slog\"\n)\n\nfunc main() {\n\thttp.HandleFunc(\"/\", func(w http.ResponseWriter, r *http.Request) {\n\t\tfmt.Fprintf(w, \"Hello!\")\n\t})\n\n\tlog.Info(\"Starting server at port 80\")\n\tif err := http.ListenAndServe(\":80\", nil); err != nil {\n\t\tlog.Fatal(err)\n\t}\n}",
+    "FSMID_for_test": 103,
+    "Code_level": "Function-level"
+}

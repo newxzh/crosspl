@@ -1,0 +1,13 @@
+{
+  "Task_id": 98,
+  "Github_ID": "542713154",
+  "Github_Project_Name": "uAgents",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Client-side by using requests in python",
+  "Instruction": "Task Description: Create a function to fetch all repositories from a GitHub organization using the GitHub API.\n\nFunction Description: The function `fetch_github_repos` asynchronously retrieves all repositories belonging to a specified GitHub organization. It handles pagination to ensure all repositories are fetched, even if they span multiple pages. The function uses the GitHub REST API with proper authentication and headers.\n\nInput:\n- `org_name` (str): The name of the GitHub organization whose repositories are to be fetched.\n- `token` (str): A GitHub personal access token for authentication.\n\nOutput:\n- Returns a list of dictionaries, where each dictionary represents a repository from the organization. Returns an empty list if the request fails or no repositories are found.",
+  "Canonical_solution": "import requests\ntoken = \"YOUR_GITHUB_TOKEN\"\n\nasync def fetch_github_repos(org_name, token):\n    url = f\"https://api.github.com/orgs/{org_name}/repos\"\n    headers = {\n        \"Accept\": \"application/vnd.github+json\",\n        \"Authorization\": f\"Bearer {token}\",\n        \"X-GitHub-Api-Version\": \"2022-11-28\",\n    }\n\n    params = {\n        \"per_page\": 100  # You can adjust this number (max is 100)\n    }\n\n    all_repos = []\n\n    while url:\n        response = requests.get(url, headers=headers, params=params)\n\n        if response.status_code == 200:\n            repos = response.json()\n            all_repos.extend(repos)\n\n            # Check if there is a 'next' page\n            if \"next\" in response.links:\n                url = response.links[\"next\"][\"url\"]\n            else:\n                url = None\n        else:\n            print(\n                f\"Failed to fetch repositories: {response.status_code} - {response.text}\"\n            )\n            break\n\n    return all_repos",
+  "FSMID_for_test": 57,
+  "Code_level": "Function-level"
+}

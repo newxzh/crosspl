@@ -1,0 +1,13 @@
+{
+    "Task_id": 162,
+    "Github_ID": "173227087",
+    "Github_Project_Name": "examples",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Gin-based HTTP Server in Go",
+    "Instruction": "Task Description: Create a simple HTTP server using the Gin framework in Go that serves a static favicon file and responds to a GET request with a text message.\n\nFunction Description: The main function initializes a Gin HTTP server with default middleware (Logger and Recovery), serves a static favicon file, registers a GET route handler, and starts the server on port 8080.\n\nInput: None (The function takes no direct input parameters, but handles incoming HTTP requests)\n\nOutput: None (The function doesn't return anything but sends responses to HTTP requests and runs the server indefinitely)\n\nNote: The instruction is for function-level code as the reference code shows a main function implementation rather than a struct/class implementation.",
+    "Canonical_solution": "import (\n\t\"net/http\"\n\n\t\"github.com/gin-gonic/gin\"\n)\nfunc main() {\n\tapp := gin.Default()\n\n\tapp.StaticFile(\"/favicon.ico\", \"./favicon.ico\")\n\n\tapp.GET(\"/ping\", func(c *gin.Context) {\n\t\tc.String(http.StatusOK, \"Hello favicon.\")\n\t})\n\n\tapp.Run(\":8080\")\n}",
+    "FSMID_for_test": 105,
+    "Code_level": "Function-level"
+}

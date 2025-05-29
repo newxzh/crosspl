@@ -1,0 +1,13 @@
+{
+  "Task_id": 184,
+  "Github_ID": "3100494",
+  "Github_Project_Name": "uptime",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "UDP based on node.js dgram",
+  "Instruction": "Task Description: Create a UDP server using Node.js's dgram module to handle incoming messages and respond to clients.\n\nFunction Description: The function creates a UDP server that listens for incoming messages on a specified port. When a message is received, it parses the message (assuming JSON format), logs the sender's information, and sends a response back to the client. The server also logs its binding status once it starts listening.\n\nInput: None (The port number is hardcoded as 41234 in the function.)\n\nOutput: None (The function logs messages to the console and sends responses to clients but does not return any value.)",
+  "Canonical_solution": "function createUDPServer() {\n    var server = require('dgram').createSocket(\"udp4\");\n\n    server.on(\"message\", function (msg, rinfo) {\n        try {\n            msg = JSON.parse(msg);\n        } catch (e) {\n            console.dir(e);\n        }\n        console.log(\"server got message: from \" + rinfo.address + \":\" + rinfo.port);\n        console.dir(msg);\n\n        var pong = new Buffer(JSON.stringify({'command': 'pong'}));\n        server.send(pong, 0, pong.length, rinfo.port, rinfo.address, function () {\n            console.log('sent message to ' + rinfo.address + ':' + rinfo.port);\n        });\n    });\n\n    server.on(\"listening\", function () {\n        var address = server.address();\n        console.log(\"server listening \" + address.address + \":\" + address.port);\n    });\n\n    server.bind(41234);\n}",
+  "FSMID_for_test": 98,
+  "Code_level": "Function-level"
+}

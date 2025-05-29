@@ -1,0 +1,13 @@
+{
+  "Task_id": 130,
+  "Github_ID": "36058160",
+  "Github_Project_Name": "C1000K-Servers",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "Pipe Server-side based on fs+http in JavaScript",
+  "Instruction": "Task Description: Create a function that sets up an HTTP server to serve a static HTML file by piping the file's content directly to the response stream.\n\nFunction Description: The function `createServer` initializes an HTTP server that listens on port 8080. When a request is received, it reads the specified HTML file (`index.html`) and pipes its content to the response object, efficiently streaming the file to the client.\n\nInput: None\n\nOutput: None (The function starts an HTTP server that continues to run and serve requests indefinitely.)",
+  "Canonical_solution": "function createServer() {\n    var http = require(\"http\");\n    var fs = require(\"fs\");\n\n    http.createServer(function (req, res) {\n        fs.createReadStream(\"index.html\").pipe(res);\n    }).listen(8080);\n}",
+  "FSMID_for_test": 100,
+  "Code_level": "Function-level"
+}

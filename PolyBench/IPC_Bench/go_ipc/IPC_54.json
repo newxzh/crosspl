@@ -1,0 +1,13 @@
+{
+    "Task_id": 54,
+    "Github_ID": "36058160",
+    "Github_Project_Name": "C1000K-Servers",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Basic HTTP server using net/http with HandleFunc and ListenAndServe",
+    "Instruction": "Task Description: Create a Go HTTP server that handles WebSocket connections at the root path (\"/\"). The server should load configuration from a JSON file and start listening on a specified port.\n\nFunction Description: The main function initializes the server by loading configuration, setting up a WebSocket handler at the root path, and starting the HTTP server on the configured port.\n\nInput: None (configuration is loaded from \"config.json\" file)\n\nOutput: None (the function runs indefinitely serving HTTP requests or panics if server fails to start)",
+    "Canonical_solution": "import (\n\t\"net/http\"\n\t\"golang.org/x/net/websocket\"\n\t\"strconv\"\n\t\"time\"\n)\n\nfunc main() {\n\tConfig = load(\"config.json\")\n\t\n\thttp.HandleFunc(\"/\", func(w http.ResponseWriter, req *http.Request) {\n\t\ts := websocket.Server{Handler: websocket.Handler(wsHandler)}\n\t\ts.ServeHTTP(w, req)\n\t})\n\n\terr := http.ListenAndServe(\":\"+strconv.Itoa(Config.Port), nil)\n\tif err != nil {\n\t\tpanic(\"Error: \" + err.Error())\n\t}\n}",
+    "FSMID_for_test": 103,
+    "Code_level": "Function-level"
+}

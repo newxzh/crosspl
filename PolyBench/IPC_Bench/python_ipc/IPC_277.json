@@ -1,0 +1,13 @@
+{
+  "Task_id": 277,
+  "Github_ID": "48129918",
+  "Github_Project_Name": "paho.mqtt.python",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "Mosquitto Producer based on mqtt in Python",
+  "Instruction": "Task Description: Create a Python function that establishes an MQTT client connection to a broker, publishes messages to specified topics with a given QoS level, and handles connection and message events asynchronously.\n\nFunction Description: The function `mqtt_publish` initializes an MQTT client, sets up callback functions for connection, message reception, and message publishing events, connects to a specified MQTT broker, starts an asynchronous network loop, and publishes messages to designated topics with a QoS level of 2. The function demonstrates basic MQTT publishing capabilities with event handling.\n\nInput: None (The function uses hardcoded values for broker address, port, topics, and messages)\n\nOutput: None (The function's effects are side-effects: publishing messages and printing status information through callback functions)\n\nNote: The function includes three callback functions:\n1. `on_connect`: Prints the connection reason code when connected to the broker\n2. `on_message`: Prints received messages (though none are expected in this publish-only example)\n3. `on_publish`: Prints the message ID when a message is published",
+  "Canonical_solution": "import paho.mqtt.client as mqtt\n\ndef on_connect(mqttc, obj, flags, reason_code, properties):\n    print(\"reason_code: \" + str(reason_code))\n\ndef on_message(mqttc, obj, msg):\n    print(msg.topic + \" \" + str(msg.qos) + \" \" + str(msg.payload))\n\ndef on_publish(mqttc, obj, mid, reason_code, properties):\n    print(\"mid: \" + str(mid))\n\ndef mqtt_publish():\n    mqttc = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)\n    mqttc.on_message = on_message\n    mqttc.on_connect = on_connect\n    mqttc.on_publish = on_publish\n    mqttc.connect(\"mqtt.eclipseprojects.io\", 1883, 60)\n    mqttc.loop_start()\n    (rc, mid) = mqttc.publish(\"tuple\", \"bar\", qos=2)\n    infot = mqttc.publish(\"class\", \"bar\", qos=2)\n    infot.wait_for_publish()",
+  "FSMID_for_test": 83,
+  "Code_level": "Function-level"
+}

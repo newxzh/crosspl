@@ -1,0 +1,13 @@
+{
+  "Task_id": 408,
+  "Github_ID": "100704079",
+  "Github_Project_Name": "javacore",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "TCP Client-side Java.io",
+  "Instruction": "Task Description: Create a Java class that implements a TCP client for basic communication with a server using Java's IO and networking capabilities.\n\nClass Description: The HelloClient class establishes a TCP connection to a specified server, receives messages from the server, and properly closes the connection when done. It uses Java's Socket and BufferedReader for network communication.\n\nAttributes:\n- client: Socket - The socket object representing the connection to the server\n- buf: BufferedReader - The buffered reader for receiving data from the server\n\nMethods:\n- connect(String host, int port) -> void - Establishes a connection to the specified server host and port\n  - Input: \n    - host: String - The server hostname or IP address\n    - port: int - The server port number\n  - Throws: Exception - If connection fails\n- receive() -> String - Reads a line of text from the server\n  - Returns: String - The received message from the server\n  - Throws: Exception - If reading fails\n- close() -> void - Closes the connection and cleans up resources\n  - Throws: Exception - If closing fails",
+  "Canonical_solution": "import java.io.BufferedReader;\nimport java.io.InputStreamReader;\nimport java.net.Socket;\n\npublic class HelloClient {\n\n    private Socket client;\n    private BufferedReader buf;\n\n    public void connect(String host, int port) throws Exception {\n        client = new Socket(host, port);\n        InputStreamReader inputStreamReader = new InputStreamReader(client.getInputStream());\n        buf = new BufferedReader(inputStreamReader);\n    }\n\n    public String receive() throws Exception {\n        String str = buf.readLine();\n        return str;\n    }\n\n    public void close() throws Exception {\n        buf.close();\n        client.close();\n    }\n\n}",
+  "FSMID_for_test": 15,
+  "Code_level": "Class-level"
+}

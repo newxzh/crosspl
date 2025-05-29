@@ -1,0 +1,13 @@
+{
+    "Task_id": 308,
+    "Github_ID": "20896284",
+    "Github_Project_Name": "inspeqtor",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Simple HTTP GET client using net/http",
+    "Instruction": "Task Description: Create a function that fetches memory statistics from a specified URL using HTTP GET request and returns the response body.\n\nFunction Description: The function `defaultMemstatsClient` makes an HTTP GET request to the provided URL to fetch memory statistics. It handles the response by reading the body and ensures proper resource cleanup by deferring the closure of the response body. Errors during the request or response handling are returned to the caller.\n\nInput: \n- `url` (string): The URL from which to fetch the memory statistics.\n\nOutput: \n- `[]byte`: The response body containing the memory statistics.\n- `error`: An error object if the HTTP request or response reading fails; otherwise, `nil`.",
+    "Canonical_solution": "import (\n\t\"encoding/json\"\n\t\"fmt\"\n\t\"io/ioutil\"\n\t\"net/http\"\n)\n\nfunc defaultMemstatsClient(url string) ([]byte, error) {\n\tutil.Debug(\"Fetching memstats from %s\", url)\n\tresp, err := http.Get(url)\n\tif err != nil {\n\t\treturn nil, err\n\t}\n\tdefer resp.Body.Close()\n\treturn ioutil.ReadAll(resp.Body)\n}",
+    "FSMID_for_test": 101,
+    "Code_level": "Function-level"
+}

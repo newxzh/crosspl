@@ -1,0 +1,13 @@
+{
+    "Task_id": 137,
+    "Github_ID": "366764229",
+    "Github_Project_Name": "zadig",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Gin-based HTTP Server in Go",
+    "Instruction": "Task Description: Create a Go function that implements an HTTP server using the Gin framework, with endpoints for basic operations including ping, info retrieval, and counter manipulation with thread-safe increment/reset functionality.\n\nFunction Description: The Run function initializes a Gin HTTP server with four API endpoints under the \"/api/v1\" route group. It handles concurrent counter operations safely using mutex locks and logs requests using klog. The server runs on the specified address from the Options parameter.\n\nInput: \n- op *Options: A pointer to an Options struct containing the ListenAddr field specifying the server's listening address (e.g., \":8080\")\n\nOutput:\n- error: Returns an error if the server fails to start, otherwise runs indefinitely serving HTTP requests\n\nStruct Description: (Not applicable as the reference code is at function level)",
+    "Canonical_solution": "import (\n\t\"fmt\"\n\t\"net/http\"\n\t\"sync\"\n\n\t\"github.com/gin-gonic/gin\"\n\t\"k8s.io/klog/v2\"\n)\n\nvar (\n\tCount int\n\tMutex sync.Mutex\n)\n\nfunc Run(op *Options) error {\n\tr := gin.Default()\n\n\tapiv1 := r.Group(\"/api/v1\")\n\t{\n\t\tapiv1.GET(\"/ping\", func(c *gin.Context) {\n\t\t\tklog.InfoS(\"Accept request.\")\n\n\t\t\tc.JSON(http.StatusOK, gin.H{\n\t\t\t\t\"message\": \"pong\",\n\t\t\t})\n\t\t})\n\n\t\tapiv1.GET(\"/info\", func(c *gin.Context) {\n\t\t\tklog.InfoS(\"Accept request.\", \"headers\", c.Request.Header)\n\n\t\t\tc.JSON(http.StatusOK, gin.H{\n\t\t\t\t\"message\": \"app3\",\n\t\t\t})\n\t\t})\n\n\t\tapiv1.PUT(\"/count\", func(c *gin.Context) {\n\t\t\tklog.InfoS(\"Accept request.\", \"headers\", c.Request.Header)\n\n\t\t\tMutex.Lock()\n\t\t\tCount += 1\n\t\t\tMutex.Unlock()\n\n\t\t\tklog.InfoS(\"app-3 info\", \"count\", Count)\n\n\t\t\tc.JSON(http.StatusOK, gin.H{\n\t\t\t\t\"message\": fmt.Sprintf(\"app3: %d\", Count),\n\t\t\t})\n\t\t})\n\n\t\tapiv1.DELETE(\"/count\", func(c *gin.Context) {\n\t\t\tklog.InfoS(\"Accept request.\", \"headers\", c.Request.Header)\n\n\t\t\tMutex.Lock()\n\t\t\tCount = 0\n\t\t\tMutex.Unlock()\n\n\t\t\tklog.InfoS(\"app-3 info\", \"count\", Count)\n\n\t\t\tc.JSON(http.StatusOK, gin.H{\n\t\t\t\t\"message\": fmt.Sprintf(\"app1: %d\", Count),\n\t\t\t})\n\t\t})\n\t}\n\n\treturn r.Run(op.ListenAddr)\n}",
+    "FSMID_for_test": 105,
+    "Code_level": "Function-level"
+}

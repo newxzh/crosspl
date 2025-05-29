@@ -1,0 +1,13 @@
+{
+  "Task_id": 120,
+  "Github_ID": "2784293",
+  "Github_Project_Name": "php-amqplib",
+  "Programming_Language": "PHP",
+  "suffix": ".php",
+  "Interface_class": "IPC",
+  "Interface_name": "RabbitMQ producer in PHP",
+  "Instruction": "Task Description: Implement a function that sends a delayed message to a RabbitMQ queue using PHP and the PhpAmqpLib library. The function should establish a connection to RabbitMQ, declare a delayed exchange and queue, and publish a message with a specified delay time.\n\nFunction Description: The function `send_delayed_message` sends a message to a RabbitMQ queue with a specified delay. It uses a delayed exchange to achieve the delay functionality. The function handles the connection setup, exchange and queue declaration, message creation with delay headers, and cleanup of resources.\n\nInput:\n- `$message_content` [string] - The content of the message to be sent.\n- `$delay_ms` [int] - The delay time in milliseconds before the message is delivered to the queue.\n\nOutput: None. The function does not return any value but publishes the message to the specified RabbitMQ queue with the given delay.\n\nNote: The function assumes the existence of a `config.php` file containing the RabbitMQ connection parameters (HOST, PORT, USER, PASS, VHOST).",
+  "Canonical_solution": "function send_delayed_message($message_content, $delay_ms)\n{\n    require_once __DIR__ . '/config.php';\n    use PhpAmqpLib\\Connection\\AMQPStreamConnection;\n    use PhpAmqpLib\\Exchange\\AMQPExchangeType;\n    use PhpAmqpLib\\Message\\AMQPMessage;\n    use PhpAmqpLib\\Wire\\AMQPTable;\n\n    $connection = new AMQPStreamConnection(HOST, PORT, USER, PASS, VHOST);\n    $channel = $connection->channel();\n\n    $channel->exchange_declare(\n        'delayed_exchange',\n        'x-delayed-message',\n        false,\n        true,\n        false,\n        false,\n        false,\n        new AMQPTable(['x-delayed-type' => AMQPExchangeType::FANOUT])\n    );\n\n    $channel->queue_declare(\n        'delayed_queue',\n        false,\n        false,\n        false,\n        false,\n        false,\n        new AMQPTable(['x-dead-letter-exchange' => 'delayed'])\n    );\n\n    $channel->queue_bind('delayed_queue', 'delayed_exchange');\n\n    $headers = new AMQPTable(['x-delay' => $delay_ms]);\n    $message = new AMQPMessage($message_content, ['delivery_mode' => 2]);\n    $message->set('application_headers', $headers);\n    $channel->basic_publish($message, 'delayed_exchange');\n\n    $channel->close();\n    $connection->close();\n}",
+  "FSMID_for_test": 142,
+  "Code_level": "Function-level"
+}

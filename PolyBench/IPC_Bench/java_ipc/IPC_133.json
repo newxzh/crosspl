@@ -1,0 +1,13 @@
+{
+  "Task_id": 133,
+  "Github_ID": "30628859",
+  "Github_Project_Name": "netty-4-user-guide-demos",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "Java Netty TCP Client",
+  "Instruction": "Task Description: Create a Java class that implements a TCP client using Netty framework to establish a non-blocking connection to a remote server, send serialized objects, and handle graceful shutdown.\n\nClass Description: SerializationClient is a Netty-based TCP client that connects to a specified host and port, sends multiple instances of a serializable object (SerializationBean) to the server, and manages connection lifecycle including proper resource cleanup.\n\nAttributes:\n- host: String - The hostname or IP address of the remote server to connect to\n- port: int - The port number of the remote server to connect to\n\nMethods:\n- Constructor: SerializationClient(String host, int port) -> None - Initializes the client with target server's host and port\n- run: void() throws Exception - Main method that:\n  1. Initializes Netty client components\n  2. Establishes TCP connection\n  3. Sends multiple serialized objects\n  4. Manages connection lifecycle and cleanup\n  5. Handles graceful shutdown of resources",
+  "Canonical_solution": "import io.netty.bootstrap.Bootstrap;\nimport io.netty.channel.Channel;\nimport io.netty.channel.EventLoopGroup;\nimport io.netty.channel.nio.NioEventLoopGroup;\nimport io.netty.channel.socket.nio.NioSocketChannel;\n\npublic class SerializationClient {\n\n    private final String host;\n    private final int port;\n\n    public SerializationClient(String host, int port) {\n        this.host = host;\n        this.port = port;\n    }\n\n    public void run() throws Exception {\n        EventLoopGroup group = new NioEventLoopGroup();\n        try {\n            Bootstrap bootstrap = new Bootstrap()\n                    .group(group)\n                    .channel(NioSocketChannel.class)\n                    .handler(new SerializationClientInitializer());\n\n            Channel channel = bootstrap.connect(host, port).sync().channel();\n\n            SerializationBean user = new SerializationBean();\n\n            for (int i = 0; i < 10; i++) {\n                user = new SerializationBean();\n                user.setAge(i);\n                user.setName(\"waylau\");\n                channel.write(user);\n            }\n            channel.flush();\n\n            channel.closeFuture().sync();\n        } finally {\n            group.shutdownGracefully();\n        }\n    }\n}",
+  "FSMID_for_test": 3,
+  "Code_level": "Class-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 29,
+  "Github_ID": "598995344",
+  "Github_Project_Name": "tunnelmole-client",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Client-side based on Axios",
+  "Instruction": "Task Description: Implement a function to send telemetry data to a remote endpoint after a software installation, while respecting user preferences for telemetry collection.\n\nFunction Description: The function `installTelemetry` sends a POST request to a specified telemetry endpoint with installation-related data (Node.js version and platform). It checks an environment variable to determine if telemetry collection is enabled before sending any data. The function handles both success and error cases silently.\n\nInput: None (uses environment variable `TUNNELMOLE_TELEMETRY` and Node.js process information)\n\nOutput: None (the function doesn't return any value, it only performs a side effect of sending telemetry data)",
+  "Canonical_solution": "const axios = require(\"axios\");\n\nasync function installTelemetry() {\n  const telemetryEndpoint = `https://service.tunnelmole.com/tunnelmole-log-telemetry`;\n\n  if (process.env.TUNNELMOLE_TELEMETRY === \"0\") {\n    return;\n  }\n\n  axios\n    .post(telemetryEndpoint, {\n      type: \"post-install\",\n      data: {\n        nodeVersion: process.version ? process.version : \"Unknown\",\n        platform: process.platform ? process.platform : \"Unknown\"\n      }\n    }).then(function () {\n      // Ignore the response\n    }).catch(function () {\n      // Ignore the error\n    });\n}",
+  "FSMID_for_test": 94,
+  "Code_level": "Function-level"
+}

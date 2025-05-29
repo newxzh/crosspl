@@ -1,0 +1,13 @@
+{
+  "Task_id": 487,
+  "Github_ID": "12414592",
+  "Github_Project_Name": "javaee7-samples",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "WebSocket Server based on Java EE",
+  "Instruction": "Task Description: Implement a WebSocket server endpoint in Java that handles binary data streams from clients and echoes them back.\n\nClass Description: This class represents a WebSocket server endpoint that receives binary data streams from clients and sends back the same data. It uses Java EE's WebSocket API to create a server endpoint at \"/inputstream\" path.\n\nAttributes: None\n\nMethods:\n- echoStream: [InputStream, Session] -> [void] - Handles incoming binary stream messages. Reads 12 bytes from the input stream and sends them back to the client using the WebSocket session. The method prints the received stream to console for debugging purposes. Throws IOException if there's an error during stream operations.\n\nInput:\n- stream: [InputStream] - The binary input stream received from the client\n- session: [Session] - The WebSocket session object representing the client connection\n\nOutput: None (sends binary data back through the WebSocket session)",
+  "Canonical_solution": "import java.io.IOException;\nimport java.io.InputStream;\nimport java.nio.ByteBuffer;\nimport javax.websocket.OnMessage;\nimport javax.websocket.Session;\nimport javax.websocket.server.ServerEndpoint;\n\n@ServerEndpoint(\"/inputstream\")\npublic class MyEndpointInputStream {\n\n    @OnMessage\n    public void echoStream(InputStream stream, Session session) throws IOException {\n        System.out.println(\"echoStream: \" + stream);\n        byte[] b = new byte[12];\n        stream.read(b);\n        session.getBasicRemote().sendBinary(ByteBuffer.wrap(b));\n    }\n}",
+  "FSMID_for_test": 26,
+  "Code_level": "Class-level"
+}

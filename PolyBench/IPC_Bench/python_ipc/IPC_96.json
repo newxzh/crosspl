@@ -1,0 +1,13 @@
+{
+  "Task_id": 96,
+  "Github_ID": "441778458",
+  "Github_Project_Name": "pythia",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Client-side by using requests in python",
+  "Instruction": "Task Description: Scrape SHA256 hashes from Hugging Face dataset pages and save them to a file.\n\nFunction Description: This function scrapes SHA256 hashes from a series of Hugging Face dataset pages by making HTTP GET requests to each page, parsing the HTML content to extract the hashes, and writing them to an output file along with their corresponding filenames. It also prints the collected hashes to the console.\n\nInput: None (The function uses hardcoded URLs and output filename)\n\nOutput: \n1. Writes to \"shard_hashes.txt\" file with format: \"[filename] [SHA256 hash]\"\n2. Prints collected SHA256 hashes to console with format: \"SHA256 hash [index]: [hash]\"\n3. Prints error messages for failed requests or missing hashes",
+  "Canonical_solution": "import requests\nimport re\n\ndef scrape_huggingface_hashes():\n    base_url = 'https://huggingface.co/datasets/EleutherAI/pythia_deduped_pile_idxmaps/blob/main/pile_0.87_deduped_text_document-'\n    sha256_list = []\n\n    with open(\"shard_hashes.txt\", \"w\") as output_file:\n        for i in range(83):\n            page_number = f\"{i:05d}-of-00082.bin\"\n            url = base_url + page_number\n            file_name = url.split('/')[-1]\n\n            response = requests.get(url)\n\n            if response.status_code == 200:\n                html_content = response.text\n                matches = re.findall(r'<strong>SHA256:</strong>\\s*([\\da-fA-F]+)', html_content)\n\n                if matches:\n                    sha256_list.extend(matches)\n                    for sha256 in matches:\n                        output_file.write(f\"{file_name} {sha256}\\n\")\n                else:\n                    print(f\"No hash found for file: {file_name}\")\n            else:\n                print(f\"Failed to fetch HTML content from {url}. Status code: {response.status_code}\")\n\n    for idx, sha256 in enumerate(sha256_list, start=1):\n        print(f\"SHA256 hash {idx}: {sha256}\")",
+  "FSMID_for_test": 57,
+  "Code_level": "Function-level"
+}

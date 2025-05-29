@@ -1,0 +1,13 @@
+{
+    "Task_id": 37,
+    "Github_ID": "191912898",
+    "Github_Project_Name": "kube-eventer",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Basic HTTP server using net/http with HandleFunc and ListenAndServe",
+    "Instruction": "Task Description: Implement a basic HTTP server in Go that serves a health check endpoint and starts listening on a specified host and port.\n\nFunction Description: The function `startHTTPServer` initializes and starts an HTTP server with a single `/healthz` endpoint that returns a 200 OK status and \"ok\" response. The server listens on the IP address and port specified by the input parameters.\n\nInput: \n- `argHealthzIP` (string pointer): The IP address on which the server should listen.\n- `argHealthzPort` (int pointer): The port number on which the server should listen.\n\nOutput: \n- None (the function runs indefinitely or until an error occurs, in which case it logs the error and exits).",
+    "Canonical_solution": "import (\n\t\"net\"\n\t\"net/http\"\n\t\"strconv\"\n)\n\nfunc startHTTPServer() {\n\thttp.HandleFunc(\"/healthz\", func(w http.ResponseWriter, _ *http.Request) {\n\t\tw.WriteHeader(200)\n\t\tw.Write([]byte(\"ok\"))\n\t})\n\n\tklog.Info(\"Starting eventer http service\")\n\tklog.Fatal(http.ListenAndServe(net.JoinHostPort(*argHealthzIP, strconv.Itoa(int(*argHealthzPort))), nil))\n}",
+    "FSMID_for_test": 103,
+    "Code_level": "Function-level"
+}

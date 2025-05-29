@@ -1,0 +1,13 @@
+{
+  "Task_id": 421,
+  "Github_ID": "272493701",
+  "Github_Project_Name": "learning-note",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "TCP Client-side Java.io",
+  "Instruction": "Task Description: Create a TCP client class in Java that can connect to a server, send messages, receive responses, and properly close the connection.\n\nClass Description: The SocketClient class provides functionality for establishing a TCP connection to a server, sending messages, receiving responses, and managing connection resources. It encapsulates the socket communication logic using Java's IO and networking classes.\n\nAttributes:\n- theSocket: Socket - The socket object representing the connection to the server\n- out: PrintWriter - The output stream writer for sending data to the server\n- networkIn: BufferedReader - The input stream reader for receiving data from the server\n\nMethods:\n- connect(String host, int port) -> void - Establishes a connection to the specified server host and port. Throws IOException if connection fails.\n- sendMessage(String message) -> void - Sends a message to the connected server. The message is automatically flushed.\n- readResponse() -> String - Reads a line of response from the server. Throws IOException if reading fails.\n- close() -> void - Closes all connection resources (socket, input and output streams) safely. Handles any IOExceptions internally.",
+  "Canonical_solution": "import java.io.*;\nimport java.net.Socket;\nimport java.net.UnknownHostException;\n\npublic class SocketClient {\n\n    private Socket theSocket;\n    private PrintWriter out;\n    private BufferedReader networkIn;\n\n    public void connect(String host, int port) throws IOException {\n        theSocket = new Socket(host, port);\n        networkIn = new BufferedReader(new InputStreamReader(theSocket.getInputStream()));\n        out = new PrintWriter(theSocket.getOutputStream());\n    }\n\n    public void sendMessage(String message) {\n        out.println(message);\n        out.flush();\n    }\n\n    public String readResponse() throws IOException {\n        return networkIn.readLine();\n    }\n\n    public void close() {\n        try {\n            if (networkIn != null) networkIn.close();\n            if (out != null) out.close();\n            if (theSocket != null) theSocket.close();\n        } catch (IOException e) {\n            e.printStackTrace();\n        }\n    }\n}",
+  "FSMID_for_test": 15,
+  "Code_level": "Class-level"
+}

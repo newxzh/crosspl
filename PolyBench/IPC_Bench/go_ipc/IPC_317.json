@@ -1,0 +1,13 @@
+{
+    "Task_id": 317,
+    "Github_ID": "36778364",
+    "Github_Project_Name": "noms",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Simple HTTP GET client using net/http",
+    "Instruction": "Task Description: Implement a function to retrieve node information by making an HTTP GET request to a local server. The function should handle server setup, request execution, and response processing.\n\nFunction Description: The function `getNode` initiates an HTTP server locally, sends a GET request to retrieve node information based on the provided ID, and returns the response body as a string. It handles server lifecycle management and ensures proper resource cleanup.\n\nInput: \n- `id` [string] - The identifier of the node to retrieve\n\nOutput: \n- [string] - The response body containing the node information",
+    "Canonical_solution": "import (\n\t\"fmt\"\n\t\"net\"\n\t\"net/http\"\n\t\"io/ioutil\"\n)\n\nfunc getNode(id string) string {\n\tlchan := make(chan net.Listener)\n\thttpServe = func(l net.Listener, h http.Handler) error {\n\t\tlchan <- l\n\t\thttp.Serve(l, h)\n\t\treturn nil\n\t}\n\n\tgo func() { run(&http.ServeMux{}, 0, false, \"nbs:\"+dir) }()\n\tl := <-lchan\n\tdefer l.Close()\n\n\tr, err := http.Get(fmt.Sprintf(\"http://%s/getNode?id=%s\", l.Addr().String(), id))\n\tassert.NoError(err)\n\tdefer r.Body.Close()\n\tbody, err := ioutil.ReadAll(r.Body)\n\treturn string(body)\n}",
+    "FSMID_for_test": 101,
+    "Code_level": "Function-level"
+}

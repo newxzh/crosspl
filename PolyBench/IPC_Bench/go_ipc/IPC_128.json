@@ -1,0 +1,13 @@
+{
+    "Task_id": 128,
+    "Github_ID": "173227087",
+    "Github_Project_Name": "examples",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Gin-based HTTP Server in Go",
+    "Instruction": "Task Description: Create a Go function that sets up a Gin HTTP server to handle GET requests, extract request information, and return a JSON response containing the request path and IP details.\n\nFunction Description: The function initializes a Gin router with default middleware, registers a GET route handler that captures the request path and IP information (including RemoteAddr, X-Forwarded-For, and X-Real-Ip headers), and returns this information as a JSON response. The server runs on a specified address.\n\nInput: None (The function takes no direct input parameters, but handles incoming HTTP requests)\n\nOutput: None (The function doesn't return any value directly, but sends JSON responses to HTTP clients and may log errors during server startup)",
+    "Canonical_solution": "import (\n\t\"fmt\"\n\t\"log\"\n\n\t\"github.com/gin-gonic/gin\"\n)\n\nconst (\n\tAddr = \"127.0.0.1:2003\"\n)\n\nfunc main() {\n\tr := gin.Default()\n\tr.GET(\"/:path\", func(c *gin.Context) {\n\t\treq := c.Request\n\t\turlPath := fmt.Sprintf(\"http://%s%s\", Addr, req.URL.Path)\n\t\trealIP := fmt.Sprintf(\"RemoteAddr=%s,X-Forwarded-For=%v,X-Real-Ip=%v\", req.RemoteAddr, req.Header.Get(\"X-Forwarded-For\"), req.Header.Get(\"X-Real-Ip\"))\n\t\tc.JSON(200, gin.H{\n\t\t\t\"path\": urlPath,\n\t\t\t\"ip\":   realIP,\n\t\t})\n\t})\n\n\tif err := r.Run(Addr); err != nil {\n\t\tlog.Printf(\"Error: %v\", err)\n\t}\n}",
+    "FSMID_for_test": 105,
+    "Code_level": "Function-level"
+}

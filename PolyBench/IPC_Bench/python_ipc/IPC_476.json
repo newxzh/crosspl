@@ -1,0 +1,13 @@
+{
+  "Task_id": 476,
+  "Github_ID": "19542768",
+  "Github_Project_Name": "holoviews",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "ZeroMQ Consumer in Python(PUB/SUB)",
+  "Instruction": "Task Description: Create a Python class that connects to a remote progress bar using ZeroMQ's PUB/SUB pattern to receive and display progress updates from a separate process.\n\nClass Description: The RemoteProgress class establishes a ZeroMQ SUB socket to subscribe to progress updates broadcast by a publisher process. It continuously receives messages containing progress percentages and labels, displaying them in a formatted way until interrupted.\n\nAttributes:\n- hostname: str - The hostname or IP address of the publisher (default: 'localhost')\n- port: int - The port number to connect to (default: 8080)\n- label: str - The current progress label received from the publisher\n\nMethods:\n- __init__(port: int = 8080, hostname: str = 'localhost') -> None - Initializes the RemoteProgress instance with connection parameters\n- __call__() -> None - Main method that establishes the connection, receives messages, and displays progress (runs in an infinite loop until interrupted)\n- _display_progress(percentage: float) -> None - Helper method that formats and displays the progress percentage (private method)",
+  "Canonical_solution": "import zmq\nfrom typing import Optional\n\nclass RemoteProgress:\n    \"\"\"\n    Connect to a progress bar in a separate process with output_mode\n    set to 'broadcast' in order to display the results (to stdout).\n    \"\"\"\n\n    def __init__(self, port: int = 8080, hostname: str = 'localhost'):\n        self.hostname = hostname\n        self.port = port\n        self.label = \"\"\n\n    def __call__(self):\n        context = zmq.Context()\n        sock = context.socket(zmq.SUB)\n        sock.setsockopt(zmq.SUBSCRIBE, b'')\n        sock.connect('tcp://' + self.hostname +':'+str(self.port))\n        \n        percent = None\n        while True:\n            try:\n                message = sock.recv()\n                [percent_str, label] = message.split(b'|')\n                percent = float(percent_str)\n                self.label = label.decode()\n                self._display_progress(percent)\n            except KeyboardInterrupt:\n                if percent is not None:\n                    print(f\"Exited at {percent:.3f}% completion\")\n                break\n            except Exception:\n                print(f\"Could not process socket message: {message!r}\")\n\n    def _display_progress(self, percentage: float):\n        print(f\"\\r{self.label}: {percentage:.1f}%\", end='')",
+  "FSMID_for_test": 85,
+  "Code_level": "Class-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 232,
+  "Github_ID": "296000242",
+  "Github_Project_Name": "course-tencent-cloud",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "WebSocket Client-side based on browser native API in JavaScript",
+  "Instruction": "Task Description: Implement a WebSocket client in JavaScript that establishes a connection to a server, handles incoming messages, sends periodic ping messages, and manages connection events.\n\nFunction Description: The `initWebSocket` function initializes a WebSocket connection to a specified URL. It sets up event handlers for connection events (`onopen`, `onclose`, `onerror`) and message reception (`onmessage`). Upon successful connection, it sends periodic ping messages to the server. Incoming messages are parsed and processed based on their type (e.g., binding a user, displaying new messages, or showing login messages).\n\nInput: None (The function uses `window.websocket.connect_url` and `window.websocket.ping_interval` from the global scope for configuration.)\n\nOutput: None (The function logs events to the console and triggers other functions like `bindUser`, `showNewMessage`, and `showLoginMessage` based on incoming messages.)",
+  "Canonical_solution": "function initWebSocket() {\n    var socket = new WebSocket(window.websocket.connect_url);\n    \n    socket.onopen = function () {\n        console.log('socket connect success');\n        setInterval(function () {\n            socket.send('ping');\n            console.log('ping...');\n        }, 1000 * parseInt(window.websocket.ping_interval));\n    };\n\n    socket.onclose = function () {\n        console.log('socket connect close');\n    };\n\n    socket.onerror = function () {\n        console.log('socket connect error');\n    };\n\n    socket.onmessage = function (e) {\n        var data = JSON.parse(e.data);\n        console.log(data);\n        if (data.type === 'bind_user') {\n            bindUser(data.client_id);\n        } else if (data.type === 'new_message') {\n            showNewMessage(data);\n        } else if (data.type === 'new_user') {\n            showLoginMessage(data);\n        }\n    };\n}",
+  "FSMID_for_test": 89,
+  "Code_level": "Function-level"
+}

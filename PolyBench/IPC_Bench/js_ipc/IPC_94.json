@@ -1,0 +1,13 @@
+{
+  "Task_id": 94,
+  "Github_ID": "44869078",
+  "Github_Project_Name": "redux-devtools-extension",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP based on express in javascript",
+  "Instruction": "Task Description: Create a function to start an Express server with webpack middleware for development purposes, serving an index.html file at the root route.\n\nFunction Description: The function initializes an Express application, configures webpack middleware for development (including hot module replacement), defines a route handler for the root path (\"/\") to serve an index.html file, and starts the server on a specified port. It also includes error handling for server startup.\n\nInput: \n- None (The function does not take any parameters directly, but relies on external variables `compiler` and `config` for webpack middleware configuration.)\n\nOutput: \n- None (The function does not return a value but starts an Express server that listens on the specified port. It logs success or error messages to the console.)",
+  "Canonical_solution": "function startServer() {\n    var app = new require('express')();\n    var port = 4002;\n\n    app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: config.output.publicPath }));\n    app.use(webpackHotMiddleware(compiler));\n\n    app.get(\"/\", function(req, res) {\n        res.sendFile(__dirname + '/index.html');\n    });\n\n    app.listen(port, function(error) {\n        if (error) {\n            console.error(error);\n        } else {\n            console.info(\"==> \ud83c\udf0e  Listening on port %s. Open up http://localhost:%s/ in your browser.\", port, port);\n        }\n    });\n}",
+  "FSMID_for_test": 96,
+  "Code_level": "Function-level"
+}

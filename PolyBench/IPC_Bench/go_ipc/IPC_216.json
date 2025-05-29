@@ -1,0 +1,13 @@
+{
+    "Task_id": 216,
+    "Github_ID": "124346949",
+    "Github_Project_Name": "gitkube",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Official-based gRPC client in Go",
+    "Instruction": "Task Description: Create a function that establishes a connection to a gRPC server for Google Pub/Sub emulator and initializes a Pub/Sub client using that connection.\n\nFunction Description: The function demonstrates how to set up a connection to a local gRPC server (Pub/Sub emulator) using insecure credentials, then creates a Pub/Sub client with the established connection. The client should be properly closed when no longer needed.\n\nInput: None (uses hardcoded values for demonstration purposes)\n\nOutput: None (function demonstrates setup pattern, actual Pub/Sub client is created but not used)\n\nNote: The function uses context.Background() for simplicity in the example, and hardcodes \"project\" as the Google Cloud project ID for demonstration purposes. In production code, these would typically be parameters.",
+    "Canonical_solution": "import (\n\t\"cloud.google.com/go/pubsub\"\n\t\"cloud.google.com/go/pubsub/pstest\"\n\t\"golang.org/x/net/context\"\n\t\"google.golang.org/api/option\"\n\t\"google.golang.org/grpc\"\n)\nfunc ExampleNewServer() {\n\tctx := context.Background()\n\tsrv := pstest.NewServer()\n\tconn, err := grpc.Dial(srv.Addr, grpc.WithInsecure())\n\tif err != nil {\n\t}\n\tclient, err := pubsub.NewClient(ctx, \"project\", option.WithGRPCConn(conn))\n\tif err != nil {\n\t}\n\tdefer client.Close()\n\t_ = client\n}",
+    "FSMID_for_test": 120,
+    "Code_level": "Function-level"
+}

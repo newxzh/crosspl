@@ -1,0 +1,13 @@
+{
+  "Task_id": 580,
+  "Github_ID": "273354529",
+  "Github_Project_Name": "--",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "java.net Socket",
+  "Instruction": "Task Description: Create a function that establishes a TCP client connection to a server, sends data, and receives a response.\n\nFunction Description: The function `showText` establishes a TCP connection to a specified server using the provided IP address and port. It sends a sequence of bytes (`seq`) to the server and reads the response. The response is parsed into a `BxResp` object. The function handles connection timeouts and IO exceptions.\n\nInput:\n- `ip`: [String] - The IP address of the server to connect to.\n- `port`: [Integer] - The port number of the server to connect to.\n- `contents`: [List<String>] - A list of strings representing the data to be sent (Note: The reference code uses `seq` for sending data, but `contents` is not directly used in the provided snippet. Clarification may be needed on how `contents` maps to `seq`).\n\nOutput:\n- The function does not explicitly return a value but processes the server's response into a `BxResp` object. If an error occurs, it prints the stack trace.\n\nNote: The reference code snippet references a variable `seq` that is not defined in the provided code. Ensure `seq` is properly initialized from `contents` or another source before calling `out.write(seq)`.",
+  "Canonical_solution": "import java.io.IOException;\nimport java.io.InputStream;\nimport java.io.OutputStream;\nimport java.net.InetSocketAddress;\nimport java.net.Socket;\nimport java.net.SocketAddress;\n\npublic static void showText(String ip, Integer port, List<String> contents) throws Exception {\n    // Create Socket\n    Socket client = new Socket();\n    // Create socket address\n    SocketAddress address = new InetSocketAddress(ip, port);\n    \n    try {\n        // Establish TCP connection\n        client.connect(address, 3000);\n        // Set read timeout\n        client.setSoTimeout(3000);\n        \n        // Create output stream\n        OutputStream out = client.getOutputStream();\n        // Create input stream\n        InputStream in = client.getInputStream();\n        \n        // Write data\n        out.write(seq);\n        \n        // Read response\n        byte[] resp = new byte[1024];\n        int len = in.read(resp);\n        \n        // Parse response\n        BxResp bxResp = BxResp.parse(resp, len);\n        \n        // Close resources\n        out.close();\n        in.close();\n        client.close();\n    } catch (IOException e) {\n        e.printStackTrace();\n    }\n}",
+  "FSMID_for_test": 1,
+  "Code_level": "Function-level"
+}

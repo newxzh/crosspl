@@ -1,0 +1,13 @@
+{
+  "Task_id": 285,
+  "Github_ID": "3116751",
+  "Github_Project_Name": "androidannotations",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "ProcessBuilder in java.io",
+  "Instruction": "Task Description: Create a function that retrieves the version of the Java compiler installed on the system by executing the 'javac -version' command and capturing its output.\n\nFunction Description: The function uses Java's ProcessBuilder to launch an external process running the 'javac -version' command. It captures the command's output (which is redirected from stderr to stdout), reads the first line of output, and returns it as the version string. If any errors occur during this process, the function returns \"unknown\".\n\nInput: None (The function takes no input parameters)\n\nOutput: String - Returns the version string output by the 'javac -version' command (e.g., \"javac 1.8.0_291\"), or \"unknown\" if an error occurs during execution.",
+  "Canonical_solution": "import java.io.BufferedReader;\nimport java.io.InputStreamReader;\nimport java.lang.ProcessBuilder;\n\nprivate String getJavaCompilerVersion() {\n    ProcessBuilder pb = new ProcessBuilder(\"javac\", \"-version\");\n    pb.redirectErrorStream(true);\n\n    BufferedReader in = null;\n    try {\n        Process process = pb.start();\n        in = new BufferedReader(new InputStreamReader(process.getInputStream()));\n        String buffer = in.readLine();\n        process.waitFor();\n        return buffer;\n    } catch (Exception e) {\n        return \"unknown\";\n    } finally {\n        if (in != null) {\n            try {\n                in.close();\n            } catch (IOException e) {\n            }\n        }\n    }\n}",
+  "FSMID_for_test": 44,
+  "Code_level": "Function-level"
+}

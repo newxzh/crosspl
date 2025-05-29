@@ -1,0 +1,13 @@
+{
+  "Task_id": 185,
+  "Github_ID": "88256245",
+  "Github_Project_Name": "AndroidControl",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "Java Netty TCP Server",
+  "Instruction": "Task Description: Create a Java class that implements a TCP server using Netty framework to handle incoming client connections and process TCP requests.\n\nClass Description: The AndroidControlServer class is a Netty-based TCP server that listens on a specified port, accepts incoming client connections, and processes TCP requests using a custom handler. It manages server resources and provides graceful shutdown capabilities.\n\nAttributes:\n- bossGroup: [NioEventLoopGroup] - Handles incoming connection requests and accepts them\n- workerGroup: [NioEventLoopGroup] - Processes the accepted connections' network traffic\n\nMethods:\n- listen: [listen(int port)] -> [void] - Starts the TCP server on the specified port, configures server options, and sets up the request handler pipeline. The method blocks until the server channel is closed.\n  - Input Parameters:\n    - port: [int] - The port number on which the server should listen\n  - Throws:\n    - InterruptedException - If the thread is interrupted while waiting for the server to shutdown",
+  "Canonical_solution": "import com.yeetor.server.handler.TCPHandler;\nimport io.netty.bootstrap.ServerBootstrap;\nimport io.netty.channel.*;\nimport io.netty.channel.nio.NioEventLoopGroup;\nimport io.netty.channel.socket.SocketChannel;\nimport io.netty.channel.socket.nio.NioServerSocketChannel;\n\npublic class AndroidControlServer {\n\n    private EventLoopGroup bossGroup = new NioEventLoopGroup();\n    private EventLoopGroup workerGroup = new NioEventLoopGroup();\n\n    public void listen(int port) throws InterruptedException {\n        try {\n            ServerBootstrap b = new ServerBootstrap();\n            b.group(bossGroup, workerGroup)\n                    .channel(NioServerSocketChannel.class)\n                    .option(ChannelOption.SO_BACKLOG, 128)\n                    .childOption(ChannelOption.SO_KEEPALIVE, true)\n                    .childHandler(new ChannelInitializer<SocketChannel>() {\n                        @Override\n                        public void initChannel(SocketChannel ch) throws Exception {\n                            ch.pipeline().addLast(\"tcp\", new TCPHandler());\n                        }\n                    });\n            ChannelFuture f = b.bind(port).sync();\n            f.channel().closeFuture().sync();\n        } finally {\n            workerGroup.shutdownGracefully();\n            bossGroup.shutdownGracefully();\n        }\n    }\n}",
+  "FSMID_for_test": 4,
+  "Code_level": "Class-level"
+}

@@ -1,0 +1,33 @@
+You are an advanced programmer specializing in multilingual interoperability and Foreign Function Interface (FFI) technologies.
+Carefully analyze the provided source code, which is written in {PL} and involves cross-language interaction through FFI.
+
+Source code:
+{source_code}
+
+Your task is to write precise and structured instructions that summarize the function’s purpose, inputs, outputs, and FFI behavior. These instructions will serve as a guide for another LLM to generate functionally same code in the same context.
+
+Please follow the format below exactly. Do not add any characters or explanations outside the required structure.
+
+Task Description:
+Describe the goal of the function in the context of FFI. Explain how this function facilitates communication or interoperability between {PL} and external languages or runtimes (e.g., Python, C, etc.), and what specific role it plays in this process.
+
+Function Description:
+Detail the behavior of the function. Outline how it operates internally, especially how it interacts with external code through FFI. Highlight any use of language bindings, data marshalling, external function calls, or runtime bridging mechanisms (e.g., PyObject_CallObject in C, ctypes in Python, etc.).
+
+Input:
+List all input parameters the function accepts (if any). For each, specify:
+
+Name
+
+Data type
+
+Purpose
+
+How it is used within the function and whether it is passed across the FFI boundary.
+
+Output:
+Describe what the function returns (if anything), including:
+
+Return type
+
+Meaning or use of the return value

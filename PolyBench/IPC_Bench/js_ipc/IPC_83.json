@@ -1,0 +1,13 @@
+{
+  "Task_id": 83,
+  "Github_ID": "173529836",
+  "Github_Project_Name": "javascript_playground",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP based on express in javascript",
+  "Instruction": "Task Description: Create a function that starts an HTTP server using Express.js to handle POST requests, log user input, and respond with a success message.\n\nFunction Description: The function `startServer` initializes an Express.js server that listens on port 8080. It configures middleware to parse JSON requests and defines a POST route handler at the root path (\"/\"). The handler logs the user-provided number and its square, then sends a JSON response indicating success. The server logs its startup status to the console.\n\nInput: None (The function takes no parameters. Input is received via HTTP POST requests to the server.)\n\nOutput: None (The function does not return a value. It sends an HTTP response with a JSON object `{\"success\": true}` and logs messages to the console.)",
+  "Canonical_solution": "function startServer() {\n    const express = require(\"express\");\n    const app = express();\n    app.use(express.json());\n\n    app.post(\"/\", (req, res) => {\n        log(req.body.num);\n        res.send(JSON.stringify({\"success\":true}));\n    });\n\n    app.listen(8080, 'localhost', () => console.log(\"Listening on port 8080\"));\n\n    function log(num) {\n        const message = `User input is ${num} the sqr it ${num*num}`;\n        console.log(`${Date()} : ${message}`);\n    }\n}",
+  "FSMID_for_test": 96,
+  "Code_level": "Function-level"
+}

@@ -1,0 +1,41 @@
+Task description:
+Based on the original code and information related to the original code, extract the expected function-level code for multi-programming language interaction from the original code.
+
+Requirements:
+1. Only extract function-level code involving multi-programming language interaction in the original code, including function name, parameters, return value and core logic.
+2. According to the source code, if there are no functions or classes, and the key steps can be completed solely within the script-level code, please encapsulate the script into a single function, and then extract the function-level code.
+3. Extract all external library files and global variables that use the function, and ensure that these codes are completely derived from the original code.
+4. Only extract task-related code, and the extracted code must strictly contain the key steps of the inter-process communication technology.
+5. The output result should follow the format of "Output" in the example. Do not include any characters other than code, including "Output", "JavaScript", " ''' ", or "Here's the extracted...".
+6. Please strictly follow the instructions above.
+
+Instruct:
+You are an advanced programmer who focuses on multi-language interaction and inter-process communication technology.
+Please complete the task according to the following example.
+
+Example:
+Input:
+Original code: {Reference_raw_code}
+Information related to the original code:
+  - Programming language: JavaScript
+  - Inter-process communication technology name: HTTP Server - side based on XMLHttpRequest in JavaScript
+  - The key steps of this inter-process communication technology:
+    Step 1: Create a new XMLHttpRequest object to initiate the request.
+    Step 2: Configure the request with the `open()` method, defining the request type (GET, POST) and the URL.
+    Step 3: Set the request headers using `setRequestHeader()` for specific content types.
+    Step 4: Set up response callback to handle asynchronous events
+    Step 5: Send the request to the server using the `send()` or `sendAsBinary()` method.
+
+Output:
+{Reference_function_level_code}
+
+Request:
+Now please follow the task description and the example to extract one expected multi-language interaction function-level code from the original code based on the input.
+
+Input:
+Original code: {Original_code}
+Information related to the original code:
+  - Programming language: {PL}
+  - Inter-process communication technology name: {IPC_Name}
+  - The key steps of this inter-process communication technology: {Steps}
+

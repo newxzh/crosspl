@@ -1,0 +1,13 @@
+{
+    "Task_id": 44,
+    "Github_ID": "40453691",
+    "Github_Project_Name": "GolangTraining",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Basic HTTP server using net/http with HandleFunc and ListenAndServe",
+    "Instruction": "Task Description: Create a Go HTTP server that handles file uploads via a POST request and serves an HTML form for file submission.\n\nFunction Description: The main function sets up an HTTP server with a single route (\"/\") that handles both GET and POST requests. For GET requests, it serves an HTML form (rendered from a template). For POST requests, it processes file uploads by saving the uploaded file to the filesystem.\n\nInput:\n- None (The function takes no direct input parameters, but handles HTTP requests with the following characteristics:\n  - GET requests to \"/\" trigger form rendering\n  - POST requests to \"/\" with a \"file\" form field trigger file upload processing)\n\nOutput:\n- None (The function doesn't return any value, but has the following side effects:\n  - Starts an HTTP server on port 9000\n  - Writes responses to http.ResponseWriter\n  - Creates files on the filesystem for successful uploads)",
+    "Canonical_solution": "import (\n\t\"html/template\"\n\t\"io\"\n\t\"log\"\n\t\"net/http\"\n\t\"os\"\n\t\"path/filepath\"\n)\nfunc main() {\n\ttpl, err := template.ParseFiles(\"form.gohtml\")\n\tif err != nil {\n\t\tlog.Fatalln(err)\n\t}\n\n\thttp.HandleFunc(\"/\", func(res http.ResponseWriter, req *http.Request) {\n\t\tif req.Method == \"POST\" {\n\t\t\tsrc, _, err := req.FormFile(\"file\")\n\t\t\tif err != nil {\n\t\t\t\tpanic(err)\n\t\t\t}\n\t\t\tdefer src.Close()\n\n\t\t\tdst, err := os.Create(filepath.Join(\"./\", \"file.txt\"))\n\t\t\tif err != nil {\n\t\t\t\thttp.Error(res, err.Error(), 500)\n\t\t\t\treturn\n\t\t\t}\n\t\t\tdefer dst.Close()\n\n\t\t\tio.Copy(dst, src)\n\t\t}\n\n\t\terr = tpl.Execute(res, nil)\n\t\tif err != nil {\n\t\t\thttp.Error(res, err.Error(), 500)\n\t\t\tlog.Fatalln(err)\n\t\t}\n\t})\n\n\thttp.ListenAndServe(\":9000\", nil)\n}",
+    "FSMID_for_test": 103,
+    "Code_level": "Function-level"
+}

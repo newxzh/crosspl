@@ -1,0 +1,13 @@
+{
+  "Task_id": 503,
+  "Github_ID": "115411826",
+  "Github_Project_Name": "java-tron",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "gRPC Client in java",
+  "Instruction": "Task Description: Create a Java class that implements a gRPC client for establishing and managing connections to a gRPC server, with methods to start the connection, retrieve the blocking stub, and shutdown the connection.\n\nClass Description: The GrpcClient class provides functionality to connect to a gRPC server using a ManagedChannel, create a blocking stub for synchronous communication, and properly shutdown the connection when done.\n\nAttributes:\n- channel: [ManagedChannel] - The channel used to communicate with the gRPC server\n- blockingStub: [WalletGrpc.WalletBlockingStub] - The blocking stub used to make synchronous RPC calls\n\nMethods:\n- startConnection(String host, int port) -> void - Establishes a connection to the gRPC server at the specified host and port, creating both the ManagedChannel and blocking stub\n- getBlockingStub() -> WalletGrpc.WalletBlockingStub - Returns the blocking stub for making RPC calls\n- shutdown() -> void - Shuts down the channel connection, waiting for up to 5 seconds for termination",
+  "Canonical_solution": "import io.grpc.ManagedChannel;\nimport io.grpc.ManagedChannelBuilder;\nimport org.tron.api.WalletGrpc;\nimport java.util.concurrent.TimeUnit;\n\npublic class GrpcClient {\n\n    private ManagedChannel channel;\n    private WalletGrpc.WalletBlockingStub blockingStub;\n\n    public void startConnection(String host, int port) {\n        channel = ManagedChannelBuilder.forAddress(host, port)\n            .usePlaintext()\n            .build();\n        blockingStub = WalletGrpc.newBlockingStub(channel);\n    }\n\n    public WalletGrpc.WalletBlockingStub getBlockingStub() {\n        return blockingStub;\n    }\n\n    public void shutdown() throws InterruptedException {\n        if (channel != null) {\n            channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);\n        }\n    }\n}",
+  "FSMID_for_test": 23,
+  "Code_level": "Class-level"
+}

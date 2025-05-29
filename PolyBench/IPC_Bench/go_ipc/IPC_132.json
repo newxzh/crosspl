@@ -1,0 +1,13 @@
+{
+    "Task_id": 132,
+    "Github_ID": "21525599",
+    "Github_Project_Name": "contrib",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Gin-based HTTP Server in Go",
+    "Instruction": "Task Description: Create a simple HTTP server using the Gin framework in Go that responds to ping requests with a pong message and the current Unix timestamp.\n\nFunction Description: The main function initializes a Gin HTTP server with default middleware (including Logger and Recovery), adds gzip compression middleware, registers a GET route handler for \"/ping\" that returns a plain text response, and starts the server on port 8080.\n\nInput: None (The function takes no direct input parameters, but handles HTTP requests to the \"/ping\" endpoint)\n\nOutput: None (The function doesn't return any value, but sends HTTP responses to clients and runs the server indefinitely)",
+    "Canonical_solution": "import (\n\t\"fmt\"\n\t\"github.com/gin-gonic/contrib/gzip\"\n\t\"github.com/gin-gonic/gin\"\n\t\"time\"\n)\nfunc main() {\n\tr := gin.Default()\n\tr.Use(gzip.Gzip(gzip.DefaultCompression))\n\tr.GET(\"/ping\", func(c *gin.Context) {\n\t\tc.String(200, \"pong \"+fmt.Sprint(time.Now().Unix()))\n\t})\n\tr.Run(\":8080\")\n}",
+    "FSMID_for_test": 105,
+    "Code_level": "Function-level"
+}

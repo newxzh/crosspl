@@ -1,0 +1,13 @@
+{
+  "Task_id": 383,
+  "Github_ID": "137403355",
+  "Github_Project_Name": "bulk-downloader-for-reddit",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "TCP Server - side by using socket in python",
+  "Instruction": "Task Description: Implement a TCP server in Python that listens for incoming client connections, accepts a connection, and provides functionality to send messages to the connected client.\n\nFunction Description: The code consists of two functions: `receive_connection` and `send_message`. The `receive_connection` function creates a TCP socket, binds it to a specified port, listens for incoming connections, and returns the connected client socket. The `send_message` function sends a message to the connected client and closes the connection.\n\nInput: \n- `receive_connection`: None\n- `send_message`: \n  - `client`: socket.socket - The connected client socket\n  - `message`: str (optional) - The message to send to the client (default is an empty string)\n\nOutput: \n- `receive_connection`: socket.socket - The connected client socket\n- `send_message`: None",
+  "Canonical_solution": "import socket\nimport logging\n\nlogger = logging.getLogger(__name__)\n\ndef receive_connection() -> socket.socket:\n    server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\n    server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)\n    server.bind((\"0.0.0.0\", 7634))\n    logger.log(9, \"Server listening on 0.0.0.0:7634\")\n\n    server.listen(1)\n    client = server.accept()[0]\n    server.close()\n    logger.log(9, \"Server closed\")\n\n    return client\n\ndef send_message(client: socket.socket, message: str = \"\"):\n    client.send(f\"HTTP/1.1 200 OK\\r\\n\\r\\n{message}\".encode(\"utf-8\"))\n    client.close()",
+  "FSMID_for_test": 66,
+  "Code_level": "Function-level"
+}

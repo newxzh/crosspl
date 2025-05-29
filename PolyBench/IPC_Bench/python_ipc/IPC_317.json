@@ -1,0 +1,13 @@
+{
+  "Task_id": 317,
+  "Github_ID": "48999610",
+  "Github_Project_Name": "canal_mysql_nosql_sync",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "RabbitMQ consumer based on pika in python",
+  "Instruction": "Task Description: Implement a RabbitMQ consumer function in Python that listens to a specified queue, processes incoming messages by syncing them to either a MongoDB or Redis database based on configuration, and acknowledges successful processing.\n\nFunction Description: The function establishes a connection to a RabbitMQ server, declares a durable queue, sets up a callback function to handle incoming messages, and starts consuming messages in a blocking loop. The callback function processes each message by syncing it to the configured database (MongoDB or Redis) and sends an acknowledgment back to RabbitMQ upon successful processing.\n\nInput: None (All configuration parameters are expected to be available in a config module:\n- config.rabbitmq_user: RabbitMQ username\n- config.rabbitmq_pass: RabbitMQ password\n- config.rabbitmq_host: RabbitMQ host address\n- config.rabbitmq_port: RabbitMQ port\n- config.rabbitmq_queue_name: Name of the queue to consume from\n- config.sync_db: Database type ('mongo' or 'redis') to sync data to)\n\nOutput: None (The function runs indefinitely, consuming messages from RabbitMQ and syncing them to the configured database)",
+  "Canonical_solution": "import os\nimport pika\nimport config\nif config.sync_db=='mongo':\n    import sync_mongo as sync_data\nelse:\n    import sync_redis as sync_data\n\ndef consumer_data():\n    credentials = pika.PlainCredentials(config.rabbitmq_user, config.rabbitmq_pass)\n    parameters = pika.ConnectionParameters(config.rabbitmq_host, config.rabbitmq_port,'/',credentials)\n    connection = pika.BlockingConnection(parameters)\n    channel = connection.channel()\n    channel.queue_declare(queue=config.rabbitmq_queue_name, durable=True)\n\n    def callback(ch, method, properties, body):\n        ack = sync_data.set_data(body)\n        ch.basic_ack(delivery_tag = method.delivery_tag)\n\n    channel.basic_qos(prefetch_count=1)\n    channel.basic_consume(callback, \n                        queue=config.rabbitmq_queue_name,\n                        )\n    channel.start_consuming()",
+  "FSMID_for_test": 77,
+  "Code_level": "Function-level"
+}

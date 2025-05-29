@@ -1,0 +1,13 @@
+{
+    "Task_id": 323,
+    "Github_ID": "122030607",
+    "Github_Project_Name": "gotop",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Simple HTTP GET client using net/http",
+    "Instruction": "Task Description: Implement a function to fetch the contents of a file from a given URL and return it as an io.Reader for further processing.  \n\nFunction Description: The function `fetchFile` takes a URL as input, sends an HTTP GET request to fetch the file, reads the response body, and returns it as an `io.Reader`. It handles errors during the HTTP request and response reading.  \n\nInput:  \n- `URL` (string) - The URL of the file to be fetched.  \n\nOutput:  \n- `io.Reader` - A reader containing the contents of the fetched file.  \n\n(Note: The `checkErr` function is assumed to handle errors by panicking or logging.)",
+    "Canonical_solution": "import (\n\t\"fmt\"\n\t\"io\"\n\t\"io/ioutil\"\n\t\"net/http\"\n\t\"os\"\n)\n\nfunc fetchFile(URL string) io.Reader {\n\tresp, err := http.Get(URL)\n\tcheckErr(err)\n\tdefer resp.Body.Close()\n\tbody, err := ioutil.ReadAll(resp.Body)\n\tcheckErr(err)\n\treturn strings.NewReader(string(body))\n}",
+    "FSMID_for_test": 101,
+    "Code_level": "Function-level"
+}

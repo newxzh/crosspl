@@ -1,0 +1,50 @@
+import java.net.InetSocketAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+private final String hostname;
+private final int myPort;
+private ServerSocket myServerSocket;
+private Thread myThread;
+private TempFileManagerFactory tempFileManagerFactory;
+private AsyncRunner asyncRunner;
+public void start() throws IOException {
+    Log.i("NanoHTTPD", "server start");
+    myServerSocket = new ServerSocket();
+    myServerSocket.bind((hostname != null) ? new InetSocketAddress(hostname, myPort) : new InetSocketAddress(myPort));
+    myThread = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            do {
+                try {
+                    final Socket finalAccept = myServerSocket.accept();
+                    Log.i("NanoHTTPD",
+                            "accept request from "
+                                    + finalAccept.getInetAddress());
+                    InputStream inputStream = finalAccept.getInputStream();
+                    OutputStream outputStream = finalAccept
+                            .getOutputStream();
+                    TempFileManager tempFileManager = tempFileManagerFactory
+                            .create();
+                    final HTTPSession session = new HTTPSession(
+                            tempFileManager, inputStream, outputStream);
+                    asyncRunner.exec(new Runnable() {
+                        @Override
+                        public void run() {
+                            session.run();
+                            if (finalAccept != null) {
+                                try {
+                                    finalAccept.close();
+                                } catch (IOException ignored) {
+                                }
+                            }
+                        }
+                    });
+                } catch (IOException e) {
+                }
+            } while (!myServerSocket.isClosed());
+        }
+    });
+    myThread.setDaemon(true);
+    myThread.setName("NanoHttpd Main Listener");
+    myThread.start();
+}

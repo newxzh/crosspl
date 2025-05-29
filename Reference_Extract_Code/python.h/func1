@@ -1,0 +1,24 @@
+#include <Python.h>
+#include "http_parser.h"
+
+#define PY_SSIZE_T_CLEAN
+
+typedef struct {
+    PyObject* headers;
+    PyObject* body;
+    http_parser parser;
+    struct {
+        unsigned headers_complete : 1;
+        unsigned complete : 1;
+        unsigned head : 1;
+        unsigned upgrade : 1;
+    } state;
+    void* field;
+} Request;
+
+static int on_message_begin(http_parser* parser)
+{
+    assert(((Request*)parser)->field == NULL);
+    ((Request*)parser->data)->headers = PyDict_New();
+    return 0;
+}

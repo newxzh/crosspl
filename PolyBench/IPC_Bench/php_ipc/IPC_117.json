@@ -1,0 +1,13 @@
+{
+  "Task_id": 117,
+  "Github_ID": "2784293",
+  "Github_Project_Name": "php-amqplib",
+  "Programming_Language": "PHP",
+  "suffix": ".php",
+  "Interface_class": "IPC",
+  "Interface_name": "RabbitMQ consumer in PHP",
+  "Instruction": "Task Description: Implement a PHP function that establishes a RabbitMQ consumer to process messages from a specified queue. The function should handle connection setup, message consumption, and proper cleanup.\n\nFunction Description: The function `start_rabbitmq_consumer` initializes a RabbitMQ consumer that connects to a specified server, declares a queue and exchange, binds them, and starts consuming messages. It processes each message using a callback function and handles graceful shutdown.\n\nInput:\n- `$host` (string): The hostname of the RabbitMQ server.\n- `$port` (int): The port number of the RabbitMQ server.\n- `$user` (string): The username for RabbitMQ authentication.\n- `$pass` (string): The password for RabbitMQ authentication.\n- `$vhost` (string): The virtual host to connect to.\n- `$exchange` (string): The name of the exchange to declare.\n- `$queue` (string): The name of the queue to declare and consume from.\n\nOutput: None. The function runs indefinitely until a 'quit' message is received or the process is terminated. Messages are processed and acknowledged, and connections are closed upon shutdown.",
+  "Canonical_solution": "function start_rabbitmq_consumer($host, $port, $user, $pass, $vhost, $exchange, $queue)\n{\n    require_once __DIR__ . '/config.php';\n    use PhpAmqpLib\\Connection\\AMQPStreamConnection;\n    use PhpAmqpLib\\Exchange\\AMQPExchangeType;\n\n    $consumerTag = 'consumer' . getmypid();\n    $connection = new AMQPStreamConnection($host, $port, $user, $pass, $vhost);\n    $channel = $connection->channel();\n\n    $channel->queue_declare($queue, false, false, false, true);\n    $channel->exchange_declare($exchange, AMQPExchangeType::FANOUT, false, false, true);\n    $channel->queue_bind($queue, $exchange);\n\n    function process_message($message)\n    {\n        echo \"\\n--------\\n\";\n        echo $message->body;\n        echo \"\\n--------\\n\";\n\n        $message->ack();\n\n        if ($message->body === 'quit') {\n            $message->getChannel()->basic_cancel($message->getConsumerTag());\n        }\n    }\n\n    $channel->basic_consume($queue, $consumerTag, false, false, false, false, 'process_message');\n\n    function shutdown($channel, $connection)\n    {\n        $channel->close();\n        $connection->close();\n    }\n\n    register_shutdown_function('shutdown', $channel, $connection);\n    $channel->consume();\n}",
+  "FSMID_for_test": 143,
+  "Code_level": "Function-level"
+}

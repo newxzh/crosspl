@@ -1,0 +1,13 @@
+{
+    "Task_id": 318,
+    "Github_ID": "140654872",
+    "Github_Project_Name": "mosn",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Simple HTTP GET client using net/http",
+    "Instruction": "Task Description: Create a function that performs an HTTP GET request to retrieve configuration data from a local admin API endpoint and returns the response body as a string.\n\nFunction Description: The function `getEffectiveConfig` makes an HTTP GET request to a specified local port's admin API endpoint (/api/v1/config_dump). It handles the response by checking the status code, reading the response body, and returning it as a string. It includes proper error handling for failed requests or non-200 status codes.\n\nInput: \n- port [uint32] - The local port number where the admin API is running\n\nOutput:\n- [string] - The response body as a string if the request is successful\n- [error] - An error object describing any issues that occurred during the request (connection error, non-200 status code, or body read error)",
+    "Canonical_solution": "import (\n\t\"fmt\"\n\t\"net/http\"\n\t\"io/ioutil\"\n\t\"errors\"\n)\nfunc getEffectiveConfig(port uint32) (string, error) {\n\tresp, err := http.Get(fmt.Sprintf(\"http://localhost:%d/api/v1/config_dump\", port))\n\tif err != nil {\n\t\treturn \"\", err\n\t}\n\tdefer resp.Body.Close()\n\n\tb, err := ioutil.ReadAll(resp.Body)\n\tif resp.StatusCode != http.StatusOK {\n\t\treturn \"\", errors.New(fmt.Sprintf(\"call admin api failed response status: %d, %s\", resp.StatusCode, string(b)))\n\t}\n\n\tif err != nil {\n\t\treturn \"\", err\n\t}\n\treturn string(b), nil\n}",
+    "FSMID_for_test": 101,
+    "Code_level": "Function-level"
+}

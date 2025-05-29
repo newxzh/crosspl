@@ -1,0 +1,13 @@
+{
+  "Task_id": 357,
+  "Github_ID": "257434373",
+  "Github_Project_Name": "hysteria",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "TCP Client - side by using socket in python",
+  "Instruction": "Task Description: Create a Python function that tests TCP connectivity to a target server through a SOCKS5 proxy, sends an HTTP request, and measures the response time.\n\nFunction Description: The function establishes a TCP connection to a specified target server through a SOCKS5 proxy, sends a basic HTTP GET request, verifies the response, and measures the time taken for the entire operation. The function handles connection setup, data transmission, response validation, and cleanup.\n\nInput: None (The target server address 'TARGET' is defined as a module-level constant)\n\nOutput: None (The function prints diagnostic messages and timing information to stdout)",
+  "Canonical_solution": "import socket\nimport socks\nimport time\n\nTARGET = \"1.1.1.1\"\n\ndef test_tcp() -> None:\n    s = socks.socksocket(socket.AF_INET, socket.SOCK_STREAM)\n    s.set_proxy(socks.SOCKS5, \"127.0.0.1\", 1080)\n\n    print(f\"TCP - Sending HTTP request to {TARGET}\")\n    start = time.time()\n    s.connect((TARGET, 80))\n    s.send(b\"GET / HTTP/1.1\\r\\nHost: \" + TARGET.encode() + b\"\\r\\n\\r\\n\")\n    data = s.recv(1024)\n    if not data:\n        print(\"No data received\")\n    elif not data.startswith(b\"HTTP/1.1 \"):\n        print(\"Invalid response received\")\n    else:\n        print(\"TCP test passed\")\n    end = time.time()\n    s.close()\n\n    print(f\"Time: {round((end - start) * 1000, 2)} ms\")",
+  "FSMID_for_test": 67,
+  "Code_level": "Function-level"
+}

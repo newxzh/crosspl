@@ -1,0 +1,13 @@
+{
+    "Task_id": 125,
+    "Github_ID": "140654872",
+    "Github_Project_Name": "mosn",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Gin-based HTTP Server in Go",
+    "Instruction": "Task Description: Create a Go HTTP server using the Gin framework that handles POST requests for inventory operations, specifically for trying inventory items. The server should parse JSON input, process the inventory try operation, and return appropriate JSON responses.\n\nFunction Description: The main function sets up a Gin HTTP server with a single POST endpoint \"/service-c/try\" that accepts JSON inventory data, processes it, and returns success or error responses in JSON format.\n\nInput: \n- HTTP POST request with JSON body containing inventory data (structure not shown in reference code but implied to have an ID field)\n- Gin context object providing request/response capabilities\n\nOutput:\n- Success case (200 status):\n  ```json\n  {\n    \"success\": true,\n    \"message\": \"inventory [ID] tried!\"\n  }\n  ```\n- Error case (400 status):\n  ```json\n  {\n    \"success\": false,\n    \"message\": \"[error description]\"\n  }\n  ```",
+    "Canonical_solution": "import (\n\t\"fmt\"\n\n\t\"github.com/gin-gonic/gin\"\n)\nfunc main() {\n\tr := gin.Default()\n\n\tr.POST(\"/service-c/try\", func(context *gin.Context) {\n\t\tinv := &Inventory{}\n\t\terr := context.BindJSON(inv)\n\t\tif err == nil {\n\t\t\tfmt.Println(fmt.Sprintf(\"inventory %d tried!\", inv.ID))\n\t\t\tcontext.JSON(200, gin.H{\n\t\t\t\t\"success\": true,\n\t\t\t\t\"message\": fmt.Sprintf(\"inventory %d tried!\", inv.ID),\n\t\t\t})\n\t\t\treturn\n\t\t}\n\t\tcontext.JSON(400, gin.H{\n\t\t\t\"success\": false,\n\t\t\t\"message\": err.Error(),\n\t\t})\n\t})\n\n\tr.Run(\":8082\")\n}",
+    "FSMID_for_test": 105,
+    "Code_level": "Function-level"
+}

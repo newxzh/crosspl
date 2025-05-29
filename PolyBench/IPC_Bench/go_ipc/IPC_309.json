@@ -1,0 +1,13 @@
+{
+    "Task_id": 309,
+    "Github_ID": "150713223",
+    "Github_Project_Name": "kubeedge",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Simple HTTP GET client using net/http",
+    "Instruction": "Task Description: Create a function that performs an HTTP GET request to a specified URL with optional custom headers and client configuration, while implementing safety measures like response size limiting and proper resource cleanup.\n\nFunction Description: The function `ReadURL` makes an HTTP GET request to the specified URL using a provided HTTP client and optional headers. It ensures proper resource cleanup, checks for successful response status, limits the maximum readable response size, and returns the response body or an error if any step fails.\n\nInput:\n- `url` [string] - The URL to send the GET request to\n- `client` [*http.Client] - The HTTP client to use for the request (can be nil to use http.DefaultClient)\n- `header` [*http.Header] - Optional headers to include in the request (can be nil)\n\nOutput:\n- `body` [[]byte] - The response body if the request is successful\n- `err` [error] - An error object if any step fails, including:\n  - Request creation failure\n  - Network errors\n  - Non-200 status codes (wrapped in HTTPError)\n  - Read errors\n  - Response size exceeding limit",
+    "Canonical_solution": "import (\n\t\"io\"\n\t\"io/ioutil\"\n\t\"net/http\"\n)\n\nconst (\n\tmaxReadLength = 10 * 1 << 20\n)\n\nfunc ReadURL(url string, client *http.Client, header *http.Header) (body []byte, err error) {\n\treq, err := http.NewRequest(\"GET\", url, nil)\n\tif err != nil {\n\t\treturn nil, err\n\t}\n\tif header != nil {\n\t\treq.Header = *header\n\t}\n\tresp, err := client.Do(req)\n\tif err != nil {\n\t\treturn nil, err\n\t}\n\tdefer resp.Body.Close()\n\n\tif resp.StatusCode != http.StatusOK {\n\t\treturn nil, &HTTPError{\n\t\t\tStatusCode: resp.StatusCode,\n\t\t\tURL:        url,\n\t\t}\n\t}\n\n\tlimitedReader := &io.LimitedReader{R: resp.Body, N: maxReadLength}\n\tcontents, err := ioutil.ReadAll(limitedReader)\n\tif err != nil {\n\t\treturn nil, err\n\t}\n\n\tif limitedReader.N <= 0 {\n\t\treturn nil, errors.New(\"the read limit is reached\")\n\t}\n\n\treturn contents, nil\n}",
+    "FSMID_for_test": 101,
+    "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 28,
+  "Github_ID": "7589945",
+  "Github_Project_Name": "asio",
+  "Programming_Language": "C++",
+  "suffix": ".cpp",
+  "Interface_class": "IPC",
+  "Interface_name": "UDP based on Boost.Asio in C++",
+  "Instruction": "Task Description: Create a UDP server class using Boost.Asio that asynchronously receives datagrams and sends responses.\n\nClass Description: The udp_server class implements a UDP server that listens for incoming datagrams on a specified port and responds with a daytime string. It uses Boost.Asio for asynchronous network operations.\n\nAttributes:\n- socket_: [boost::asio::ip::udp::socket] - The UDP socket used for communication\n- remote_endpoint_: [boost::asio::ip::udp::endpoint] - Stores the endpoint of the last received message\n- recv_buffer_: [std::array<char, 1>] - Buffer for receiving incoming datagrams\n\nMethods:\n- udp_server([boost::asio::io_context&] io_context) -> [void] - Constructor that initializes the UDP socket and starts listening\n- start_receive() -> [void] - Begins asynchronous reception of UDP datagrams\n- handle_receive([const boost::system::error_code&] error) -> [void] - Callback for handling received datagrams and sending responses\n- handle_send([std::shared_ptr<std::string>] message) -> [void] - Callback for handling completed send operations",
+  "Canonical_solution": "#include <boost/asio.hpp>\n#include <memory>\n#include <string>\n#include <array>\nusing boost::asio::ip::udp;\n\nclass udp_server\n{\npublic:\n  udp_server(boost::asio::io_context& io_context)\n    : socket_(io_context, udp::endpoint(udp::v4(), 13))\n  {\n    start_receive();\n  }\n\nprivate:\n  void start_receive()\n  {\n    socket_.async_receive_from(\n        boost::asio::buffer(recv_buffer_), remote_endpoint_,\n        std::bind(&udp_server::handle_receive, this,\n          boost::asio::placeholders::error));\n  }\n\n  void handle_receive(const boost::system::error_code& error)\n  {\n    if (!error)\n    {\n      std::shared_ptr<std::string> message(\n          new std::string(make_daytime_string()));\n\n      socket_.async_send_to(boost::asio::buffer(*message), remote_endpoint_,\n          std::bind(&udp_server::handle_send, this, message));\n\n      start_receive();\n    }\n  }\n\n  void handle_send(std::shared_ptr<std::string> /*message*/)\n  {\n  }\n\n  udp::socket socket_;\n  udp::endpoint remote_endpoint_;\n  std::array<char, 1> recv_buffer_;\n};",
+  "FSMID_for_test": 153,
+  "Code_level": "Class-level"
+}

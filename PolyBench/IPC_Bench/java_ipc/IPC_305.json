@@ -1,0 +1,13 @@
+{
+  "Task_id": 305,
+  "Github_ID": "298323699",
+  "Github_Project_Name": "vprofile-project",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "RabbitMQ Producer in Java",
+  "Instruction": "Task Description: Implement a RabbitMQ message producer in Java that sends messages to a specified exchange.\n\nClass Description: A service class that handles the production and sending of messages to a RabbitMQ exchange using a fanout pattern. The class manages connection setup, message publishing, and resource cleanup.\n\nAttributes:\n- EXCHANGE_NAME: String - The name of the RabbitMQ exchange to which messages will be published.\n\nMethods:\n- produceMessage(String message) -> String - Publishes the given message to the configured RabbitMQ exchange. Returns a simple response string.\n  - Input Parameters:\n    - message: String - The message content to be published\n  - Return Type: String - A simple response string (\"response\") indicating completion",
+  "Canonical_solution": "import com.rabbitmq.client.Connection;\nimport com.rabbitmq.client.ConnectionFactory;\nimport com.visualpathit.account.utils.RabbitMqUtil;\nimport com.rabbitmq.client.Channel;\n\nimport java.io.IOException;\nimport java.util.concurrent.TimeoutException;\n\n@Service\npublic class ProducerServiceImpl implements ProducerService {\n\n    private static final String EXCHANGE_NAME = \"messages\";\n\n    @Override\n    public String produceMessage(String message) {\n        try {\n            ConnectionFactory factory = new ConnectionFactory();\n            factory.setHost(RabbitMqUtil.getRabbitMqHost());\n            factory.setPort(Integer.parseInt(RabbitMqUtil.getRabbitMqPort()));\n            factory.setUsername(RabbitMqUtil.getRabbitMqUser());\n            factory.setPassword(RabbitMqUtil.getRabbitMqPassword());\n            Connection connection = factory.newConnection();\n            Channel channel = connection.createChannel();\n            channel.exchangeDeclare(EXCHANGE_NAME, \"fanout\");\n            channel.basicPublish(EXCHANGE_NAME, \"\", null, message.getBytes());\n            channel.close();\n            connection.close();\n        } catch (IOException io) {\n            io.printStackTrace();\n        } catch (TimeoutException toe) {\n            toe.printStackTrace();\n        }\n        return \"response\";\n    }\n}",
+  "FSMID_for_test": 40,
+  "Code_level": "Class-level"
+}

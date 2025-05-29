@@ -1,0 +1,13 @@
+{
+  "Task_id": 63,
+  "Github_ID": "26557412",
+  "Github_Project_Name": "hybrid",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP based on express in javascript",
+  "Instruction": "Task Description: Create a function to start an HTTP server using Express that serves static files from a specified directory and handles all routes by returning the static files.\n\nFunction Description: The function `startServer` initializes an Express application, configures it to serve static files from a predefined directory, and sets up a catch-all route to return the static files for any HTTP GET request. The server listens on a specified port and host.\n\nInput: None (The function uses predefined constants for port, host, and static file directory.)\n\nOutput: None (The function starts the server but does not return any value.)",
+  "Canonical_solution": "function startServer() {\n    const express = require('express');\n    const path = require('path');\n    \n    const PORT = process.env.PORT || 8080;\n    const HOST = '0.0.0.0';\n    const WWW = path.join(__dirname, '..', '/www/');\n\n    const app = express();\n    app.use(express.static(WWW));\n    app.get('*', function (req, res) {\n        res.sendFile(WWW);\n    });\n\n    app.listen(PORT, HOST);\n}",
+  "FSMID_for_test": 96,
+  "Code_level": "Function-level"
+}

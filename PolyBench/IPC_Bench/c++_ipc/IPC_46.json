@@ -1,0 +1,13 @@
+{
+  "Task_id": 46,
+  "Github_ID": "2345629",
+  "Github_Project_Name": "websocketpp",
+  "Programming_Language": "C++",
+  "suffix": ".cpp",
+  "Interface_class": "IPC",
+  "Interface_name": "Websocket Server based on WebSocket++ in C++",
+  "Instruction": "Task Description: Implement a WebSocket server in C++ using the WebSocket++ library to handle client connections and echo back received messages.\n\nClass Description: The utility_server class encapsulates a WebSocket server that listens for incoming connections, receives messages from clients, and echoes them back. It uses WebSocket++ with ASIO for network handling.\n\nAttributes:\n- m_endpoint: [server] - The WebSocket++ server instance that manages connections and message handling.\n\nMethods:\n- utility_server() - [Constructor] -> [void] - Initializes the server with logging settings, ASIO, and sets up the message handler.\n- echo_handler(websocketpp::connection_hdl hdl, server::message_ptr msg) -> [void] - Handles incoming messages by echoing them back to the client.\n- run() -> [void] - Starts the server, begins listening on port 9002, and runs the ASIO event loop.",
+  "Canonical_solution": "#include <websocketpp/config/asio_no_tls.hpp>\n#include <websocketpp/server.hpp>\n#include <functional>\n\ntypedef websocketpp::server<websocketpp::config::asio> server;\n\nclass utility_server {\npublic:\n    utility_server() {\n         // Set logging settings\n        m_endpoint.set_error_channels(websocketpp::log::elevel::all);\n        m_endpoint.set_access_channels(websocketpp::log::alevel::all ^ websocketpp::log::alevel::frame_payload);\n\n        // Initialize Asio\n        m_endpoint.init_asio();\n\n        // Set the default message handler to the echo handler\n        m_endpoint.set_message_handler(std::bind(\n            &utility_server::echo_handler, this,\n            std::placeholders::_1, std::placeholders::_2\n        ));\n    }\n\n    void echo_handler(websocketpp::connection_hdl hdl, server::message_ptr msg) {\n        // write a new message\n        m_endpoint.send(hdl, msg->get_payload(), msg->get_opcode());\n    }\n\n    void run() {\n        // Listen on port 9002\n        m_endpoint.listen(9002);\n\n        // Queues a connection accept operation\n        m_endpoint.start_accept();\n\n        // Start the Asio io_service run loop\n        m_endpoint.run();\n    }\nprivate:\n    server m_endpoint;\n};",
+  "FSMID_for_test": 154,
+  "Code_level": "Class-level"
+}

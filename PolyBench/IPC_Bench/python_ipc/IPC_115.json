@@ -1,0 +1,13 @@
+{
+  "Task_id": 115,
+  "Github_ID": "639195966",
+  "Github_Project_Name": "swarms",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Client-side by using requests in python",
+  "Instruction": "Task Description: Create a Python function that fetches stock data from Yahoo Finance API for a given stock symbol using HTTP requests.\n\nFunction Description: The function should make an HTTP GET request to Yahoo Finance's quote API endpoint, handle potential errors, and return the stock data in a string format. It should validate the response status and structure before returning the data.\n\nInput: \n- symbol (str): The stock symbol to fetch data for (e.g., 'AAPL' for Apple Inc.)\n\nOutput: \n- str: A string representation of the stock data dictionary containing price, volume, and other relevant information from the API response\n\nRaises:\n- ValueError: If the HTTP request fails (non-200 status code) or if no data is found for the given symbol",
+  "Canonical_solution": "import requests\n\ndef get_stock_data(symbol: str) -> str:\n    \"\"\"\n    Fetches stock data from Yahoo Finance for a given stock symbol.\n\n    Args:\n        symbol (str): The stock symbol to fetch data for (e.g., 'AAPL' for Apple Inc.).\n\n    Returns:\n        Dict[str, Any]: A dictionary containing stock data, including price, volume, and other relevant information.\n\n    Raises:\n        ValueError: If the stock symbol is invalid or data cannot be retrieved.\n    \"\"\"\n    url = f\"https://query1.finance.yahoo.com/v7/finance/quote?symbols={symbol}\"\n    response = requests.get(url)\n\n    if response.status_code != 200:\n        raise ValueError(f\"Error fetching data for symbol: {symbol}\")\n\n    data = response.json()\n    if (\n        \"quoteResponse\" not in data\n        or not data[\"quoteResponse\"][\"result\"]\n    ):\n        raise ValueError(f\"No data found for symbol: {symbol}\")\n\n    return str(data[\"quoteResponse\"][\"result\"][0])",
+  "FSMID_for_test": 57,
+  "Code_level": "Function-level"
+}

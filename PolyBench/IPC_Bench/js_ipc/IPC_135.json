@@ -1,0 +1,13 @@
+{
+  "Task_id": 135,
+  "Github_ID": "18917566",
+  "Github_Project_Name": "node-html-pdf",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "Pipe Server-side based on fs+http in JavaScript",
+  "Instruction": "Task Description: Create a function that sets up an HTTP server to generate PDFs from HTML templates and serve them as streams.\n\nFunction Description: The function `createServer` initializes an HTTP server that listens on port 8080. It serves PDF files generated from an HTML template, replacing placeholders with actual image paths, and streams the PDF output to the client. The server handles incoming requests, checks for favicon requests, and responds with either a 404 error or the generated PDF.\n\nInput: None (The function does not take any input parameters.)\n\nOutput: None (The function does not return any value but starts an HTTP server that listens on port 8080 and logs the server address to the console.)",
+  "Canonical_solution": "function createServer() {\n    const fs = require('fs');\n    const http = require('http');\n    const pdf = require('../../');\n    const tmpl = fs.readFileSync(require.resolve('../businesscard/businesscard.html'), 'utf8');\n\n    const server = http.createServer(function (req, res) {\n        if (req.url === '/favicon.ico') return res.end('404');\n        const html = tmpl.replace('{{image}}', `file://${require.resolve('../businesscard/image.png')}`);\n        pdf.create(html, {width: '50mm', height: '90mm'}).toStream((err, stream) => {\n            if (err) return res.end(err.stack);\n            res.setHeader('Content-type', 'application/pdf');\n            stream.pipe(res);\n        });\n    });\n\n    server.listen(8080, function (err) {\n        if (err) throw err;\n        console.log('Listening on http://localhost:%s', server.address().port);\n    });\n}",
+  "FSMID_for_test": 100,
+  "Code_level": "Function-level"
+}

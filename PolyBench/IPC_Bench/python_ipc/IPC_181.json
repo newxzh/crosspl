@@ -1,0 +1,13 @@
+{
+  "Task_id": 181,
+  "Github_ID": "23028387",
+  "Github_Project_Name": "effectivepython",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Server - side by using Flask in python",
+  "Instruction": "Task Description: Create a Flask-based web server that handles image processing requests through two endpoints: one for adjusting brightness/contrast and another for image enhancement.\n\nFunction Description: The server provides two main routes:\n1. '/adjust' - Handles image brightness and contrast adjustments\n2. '/enhance' - Handles image enhancement operations\nEach route supports both GET (returning HTML forms) and POST (processing the submitted data) methods.\n\nInput:\nFor POST requests:\n- '/adjust' endpoint:\n  - the_file: [File] - Image file to process\n  - brightness: [str] - Brightness adjustment value\n  - contrast: [str] - Contrast adjustment value\n- '/enhance' endpoint:\n  - the_file: [File] - Image file to process\n  - amount: [str] - Enhancement amount value\n\nOutput:\nFor GET requests:\n- Returns HTML templates ('adjust.html' or 'enhance.html')\nFor POST requests:\n- Returns processed image data from respective modules (adjust.do_adjust or enhance.do_enhance)",
+  "Canonical_solution": "from flask import Flask, render_template, request\n\napp = Flask(__name__)\n\n@app.route(\"/adjust\", methods=[\"GET\", \"POST\"])\ndef do_adjust():\n    if request.method == \"POST\":\n        the_file = request.files[\"the_file\"]\n        brightness = request.form[\"brightness\"]\n        contrast = request.form[\"contrast\"]\n        import adjust\n\n        return adjust.do_adjust(the_file, brightness, contrast)\n    else:\n        return render_template(\"adjust.html\")\n\n@app.route(\"/enhance\", methods=[\"GET\", \"POST\"])\ndef do_enhance():\n    if request.method == \"POST\":\n        the_file = request.files[\"the_file\"]\n        amount = request.form[\"amount\"]\n        import enhance\n\n        return enhance.do_enhance(the_file, amount)\n    else:\n        return render_template(\"enhance.html\")",
+  "FSMID_for_test": 60,
+  "Code_level": "Function-level"
+}

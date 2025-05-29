@@ -1,0 +1,13 @@
+{
+    "Task_id": 144,
+    "Github_ID": "44634390",
+    "Github_Project_Name": "find",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Gin-based HTTP Server in Go",
+    "Instruction": "Task Description: Create a Go function that sets up a Gin HTTP server to handle file uploads along with form data, saving the uploaded file to the local filesystem and returning a success message.\n\nFunction Description: The function initializes a Gin router with default middleware, sets up a static file server, and defines a POST endpoint for file uploads. It handles multipart form data containing a file and additional fields (name and email), saves the file to disk, and returns a confirmation message.\n\nInput: \n- None (the function takes no direct input parameters; inputs come via HTTP requests)\n\nOutput:\n- None (the function doesn't return anything; it starts an HTTP server that runs indefinitely)\n\nNote: The function expects HTTP POST requests to the \"/upload\" endpoint with multipart form data containing:\n1. A file (form field name \"file\")\n2. Text fields \"name\" and \"email\"",
+    "Canonical_solution": "import (\n\t\"fmt\"\n\t\"io\"\n\t\"net/http\"\n\t\"os\"\n\n\t\"github.com/gin-gonic/gin\"\n)\nfunc main() {\n\trouter := gin.Default()\n\trouter.Static(\"/\", \"./public\")\n\trouter.POST(\"/upload\", func(c *gin.Context) {\n\t\tname := c.PostForm(\"name\")\n\t\temail := c.PostForm(\"email\")\n\n\t\tfile, _ := c.FormFile(\"file\")\n\t\tsrc, _ := file.Open()\n\t\tdefer src.Close()\n\n\t\tdst, _ := os.Create(file.Filename)\n\t\tdefer dst.Close()\n\n\t\tio.Copy(dst, src)\n\n\t\tc.String(http.StatusOK, fmt.Sprintf(\"File %s uploaded successfully with fields name=%s and email=%s.\", file.Filename, name, email))\n\t})\n\trouter.Run(\":8080\")\n}",
+    "FSMID_for_test": 105,
+    "Code_level": "Function-level"
+}

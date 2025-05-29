@@ -1,0 +1,13 @@
+{
+  "Task_id": 425,
+  "Github_ID": "15682781",
+  "Github_Project_Name": "sitewhere",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "TCP Client-side Java.io",
+  "Instruction": "Task Description: Create a function that establishes a TCP connection to a server, sends JSON-formatted measurement data, and then closes the connection.\n\nFunction Description: The function `doSocketTest` establishes a TCP socket connection to a specified server (localhost) on a predefined port. It generates JSON-formatted measurement data using a helper class, writes this data to the server through the socket's output stream, flushes the stream to ensure all data is sent, and then closes both the output stream and the socket to release resources.\n\nInput: \n- None (The function uses predefined constants `SERVER_SOCKET_PORT` and `HARDWARE_ID` for server port and hardware identification, respectively.)\n\nOutput: \n- None (The function does not return any value but sends data to the server and may throw exceptions if the connection or data transmission fails.)",
+  "Canonical_solution": "import java.net.Socket;\n\npublic void doSocketTest() throws Exception {\n    Socket socket = new Socket(\"localhost\", SERVER_SOCKET_PORT);\n    byte[] encoded = EventsHelper.generateJsonMeasurementsMessage(HARDWARE_ID);\n    socket.getOutputStream().write(encoded);\n    socket.getOutputStream().flush();\n    socket.getOutputStream().close();\n    socket.close();\n}",
+  "FSMID_for_test": 15,
+  "Code_level": "Function-level"
+}

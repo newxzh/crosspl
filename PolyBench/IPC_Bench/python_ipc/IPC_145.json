@@ -1,0 +1,13 @@
+{
+  "Task_id": 145,
+  "Github_ID": "112687645",
+  "Github_Project_Name": "alpha-zero-general",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Server - side by using Flask in python",
+  "Instruction": "Task Description: Create a Flask-based HTTP server that handles POST requests for game predictions, processing board state data and returning optimal actions.\n\nFunction Description: The `predict` function is a Flask route handler that processes incoming game board states, applies either an AlphaZero-inspired MCTS algorithm or a greedy random player to determine the best move, and returns the action as a response.\n\nInput:\n- HTTP POST request with form data containing:\n  - 'board': [string] - Comma-separated string representing the game board state\n\nOutput:\n- HTTP Response containing:\n  - Body: [string] - The predicted action index\n  - Headers: Includes CORS permission ('Access-Control-Allow-Origin': '*')",
+  "Canonical_solution": "import os\nimport sys\nimport numpy as np\nfrom flask import Flask, request, Response\n\nsys.path.append(\"..\")\nfrom utils import dotdict\n\napp = Flask(__name__)\n\n@app.route('/predict', methods=['POST'])\ndef predict():\n    board = np.fromstring(request.form['board'], sep=',').reshape(g.getBoardSize())\n\n    use_alpha_zero = True\n    if use_alpha_zero:\n        action = np.argmax(mcts.getActionProb(board, temp=0))\n    else:\n        action = GreedyRandomPlayer(g).play(board)\n\n    resp = Response(str(action))\n    resp.headers['Access-Control-Allow-Origin'] = '*'\n    return resp\n\nif __name__ == '__main__':\n    app.run(debug=False, host='0.0.0.0', port=8888)",
+  "FSMID_for_test": 60,
+  "Code_level": "Function-level"
+}

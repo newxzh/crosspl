@@ -1,0 +1,35 @@
+You are a senior programmer specializing in multilingual interaction and inter-process communication (IPC) technologies.
+Please carefully analyze the "Reference code", which is written in {PL} and utilizes the {IPC_Name} technique. The key steps of this technique include {Steps}.
+
+Reference code:
+{Canonical_solution}
+
+If the reference code is at the function level, Please write a clear instruction detailing the function, including its purpose, input parameters (if any), and output (if any), to guide an LLM in generating reference code.
+Use the following format to structure your instruction(Finally, please strictly follow the format requirements and do not insert any characters that are not relevant to the requirements.):
+
+Task Description:...
+
+Function Description:...
+
+Input:...
+
+Output:...
+
+If the reference code is at the class level, please write a clear instruction detailing the class, including its purpose, attributes, and methods (with input parameters and return values). Ensure the instruction guides an LLM in generating reference code.
+
+Use the following format to structure your instruction (Finally, please strictly follow the format requirements and do not insert any characters that are not relevant to the requirements.):
+Task Description: ...
+
+Class Description: ...
+
+Attributes:
+
+Attribute1: [Data Type] - [Description]
+Attribute2: [Data Type] - [Description]
+...
+
+Methods:
+
+Method1: [Name]([Input Parameters]) -> [Return Type] - [Description]
+Method2: [Name]([Input Parameters]) -> [Return Type] - [Description]
+...

@@ -1,0 +1,13 @@
+{
+  "Task_id": 289,
+  "Github_ID": "658518",
+  "Github_Project_Name": "ipython",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "Pipe based on subprocess in python",
+  "Instruction": "Task Description: Implement functions to retrieve clipboard text content on different operating systems using subprocess pipes for inter-process communication.\n\nFunction Description: The functions use system clipboard utilities through subprocess pipes to get text content from the clipboard, handling platform-specific requirements and text encoding conversions.\n\nInput: None (both functions operate on system clipboard content)\n\nOutput: \n- osx_clipboard_get: Returns str - The decoded text content from macOS clipboard with line endings normalized\n- wayland_clipboard_get: Returns str - The decoded text content from Wayland clipboard, or raises exceptions for non-Wayland environments or missing dependencies\n\nMethods:\n1. osx_clipboard_get() -> str - Retrieves clipboard text on macOS using pbpaste command, converts line endings, and decodes the output\n2. wayland_clipboard_get() -> str - Retrieves clipboard text on Wayland using wl-paste command, with environment checks and error handling",
+  "Canonical_solution": "import os\nimport subprocess\nimport IPython.utils.py3compat as py3compat\n\ndef osx_clipboard_get() -> str:\n    \"\"\" Get the clipboard's text on OS X.\n    \"\"\"\n    p = subprocess.Popen(['pbpaste', '-Prefer', 'ascii'],\n        stdout=subprocess.PIPE)\n    bytes_, stderr = p.communicate()\n    # Text comes in with old Mac \\r line endings. Change them to \\n.\n    bytes_ = bytes_.replace(b'\\r', b'\\n')\n    text = py3compat.decode(bytes_)\n    return text\n\ndef wayland_clipboard_get():\n    \"\"\"Get the clipboard's text under Wayland using wl-paste command.\n\n    This requires Wayland and wl-clipboard installed and running.\n    \"\"\"\n    if os.environ.get(\"XDG_SESSION_TYPE\") != \"wayland\":\n        raise TryNext(\"wayland is not detected\")\n\n    try:\n        with subprocess.Popen([\"wl-paste\"], stdout=subprocess.PIPE) as p:\n            raw, err = p.communicate()\n            if p.wait():\n                raise TryNext(err)\n    except FileNotFoundError as e:\n        raise TryNext(\n            \"Getting text from the clipboard under Wayland requires the wl-clipboard \"\n            \"extension: https://github.com/bugaevc/wl-clipboard\"\n        ) from e\n\n    if not raw:\n        raise ClipboardEmpty\n\n    try:\n        text = py3compat.decode(raw)\n    except UnicodeDecodeError as e:\n        raise ClipboardEmpty from e\n\n    return text",
+  "FSMID_for_test": 76,
+  "Code_level": "Function-level"
+}

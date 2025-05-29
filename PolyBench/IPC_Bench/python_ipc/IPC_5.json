@@ -1,0 +1,13 @@
+{
+  "Task_id": 5,
+  "Github_ID": "4647320",
+  "Github_Project_Name": "tmux-powerline",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "DBus Client - side based on dbus(Method invoke) in python",
+  "Instruction": "Task Description: Create a Python function that interacts with the Pithos music player via D-Bus to retrieve and format the currently playing song's artist and title.\n\nFunction Description: The function connects to the user's D-Bus session bus, accesses the Pithos music player service, retrieves the current song information, and returns it in a formatted string combining the artist and title.\n\nInput: None\n\nOutput: str - A string in the format \"Artist - Title\" representing the currently playing song in Pithos, or None if the operation fails.",
+  "Canonical_solution": "import dbus\n\ndef get_pithos_current_song():\n    pithos_bus = dbus.SessionBus()\n    pithos = pithos_bus.get_object(\"net.kevinmehall.Pithos\", \"/net/kevinmehall/Pithos\")\n    props = pithos.get_dbus_method(\"GetCurrentSong\", \"net.kevinmehall.Pithos\")\n    return props()[\"artist\"] + \" - \" + props()[\"title\"]",
+  "FSMID_for_test": 75,
+  "Code_level": "Function-level"
+}

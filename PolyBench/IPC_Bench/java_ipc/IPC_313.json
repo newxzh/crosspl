@@ -1,0 +1,13 @@
+{
+  "Task_id": 313,
+  "Github_ID": "19641638",
+  "Github_Project_Name": "lettuce",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "Redis in Java",
+  "Instruction": "Task Description: Create a Redis connection manager class in Java using Lettuce client that handles connection setup, management, and cleanup.\n\nClass Description: RedisConnectionManager is a utility class that manages Redis connections using Lettuce client. It provides methods to establish a connection with configurable timeout options, retrieve the active connection, and properly close the connection when no longer needed.\n\nAttributes:\n- redisClient: RedisClient - The main Redis client instance used to create connections\n- connection: StatefulRedisConnection<byte[], byte[]> - The active Redis connection using byte array codec\n\nMethods:\n- setupConnection(String host, int port) -> void - Initializes the Redis client and establishes a connection to the specified Redis server with a 10-second timeout configuration\n- closeConnection() -> void - Properly closes the active connection and shuts down the Redis client\n- getConnection() -> StatefulRedisConnection<byte[], byte[]> - Returns the active Redis connection instance",
+  "Canonical_solution": "import io.lettuce.core.RedisClient;\nimport io.lettuce.core.RedisURI;\nimport io.lettuce.core.api.StatefulRedisConnection;\nimport io.lettuce.core.codec.ByteArrayCodec;\nimport io.lettuce.core.ClientOptions;\nimport io.lettuce.core.TimeoutOptions;\nimport java.time.Duration;\nimport java.util.concurrent.TimeUnit;\n\npublic class RedisConnectionManager {\n\n    private RedisClient redisClient;\n    private StatefulRedisConnection<byte[], byte[]> connection;\n\n    public void setupConnection(String host, int port) {\n        redisClient = RedisClient.create(RedisURI.create(host, port));\n        redisClient.setOptions(ClientOptions.builder()\n                .timeoutOptions(TimeoutOptions.builder().fixedTimeout(Duration.ofSeconds(10)).build()).build());\n        connection = redisClient.connect(ByteArrayCodec.INSTANCE);\n    }\n\n    public void closeConnection() {\n        if (connection != null) {\n            connection.close();\n        }\n        if (redisClient != null) {\n            redisClient.shutdown(0, 0, TimeUnit.SECONDS);\n        }\n    }\n\n    public StatefulRedisConnection<byte[], byte[]> getConnection() {\n        return connection;\n    }\n}",
+  "FSMID_for_test": 37,
+  "Code_level": "Class-level"
+}

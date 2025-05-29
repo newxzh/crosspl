@@ -1,0 +1,13 @@
+{
+  "Task_id": 143,
+  "Github_ID": "1283503",
+  "Github_Project_Name": "request",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "Pipe Server-side based on fs+http in JavaScript",
+  "Instruction": "Task Description: Create a function that sets up an HTTP server to handle various routes and perform different operations based on the request method and URL, including piping data between requests.\n\nFunction Description: The function `createServer` initializes an HTTP server that listens for incoming requests and routes them based on the URL path. It supports GET and PUT methods, proxies requests, and pipes data between different endpoints. The server responds differently depending on the route accessed, such as returning content, processing uploaded data, or proxying requests.\n\nInput: None\n\nOutput: Returns an HTTP server instance configured to handle specific routes and methods. The server responds to the following URLs:\n- `/get`: Handles GET requests and returns 'content'.\n- `/put`: Handles PUT requests, checks the uploaded data, and returns 'success' if the data matches 'content'.\n- `/proxy`: Proxies PUT requests to the `/put` endpoint and pipes the response back to the client.\n- `/test`: Chains requests by piping data from `/get` to `/proxy` and then to the client.\n- Any other URL results in an error.",
+  "Canonical_solution": "var http = require('http');\nvar request = require('../index');\n\nfunction createServer() {\n    var server = http.createServer(function (req, resp) {\n        resp.statusCode = 200;\n        if (req.url === '/get') {\n            assert.equal(req.method, 'GET');\n            resp.write('content');\n            resp.end();\n            return;\n        }\n        if (req.url === '/put') {\n            var x = '';\n            assert.equal(req.method, 'PUT');\n            req.on('data', function (chunk) {\n                x += chunk;\n            });\n            req.on('end', function () {\n                assert.equal(x, 'content');\n                resp.write('success');\n                resp.end();\n            });\n            return;\n        }\n        if (req.url === '/proxy') {\n            assert.equal(req.method, 'PUT');\n            req.pipe(request(server.url + '/put')).pipe(resp);\n            return;\n        }\n        if (req.url === '/test') {\n            request(server.url + '/get').pipe(request.put(server.url + '/proxy')).pipe(resp);\n            return;\n        }\n        throw new Error('Unknown url', req.url);\n    });\n    return server;\n}",
+  "FSMID_for_test": 100,
+  "Code_level": "Function-level"
+}

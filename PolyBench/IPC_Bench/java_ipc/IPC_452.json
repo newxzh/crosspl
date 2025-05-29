@@ -1,0 +1,13 @@
+{
+  "Task_id": 452,
+  "Github_ID": "1911523",
+  "Github_Project_Name": "vert.x",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "Vert.x UDP sender in Java",
+  "Instruction": "Task Description: Create a Java class that implements UDP communication using Vert.x, allowing for the initialization of a UDP socket, sending UDP packets, and closing the socket.\n\nClass Description: The UdpSender class provides functionality for sending UDP packets using Vert.x's DatagramSocket. It supports socket configuration, packet transmission, and socket cleanup.\n\nAttributes:\n\nAttribute1: socket [DatagramSocket] - The Vert.x DatagramSocket instance used for UDP communication.\nAttribute2: vertx [Vertx] - The Vert.x instance used to create the DatagramSocket.\n\nMethods:\n\nMethod1: initialize(DatagramSocketOptions options) -> void - Initializes the UDP socket with the specified configuration options.\nMethod2: sendPacket(Buffer data, int port, String host, Handler<AsyncResult<Void>> resultHandler) -> void - Sends a UDP packet containing the specified data to the given host and port, with an optional handler to track the send operation's success or failure.\nMethod3: close(Handler<AsyncResult<Void>> closeHandler) -> void - Closes the UDP socket, with an optional handler to track the close operation's completion.",
+  "Canonical_solution": "import io.vertx.core.*;\nimport io.vertx.core.buffer.Buffer;\nimport io.vertx.core.datagram.DatagramSocket;\nimport io.vertx.core.datagram.DatagramSocketOptions;\n\npublic class UdpSender {\n\n    private DatagramSocket socket;\n    private Vertx vertx;\n\n    public UdpSender(Vertx vertx) {\n        this.vertx = vertx;\n    }\n\n    public void initialize(DatagramSocketOptions options) {\n        socket = vertx.createDatagramSocket(options);\n    }\n\n    public void sendPacket(Buffer data, int port, String host, Handler<AsyncResult<Void>> resultHandler) {\n        socket.send(data, port, host).onComplete(resultHandler);\n    }\n\n    public void close(Handler<AsyncResult<Void>> closeHandler) {\n        if (socket != null) {\n            socket.close().onComplete(closeHandler);\n        }\n    }\n}",
+  "FSMID_for_test": 14,
+  "Code_level": "Class-level"
+}

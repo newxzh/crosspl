@@ -1,0 +1,13 @@
+{
+    "Task_id": 59,
+    "Github_ID": "116938442",
+    "Github_Project_Name": "yaegi",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Basic HTTP server using net/http with HandleFunc and ListenAndServe",
+    "Instruction": "Task Description: Create a basic HTTP server in Go that handles requests to the root path (\"/\") and responds with \"hello world\".\n\nFunction Description: The main function sets up an HTTP server with a single route handler for the root path. The handler writes \"hello world\" as the response. The server listens on port 8080.\n\nInput: None (The function takes no direct input parameters; requests are handled via HTTP)\n\nOutput: None (The function doesn't return anything; responses are written to the http.ResponseWriter)\n\nNote: The reference code shows a complete implementation where:\n1. A handler function is defined to write \"hello world\" response\n2. The handler is registered for the root path \"/\"\n3. The server starts listening on port 8080",
+    "Canonical_solution": "import (\n\t\"net/http\"\n)\n\nvar myHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) { w.Write([]byte(\"hello world\")) })\n\nfunc main() {\n\thttp.HandleFunc(\"/\", myHandler)\n\thttp.ListenAndServe(\":8080\", nil)\n}",
+    "FSMID_for_test": 103,
+    "Code_level": "Function-level"
+}

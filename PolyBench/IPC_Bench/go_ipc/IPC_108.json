@@ -1,0 +1,13 @@
+{
+    "Task_id": 108,
+    "Github_ID": "37374972",
+    "Github_Project_Name": "go-starter-kit",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Echo-based HTTP Server in Go",
+    "Instruction": "Task Description: Create an HTTP server using the Echo framework in Go that handles user authentication with JWT tokens. The server should have routes for login, accessible content, and restricted content that requires JWT authentication.\n\nFunction Description: The main function initializes an Echo server, configures middleware for logging and recovery, sets up route handlers for login and accessible content, and creates a restricted route group that requires JWT authentication. The server listens on port 1323.\n\nInput: None (The function takes no direct input parameters, but relies on HTTP requests to trigger its handlers)\n\nOutput: None (The function doesn't return anything but starts an HTTP server that continues running until interrupted)\n\nNote: The actual route handlers (login, accessible, restricted) would need to be implemented separately but are referenced in this main function. The JWT configuration uses a custom claims structure (jwtCustomClaims) which should also be defined elsewhere.",
+    "Canonical_solution": "import (\n\t\"net/http\"\n\t\"time\"\n\n\tjwt \"github.com/dgrijalva/jwt-go\"\n\t\"github.com/labstack/echo\"\n\t\"github.com/labstack/echo/middleware\"\n)\n\nfunc main() {\n\te := echo.New()\n\n\te.Use(middleware.Logger())\n\te.Use(middleware.Recover())\n\n\te.POST(\"/login\", login)\n\te.GET(\"/\", accessible)\n\n\tr := e.Group(\"/restricted\")\n\tconfig := middleware.JWTConfig{\n\t\tClaims:     &jwtCustomClaims{},\n\t\tSigningKey: []byte(\"secret\"),\n\t}\n\tr.Use(middleware.JWTWithConfig(config))\n\tr.GET(\"\", restricted)\n\n\te.Logger.Fatal(e.Start(\":1323\"))\n}",
+    "FSMID_for_test": 106,
+    "Code_level": "Function-level"
+}

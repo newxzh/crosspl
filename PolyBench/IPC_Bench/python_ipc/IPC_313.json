@@ -1,0 +1,13 @@
+{
+  "Task_id": 313,
+  "Github_ID": "698288684",
+  "Github_Project_Name": "llmware",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "Pipe based on subprocess in python",
+  "Instruction": "Task Description: Create a function that executes a system command in a specified working directory and handles the command's output and errors.\n\nFunction Description: The function `run_command` executes a given system command in a specified working directory using Python's `subprocess` module. It captures the command's standard output and error streams, decodes them, and prints them. If the command returns a non-zero exit code, it raises a `CalledProcessError`.\n\nInput:  \n- `command`: [str] - The system command to be executed.  \n- `working_dir`: [str] - The working directory where the command will be executed.  \n\nOutput:  \n- None (prints output/error messages directly). Raises `subprocess.CalledProcessError` if the command fails (non-zero exit code).",
+  "Canonical_solution": "import os\nimport subprocess\nimport sys\n\ndef run_command(command, working_dir):\n    command_array = command.split(\" \")\n    process = subprocess.Popen(command_array, cwd=working_dir, stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n    stdout, stderr = process.communicate()\n    if stdout:\n        print(stdout.decode('utf-8'))\n    if stderr:\n        print(stderr.decode('utf-8'), level=\"error\")\n    if process.returncode != 0:\n        raise subprocess.CalledProcessError(process.returncode, command)",
+  "FSMID_for_test": 76,
+  "Code_level": "Function-level"
+}

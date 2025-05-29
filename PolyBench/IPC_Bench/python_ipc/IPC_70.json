@@ -1,0 +1,13 @@
+{
+  "Task_id": 70,
+  "Github_ID": "621705019",
+  "Github_Project_Name": "BMTools",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Client-side by using requests in python",
+  "Instruction": "Task Description: Implement a function to load and validate tool configurations from remote URLs by making HTTP requests and processing the responses.\n\nFunction Description: The function `load_valid_tools` takes a dictionary of tool mappings and attempts to fetch each tool's configuration from a remote server. It constructs URLs by appending \".well-known/ai-plugin.json\" to each base URL in the input dictionary. For each successful HTTP GET request (status code 200), it parses the JSON response and adds it to the output dictionary. Failed requests are logged as warnings.\n\nInput: \n- tools_mappings: [dict] - A dictionary where keys are tool identifiers and values are base URLs for the tools' configuration endpoints.\n\nOutput: \n- tools_to_config: [dict] - A dictionary where keys are the same as the input dictionary, and values are the parsed JSON configurations from successful requests. Tools with failed requests are excluded.",
+  "Canonical_solution": "import requests\nimport os\nfrom bmtools import get_logger\n\nlogger = get_logger(__name__)\n\ndef load_valid_tools(tools_mappings):\n    tools_to_config = {}\n    for key in tools_mappings:\n        get_url = tools_mappings[key]+\".well-known/ai-plugin.json\"\n        \n        response = requests.get(get_url)\n\n        if response.status_code == 200:\n            tools_to_config[key] = response.json()\n        else:\n            logger.warning(\"Load tool {} error, status code {}\".format(key, response.status_code))\n\n    return tools_to_config",
+  "FSMID_for_test": 57,
+  "Code_level": "Function-level"
+}

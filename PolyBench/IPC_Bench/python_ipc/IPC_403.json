@@ -1,0 +1,13 @@
+{
+  "Task_id": 403,
+  "Github_ID": "22231878",
+  "Github_Project_Name": "wdt",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "TCP Server - side by using socket in python",
+  "Instruction": "Task Description: Create a TCP server that listens for incoming client connections, receives data from connected clients, and handles the connection in a separate thread to allow for concurrent operations.\n\nFunction Description: The code consists of two main functions: `start_server()` initializes and sets up the TCP server socket, while `start_server_thread()` handles the client connection in a separate thread, receiving data and managing the connection lifecycle.\n\nInput: \n- `start_server()`: No input parameters.\n- `start_server_thread()`: No input parameters.\n\nOutput: \n- `start_server()`: No return value, but it initializes the global `bad_socket` object.\n- `start_server_thread()`: No return value, but it prints connection details and handles data reception until the `stop` flag is set to `True`.\n\n---\n\nClass Description: This task can also be implemented as a class to encapsulate the TCP server functionality, making it more reusable and manageable.\n\nAttributes:\n- `bad_socket`: [socket.socket] - The TCP server socket object.\n- `stop`: [bool] - A flag to control the server thread's execution.\n\nMethods:\n- `start_server()` -> None - Initializes and sets up the TCP server socket.\n- `start_server_thread()` -> None - Handles client connections and data reception in a separate thread.\n- `stop_server()` -> None - Sets the `stop` flag to `True` to terminate the server thread gracefully.",
+  "Canonical_solution": "import socket\nimport threading\nimport time\n\nbad_socket = None\nstop = False\n\ndef start_server():\n    global bad_socket\n    bad_socket = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)\n    bad_socket.settimeout(0.5)  # timeout of 500ms\n    bad_socket.bind((\"\", 0))\n    bad_socket.listen(5)\n\ndef start_server_thread():\n    print(\"Before accept\")\n    (conn, addr) = bad_socket.accept()\n    print(\"Connected with {0}:{1}\".format(addr[0], addr[1]))\n    while True:\n        if stop:\n            break\n        try:\n            conn.recv(1024)\n            # sleep for 1 ms. This limits the rate to 1MBytes/sec or less\n            time.sleep(0.001)\n        except Exception as e:\n            print(e)\n    print(\"server thread stopped\")\n    bad_socket.close()",
+  "FSMID_for_test": 66,
+  "Code_level": "Function-level"
+}

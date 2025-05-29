@@ -1,0 +1,13 @@
+{
+  "Task_id": 183,
+  "Github_ID": "163927392",
+  "Github_Project_Name": "golang-for-nodejs-developers",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "UDP based on node.js dgram",
+  "Instruction": "Task Description: Create a function that sets up a UDP server to listen for incoming messages on a specified port and handles them using a provided callback function.\n\nFunction Description: The function `createUDPServer` initializes a UDP server using Node.js's `dgram` module. It creates a socket, sets up event handlers for errors, incoming messages, and listening status, and binds the socket to the specified port. The server processes incoming messages as UTF-8 strings and passes them to the provided callback function along with the remote address information.\n\nInput:\n- `port` (Number) - The port number on which the UDP server should listen.\n- `messageHandler` (Function) - A callback function that handles incoming messages. It receives two parameters: the message data (String) and the remote address information (Object).\n\nOutput:\n- Returns the created UDP server (dgram.Socket) instance.\n\nNote: The server will automatically start listening once created and will log its listening address to the console. Errors will be logged and will cause the server to close.",
+  "Canonical_solution": "const dgram = require('dgram');\n\nfunction createUDPServer(port, messageHandler) {\n    const server = dgram.createSocket('udp4');\n\n    server.on('error', err => {\n        console.error(err);\n        server.close();\n    });\n\n    server.on('message', (msg, rinfo) => {\n        const data = msg.toString('utf8').trim();\n        if (messageHandler) {\n            messageHandler(data, rinfo);\n        }\n    });\n\n    server.on('listening', () => {\n        const address = server.address();\n        console.log(`server listening ${address.address}:${address.port}`);\n    });\n\n    server.bind(port);\n\n    return server;\n}",
+  "FSMID_for_test": 98,
+  "Code_level": "Function-level"
+}

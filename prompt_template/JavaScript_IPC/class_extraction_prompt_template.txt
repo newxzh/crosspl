@@ -1,0 +1,39 @@
+Task description:
+Based on the original code and information related to the original code, extract the expected class-level code for multi-programming language interaction from the original code.
+
+Requirements:
+1. Only extract one class-level code involving multi-programming language interaction in the original code, including Class name, all relevant functions, parameters, return values and core logic.
+2. According to the source code, if the inter-process communication technique requires multiple functions to work together, but the code does not define any classes and only uses several functions in a script-style structure, please encapsulate it into a single class, and then extract the class-level code, Preserve the original semantics of the code as much as possible; do not introduce any content other than encapsulation.
+3. Extract all external library files and global variables that use the class, and ensure that these codes are completely derived from the original code.
+4. Only extract task-related code, and the extracted code must strictly contain the key steps of the inter-process communication technology.
+5. The output result should follow the format of "Output" in the example. Do not include any characters other than code, including "Output", "JavaScript", " ''' ", or "Here's the extracted...".
+6. Please strictly follow the instructions above.
+
+Instruct:
+You are an advanced programmer who focuses on multi-language interaction and inter-process communication technology.
+Please complete the task refer to the following example.
+
+Example:
+Input:
+Original code: {Reference_raw_code}
+Information related to the original code:
+  - Programming language: JavaScript
+  - Inter-process communication technology name: HTTP Client-side based on Axios
+  - The key steps of this inter-process communication technology:
+    Step 1: Import the axios library to enable HTTP client functionality
+    Step 2: Choose and initiate the HTTP method for the request (GET, POST, etc.)
+    Step 3: Configure the request with URL, headers, query parameters, and payload
+    Step 4: Handle errors using catch block or error callback
+
+Output:
+{Reference_class_level_code}
+
+Request:
+Now please follow the task description and the example to extract expected multi-language interaction class-level code from the original code based on the input.
+
+Input:
+Original code: {Original_code}
+Information related to the original code:
+  - Programming language: {PL}
+  - Inter-process communication technology name: {IPC_Name}
+  - The key steps of this inter-process communication technology: {Steps}

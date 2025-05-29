@@ -1,0 +1,13 @@
+{
+  "Task_id": 592,
+  "Github_ID": "20008432",
+  "Github_Project_Name": "orbot",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "java.net UDP Server or Client",
+  "Instruction": "Task Description: Implement a DNS resolver class that handles UDP communication for DNS query processing, sending DNS payloads to a specified local port and receiving responses.\n\nClass Description: The DNSResolver class provides functionality to send DNS query payloads via UDP to a local port and receive the corresponding DNS responses. It handles the creation of UDP sockets and packets for communication.\n\nAttributes:\nmPort: int - The local port number to which DNS queries will be sent\nmLocalhost: InetAddress - The local host address used for UDP communication\n\nMethods:\nDNSResolver(int localPort) -> void - Constructor that initializes the DNS resolver with the specified local port number\nprocessDNS(byte[] payload) -> byte[] - Sends the given DNS payload to the configured local port via UDP and returns the received DNS response\n    - Input: payload (byte[]) - The DNS query payload to be sent\n    - Output: byte[] - The received DNS response data",
+  "Canonical_solution": "import java.io.IOException;\nimport java.net.DatagramPacket;\nimport java.net.DatagramSocket;\nimport java.net.InetAddress;\n\npublic class DNSResolver {\n\n    private final int mPort;\n    private InetAddress mLocalhost = null;\n\n    public DNSResolver(int localPort) {\n        mPort = localPort;\n    }\n\n    public byte[] processDNS(byte[] payload) throws IOException {\n        if (mLocalhost == null) mLocalhost = InetAddress.getLocalHost();\n\n        DatagramPacket packet = new DatagramPacket(payload, payload.length, mLocalhost, mPort);\n        DatagramSocket datagramSocket = new DatagramSocket();\n        datagramSocket.send(packet);\n\n        byte[] buf = new byte[1024];\n        packet = new DatagramPacket(buf, buf.length);\n        datagramSocket.receive(packet);\n        datagramSocket.close();\n\n        return packet.getData();\n    }\n}",
+  "FSMID_for_test": 2,
+  "Code_level": "Class-level"
+}

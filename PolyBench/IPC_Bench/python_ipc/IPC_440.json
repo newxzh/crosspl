@@ -1,0 +1,13 @@
+{
+  "Task_id": 440,
+  "Github_ID": "114459569",
+  "Github_Project_Name": "cryptofeed",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "WebSocket Client-side by using asyncio+websockets in python",
+  "Instruction": "Task Description: Create a WebSocket client in Python using asyncio and websockets libraries to connect to a WebSocket server, subscribe to a channel, and receive messages, optionally decompressing them if they are gzipped.\n\nFunction Description: The function establishes a WebSocket connection to a specified URI, sends a subscription message, and receives a specified number of messages from the server. It can handle gzip-compressed messages by decompressing them before display.\n\nInput:\n- uri (str): The WebSocket server URI to connect to (e.g., 'wss://api.huobi.pro/ws').\n- sub (str): The subscription message to send to the server (e.g., '{\"sub\": \"market.btcusdt.trade.detail\", \"id\": 4}').\n- is_gzip (bool): A flag indicating whether the received messages are gzip-compressed.\n- count (int): The number of messages to receive before exiting.\n\nOutput: None (The function prints received messages to the console).",
+  "Canonical_solution": "import argparse\nimport asyncio\nimport zlib\nimport websockets\n\nasync def websocket_client(uri, sub, is_gzip, count):\n    async with websockets.connect(uri) as websocket:\n        await websocket.send(sub)\n        print(f\"> {sub}\")\n\n        for i in range(count):\n            response = await websocket.recv()\n            if not is_gzip:\n                print(f\"< {response}\")\n            else:\n                print(f\"< {zlib.decompress(response, 16 + zlib.MAX_WBITS)}\")\n\nif __name__ == '__main__':\n    parser = argparse.ArgumentParser()\n    parser.add_argument('--uri', default='wss://api.huobi.pro/ws', help='URI to connect to')\n    parser.add_argument('--sub', default='{\"sub\": \"market.btcusdt.trade.detail\", \"id\": 4}', help='Subscription string')\n    parser.add_argument('--count', default=3, type=int, help='Number of messages to receive before exiting')\n    parser.add_argument('-z', action='store_true', help='Use gzip on messages')\n    args = parser.parse_args()\n\n    asyncio.get_event_loop().run_until_complete(\n        websocket_client(args.uri, args.sub, args.z, args.count)\n    )",
+  "FSMID_for_test": 46,
+  "Code_level": "Function-level"
+}

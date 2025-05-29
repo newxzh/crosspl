@@ -1,0 +1,13 @@
+{
+    "Task_id": 111,
+    "Github_ID": "180593078",
+    "Github_Project_Name": "sentinel-golang",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Fiber-based HTTP Server in Go",
+    "Instruction": "Task Description: Create a Fiber-based HTTP server in Go that includes rate limiting middleware using Sentinel, with custom resource extraction and block fallback handlers.\n\nFunction Description: The function sets up a Fiber web server with Sentinel middleware for rate limiting. The middleware extracts the client's real IP from headers as the resource key and provides a custom JSON response when requests are blocked. The server listens on port 8080 and includes a test endpoint.\n\nInput: None (The function takes no parameters)\n\nOutput: None (The function doesn't return anything but starts an HTTP server that runs indefinitely)",
+    "Canonical_solution": "import \"github.com/gofiber/fiber/v2\"\n\nfunc Example() {\n\tapp := fiber.New()\n\tapp.Use(\n\t\tSentinelMiddleware(\n\t\t\tWithResourceExtractor(func(ctx *fiber.Ctx) string {\n\t\t\t\treturn ctx.GetReqHeaders()[\"X-Real-IP\"]\n\t\t\t}),\n\t\t\tWithBlockFallback(func(ctx *fiber.Ctx) error {\n\t\t\t\treturn ctx.Status(400).JSON(struct {\n\t\t\t\t\tError string `json:\"error\"`\n\t\t\t\t\tCode  int    `json:\"code\"`\n\t\t\t\t}{\n\t\t\t\t\t\"too many request; the quota used up\",\n\t\t\t\t\t10222,\n\t\t\t\t})\n\t\t\t})),\n\t)\n\n\tapp.Get(\"/test\", func(ctx *fiber.Ctx) error { return nil })\n\t_ = app.Listen(\":8080\")\n}",
+    "FSMID_for_test": 107,
+    "Code_level": "Function-level"
+}

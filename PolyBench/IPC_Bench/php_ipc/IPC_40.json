@@ -1,0 +1,13 @@
+{
+  "Task_id": 40,
+  "Github_ID": "14101953",
+  "Github_Project_Name": "plugins",
+  "Programming_Language": "PHP",
+  "suffix": ".php",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP client using cURL in PHP",
+  "Instruction": "Task Description: Create a function that retrieves the content of a specified URL using PHP's cURL library, with appropriate settings for handling redirects and mimicking a mobile user agent.\n\nFunction Description: The function uses PHP's cURL functions to make an HTTP request to the specified URL. It configures the cURL session to return the response as a string rather than outputting it directly, follows any redirects, and sets a mobile user agent string to mimic a mobile browser. The function then executes the request, closes the cURL session, and returns the response content.\n\nInput: \n- $url (string): The URL from which to retrieve content\n\nOutput: \n- (string): The content retrieved from the specified URL, or false if the request fails",
+  "Canonical_solution": "function GetUrlContent($url)\n{\n    $curl = curl_init($url);\n    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);\n    curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);\n    curl_setopt($curl, CURLOPT_USERAGENT, 'Mozilla/5.0 (iPhone; U; CPU iPhone OS 3_0 like Mac OS X; en-us) AppleWebKit/528.18 (KHTML, like Gecko) Version/4.0 Mobile/7A341 Safari/528.16');\n    $res = curl_exec($curl);\n    curl_close($curl);\n    return $res;\n}",
+  "FSMID_for_test": 132,
+  "Code_level": "Function-level"
+}

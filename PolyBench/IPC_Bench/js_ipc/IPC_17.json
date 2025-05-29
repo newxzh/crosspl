@@ -1,0 +1,13 @@
+{
+  "Task_id": 17,
+  "Github_ID": "101556009",
+  "Github_Project_Name": "easy-mock",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Client-side based on Axios",
+  "Instruction": "Task Description: Create a class that provides wallpaper retrieval functionality from different APIs (Unsplash or Bing) based on client availability.\n\nClass Description: The WallpaperService class is designed to fetch random wallpapers from either Unsplash (if an API key is provided) or Bing's wallpaper API (as a fallback). It handles API requests, processes responses, and provides a consistent output format regardless of the source.\n\nAttributes: None (This is a static service class with no instance attributes)\n\nMethods:\ngetWallpaper: static async getWallpaper(unsplashClientId: string) -> Promise<Object> - Fetches a random wallpaper from either Unsplash or Bing. \n  - Input: \n    - unsplashClientId: string - The API client ID for Unsplash (optional, if not provided will use Bing)\n  - Output: \n    - Returns a Promise that resolves to an object with:\n      - type: string - Indicates the source ('unsplash' or 'bing')\n      - data: Array/Object - Contains the wallpaper data in the respective API's format\n    - On error, returns a fallback Bing wallpaper object with a default image",
+  "Canonical_solution": "const axios = require('axios');\n\nclass WallpaperService {\n  static async getWallpaper(unsplashClientId) {\n    const wallpaperAPI = unsplashClientId\n      ? 'https://api.unsplash.com/photos/random?orientation=landscape&count=1&client_id=' + unsplashClientId\n      : 'https://cn.bing.com/HPImageArchive.aspx?format=js&n=1';\n\n    try {\n      const res = await axios.get(wallpaperAPI);\n      return unsplashClientId\n        ? { type: 'unsplash', data: res.data }\n        : { type: 'bing', data: res.data.images };\n    } catch (error) {\n      return {\n        type: 'bing',\n        data: [{\n          url: '/az/hprichbg/rb/SWFC_ZH-CN9558503653_1920x1080.jpg',\n          copyrightlink: '/search?q=%e4%b8%8a%e6%b5%b7%e4%b8%96%e7%95%8c%e9%87%91%e8%9e%8d%e4%b8%ad%e5%bf%83&form=hpcapt&mkt=zh-cn'\n        }]\n      };\n    }\n  }\n}",
+  "FSMID_for_test": 94,
+  "Code_level": "Class-level"
+}

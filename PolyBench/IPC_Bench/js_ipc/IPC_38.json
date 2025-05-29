@@ -1,0 +1,13 @@
+{
+  "Task_id": 38,
+  "Github_ID": "347434932",
+  "Github_Project_Name": "epg",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Client-side based on Axios",
+  "Instruction": "Task Description: Create a function that retrieves TV channel information from multiple providers and returns a list of unique channels.\n\nFunction Description: The function makes HTTP POST requests to a TV guide service for each provider, extracts channel information from the HTML response, and returns a deduplicated list of channels. It uses axios for HTTP requests, cheerio for HTML parsing, and lodash for deduplication.\n\nInput: None (The function uses hardcoded providers and parameters)\n\nOutput: Array of objects - Returns an array of channel objects containing language, name, and site_id (deduplicated by site_id). Each channel object has the following structure:\n{\n    lang: string,    // Language code ('fr' for French)\n    name: string,    // Channel name\n    site_id: string  // Unique identifier combining channel number and slug\n}",
+  "Canonical_solution": "function async channels() {\n    const axios = require('axios')\n    const _ = require('lodash')\n\n    const providers = ['-1', '-2', '-3', '-4', '-5']\n\n    const channels = []\n    for (let provider of providers) {\n        const data = await axios\n            .post('https://www.tvcesoir.fr/guide/schedule', null, {\n                params: {\n                    provider,\n                    region: 'France',\n                    TVperiod: 'Night',\n                    date: dayjs().format('YYYY-MM-DD'),\n                    st: 0,\n                    u_time: 2155,\n                    is_mobile: 1\n                }\n            })\n            .then(r => r.data)\n            .catch(console.log)\n\n        const $ = cheerio.load(data)\n        $('.channelname').each((i, el) => {\n            const name = $(el).find('center > a:eq(1)').text()\n            const url = $(el).find('center > a:eq(1)').attr('href')\n            const [, number, slug] = url.match(/\\/(\\d+)\\/(.*)\\.html$/)\n\n            channels.push({\n                lang: 'fr',\n                name,\n                site_id: `${number}/${slug}`\n            })\n        })\n    }\n\n    return _.uniqBy(channels, 'site_id')\n}",
+  "FSMID_for_test": 94,
+  "Code_level": "Function-level"
+}

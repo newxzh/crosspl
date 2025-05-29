@@ -1,0 +1,13 @@
+{
+  "Task_id": 54,
+  "Github_ID": "12550138",
+  "Github_Project_Name": "isort",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Client-side by using httpx+asyncio in python",
+  "Instruction": "Task Description: Implement an asynchronous function to fetch and filter GitHub contributors for a repository, then retrieve their detailed user information.\n\nFunction Description: This function asynchronously retrieves contributors from a GitHub repository using the GitHub API, filters them based on specific criteria (user type, ignored logins, and acknowledgements), and then fetches detailed information for each qualifying contributor. The function uses httpx for asynchronous HTTP requests and handles pagination to retrieve all contributors.\n\nInput:\n- auth: Tuple[str, str] - A tuple containing GitHub username and password/token for authentication\n- GITHUB_API_CONTRIBUTORS: str - The GitHub API endpoint for contributors\n- PER_PAGE: int - Number of contributors to fetch per page\n- GITHUB_USER_TYPE: str - The type of contributor to filter for (e.g., 'User')\n- IGNORED_AUTHOR_LOGINS: List[str] - List of GitHub logins to ignore\n- ACKNOWLEDGEMENTS: str - String containing acknowledged contributors to exclude\n\nOutput:\n- List[Dict] - A list of dictionaries containing detailed user information for unacknowledged contributors who meet the filtering criteria",
+  "Canonical_solution": "import asyncio\nimport httpx\n\nasync def main():\n    auth = (input(\"Github Username: \"), getpass())\n    async with httpx.AsyncClient() as client:\n        page = 0\n        results = []\n        contributors = []\n        while not page or len(results) == PER_PAGE:\n            page += 1\n            response = await client.get(\n                f\"{GITHUB_API_CONTRIBUTORS}?per_page={PER_PAGE}&page={page}\", auth=auth\n            )\n            results = response.json()\n            contributors.extend(\n                (\n                    contributor\n                    for contributor in results\n                    if contributor[\"type\"] == GITHUB_USER_TYPE\n                    and contributor[\"login\"] not in IGNORED_AUTHOR_LOGINS\n                    and f\"@{contributor['login'].lower()}\" not in ACKNOWLEDGEMENTS\n                )\n            )\n\n        unacknowledged_users = await asyncio.gather(\n            *(client.get(contributor[\"url\"], auth=auth) for contributor in contributors)\n        )\n        unacknowledged_users = [request.json() for request in unacknowledged_users]",
+  "FSMID_for_test": 59,
+  "Code_level": "Function-level"
+}

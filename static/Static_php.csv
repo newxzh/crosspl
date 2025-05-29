@@ -1,0 +1,187 @@
+File_Name,IPC_Name,Snippet_Level,Count
+Ollama,Class-level,HTTP client using Guzzle in PHP,1
+ClientDownload,Class-level,HTTP client using Guzzle in PHP,1
+Pretreat,Class-level,HTTP client using Guzzle in PHP,1
+FetchConversionRate,Class-level,HTTP client using Guzzle in PHP,1
+Guzzle,Class-level,HTTP client using Guzzle in PHP,1
+Ollama,Class-level,HTTP client using Guzzle in PHP,1
+ClientDownload,Class-level,HTTP client using Guzzle in PHP,1
+Pretreat,Class-level,HTTP client using Guzzle in PHP,1
+FetchConversionRate,Class-level,HTTP client using Guzzle in PHP,1
+Guzzle,Class-level,HTTP client using Guzzle in PHP,1
+SupportedApps,Class-level,HTTP client using Guzzle in PHP,1
+ImageXAdapter,Class-level,HTTP client using Guzzle in PHP,6
+OAuthController,Class-level,HTTP client using Guzzle in PHP,6
+SyncVideo,Class-level,HTTP client using Guzzle in PHP,1
+Dom,Class-level,HTTP client using Guzzle in PHP,1
+PendingRequest,Class-level,HTTP client using Guzzle in PHP,6
+WebhookService,Class-level,HTTP client using Guzzle in PHP,1
+Epay,Class-level,HTTP client using Guzzle in PHP,1
+ImageX,Class-level,HTTP client using Guzzle in PHP,1
+PendingRequest,Class-level,HTTP client using Guzzle in PHP,6
+Captcha,Class-level,HTTP client using Guzzle in PHP,1
+ItemController,Function-level,HTTP client using Guzzle in PHP,6
+HttpClientKernel,Class-level,HTTP client using Symfony in PHP,1
+HttpClientKernel,Class-level,HTTP client using Symfony in PHP,1
+web.function,Function-level,HTTP client using cURL in PHP,1
+transfers_new,Class-level,HTTP client using cURL in PHP,1
+UpgradeNoticeBehavior.class,Class-level,HTTP client using cURL in PHP,1
+Meting,Class-level,HTTP client using cURL in PHP,1
+Wechatpay.class,Class-level,HTTP client using cURL in PHP,1
+TencentSCF_env,Function-level,HTTP client using cURL in PHP,1
+CurlDownloader,Class-level,HTTP client using cURL in PHP,1
+QiniuStorage.class,Class-level,HTTP client using cURL in PHP,1
+OpenAi,Class-level,HTTP client using cURL in PHP,1
+requestcore.class,Class-level,HTTP client using cURL in PHP,1
+UpgradeController,Class-level,HTTP client using cURL in PHP,1
+base_facebook,Class-level,HTTP client using cURL in PHP,1
+Coinbase,Class-level,HTTP client using cURL in PHP,1
+index,Function-level,HTTP client using cURL in PHP,1
+Coinbase,Class-level,HTTP client using cURL in PHP,1
+grab,Function-level,HTTP client using cURL in PHP,1
+pushover,Class-level,HTTP client using cURL in PHP,1
+kuaidi100,Function-level,HTTP client using cURL in PHP,1
+URLChecker,Class-level,HTTP client using cURL in PHP,1
+ssrf_curl,Function-level,HTTP client using cURL in PHP,1
+transfers_query,Class-level,HTTP client using cURL in PHP,1
+helper,Function-level,HTTP client using cURL in PHP,1
+ApiExceptAuthController,Class-level,HTTP client using cURL in PHP,1
+api,Function-level,HTTP client using cURL in PHP,1
+Image,Class-level,HTTP client using cURL in PHP,1
+Curl,Class-level,HTTP client using cURL in PHP,6
+api,Function-level,HTTP client using cURL in PHP,1
+qrcode,Class-level,HTTP client using cURL in PHP,1
+TimThumb,Class-level,HTTP client using cURL in PHP,2
+Curl,Class-level,HTTP client using cURL in PHP,1
+sharrre,Function-level,HTTP client using cURL in PHP,1
+explainTkl,Function-level,HTTP client using cURL in PHP,1
+class.json,Class-level,HTTP client using cURL in PHP,1
+Client,Class-level,HTTP client using cURL in PHP,1
+BTCPay,Class-level,HTTP client using cURL in PHP,1
+api,Function-level,HTTP client using cURL in PHP,1
+api,Function-level,HTTP client using cURL in PHP,1
+back,Function-level,HTTP client using cURL in PHP,1
+godaddydns,Class-level,HTTP client using cURL in PHP,1
+CurlDownloader,Class-level,HTTP client using cURL in PHP,1
+twitter-api-exchange,Class-level,HTTP client using cURL in PHP,1
+stream,Function-level,HTTP client using cURL in PHP,1
+Action,Function-level,HTTP client using cURL in PHP,1
+api,Function-level,HTTP client using cURL in PHP,1
+Heroku,Function-level,HTTP client using cURL in PHP,1
+Oauth2,Class-level,HTTP client using cURL in PHP,1
+b2c,Class-level,HTTP client using cURL in PHP,1
+requests,Class-level,HTTP client using cURL in PHP,1
+HttpScraper,Class-level,HTTP client using cURL in PHP,1
+CurlDownloader,Class-level,HTTP client using cURL in PHP,1
+Client,Class-level,HTTP client using cURL in PHP,1
+theme-dogecloud,Function-level,HTTP client using cURL in PHP,1
+Downloader.class,Class-level,HTTP client using cURL in PHP,1
+requestcore.class,Class-level,HTTP client using cURL in PHP,1
+SimpleHttpTrait,Class-level,HTTP client using cURL in PHP,1
+Bcs.class,Class-level,HTTP client using cURL in PHP,1
+settle,Class-level,HTTP client using cURL in PHP,1
+HproseHttpClient,Class-level,HTTP client using cURL in PHP,1
+download,Function-level,HTTP client using cURL in PHP,1
+baiduRequestCore.class,Class-level,HTTP client using cURL in PHP,1
+timthumb,Class-level,HTTP client using cURL in PHP,1
+RequestCore,Class-level,HTTP client using cURL in PHP,1
+File,Class-level,HTTP client using cURL in PHP,1
+editor,Class-level,HTTP client using cURL in PHP,1
+Googledrive,Class-level,HTTP client using cURL in PHP,1
+Httpie,Class-level,HTTP client using cURL in PHP,1
+SpotlightClient,Class-level,HTTP client using cURL in PHP,1
+Helper,Function-level,HTTP client using cURL in PHP,1
+function,Function-level,HTTP client using cURL in PHP,1
+api,Function-level,HTTP client using cURL in PHP,1
+http,Class-level,HTTP client using cURL in PHP,1
+get_article_info,Function-level,HTTP client using cURL in PHP,1
+OpenAi,Class-level,HTTP client using cURL in PHP,1
+api,Function-level,HTTP client using cURL in PHP,1
+Action,Class-level,HTTP client using cURL in PHP,1
+timthumb,Class-level,HTTP client using cURL in PHP,1
+favicon,Function-level,HTTP client using cURL in PHP,1
+HttpClient,Class-level,HTTP client using cURL in PHP,1
+BackendService,Class-level,HTTP client using cURL in PHP,1
+helpers,Function-level,HTTP client using cURL in PHP,1
+GoogleTranslate,Class-level,HTTP client using cURL in PHP,1
+requestcore.class,Class-level,HTTP client using cURL in PHP,1
+refund,Class-level,HTTP client using cURL in PHP,1
+fn,Function-level,HTTP client using cURL in PHP,1
+barcode,Class-level,HTTP client using cURL in PHP,1
+getpicture,Function-level,HTTP client using cURL in PHP,1
+Picture,Class-level,HTTP client using cURL in PHP,1
+function.fetch,Function-level,HTTP client using fsockopen in PHP,1
+function.fetch,Function-level,HTTP client using fsockopen in PHP,1
+Trackback,Class-level,HTTP client using fsockopen in PHP,1
+recaptchalib,Class-level,HTTP client using fsockopen in PHP,1
+class.soap_transport_http,Class-level,HTTP client using fsockopen in PHP,1
+function.fetch,Function-level,HTTP client using fsockopen in PHP,1
+Http.class,Class-level,HTTP client using fsockopen in PHP,1
+function.fetch,Function-level,HTTP client using fsockopen in PHP,1
+image_details,Function-level,HTTP client using fsockopen in PHP,1
+Http.class,Class-level,HTTP client using fsockopen in PHP,1
+function_filesock,Function-level,HTTP client using fsockopen in PHP,1
+SocketHttpClient,Class-level,HTTP client using fsockopen in PHP,1
+amqp_consumer,Function-level,RabbitMQ consumer in PHP,6
+amqp_consumer_non_blocking,Function-level,RabbitMQ consumer in PHP,6
+consumer,Class-level,RabbitMQ consumer in PHP,1
+basic_nack,Function-level,RabbitMQ consumer in PHP,6
+amqp_consumer_exclusive,Function-level,RabbitMQ consumer in PHP,6
+amqp_consumer_fanout_2,Function-level,RabbitMQ consumer in PHP,2
+amqp_consumer_fanout_1,Function-level,RabbitMQ consumer in PHP,2
+amqp_message_headers_recv,Function-level,RabbitMQ consumer in PHP,1
+producer,Function-level,RabbitMQ producer in PHP,6
+stream_tmp_produce,Function-level,RabbitMQ producer in PHP,6
+delayed_message,Function-level,RabbitMQ producer in PHP,1
+amqp_publisher,Function-level,RabbitMQ producer in PHP,1
+batch_publish,Function-level,RabbitMQ producer in PHP,1
+basic_get,Function-level,RabbitMQ producer in PHP,1
+Session_redis_driver,Class-level,Redis in PHP,1
+Server,Class-level,Redis in PHP,6
+queue,Class-level,Redis in PHP,1
+Cache_redis,Class-level,Redis in PHP,1
+cls_redis,Class-level,Redis in PHP,1
+PhpiredisSocketConnection,Class-level,TCP client based on socket_* in PHP,1
+class.Radius,Class-level,TCP client based on socket_* in PHP,1
+UdpScraper,Class-level,TCP client based on socket_* in PHP,1
+bind_php,Function-level,TCP server based on socket_* in PHP,1
+MysqlProxy,Class-level,UDP client based on swoole in PHP,1
+Connection,Class-level,UDP client based on swoole in PHP,1
+Server,Class-level,Websocket server using stream_socket_server in PHP,1
+Terminal,Function-level,pipe based on proc_open in PHP,1
+callgraph_utils,Function-level,pipe based on proc_open in PHP,1
+ProcessStream,Class-level,pipe based on proc_open in PHP,1
+Version,Function-level,pipe based on proc_open in PHP,1
+DefaultPhpProcess,Class-level,pipe based on proc_open in PHP,1
+Process,Class-level,pipe based on proc_open in PHP,1
+Process,Class-level,pipe based on proc_open in PHP,1
+class_command,Class-level,pipe based on proc_open in PHP,1
+ProcessHandler,Class-level,pipe based on proc_open in PHP,1
+Version,Function-level,pipe based on proc_open in PHP,1
+Terminal,Function-level,pipe based on proc_open in PHP,1
+ProcessStream,Class-level,pipe based on proc_open in PHP,1
+Process,Function-level,pipe based on proc_open in PHP,1
+optimized,Function-level,pipe based on proc_open in PHP,1
+ProcessHelper,Class-level,pipe based on proc_open in PHP,1
+DefaultPhpProcess,Class-level,pipe based on proc_open in PHP,1
+ProcessHandler,Class-level,pipe based on proc_open in PHP,1
+NanoleafController,Function-level,Http based on cpp-httplib in C++,6
+download,Function-level,Http based on libcurl in C++,6
+main,Class-level,Http based on libcurl in C++,6
+Downloader,Class-level,Http based on libcurl in C++,6
+AsyncTask,Class-level,Http based on libcurl in C++,6
+httpclient,Class-level,Http based on libcurl in C++,6
+NanoleafController,Function-level,Http based on cpp-httplib in C++,1
+download,Function-level,Http based on libcurl in C++,1
+main,Class-level,Http based on libcurl in C++,1
+Downloader,Class-level,Http based on libcurl in C++,1
+AsyncTask,Class-level,Http based on libcurl in C++,4
+httpclient,Class-level,Http based on libcurl in C++,1
+DownloadPool,Class-level,Http based on libcurl in C++,5
+posix_chat_client,Class-level,TCP Client based on Boost.Asio in C++,1
+web_os_client,Class-level,TCP Client based on Boost.Asio in C++,1
+chat_client,Class-level,TCP Client based on Boost.Asio in C++,1
+client,Function-level,TCP Client based on socket+inet in C++,1
+client,Function-level,TCP Client based on socket+inet in C++,1
+client,Function-level,TCP Client based on socket+inet in C++,1
+client_select,Function-level,TCP Client based on socket+inet in C++,6

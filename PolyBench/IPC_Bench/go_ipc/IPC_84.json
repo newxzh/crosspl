@@ -1,0 +1,13 @@
+{
+    "Task_id": 84,
+    "Github_ID": "40453691",
+    "Github_Project_Name": "GolangTraining",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Basic HTTP server using net/http with HandleFunc and ListenAndServe",
+    "Instruction": "Task Description: Create a basic HTTP server in Go that handles multiple routes with different response messages.\n\nFunction Description: The code demonstrates how to set up a simple HTTP server with two route handlers. The first handler responds to the root path (\"/\") with a \"doggy\" message, while the second handler responds to the \"/cat/\" path with a \"catty\" message. The server listens on port 9000.\n\nInput: \n- None (HTTP requests are automatically handled by the server)\n\nOutput: \n- None (The server writes responses directly to the http.ResponseWriter)\n\nMethods:\n- upTown: Handles requests to the root path (\"/\") and writes \"doggy doggy doggy\" to the response\n- youUp: Handles requests to the \"/cat/\" path and writes \"catty catty catty\" to the response\n- main: Registers the route handlers and starts the HTTP server on port 9000",
+    "Canonical_solution": "import (\n\t\"io\"\n\t\"net/http\"\n)\n\nfunc upTown(res http.ResponseWriter, req *http.Request) {\n\tio.WriteString(res, \"doggy doggy doggy\")\n}\n\nfunc youUp(res http.ResponseWriter, req *http.Request) {\n\tio.WriteString(res, \"catty catty catty\")\n}\n\nfunc main() {\n\thttp.HandleFunc(\"/\", upTown)\n\thttp.HandleFunc(\"/cat/\", youUp)\n\thttp.ListenAndServe(\":9000\", nil)\n}",
+    "FSMID_for_test": 103,
+    "Code_level": "Function-level"
+}

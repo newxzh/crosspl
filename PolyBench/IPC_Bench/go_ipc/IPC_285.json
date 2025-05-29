@@ -1,0 +1,13 @@
+{
+    "Task_id": 285,
+    "Github_ID": "124346949",
+    "Github_Project_Name": "gitkube",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Official-based gRPC server in Go",
+    "Instruction": "Task Description: Create a Go struct that implements a gRPC server with basic lifecycle management capabilities, including initialization, startup, and shutdown.\n\nStruct Description: The Server struct represents a gRPC server instance with network listening capabilities. It manages the server lifecycle and provides methods to start and stop the server gracefully.\n\nFields:\nAddr: [string] - The network address (IP:port) where the server is listening\nPort: [int] - The port number on which the server is listening\nl: [net.Listener] - The network listener for incoming connections\nGsrv: [*grpc.Server] - The gRPC server instance\n\nMethods:\nNewServer: [func(opts ...grpc.ServerOption) (*Server, error)] -> [*Server, error] - Creates a new Server instance with default settings (random available port)\nNewServerWithPort: [func(port int, opts ...grpc.ServerOption) (*Server, error)] -> [*Server, error] - Creates a new Server instance on the specified port\nStart: [func()] -> [] - Starts the gRPC server in a goroutine to handle incoming requests\nClose: [func()] -> [] - Gracefully stops the gRPC server and closes the network listener",
+    "Canonical_solution": "import (\n\t\"fmt\"\n\t\"log\"\n\t\"net\"\n\t\"google.golang.org/grpc\"\n)\n\ntype Server struct {\n\tAddr string\n\tPort int\n\tl    net.Listener\n\tGsrv *grpc.Server\n}\n\nfunc NewServer(opts ...grpc.ServerOption) (*Server, error) {\n\treturn NewServerWithPort(0, opts...)\n}\n\nfunc NewServerWithPort(port int, opts ...grpc.ServerOption) (*Server, error) {\n\tl, err := net.Listen(\"tcp\", fmt.Sprintf(\"127.0.0.1:%d\", port))\n\tif err != nil {\n\t\treturn nil, err\n\t}\n\ts := &Server{\n\t\tAddr: l.Addr().String(),\n\t\tPort: parsePort(l.Addr().String()),\n\t\tl:    l,\n\t\tGsrv: grpc.NewServer(opts...),\n\t}\n\treturn s, nil\n}\n\nfunc (s *Server) Start() {\n\tgo func() {\n\t\tif err := s.Gsrv.Serve(s.l); err != nil {\n\t\t\tlog.Printf(\"testutil.Server.Start: %v\", err)\n\t\t}\n\t}()\n}\n\nfunc (s *Server) Close() {\n\ts.Gsrv.Stop()\n\ts.l.Close()\n}",
+    "FSMID_for_test": 119,
+    "Code_level": "Class-level"
+}

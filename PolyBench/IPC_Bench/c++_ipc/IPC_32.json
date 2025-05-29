@@ -1,0 +1,13 @@
+{
+  "Task_id": 32,
+  "Github_ID": "7589945",
+  "Github_Project_Name": "asio",
+  "Programming_Language": "C++",
+  "suffix": ".cpp",
+  "Interface_class": "IPC",
+  "Interface_name": "UDP based on Boost.Asio in C++",
+  "Instruction": "Task Description: Implement a UDP multicast sender class using Boost.Asio that periodically sends messages to a specified multicast address.\n\nClass Description: The `sender` class encapsulates functionality for sending UDP multicast messages at regular intervals. It uses Boost.Asio for asynchronous network operations and timer management.\n\nAttributes:\n- endpoint_: [boost::asio::ip::udp::endpoint] - The multicast endpoint (address + port) to send messages to\n- socket_: [boost::asio::ip::udp::socket] - The UDP socket used for sending messages\n- timer_: [boost::asio::steady_timer] - Timer used to schedule message sends\n- message_count_: [int] - Counter tracking the number of messages sent\n- message_: [std::string] - The current message content to be sent\n\nMethods:\n- sender([boost::asio::io_context&] io_context, [const boost::asio::ip::address&] multicast_address) -> [void] - Constructor that initializes the sender with IO context and multicast address\n- do_send() -> [void] - Asynchronously sends the current message to the multicast endpoint\n- do_timeout() -> [void] - Sets up a timer to schedule the next message send after a delay",
+  "Canonical_solution": "#include <boost/asio.hpp>\n#include <string>\n#include <chrono>\n\nclass sender\n{\npublic:\n  sender(boost::asio::io_context& io_context,\n      const boost::asio::ip::address& multicast_address)\n    : endpoint_(multicast_address, multicast_port),\n      socket_(io_context, endpoint_.protocol()),\n      timer_(io_context),\n      message_count_(0)\n  {\n    do_send();\n  }\n\nprivate:\n  void do_send()\n  {\n    std::ostringstream os;\n    os << \"Message \" << message_count_++;\n    message_ = os.str();\n\n    socket_.async_send_to(\n        boost::asio::buffer(message_), endpoint_,\n        [this](boost::system::error_code ec, std::size_t /*length*/)\n        {\n          if (!ec && message_count_ < max_message_count)\n            do_timeout();\n        });\n  }\n\n  void do_timeout()\n  {\n    timer_.expires_after(std::chrono::seconds(1));\n    timer_.async_wait(\n        [this](boost::system::error_code ec)\n        {\n          if (!ec)\n            do_send();\n        });\n  }\n\nprivate:\n  boost::asio::ip::udp::endpoint endpoint_;\n  boost::asio::ip::udp::socket socket_;\n  boost::asio::steady_timer timer_;\n  int message_count_;\n  std::string message_;\n};",
+  "FSMID_for_test": 153,
+  "Code_level": "Class-level"
+}

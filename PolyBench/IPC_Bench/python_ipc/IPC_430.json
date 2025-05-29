@@ -1,0 +1,13 @@
+{
+  "Task_id": 430,
+  "Github_ID": "137050338",
+  "Github_Project_Name": "Python-100-Days",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "UDP communication by using socket in python",
+  "Instruction": "Task Description: Implement a UDP echo server that receives data from clients and sends the same data back to the client.\n\nFunction Description: The function `udp_echo_server` creates a UDP socket, binds it to a specified host and port, and continuously listens for incoming data. When data is received, it echoes the same data back to the sender. The function runs indefinitely until manually stopped.\n\nInput:  \n- `host` (str, optional): The local IP address to bind the socket to. Defaults to 'localhost'.  \n- `port` (int, optional): The port number to bind the socket to. Defaults to 6789.  \n\nOutput: None (The function runs indefinitely and does not return any value.)",
+  "Canonical_solution": "from socket import *\n\ndef udp_echo_server(host='localhost', port=6789):\n    server = socket(AF_INET, SOCK_DGRAM)\n    server.bind((host, port))\n    while True:\n        data, addr = server.recvfrom(1024)\n        server.sendto(data, addr)\n    server.close()",
+  "FSMID_for_test": 71,
+  "Code_level": "Function-level"
+}

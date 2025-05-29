@@ -1,0 +1,13 @@
+{
+    "Task_id": 78,
+    "Github_ID": "316539944",
+    "Github_Project_Name": "proxify",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Basic HTTP server using net/http with HandleFunc and ListenAndServe",
+    "Instruction": "Task Description: Create a function that implements a basic HTTP server which echoes back the request body to the response.\n\nFunction Description: The function `httpserver` starts an HTTP server on the specified address. It handles all incoming requests to the root path (\"/\") by copying the request body directly to the response writer. This effectively echoes back the received data to the client. The server runs until an error occurs or is manually stopped.\n\nInput:  \n- `addr` (string): The network address (including port) on which the HTTP server should listen (e.g., \":8080\").\n\nOutput:  \n- `error`: Returns an error if the server fails to start or encounters a fatal error during operation. Returns nil if the server is terminated gracefully.",
+    "Canonical_solution": "import (\n\t\"io\"\n\t\"net/http\"\n)\n\nfunc httpserver(addr string) error {\n\thttp.HandleFunc(\"/\", func(w http.ResponseWriter, req *http.Request) {\n\t\tio.Copy(w, req.Body)\n\t})\n\n\treturn http.ListenAndServe(addr, nil)\n}",
+    "FSMID_for_test": 103,
+    "Code_level": "Function-level"
+}

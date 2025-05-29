@@ -1,0 +1,13 @@
+{
+  "Task_id": 471,
+  "Github_ID": "481412",
+  "Github_Project_Name": "Java-WebSocket",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "WebSocket Server Handler using org.java_websocket",
+  "Instruction": "Task Description: Create a WebSocket server implementation using org.java_websocket library to handle client connections, messages, disconnections, and errors.\n\nClass Description: MyWebSocketServer is a custom WebSocket server implementation that extends the WebSocketServer class from org.java_websocket. It provides lifecycle methods for managing client connections and communication.\n\nAttributes:\n- inherited from WebSocketServer: Various internal attributes for managing server state and connections\n\nMethods:\n- Constructor: MyWebSocketServer(InetSocketAddress inetSocketAddress) -> void - Initializes the server with specified socket address\n- onOpen: onOpen(WebSocket conn, ClientHandshake handshake) -> void - Called when a new client connects\n- onClose: onClose(WebSocket conn, int code, String reason, boolean remote) -> void - Called when a client disconnects\n- onMessage: onMessage(WebSocket conn, String message) -> void - Called when a message is received from a client\n- onError: onError(WebSocket conn, Exception ex) -> void - Called when an error occurs\n- onStart: onStart() -> void - Called when the server starts successfully",
+  "Canonical_solution": "import java.net.InetSocketAddress;\nimport org.java_websocket.WebSocket;\nimport org.java_websocket.handshake.ClientHandshake;\nimport org.java_websocket.server.WebSocketServer;\n\npublic class MyWebSocketServer extends WebSocketServer {\n\n    public MyWebSocketServer(InetSocketAddress inetSocketAddress) {\n        super(inetSocketAddress);\n    }\n\n    @Override\n    public void onOpen(WebSocket conn, ClientHandshake handshake) {\n        // Handle new client connection\n    }\n\n    @Override\n    public void onClose(WebSocket conn, int code, String reason, boolean remote) {\n        // Handle client disconnection\n    }\n\n    @Override\n    public void onMessage(WebSocket conn, String message) {\n        // Process received message from client\n    }\n\n    @Override\n    public void onError(WebSocket conn, Exception ex) {\n        // Handle errors\n    }\n\n    @Override\n    public void onStart() {\n        // Server startup logic\n    }\n}",
+  "FSMID_for_test": 28,
+  "Code_level": "Class-level"
+}

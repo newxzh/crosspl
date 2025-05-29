@@ -1,0 +1,13 @@
+{
+  "Task_id": 494,
+  "Github_ID": "12414592",
+  "Github_Project_Name": "javaee7-samples",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "WebSocket Server based on Java EE",
+  "Instruction": "Task Description: Implement a WebSocket server endpoint for a chat application that broadcasts received messages to all connected clients.\n\nClass Description: The ChatEndpoint class represents a WebSocket server endpoint that handles real-time chat communication. It listens for incoming messages and broadcasts them to all currently connected clients.\n\nAttributes: None\n\nMethods:\n- message: [Name](String message, Session client) -> void - Handles incoming WebSocket messages. Receives a message string and the client session that sent it, then broadcasts the message to all connected sessions.\n  - Input Parameters:\n    - message: String - The chat message received from a client\n    - client: Session - The WebSocket session of the client that sent the message\n  - Output: None (messages are sent directly to client sessions)\n  - Throws: IOException, EncodeException - If there are issues sending messages to clients",
+  "Canonical_solution": "import java.io.IOException;\nimport javax.websocket.EncodeException;\nimport javax.websocket.OnMessage;\nimport javax.websocket.Session;\nimport javax.websocket.server.ServerEndpoint;\n\n@ServerEndpoint(\"/chat\")\npublic class ChatEndpoint {\n    @OnMessage\n    public void message(String message, Session client) throws IOException, EncodeException {\n        System.out.println(\"message: \" + message);\n        for (Session peer : client.getOpenSessions()) {\n            peer.getBasicRemote().sendText(message);\n        }\n    }\n}",
+  "FSMID_for_test": 26,
+  "Code_level": "Class-level"
+}

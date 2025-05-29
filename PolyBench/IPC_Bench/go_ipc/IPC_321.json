@@ -1,0 +1,13 @@
+{
+    "Task_id": 321,
+    "Github_ID": "21141781",
+    "Github_Project_Name": "beehive",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Simple HTTP GET client using net/http",
+    "Instruction": "Task Description: Implement a function to fetch a long-lived user access token from Facebook's Graph API using HTTP GET request.\n\nFunction Description: The function makes an HTTP GET request to Facebook's OAuth endpoint to exchange a short-lived access token for a long-lived one. It handles the request, response reading, and JSON parsing, returning the long-lived token or an error if any step fails.\n\nInput: \n- The function is a method on a struct (FacebookBee) that contains the following fields:\n  - clientID (string): Facebook app client ID\n  - clientSecret (string): Facebook app client secret\n  - accessToken (string): Short-lived user access token to exchange\n\nOutput:\n- string: The long-lived access token if successful\n- error: Descriptive error if any step fails (request, reading response, or parsing JSON)",
+    "Canonical_solution": "import (\n\t\"fmt\"\n\t\"io/ioutil\"\n\t\"net/http\"\n\t\"net/url\"\n)\n\nfunc (mod *FacebookBee) fetchLongLivedUserAccessToken() (string, error) {\n\tbaseURL := \"https://graph.facebook.com/oauth/access_token\"\n\tv := url.Values{}\n\tv.Set(\"grant_type\", \"fb_exchange_token\")\n\tv.Set(\"client_id\", mod.clientID)\n\tv.Set(\"client_secret\", mod.clientSecret)\n\tv.Set(\"fb_exchange_token\", mod.accessToken)\n\tgraphUrl := baseURL + \"?\" + v.Encode()\n\n\tres, err := http.Get(graphUrl)\n\n\tif err != nil || res == nil {\n\t\treturn \"\", fmt.Errorf(\"fetching long lived user access token failed: %w\", err)\n\t}\n\n\tdefer res.Body.Close()\n\tbody, err := ioutil.ReadAll(res.Body)\n\n\tif err != nil {\n\t\treturn \"\", fmt.Errorf(\"reading content while fetching long lived user access token failed: %w\", err)\n\t}\n\n\ttype RequestResult struct {\n\t\tAccessToken string `json:\"access_token\"`\n\t}\n\n\tvar tokenRes RequestResult\n\terr = json.Unmarshal(body, &tokenRes)\n\n\tif err != nil {\n\t\treturn \"\", fmt.Errorf(\"parsing result while fetching long lived user access token failed: %w\", err)\n\t}\n\n\treturn tokenRes.AccessToken, nil\n}",
+    "FSMID_for_test": 101,
+    "Code_level": "Function-level"
+}

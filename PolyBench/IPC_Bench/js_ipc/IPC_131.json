@@ -1,0 +1,13 @@
+{
+  "Task_id": 131,
+  "Github_ID": "11899155",
+  "Github_Project_Name": "learnyounode",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "Pipe Server-side based on fs+http in JavaScript",
+  "Instruction": "Task Description: Create a function that sets up an HTTP server to handle POST requests, transform the incoming data to uppercase, and send it back as the response.\n\nFunction Description: The function `createPipeServer` creates an HTTP server that listens on a specified port. It handles incoming POST requests by piping the request data through a transformation stream that converts the data to uppercase, and then pipes the transformed data back to the response. Non-POST requests are responded to with a message indicating that a POST request is required.\n\nInput:  \n- `port` (Number): The port number on which the HTTP server should listen.\n\nOutput:  \n- None (The function sets up the server but does not return any value).",
+  "Canonical_solution": "const http = require('http');\nconst map = require('through2-map');\n\nfunction createPipeServer(port) {\n    const server = http.createServer(function (req, res) {\n        if (req.method !== 'POST') {\n            return res.end('send me a POST\\n');\n        }\n        req.pipe(map(function (chunk) {\n            return chunk.toString().toUpperCase();\n        })).pipe(res);\n    });\n    server.listen(port);\n}",
+  "FSMID_for_test": 100,
+  "Code_level": "Function-level"
+}

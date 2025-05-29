@@ -1,0 +1,13 @@
+{
+    "Task_id": 259,
+    "Github_ID": "40684033",
+    "Github_Project_Name": "sops",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Official-based gRPC server in Go",
+    "Instruction": "Task Description: Implement a gRPC server in Go that listens for incoming requests and handles graceful shutdown upon receiving termination signals.\n\nFunction Description: The function `Run` initializes and starts a gRPC server with the provided network options. It sets up a network listener, creates a gRPC server instance, registers a key service, and handles graceful shutdown upon receiving interrupt or termination signals.\n\nInput: \n- `opts` [struct] - Configuration options for the server, containing:\n  - `Network` [string] - The network type (e.g., \"tcp\")\n  - `Address` [string] - The address to listen on (e.g., \":50051\")\n  - `Prompt` [interface{}] - Optional prompt for the key service\n\nOutput: \n- `error` - Returns an error if the server fails to start or encounters issues during execution",
+    "Canonical_solution": "import (\n\t\"net\"\n\t\"os\"\n\t\"os/signal\"\n\t\"syscall\"\n\n\t\"github.com/getsops/sops/v3/keyservice\"\n\t\"google.golang.org/grpc\"\n)\nfunc Run(opts Opts) error {\n\tlis, err := net.Listen(opts.Network, opts.Address)\n\tif err != nil {\n\t\treturn err\n\t}\n\tdefer lis.Close()\n\tgrpcServer := grpc.NewServer()\n\tkeyservice.RegisterKeyServiceServer(grpcServer, keyservice.Server{\n\t\tPrompt: opts.Prompt,\n\t})\n\n\tsigc := make(chan os.Signal, 1)\n\tsignal.Notify(sigc, os.Interrupt, os.Kill, syscall.SIGTERM)\n\tgo func(c chan os.Signal) {\n\t\tsig := <-c\n\t\tlis.Close()\n\t\tos.Exit(0)\n\t}(sigc)\n\treturn grpcServer.Serve(lis)\n}",
+    "FSMID_for_test": 119,
+    "Code_level": "Function-level"
+}

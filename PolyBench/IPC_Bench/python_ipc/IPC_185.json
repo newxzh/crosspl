@@ -1,0 +1,13 @@
+{
+  "Task_id": 185,
+  "Github_ID": "256401220",
+  "Github_Project_Name": "machine-learning-zoomcamp",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Server - side by using Flask in python",
+  "Instruction": "Task Description: Create a Flask-based web service that predicts customer churn probability using a pre-trained machine learning model and feature transformation pipeline.\n\nFunction Description: The function implements a prediction endpoint for a Flask web service that takes customer data as input, applies feature transformation, makes a churn probability prediction using a pre-trained model, and returns the prediction results in JSON format.\n\nInput: \n- HTTP POST request with JSON body containing customer features/attributes\n- The function internally uses two pre-loaded artifacts:\n  - 'dv.bin': A feature transformation pipeline (DictVectorizer)\n  - 'model1.bin': A pre-trained machine learning model\n\nOutput: \n- JSON response containing:\n  - 'churn_probability': float value representing the predicted probability of churn (between 0 and 1)\n  - 'churn': boolean indicating whether the customer is predicted to churn (probability \u2265 0.5)",
+  "Canonical_solution": "from flask import Flask\nfrom flask import request\nfrom flask import jsonify\nimport pickle\n\ndef load(filename):\n    with open(filename, 'rb') as f_in:\n        return pickle.load(f_in)\n\ndv = load('dv.bin')\nmodel = load('model1.bin')\n\napp = Flask('churn')\n\n@app.route('/predict', methods=['POST'])\ndef predict():\n    customer = request.get_json()\n    X = dv.transform([customer])\n    y_pred = model.predict_proba(X)[0, 1]\n    churn = y_pred >= 0.5\n    result = {\n        'churn_probability': float(y_pred),\n        'churn': bool(churn)\n    }\n    return jsonify(result)\n\nif __name__ == \"__main__\":\n    app.run(debug=True, host='0.0.0.0', port=9696)",
+  "FSMID_for_test": 60,
+  "Code_level": "Function-level"
+}

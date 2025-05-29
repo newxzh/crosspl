@@ -1,0 +1,13 @@
+{
+    "Task_id": 221,
+    "Github_ID": "81387692",
+    "Github_Project_Name": "opencensus-go",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Official-based gRPC client in Go",
+    "Instruction": "Task Description: Create a gRPC client function in Go that connects to a gRPC server, sends a greeting request, and processes the response.\n\nFunction Description: The function establishes a connection to a gRPC server at a specified address, creates a client instance for the Greeter service, sends a HelloRequest with a name parameter, and logs the server's response or any errors encountered during the process.\n\nInput: \n- address: string - The server address in format \"host:port\" (default: \"localhost:50051\")\n- name: string - The name to send in the greeting request (default: \"world\")\n\nOutput:\n- None (directly logs results to console)\n- Side effect: Sends gRPC request and receives response",
+    "Canonical_solution": "import (\n\t\"context\"\n\t\"log\"\n\n\t\"google.golang.org/grpc\"\n\tpb \"go.opencensus.io/examples/grpc/proto\"\n\t\"go.opencensus.io/plugin/ocgrpc\"\n)\n\nconst (\n\taddress     = \"localhost:50051\"\n\tdefaultName = \"world\"\n)\n\nfunc main() {\n\tconn, err := grpc.Dial(address, grpc.WithStatsHandler(&ocgrpc.ClientHandler{}), grpc.WithInsecure())\n\tif err != nil {\n\t\tlog.Fatalf(\"Cannot connect: %v\", err)\n\t}\n\tdefer conn.Close()\n\tc := pb.NewGreeterClient(conn)\n\n\tname := defaultName\n\tif len(os.Args) > 1 {\n\t\tname = os.Args[1]\n\t}\n\tr, err := c.SayHello(context.Background(), &pb.HelloRequest{Name: name})\n\tif err != nil {\n\t\tlog.Printf(\"Could not greet: %v\", err)\n\t} else {\n\t\tlog.Printf(\"Greeting: %s\", r.Message)\n\t}\n}",
+    "FSMID_for_test": 120,
+    "Code_level": "Function-level"
+}

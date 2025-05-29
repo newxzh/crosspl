@@ -1,0 +1,13 @@
+{
+  "Task_id": 515,
+  "Github_ID": "28906288",
+  "Github_Project_Name": "jvm.go",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "java.net ServerSocket",
+  "Instruction": "Task Description: Create a Java class that implements a basic TCP server using ServerSocket to handle client connections and communication.\n\nClass Description: The SocketServer class establishes a TCP server that listens for incoming client connections on a specified port, handles communication with connected clients, and properly closes connections when done.\n\nAttributes:\n- serverSocket: [ServerSocket] - The server socket that listens for incoming client connections\n- clientSocket: [Socket] - The socket representing the connected client\n\nMethods:\n- start([int port]) -> [void] - Starts the server on the specified port, waits for client connections, and initiates communication handling\n- handleClientCommunication() -> [void] - Handles the data exchange with the connected client (receives data and sends response)\n- closeConnections() -> [void] - Closes both client and server sockets to release resources",
+  "Canonical_solution": "import java.net.ServerSocket;\nimport java.net.Socket;\n\npublic class SocketServer {\n\n    private ServerSocket serverSocket;\n    private Socket clientSocket;\n\n    public void start(int port) throws Exception {\n        serverSocket = new ServerSocket(port);\n        System.out.println(\"Server started, waiting for connections...\");\n        \n        clientSocket = serverSocket.accept();\n        System.out.println(\"Client connected\");\n        \n        handleClientCommunication();\n    }\n\n    private void handleClientCommunication() throws Exception {\n        try {\n            // Read from client\n            byte[] buffer = new byte[1024];\n            int len;\n            StringBuilder sb = new StringBuilder();\n            clientSocket.setSoTimeout(2000);\n            \n            while ((len = clientSocket.getInputStream().read(buffer)) != -1) {\n                sb.append(new String(buffer, 0, len));\n            }\n            System.out.println(\"From client: \" + sb);\n\n            // Write to client\n            String response = \"Hi I'm server\\r\\n\";\n            clientSocket.getOutputStream().write(response.getBytes());\n        } finally {\n            closeConnections();\n        }\n    }\n\n    private void closeConnections() throws Exception {\n        if (clientSocket != null) {\n            clientSocket.close();\n        }\n        if (serverSocket != null) {\n            serverSocket.close();\n        }\n        System.out.println(\"Connections closed\");\n    }\n}",
+  "FSMID_for_test": 0,
+  "Code_level": "Class-level"
+}

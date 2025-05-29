@@ -1,0 +1,13 @@
+{
+  "Task_id": 84,
+  "Github_ID": "52113921",
+  "Github_Project_Name": "draft-js",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP based on express in javascript",
+  "Instruction": "Task Description: Create a function that sets up an Express server to serve static files and render a React component on the root route.\n\nFunction Description: The function `setupServer` initializes an Express application, configures middleware to serve static files from a specified directory, defines a route handler for the root path that renders a React component to a string and sends it as an HTML response, and starts the server listening on port 3003.\n\nInput: None\n\nOutput: None (The function starts an Express server but does not return any value)",
+  "Canonical_solution": "var express = require('express');\n\nfunction setupServer() {\n    var app = express();\n    app.use('/static', express.static('static'));\n    app.get('/', (req, res) => {\n        const rendered = ReactDOMServer.renderToString(<SimpleEditor />);\n        const page = `<!doctype html>\n<html>\n  <body>\n    <div id=\"react-content\">${ rendered }</div>\n    <script src=\"/static/bundle.js\"></script>\n  </body>\n</html>\n        `;\n        res.send(page);\n    });\n    app.listen(3003);\n}",
+  "FSMID_for_test": 96,
+  "Code_level": "Function-level"
+}

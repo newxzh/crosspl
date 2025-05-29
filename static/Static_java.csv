@@ -1,0 +1,677 @@
+File_Name,IPC_Name,Snippet_Level,Count
+ActiveMqClientEventReceiver,Class-level,ActiveMQ Consumer in Java,1,Success
+JmsConsumer,Class-level,ActiveMQ Consumer in Java,1,Success
+EventSourceTests,Class-level,ActiveMQ Producer in Java,1,Success
+JmsProducer,Class-level,ActiveMQ Producer in Java,1,Success
+DiskFailureIntegrationTest,Function-level,Create Kafka topic instance in AdminClient in java,1,Success
+ObservationMessagingIntegrationTest,Function-level,Create Kafka topic instance in AdminClient in java,1,Success
+KafkaSchemaFactory,Function-level,Create Kafka topic instance in AdminClient in java,1,Success
+CruiseControlMetricsReporter,Class-level,Create Kafka topic instance in AdminClient in java,6,Fail
+KafkaTopicProvisioner,Class-level,Create Kafka topic instance in AdminClient in java,1,Success
+CruiseControlMetricsReporterAutoCreateTopicTest,Function-level,Create and Configure Kafka AdminClient in java,1,Success
+KafkaClientMetricsAdminTest,Function-level,Create and Configure Kafka AdminClient in java,6,Fail
+MemorySegmentReader,Class-level,FileChannel usage in java.nio,1,Success
+OsmInputFile,Class-level,FileChannel usage in java.nio,1,Success
+CalculateAverage_bufistov,Class-level,FileChannel usage in java.nio,6,Fail
+CalculateAverage_linl33,Class-level,FileChannel usage in java.nio,6,Success
+ReadablePmtiles,Class-level,FileChannel usage in java.nio,1,Success
+AppendStoreMmap,Class-level,FileChannel usage in java.nio,1,Success
+CachedOpenFile,Class-level,FileChannel usage in java.nio,1,Success
+ReversedLinesFileReader,Class-level,FileChannel usage in java.nio,6,Fail
+CalculateAverage_tivrfoa,Class-level,FileChannel usage in java.nio,6,Fail
+LoadGen,Class-level,FileChannel usage in java.nio,6,Fail
+TranslogWriter,Class-level,FileChannel usage in java.nio,1,Success
+Translog,Class-level,FileChannel usage in java.nio,1,Success
+AsyncFileImpl,Class-level,FileChannel usage in java.nio,1,Success
+CalculateAverage_davecom,Class-level,FileChannel usage in java.nio,2,Success
+ExternalMergeSort,Class-level,FileChannel usage in java.nio,6,Fail
+CalculateAverage_royvanrijn,Class-level,FileChannel usage in java.nio,3,Success
+AnonAllocator,Class-level,FileChannel usage in java.nio,1,Success
+DataStream,Class-level,FileChannel usage in java.nio,1,Success
+FLVWriter,Class-level,FileChannel usage in java.nio,1,Success
+CalculateAverage_artsiomkorzun,Class-level,FileChannel usage in java.nio,6,Fail
+CalculateAverage_shipilev,Class-level,FileChannel usage in java.nio,2,Success
+CalculateAverage_dkarampi,Class-level,FileChannel usage in java.nio,1,Success
+JobPrefixFile,Class-level,FileChannel usage in java.nio,1,Success
+RandomAccessReadMemoryMappedFile,Class-level,FileChannel usage in java.nio,1,Success
+BufferedChannelImageInputStream,Class-level,FileChannel usage in java.nio,6,Fail
+FileUtils,Function-level,FileChannel usage in java.nio,4,Success
+TemporaryPorts,Class-level,FileChannel usage in java.nio,1,Success
+DaemonRegistry,Class-level,FileChannel usage in java.nio,1,Success
+ContentEncodedResourceManager,Class-level,FileChannel usage in java.nio,1,Success
+FileReceiver,Class-level,FileChannel usage in java.nio,6,Fail
+TranslogReader,Class-level,FileChannel usage in java.nio,1,Success
+CalculateAverage_abeobk,Class-level,FileChannel usage in java.nio,3,Success
+CalculateAverage_artpar,Class-level,FileChannel usage in java.nio,6,Fail
+WaveWriter,Class-level,FileChannel usage in java.nio,1,Success
+WriteablePmtiles,Class-level,FileChannel usage in java.nio,1,Success
+OffsetCheckpoint,Class-level,FileChannel usage in java.nio,6,Fail
+FileHandler,Class-level,FileChannel usage in java.nio,6,Fail
+ArrayLongLongMapMmap,Class-level,FileChannel usage in java.nio,1,Success
+MarkFile,Class-level,FileChannel usage in java.nio,1,Success
+PathResource,Class-level,FileChannel usage in java.nio,1,Success
+JdkHttpSender,Class-level,Http client-side based on HttpClient in java,6,Fail
+BroadcastifyCallBroadcaster,Class-level,Http client-side based on HttpClient in java,1,Success
+XrefIncludeProcessor,Class-level,Http client-side based on HttpClient in java,1,Success
+OpenMHzBroadcaster,Class-level,Http client-side based on HttpClient in java,1,Success
+AdminUIHttpIntegrationTest,Class-level,Http client-side based on HttpClient in java,1,Success
+ReceiveKeyController,Class-level,Http client-side based on HttpClient in java,1,Success
+LegacyRegisterDeviceController,Class-level,Http client-side based on HttpClient in java,1,Success
+RdioScannerBroadcaster,Class-level,Http client-side based on HttpClient in java,2,Success
+SQLHttpIntegrationTest,Class-level,Http client-side based on HttpClient in java,1,Success
+IcecastBroadcastMetadataUpdater,Class-level,Http client-side based on HttpClient in java,1,Success
+BlobHttpIntegrationTest,Class-level,Http client-side based on HttpClient in java,1,Success
+TeenyHttpClient,Class-level,Http client-side based on HttpClient in java,1,Success
+HttpUtil,Class-level,Http client-side based on Java.io & HttpURLConnection,1,Success
+UITestUtilsTest,Function-level,Http client-side based on Java.io & HttpURLConnection,1,Success
+VerifyCertificateAction,Function-level,Http client-side based on Java.io & HttpURLConnection,1,Success
+PluginKmlOverlay,Function-level,Http client-side based on Java.io & HttpURLConnection,1,Success
+HttpUrlSource,Class-level,Http client-side based on Java.io & HttpURLConnection,1,Success
+JavaHttpUtility,Class-level,Http client-side based on Java.io & HttpURLConnection,1,Success
+WechatMediaUtil,Class-level,Http client-side based on Java.io & HttpURLConnection,1,Success
+MainActivity,Class-level,Http client-side based on Java.io & HttpURLConnection,1,Success
+Networker,Class-level,Http client-side based on Java.io & HttpURLConnection,1,Success
+UrlTemplateResource,Class-level,Http client-side based on Java.io & HttpURLConnection,4,Success
+HttpClient,Class-level,Http client-side based on Java.io & HttpURLConnection,1,Success
+HttpUtils,Class-level,Http client-side based on Java.io & HttpURLConnection,1,Success
+CommonUtils,Function-level,Http client-side based on Java.io & HttpURLConnection,1,Success
+SendFeedbackDialog,Class-level,Http client-side based on Java.io & HttpURLConnection,1,Success
+DownloadUtils,Class-level,Http client-side based on Java.io & HttpURLConnection,6,Fail
+ClientTest,Class-level,Http client-side based on Java.io & HttpURLConnection,1,Success
+PreloadTask,Class-level,Http client-side based on Java.io & HttpURLConnection,1,Success
+Login,Class-level,Http client-side based on Java.io & HttpURLConnection,1,Success
+XxlJobRemotingUtil,Class-level,Http client-side based on Java.io & HttpURLConnection,1,Success
+OvirtDisk,Class-level,Http client-side based on Java.io & HttpURLConnection,6,Fail
+TinyIdHttpUtils,Class-level,Http client-side based on Java.io & HttpURLConnection,1,Success
+SimpleHttpUtils,Class-level,Http client-side based on Java.io & HttpURLConnection,1,Success
+WallstreetcnSaveTest,Function-level,Http client-side based on Java.io & HttpURLConnection,1,Success
+HttpURLConnectionUtils,Class-level,Http client-side based on Java.io & HttpURLConnection,1,Success
+MicrosoftBackgroundLogin,Class-level,Http client-side based on Java.io & HttpURLConnection,1,Success
+HttpUtils,Class-level,Http client-side based on Java.io & HttpURLConnection,1,Success
+HttpUtils,Class-level,Http client-side based on Java.io & HttpURLConnection,6,Fail
+NetworkUtils,Class-level,Http client-side based on Java.io & HttpURLConnection,1,Success
+FavoriterUtils,Function-level,Http client-side based on Java.io & HttpURLConnection,1,Success
+MmsHttpClient,Class-level,Http client-side based on Java.io & HttpURLConnection,1,Success
+UsingReportAction,Class-level,Http client-side based on Java.io & HttpURLConnection,1,Success
+AbstractServletInputStreamTestCase,Function-level,Http client-side based on Java.io & HttpURLConnection,1,Success
+HttpUrlSource,Class-level,Http client-side based on Java.io & HttpURLConnection,1,Success
+RestImpl,Class-level,Http client-side based on Java.io & HttpURLConnection,1,Success
+GetDNSLogRecordTask,Class-level,Http client-side based on Java.io & HttpURLConnection,1,Success
+Login,Class-level,Http client-side based on Java.io & HttpURLConnection,1,Success
+HttpHelper,Class-level,Http client-side based on Java.io & HttpURLConnection,1,Success
+JobRemotingUtil,Class-level,Http client-side based on Java.io & HttpURLConnection,1,Success
+MainActivity,Function-level,Http client-side based on Java.io & HttpURLConnection,1,Success
+MainActivity,Class-level,Http client-side based on Java.io & HttpURLConnection,1,Success
+HttpService,Class-level,Http client-side based on Java.io & HttpURLConnection,1,Success
+HttpUtils,Class-level,Http client-side based on Java.io & HttpURLConnection,6,Fail
+Requester,Class-level,Http client-side based on Java.io & HttpURLConnection,1,Success
+StatusModule,Class-level,Http client-side based on Java.io & HttpURLConnection,1,Success
+HttpURLConnectionUtils,Class-level,Http client-side based on Java.io & HttpURLConnection,1,Success
+SSRFChecker,Class-level,Http client-side based on Java.io & HttpURLConnection,1,Success
+WallstreetcnSaveTest,Function-level,Http client-side based on Java.io & HttpURLConnection,1,Success
+ServerListDataManager,Class-level,Http client-side based on Java.io & HttpURLConnection,1,Success
+HttpTinyClient,Class-level,Http client-side based on Java.io & HttpURLConnection,1,Success
+HttpPostUploadUtil,Class-level,Http client-side based on Java.io & HttpURLConnection,1,Success
+ApiHandler,Class-level,Http client-side based on Java.io & HttpURLConnection,1,Success
+RemoteServiceImpl,Class-level,Http client-side based on Java.io & HttpURLConnection,1,Success
+HttpRequest,Class-level,Http client-side based on Java.io & HttpURLConnection,1,Success
+FetchUrlMimeType,Class-level,Http client-side based on Java.io & HttpURLConnection,1,Success
+SensorsDataDialogUtils,Class-level,Http client-side based on Java.io & HttpURLConnection,1,Success
+HttpClient,Class-level,Http client-side based on Java.io & HttpURLConnection,1,Success
+CleartextHttpCredentialsTest,Class-level,Http client-side based on Java.io & HttpURLConnection,1,Success
+HttpUtils,Class-level,Http client-side based on Java.io & HttpURLConnection,6,Fail
+MainActivity,Class-level,Http client-side based on Java.io & HttpURLConnection,1,Success
+WeiXinPayUtils,Function-level,Http client-side based on Java.io & HttpURLConnection,1,Success
+Http,Class-level,Http client-side based on Java.io & HttpURLConnection,1,Success
+ListUsers,Class-level,Http client-side based on Java.io & HttpURLConnection,1,Success
+SelfUpdate,Class-level,Http client-side based on Java.io & HttpURLConnection,1,Success
+WebUtils,Class-level,Http client-side based on Java.io & HttpURLConnection,1,Success
+RealRequest,Class-level,Http client-side based on Java.io & HttpURLConnection,1,Success
+YoutubeHttpDataSource,Class-level,Http client-side based on Java.io & HttpURLConnection,1,Success
+RestfulClient,Class-level,Http client-side based on Java.io & HttpURLConnection,1,Success
+HttpClientUtil,Class-level,Http client-side based on Java.io & HttpURLConnection,1,Success
+TelnetClient,Class-level,Java Netty TCP Client,1,Success
+EchoClient,Class-level,Java Netty TCP Client,1,Success
+SimpleChatClient,Class-level,Java Netty TCP Client,1,Success
+ObjectEchoClient,Class-level,Java Netty TCP Client,1,Success
+SecureChatClient,Class-level,Java Netty TCP Client,1,Success
+WebSocketTestClient,Class-level,Java Netty TCP Client,1,Success
+TestHttpClient,Class-level,Java Netty TCP Client,1,Success
+FactorialClient,Class-level,Java Netty TCP Client,1,Success
+NettyConnectClient,Class-level,Java Netty TCP Client,1,Success
+EchoClient,Class-level,Java Netty TCP Client,1,Success
+NettyRpcClient,Class-level,Java Netty TCP Client,1,Success
+NettyWebSocket,Class-level,Java Netty TCP Client,1,Success
+NetService,Class-level,Java Netty TCP Client,1,Success
+FactorialClient,Class-level,Java Netty TCP Client,1,Success
+Http2ServerTest,Class-level,Java Netty TCP Client,1,Success
+MocoClient,Class-level,Java Netty TCP Client,1,Success
+EchoClient,Class-level,Java Netty TCP Client,1,Success
+RedisClient,Class-level,Java Netty TCP Client,1,Success
+JacksonClient,Class-level,Java Netty TCP Client,1,Success
+ProxyClientContainer,Class-level,Java Netty TCP Client,2,Success
+SerializationClient,Class-level,Java Netty TCP Client,1,Success
+ProtobufProxy,Class-level,Java Netty TCP Client,1,Success
+NettyClient,Class-level,Java Netty TCP Client,1,Success
+SecureChatClient,Class-level,Java Netty TCP Client,1,Success
+CfChargingStationBusinessServiceImpl,Function-level,Java Netty TCP Client,1,Success
+NettyRemotingClient,Class-level,Java Netty TCP Client,1,Success
+WebsocketProxy,Class-level,Java Netty TCP Client,1,Success
+NettyHttpConnectClient,Class-level,Java Netty TCP Client,1,Success
+HttpEventChannelManager,Class-level,Java Netty TCP Client,1,Success
+TrackerClient,Class-level,Java Netty TCP Client,1,Success
+NettyClient,Class-level,Java Netty TCP Client,1,Success
+HttpSnoopClient,Class-level,Java Netty TCP Client,1,Success
+Http2Client,Class-level,Java Netty TCP Client,1,Success
+NettyPerfClient,Class-level,Java Netty TCP Client,1,Success
+HTTP2ViaUpgradeTestCase,Class-level,Java Netty TCP Client,1,Success
+ProtocolClient,Class-level,Java Netty TCP Client,1,Success
+NettyStreamingService,Class-level,Java Netty TCP Client,1,Success
+EchoClient,Class-level,Java Netty TCP Client,1,Success
+TimeClient,Class-level,Java Netty TCP Client,1,Success
+MyClient,Class-level,Java Netty TCP Client,1,Success
+TelnetClient,Class-level,Java Netty TCP Client,1,Success
+FileClient,Class-level,Java Netty TCP Client,1,Success
+NettyDockerCmdExecFactory,Class-level,Java Netty TCP Client,1,Success
+HttpUploadClient,Class-level,Java Netty TCP Client,1,Success
+MyClient,Class-level,Java Netty TCP Client,1,Success
+TimeClient,Class-level,Java Netty TCP Client,1,Success
+DiscardClient,Class-level,Java Netty TCP Client,1,Success
+LocalServer,Class-level,Java Netty TCP Server,1,Success
+HttpStaticFileServer,Class-level,Java Netty TCP Server,1,Success
+NettyRpcServer,Class-level,Java Netty TCP Server,1,Success
+NettyServer,Class-level,Java Netty TCP Server,1,Success
+Netty4HttpServer,Class-level,Java Netty TCP Server,1,Success
+NettyServer,Class-level,Java Netty TCP Server,1,Success
+NettyHttpServer,Class-level,Java Netty TCP Server,1,Success
+DiscardServer,Class-level,Java Netty TCP Server,1,Success
+MysqlNettyServer,Class-level,Java Netty TCP Server,1,Success
+NettyRestfulService,Class-level,Java Netty TCP Server,1,Success
+HttpSnoopServer,Class-level,Java Netty TCP Server,1,Success
+JacksonServer,Class-level,Java Netty TCP Server,1,Success
+NettyServer,Class-level,Java Netty TCP Server,1,Success
+EchoServer,Class-level,Java Netty TCP Server,1,Success
+RemoteServer,Class-level,Java Netty TCP Server,1,Success
+MockTcpServer,Class-level,Java Netty TCP Server,1,Success
+SofaNettyJaxrsServer,Class-level,Java Netty TCP Server,1,Success
+EmbedHttpServer,Class-level,Java Netty TCP Server,1,Success
+MyLineBasedFrameDecoderServer,Class-level,Java Netty TCP Server,1,Success
+HeartbeatServer,Class-level,Java Netty TCP Server,1,Success
+TelnetServer,Class-level,Java Netty TCP Server,1,Success
+LoServer,Class-level,Java Netty TCP Server,3,Success
+EchoServer,Class-level,Java Netty TCP Server,1,Success
+SecureChatServer,Class-level,Java Netty TCP Server,1,Success
+EchoServer,Class-level,Java Netty TCP Server,1,Success
+AndroidControlServer,Class-level,Java Netty TCP Server,1,Success
+AbstractHttp2ServerTransport,Class-level,Java Netty TCP Server,1,Success
+TimeServer,Class-level,Java Netty TCP Server,1,Success
+MyServer,Class-level,Java Netty TCP Server,1,Success
+TelnetServer,Class-level,Java Netty TCP Server,1,Success
+WebSocketChatServer,Class-level,Java Netty TCP Server,1,Success
+RawClientBenchmark,Class-level,Java Netty TCP Server,1,Success
+ProtocolServer,Class-level,Java Netty TCP Server,1,Success
+EmbedServer,Class-level,Java Netty TCP Server,1,Success
+Http2Server,Class-level,Java Netty TCP Server,1,Success
+NettyServer,Class-level,Java Netty TCP Server,1,Success
+NettyRemotingServer,Class-level,Java Netty TCP Server,1,Success
+ITNettyHttpTracing,Class-level,Java Netty TCP Server,1,Success
+NettyAcceptor,Class-level,Java Netty TCP Server,1,Success
+FileServer,Class-level,Java Netty TCP Server,1,Success
+CIMServer,Class-level,Java Netty TCP Server,1,Success
+ChatServer,Class-level,Java Netty TCP Server,1,Success
+Console,Class-level,Java Netty TCP Server,1,Success
+MyServer,Class-level,Java Netty TCP Server,1,Success
+ObjectEchoServer,Class-level,Java Netty TCP Server,1,Success
+NettyServer,Class-level,Java Netty TCP Server,1,Success
+SimpleChatServer,Class-level,Java Netty TCP Server,1,Success
+UptimeServer,Class-level,Java Netty TCP Server,1,Success
+LoFileServer,Class-level,Java Netty TCP Server,3,Success
+NettyServer,Class-level,Java Netty TCP Server,1,Success
+HttpServer,Class-level,Java Netty TCP Server,1,Success
+NettySourceHttpServer,Class-level,Java Netty TCP Server,1,Success
+TimeServer,Class-level,Java Netty TCP Server,1,Success
+NettyRemotingServer,Class-level,Java Netty TCP Server,1,Success
+FactorialServer,Class-level,Java Netty TCP Server,1,Success
+HttpUploadServer,Class-level,Java Netty TCP Server,1,Success
+HttpTestServer,Class-level,Java Netty TCP Server,1,Success
+SerializationServer,Class-level,Java Netty TCP Server,1,Success
+SecureChatServer,Class-level,Java Netty TCP Server,1,Success
+HttpHelloWorldServer,Class-level,Java Netty TCP Server,1,Success
+FactorialServer,Class-level,Java Netty TCP Server,1,Success
+MocoServer,Class-level,Java Netty TCP Server,1,Success
+ProtocolServer,Class-level,Java Netty TCP Server,1,Success
+PortUnificationServer,Class-level,Java Netty TCP Server,1,Success
+WebSocketServer,Class-level,Java Netty TCP Server,1,Success
+WebsocketProxy,Class-level,Java Netty TCP Server,1,Success
+WebConfigContainer,Class-level,Java Netty TCP Server,1,Success
+NettyHttpServerBenchmarks,Class-level,Java Netty TCP Server,1,Success
+EchoServer,Class-level,Java Netty TCP Server,1,Success
+ProxyServerContainer,Class-level,Java Netty TCP Server,1,Success
+DiscardServer,Class-level,Java Netty TCP Server,1,Success
+NettyDockerCmdExecFactoryConfigTest,Class-level,Java Netty TCP Server,1,Success
+ProtobufProxy,Class-level,Java Netty TCP Server,1,Success
+BackupServer,Class-level,Java Netty UDP Client or Server,1,Success
+DatagramChannelEchoServer,Class-level,Java Netty UDP Client or Server,1,Success
+GeyserServer,Class-level,Java Netty UDP Client or Server,1,Success
+DatagramChannelEchoClient,Class-level,Java Netty UDP Client or Server,1,Success
+WidgetUtil,Class-level,Java RESTful API HTTP Client,1,Success
+Http,Class-level,Java RESTful API HTTP Client,1,Success
+VaultClient,Class-level,Java RESTful API HTTP Client,1,Success
+GithubProvider,Class-level,Java RESTful API HTTP Client,1,Success
+BeaconClient,Class-level,Java RESTful API HTTP Client,1,Success
+GraphHopperGeocoding,Class-level,Java RESTful API HTTP Client,1,Success
+JwtAuthenticationIntegrationTest,Function-level,Java RESTful API HTTP Client,6,Fail
+DanbooruRipper,Class-level,Java RESTful API HTTP Client,1,Success
+GraphHopperWeb,Class-level,Java RESTful API HTTP Client,6,Fail
+RandomCodeGenerator,Class-level,Java RESTful API HTTP Client,1,Success
+chatController,Class-level,Java RESTful API HTTP Client,1,Success
+Network,Class-level,Java RESTful API HTTP Client,1,Success
+GHMatrixAbstractRequester,Class-level,Java RESTful API HTTP Client,6,Fail
+ServletJakartaExporterWebXmlIT,Function-level,Java RESTful API HTTP Client,6,Fail
+GHMatrixBatchRequester,Class-level,Java RESTful API HTTP Client,1,Success
+HttpUtil,Class-level,Java RESTful API HTTP Client,1,Success
+XiaoyaProxyHandler,Class-level,Java RESTful API HTTP Client,1,Success
+Scraper,Class-level,Java RESTful API HTTP Client,1,Success
+KafkaItemReader,Class-level,Kafka client Consumer in java,2,Success
+KafkaStoreReaderThread,Class-level,Kafka client Consumer in java,1,Success
+KafkaConsumeOrderWorkaround,Class-level,Kafka client Consumer in java,1,Success
+KafkaStore,Class-level,Kafka client Producer in java,1,Success
+StatsCollector,Class-level,Kafka client Producer in java,1,Success
+DlqAction,Class-level,Kafka client Producer in java,1,Success
+KafkaSink,Class-level,Kafka client Producer in java,1,Success
+AbstractKafkaSampleStore,Class-level,Kafka client Producer in java,1,Success
+KafkaCruiseControlIntegrationTestUtils,Function-level,Kafka client Producer in java,6,Fail
+KafkaTemplate,Class-level,Kafka client Producer in java,1,Success
+MaintenanceEventTopicReaderTest,Class-level,Kafka client Producer in java,1,Success
+DefaultKafkaProducerFactory,Class-level,Kafka client Producer in java,1,Success
+NIOConnector,Class-level,NIO HTTP Client in Java,1,Success
+NioServerPerfTest,Class-level,NIO HTTP Server in Java,1,Success
+DefaultHAService,Class-level,NIO HTTP Server in Java,1,Success
+HttpSocketDemo,Class-level,NIO HTTP Server in Java,1,Success
+ServerSocketDemo,Class-level,NIO HTTP Server in Java,1,Success
+ServerChannelDemo,Class-level,NIO HTTP Server in Java,1,Success
+BaseHttp2Server,Class-level,Netty HTTP Server in Java,1,Success
+RpcServer,Class-level,Netty HTTP Server in Java,1,Success
+CommandLine,Class-level,ProcessBuilder in java.io,1,Success
+Deobfuscator,Function-level,ProcessBuilder in java.io,1,Success
+ProcessRunner,Class-level,ProcessBuilder in java.io,1,Success
+FileReader,Class-level,ProcessBuilder in java.io,1,Success
+ProcessShell,Class-level,ProcessBuilder in java.io,1,Success
+DaemonHandler,Class-level,ProcessBuilder in java.io,1,Success
+GenerateSql,Function-level,ProcessBuilder in java.io,6,Fail
+AbstractScriptProcessor,Class-level,ProcessBuilder in java.io,1,Success
+LinuxPerfAsmProfiler,Function-level,ProcessBuilder in java.io,1,Success
+Main,Function-level,ProcessBuilder in java.io,6,Fail
+NutReaderTest,Function-level,ProcessBuilder in java.io,2,Success
+RuntimeTest,Class-level,ProcessBuilder in java.io,6,Fail
+Command,Class-level,ProcessBuilder in java.io,1,Success
+DiffFactory,Function-level,ProcessBuilder in java.io,6,Fail
+FileOperation,Function-level,ProcessBuilder in java.io,6,Fail
+ShellUtils,Function-level,ProcessBuilder in java.io,1,Success
+Utils,Function-level,ProcessBuilder in java.io,1,Success
+AbstractComputer,Function-level,ProcessBuilder in java.io,1,Success
+RegistryLoader,Function-level,ProcessBuilder in java.io,6,Fail
+ConcurrentTestCommandScript,Function-level,ProcessBuilder in java.io,1,Success
+InterpretDex2OatHelper,Class-level,ProcessBuilder in java.io,1,Success
+ErrorHelper,Function-level,ProcessBuilder in java.io,1,Success
+ShellStream,Class-level,ProcessBuilder in java.io,1,Success
+JREUtils,Function-level,ProcessBuilder in java.io,1,Success
+ShellCommand,Class-level,ProcessBuilder in java.io,1,Success
+LinStor,Function-level,ProcessBuilder in java.io,1,Success
+CliDockerClient,Class-level,ProcessBuilder in java.io,1,Success
+DesktopLaunchValidator,Function-level,ProcessBuilder in java.io,1,Success
+ResourceRepackage,Function-level,ProcessBuilder in java.io,6,Fail
+Utils,Function-level,ProcessBuilder in java.io,1,Success
+Utils,Function-level,ProcessBuilder in java.io,1,Success
+JmbeCreator,Class-level,ProcessBuilder in java.io,1,Success
+DaemonUtils,Function-level,ProcessBuilder in java.io,2,Success
+OsUtils,Class-level,ProcessBuilder in java.io,6,Fail
+CustomDiff,Function-level,ProcessBuilder in java.io,1,Success
+EspExceptionDecoder,Class-level,ProcessBuilder in java.io,3,Success
+DiagnosticsBuilder,Function-level,ProcessBuilder in java.io,5,Success
+ProcessRunner,Class-level,ProcessBuilder in java.io,1,Success
+Runner,Function-level,ProcessBuilder in java.io,1,Success
+ShellUtils,Class-level,ProcessBuilder in java.io,1,Success
+SyncthingRunnable,Class-level,ProcessBuilder in java.io,1,Success
+KubeConfig,Function-level,ProcessBuilder in java.io,6,Fail
+ExtCmd,Class-level,ProcessBuilder in java.io,1,Success
+TinkerDexOptimizer,Function-level,ProcessBuilder in java.io,6,Fail
+MessageConsumer,Class-level,RabbitMQ Consumer in Java,1,Success
+ProducerServiceImpl,Class-level,RabbitMQ Producer in Java,1,Success
+rabbitmq,Class-level,RabbitMQ Producer in Java,1,Success
+RedisPublisherVerification,Class-level,Redis in Java,1,Success
+LettuceRedisUtils,Class-level,Redis in Java,1,Success
+JedisCommandsTestBase,Class-level,Redis in Java,1,Success
+ReliableTransaction,Class-level,Redis in Java,1,Success
+RedisCredentialsProviderUsage,Class-level,Redis in Java,1,Success
+RedisRegistry,Class-level,Redis in Java,1,Success
+RedisClientBenchmark,Class-level,Redis in Java,2,Success
+ClusterConnectionProvider,Class-level,Redis in Java,1,Success
+Connection,Class-level,Redis in Java,3,Success
+SentineledConnectionProviderTest,Class-level,Redis in Java,3,Success
+SearchQuickstartExample,Class-level,Redis in Java,1,Success
+TokenBasedAuthExample,Class-level,Redis in Java,1,Success
+DefaultRedisClient,Class-level,Redis in Java,1,Success
+TokenBasedAuthenticationClusterIntegrationTests,Class-level,Redis in Java,1,Success
+ClusterCommandExecutor,Class-level,Redis in Java,3,Success
+PubSubReactiveIntegrationTests,Class-level,Redis in Java,6,Fail
+RedisDao,Class-level,Redis in Java,1,Success
+DefaultJedisSocketFactory,Class-level,Redis in Java,1,Success
+SentinelSslIntegrationTests,Class-level,Redis in Java,1,Success
+PooledBenchmark,Class-level,Redis in Java,1,Success
+ACLJedisPoolTest,Class-level,Redis in Java,1,Success
+ConnectToRedisSSLWithSni,Class-level,Redis in Java,1,Success
+PoolBenchmark,Class-level,Redis in Java,1,Success
+JedisClusterInfoCache,Class-level,Redis in Java,6,Fail
+ReliableTransactionTest,Class-level,Redis in Java,6,Fail
+ReadWriteExample,Class-level,Redis in Java,1,Success
+ScanStreamVerification,Class-level,Redis in Java,1,Success
+MultiClusterPooledConnectionProvider,Class-level,Redis in Java,1,Success
+ACLJedisSentinelPoolTest,Class-level,Redis in Java,1,Success
+JedisSentinelPool,Class-level,Redis in Java,1,Success
+Program,Class-level,Redis in Java,1,Success
+RedisConfig,Class-level,Redis in Java,5,Success
+JedisUtil,Class-level,Redis in Java,1,Success
+LettuceGeoDemo,Class-level,Redis in Java,1,Success
+MasterReplicaSentinelSslIntegrationTests,Class-level,Redis in Java,1,Success
+AutomaticFailoverTest,Class-level,Redis in Java,6,Fail
+ReadWriteRedisClient,Class-level,Redis in Java,1,Success
+ConnectToMasterSlaveUsingRedisSentinel,Class-level,Redis in Java,1,Success
+RedisClient,Class-level,Redis in Java,6,Fail
+JedisClientSingle,Class-level,Redis in Java,1,Success
+RedisConnectionFactory,Class-level,Redis in Java,1,Success
+RedisJsonIntegrationTests,Class-level,Redis in Java,1,Success
+HashExample,Class-level,Redis in Java,1,Success
+ShardingTest,Class-level,Redis in Java,1,Success
+JedisBasedProxyManagerClusterTest,Class-level,Redis in Java,1,Success
+AbstractRedisClientTest,Class-level,Redis in Java,1,Success
+JedisPoolTest,Class-level,Redis in Java,1,Success
+JedisClusterCacheManager,Class-level,Redis in Java,1,Success
+RedisDao,Class-level,Redis in Java,1,Success
+ConnectToMasterSlaveUsingElastiCacheCluster,Class-level,Redis in Java,1,Success
+RedisDistributeLock,Class-level,Redis in Java,1,Success
+RedisCommandsBenchmark,Class-level,Redis in Java,1,Success
+JedisPooledTest,Class-level,Redis in Java,1,Success
+UnixDomainSocketIntegrationTests,Class-level,Redis in Java,1,Success
+SentineledConnectionProvider,Class-level,Redis in Java,1,Success
+RedisBroadcastService,Class-level,Redis in Java,1,Success
+EntraIdIntegrationTests,Class-level,Redis in Java,1,Success
+SimpleConsumer,Class-level,RocketMQ Consumer in Java,1,Success
+Consumer,Class-level,RocketMQ Consumer in Java,1,Success
+LMQPushConsumer,Class-level,RocketMQ Consumer in Java,1,Success
+OrderPushConsumer,Class-level,RocketMQ Consumer in Java,1,Success
+MonitorService,Class-level,RocketMQ Consumer in Java,1,Success
+Consumer,Class-level,RocketMQ Consumer in Java,1,Success
+PushConsumer,Class-level,RocketMQ Consumer in Java,1,Success
+Consumer,Class-level,RocketMQ Consumer in Java,1,Success
+AliyunMqConfiguration,Class-level,RocketMQ Consumer in Java,1,Success
+DefaultMQPushConsumerTest,Class-level,RocketMQ Consumer in Java,1,Success
+PushConsumer,Class-level,RocketMQ Consumer in Java,1,Success
+Consumer,Class-level,RocketMQ Consumer in Java,1,Success
+Consumer,Class-level,RocketMQ Consumer in Java,1,Success
+PlanConsumer,Class-level,RocketMQ Consumer in Java,1,Success
+AliyunMqConfiguration,Class-level,RocketMQ Consumer in Java,1,Success
+LMQPushPopConsumer,Class-level,RocketMQ Consumer in Java,1,Success
+Consumer,Class-level,RocketMQ Consumer in Java,1,Success
+PushConsumer,Class-level,RocketMQ Consumer in Java,1,Success
+PushConsumerWithNamespace,Class-level,RocketMQ Consumer in Java,1,Success
+AbstractSystemMessageSyncer,Class-level,RocketMQ Consumer in Java,1,Success
+Consumer,Class-level,RocketMQ Consumer in Java,1,Success
+TimerConsumer,Class-level,RocketMQ Consumer in Java,1,Success
+BenchLmqStore,Class-level,RocketMQ Producer in Java,1,Success
+LMQProducer,Class-level,RocketMQ Producer in Java,1,Success
+RocketMQSink,Class-level,RocketMQ Producer in Java,1,Success
+TimerProducer,Class-level,RocketMQ Producer in Java,6,Fail
+Producer,Class-level,RocketMQ Producer in Java,1,Success
+ResponseConsumer,Class-level,RocketMQ Producer in Java,6,Fail
+SimpleProducer,Class-level,RocketMQ Producer in Java,1,Success
+AclClient,Function-level,RocketMQ Producer in Java,1,Success
+OrderProducer,Class-level,RocketMQ Producer in Java,1,Success
+Producer,Class-level,RocketMQ Producer in Java,1,Success
+Producer,Class-level,RocketMQ Producer in Java,1,Success
+Producer,Class-level,RocketMQ Producer in Java,1,Success
+PopConsumerRetryIT,Class-level,RocketMQ Producer in Java,1,Success
+TestProducer,Class-level,RocketMQ Producer in Java,1,Success
+RocketMQTemplate,Class-level,RocketMQ Producer in Java,1,Success
+TransactionProducer,Class-level,RocketMQ Producer in Java,6,Fail
+ProducerWithNamespace,Class-level,RocketMQ Producer in Java,1,Success
+RMQAsyncSendProducer,Class-level,RocketMQ Producer in Java,1,Success
+AsyncProducer,Class-level,RocketMQ Producer in Java,1,Success
+Producer,Class-level,RocketMQ Producer in Java,6,Fail
+IcecastHTTPAudioBroadcaster,Class-level,TCP Client based on Apache MINA in java,1,Success
+GSSClient,Class-level,TCP Client-side Java.io,1,Success
+TcpClient,Class-level,TCP Client-side Java.io,1,Success
+ShutdownWatcherRunnerTest,Function-level,TCP Client-side Java.io,6,Fail
+EchoClient,Class-level,TCP Client-side Java.io,1,Success
+SocketConnectTest,Class-level,TCP Client-side Java.io,1,Success
+RetainedFragment,Class-level,TCP Client-side Java.io,1,Success
+Utils,Function-level,TCP Client-side Java.io,1,Success
+NetworkingSocketsActivity,Class-level,TCP Client-side Java.io,1,Success
+Graphite,Class-level,TCP Client-side Java.io,1,Success
+BadRequestTestCase,Function-level,TCP Client-side Java.io,1,Success
+Lisplet,Class-level,TCP Client-side Java.io,1,Success
+HelloClient,Class-level,TCP Client-side Java.io,1,Success
+MS12020,Function-level,TCP Client-side Java.io,1,Success
+DeviceConnection,Class-level,TCP Client-side Java.io,1,Success
+BinaryLinkClient,Class-level,TCP Client-side Java.io,1,Success
+TransferEncodingNormalizationHeadersFilterIntegrationTests,Function-level,TCP Client-side Java.io,6,Fail
+HttpSysRCE,Class-level,TCP Client-side Java.io,2,Success
+JNDIObject,Class-level,TCP Client-side Java.io,1,Success
+MiniCapInputSocketThread,Class-level,TCP Client-side Java.io,1,Success
+TProfilerClient,Class-level,TCP Client-side Java.io,1,Success
+FileSender,Class-level,TCP Client-side Java.io,1,Success
+Minitouch,Class-level,TCP Client-side Java.io,1,Success
+ProtobufIO,Class-level,TCP Client-side Java.io,1,Success
+VoiceClient,Class-level,TCP Client-side Java.io,1,Success
+TCPClient,Class-level,TCP Client-side Java.io,1,Success
+SocketDemo,Class-level,TCP Client-side Java.io,1,Success
+Utils,Function-level,TCP Client-side Java.io,1,Success
+SimpleUpgradeTestCase,Function-level,TCP Client-side Java.io,1,Success
+SocketClient,Class-level,TCP Client-side Java.io,1,Success
+SocketTests,Function-level,TCP Client-side Java.io,1,Success
+SocketOrChannelConnectionImpl,Class-level,TCP Client-side based on java.nio,6,Fail
+Selector,Class-level,TCP Client-side based on java.nio,1,Success
+Firehose,Class-level,TCP Client-side based on java.nio,6,Fail
+TcpConnectorService,Class-level,TCP Client-side based on java.nio,6,Fail
+TCPConnection,Class-level,TCP Client-side based on java.nio,1,Success
+NioClientTest,Class-level,TCP Client-side based on java.nio,1,Success
+AutoSwitchHAConnection,Class-level,TCP Client-side based on java.nio,5,Success
+PassiveRedisIndexer,Class-level,TCP Client-side based on java.nio,1,Success
+DefaultHAClient,Class-level,TCP Client-side based on java.nio,2,Success
+AsynchronousSocketChannelStream,Class-level,TCP Client-side based on java.nio,1,Success
+NioTransport,Class-level,TCP Client-side based on java.nio,1,Success
+ClientController,Class-level,TCP Client-side based on java.nio,1,Success
+ConnectionWorker,Class-level,TCP Client-side based on java.nio,1,Success
+AutoSwitchHAClient,Class-level,TCP Client-side based on java.nio,6,Fail
+MinaRemotingServer,Class-level,TCP Server based on Apache MINA in java,1,Success
+RTMPMinaTransport,Class-level,TCP Server based on Apache MINA in java,1,Success
+DateServer,Class-level,TCP Server-side based on java.nio,1,Success
+NonBlokingEchoServer,Class-level,TCP Server-side based on java.nio,2,Success
+Server,Class-level,TCP Server-side based on java.nio,1,Success
+RapidoidServerLoop,Class-level,TCP Server-side based on java.nio,6,Fail
+Server,Class-level,TCP Server-side based on java.nio,1,Success
+ServerController,Class-level,TCP Server-side based on java.nio,1,Success
+NIOAcceptor,Class-level,TCP Server-side based on java.nio,1,Success
+ZBeacon,Class-level,UDP sender based on java.nio,6,Fail
+GraphiteUDP,Class-level,UDP sender based on java.nio,1,Success
+OpentrackerLiveSync,Class-level,UDP sender based on java.nio,1,Success
+Sender,Class-level,UDP sender based on java.nio,1,Success
+mcast,Class-level,UDP sender based on java.nio,1,Success
+MulticastTest,Class-level,UDP sender based on java.nio,1,Success
+TcpAllocationTest,Class-level,Vert.x TCP Client in Java,6,Fail
+StreamsExamples,Function-level,Vert.x TCP Server in Java,6,Fail
+HAProxy,Class-level,Vert.x TCP Server in Java,1,Success
+NetExamples,Class-level,Vert.x TCP Server in Java,1,Success
+ClusteredEventBus,Class-level,Vert.x TCP Server in Java,3,Success
+DatagramTest,Class-level,Vert.x UDP sender in Java,1,Success
+DatagramExamples,Function-level,Vert.x UDP sender in Java,1,Success
+KafkaBinderTopicPropertiesUpdateTest,Function-level,View Kafka AdminClient  Config in java,1,Success
+DisabledKafkaBinderTopicPropertiesUpdateTest,Function-level,View Kafka AdminClient  Config in java,1,Success
+KafkaAdminTopicConfigProvider,Class-level,View/Delete/Describe topic in AdminClient in java,3,Success
+KafkaAdmin,Class-level,View/Delete/Describe topic in AdminClient in java,1,Success
+TransportClient,Class-level,WebSocket Client Implementation using org.java_websocket,1,Success
+PerMessageDeflateExample,Class-level,WebSocket Client Implementation using org.java_websocket,1,Success
+Issue879Test,Class-level,WebSocket Client Implementation using org.java_websocket,1,Success
+ExampleClient,Class-level,WebSocket Client Implementation using org.java_websocket,1,Success
+MilkmanWebsocketClient,Class-level,WebSocket Client Implementation using org.java_websocket,1,Success
+SSLClientExample,Class-level,WebSocket Client Implementation using org.java_websocket,1,Success
+WebSocketTransport,Class-level,WebSocket Client Implementation using org.java_websocket,1,Success
+Issue713Test,Class-level,WebSocket Client Implementation using org.java_websocket,1,Success
+Issue1160Test,Class-level,WebSocket Client Implementation using org.java_websocket,1,Success
+Issue997Test,Class-level,WebSocket Client Implementation using org.java_websocket,1,Success
+WebSocketServerTest,Class-level,WebSocket Server Handler using org.java_websocket,1,Success
+Issue825Test,Class-level,WebSocket Server Handler using org.java_websocket,1,Success
+ChatServer,Class-level,WebSocket Server Handler using org.java_websocket,1,Success
+Issue811Test,Class-level,WebSocket Server Handler using org.java_websocket,1,Success
+Issue1142Test,Class-level,WebSocket Server Handler using org.java_websocket,1,Success
+SocketActivation,Class-level,WebSocket Server Handler using org.java_websocket,1,Success
+ChatServerAttachmentExample,Class-level,WebSocket Server Handler using org.java_websocket,1,Success
+WSocketServer,Class-level,WebSocket Server Handler using org.java_websocket,1,Success
+AutobahnSSLServerTest,Class-level,WebSocket Server Handler using org.java_websocket,1,Success
+Issue765Test,Class-level,WebSocket Server Handler using org.java_websocket,1,Success
+Issue890Test,Class-level,WebSocket Server Handler using org.java_websocket,1,Success
+AutobahnServerTest,Class-level,WebSocket Server Handler using org.java_websocket,1,Success
+Issue764Test,Class-level,WebSocket Server Handler using org.java_websocket,1,Success
+Issue1203Test,Class-level,WebSocket Server Initialization using org.java_websocket,6,Fail
+Issue256Test,Class-level,WebSocket Server Initialization using org.java_websocket,6,Fail
+WebSocketServer,Class-level,WebSocket Server based on Java EE,1,Success
+WebsocketServerEndpoint,Class-level,WebSocket Server based on Java EE,1,Success
+SecureShellWS,Class-level,WebSocket Server based on Java EE,1,Success
+WebSocketServer,Class-level,WebSocket Server based on Java EE,1,Success
+MyAsyncEndpointByteBuffer,Class-level,WebSocket Server based on Java EE,1,Success
+Whiteboard,Class-level,WebSocket Server based on Java EE,1,Success
+MyEndpointInputStream,Class-level,WebSocket Server based on Java EE,1,Success
+WebSocket,Class-level,WebSocket Server based on Java EE,1,Success
+ChatRoomServerEndpoint,Class-level,WebSocket Server based on Java EE,1,Success
+MyEndpointInputStream,Class-level,WebSocket Server based on Java EE,1,Success
+MyEndpoint,Class-level,WebSocket Server based on Java EE,1,Success
+ContainerDeployServerEndpoint,Class-level,WebSocket Server based on Java EE,1,Success
+MyWebSocket,Class-level,WebSocket Server based on Java EE,1,Success
+ChatEndpoint,Class-level,WebSocket Server based on Java EE,1,Success
+MyAsyncEndpointText,Class-level,WebSocket Server based on Java EE,1,Success
+GrpcHealthServiceDefaultAutoConfigurationTest,Class-level,gRPC Client in java,1,Success
+DatabaseGrpcClient,Class-level,gRPC Client in java,1,Success
+DiscoveryClient,Class-level,gRPC Client in java,1,Success
+GraphQlGrpcClient,Class-level,gRPC Client in java,1,Success
+GrpcClient,Class-level,gRPC Client in java,1,Success
+WalletGrpcClient,Class-level,gRPC Client in java,1,Success
+AbstractClient,Class-level,gRPC Client in java,1,Success
+DbLiteTest,Class-level,gRPC Client in java,1,Success
+GrpcReflectionServiceDefaultAutoConfigurationTest,Function-level,gRPC Client in java,1,Success
+LiteFnQueryGrpcInterceptorTest,Class-level,gRPC Client in java,1,Success
+HelloWorldServer,Class-level,gRPC Server in java,1,Success
+GrpcServer,Class-level,gRPC Server in java,1,Success
+BookServer,Class-level,gRPC Server in java,1,Success
+TestServer,Class-level,gRPC Server in java,1,Success
+ZemberekGrpcServer,Class-level,gRPC Server in java,1,Success
+GrpcLauncher,Class-level,gRPC Server in java,1,Success
+HelloWorldServer,Class-level,gRPC Server in java,1,Success
+DataHandler,Class-level,gRPC Server in java,1,Success
+ShelfServer,Class-level,gRPC Server in java,1,Success
+SocketListenTest,Class-level,java.net ServerSocket,1,Success
+TCPServerService,Class-level,java.net ServerSocket,1,Success
+JPerf,Class-level,java.net ServerSocket,6,Fail
+ViewServer,Class-level,java.net ServerSocket,1,Success
+UnicastTestTcpRpc,Class-level,java.net ServerSocket,1,Success
+MockImapServer,Class-level,java.net ServerSocket,1,Success
+VirtualApkCheckUtil,Class-level,java.net ServerSocket,1,Success
+KubectlPortForward,Class-level,java.net ServerSocket,1,Success
+HttpProxyCacheServer,Class-level,java.net ServerSocket,3,Success
+TcpTransport,Class-level,java.net ServerSocket,1,Success
+HttpMediaStreamer,Class-level,java.net ServerSocket,1,Success
+EchoServer,Class-level,java.net ServerSocket,1,Success
+GraphiteTest,Class-level,java.net ServerSocket,1,Success
+JankyProxy,Class-level,java.net ServerSocket,1,Success
+GSSServer,Class-level,java.net ServerSocket,1,Success
+DNSConnection,Class-level,java.net ServerSocket,1,Success
+ProtocolHandshakeRejectionTest,Class-level,java.net ServerSocket,1,Success
+NetCat,Class-level,java.net ServerSocket,1,Success
+Issue847Test,Class-level,java.net ServerSocket,1,Success
+ExampleServiceBase,Class-level,java.net ServerSocket,1,Success
+OpeningHandshakeRejectionTest,Class-level,java.net ServerSocket,1,Success
+EvdevCaptureProvider,Class-level,java.net ServerSocket,1,Success
+SocketTest,Function-level,java.net ServerSocket,1,Success
+XMPReaderTest,Class-level,java.net ServerSocket,1,Success
+ViewServer,Class-level,java.net ServerSocket,1,Success
+ConnectionManipulationProxyServer,Class-level,java.net ServerSocket,1,Success
+ConnectionManipulationProxyServer,Class-level,java.net ServerSocket,1,Success
+EchoBioServer,Class-level,java.net ServerSocket,1,Success
+TcpServer,Class-level,java.net ServerSocket,1,Success
+PingPongSocketServer,Class-level,java.net ServerSocket,1,Success
+NanoHTTPD,Class-level,java.net ServerSocket,1,Success
+InnerSocketThread,Class-level,java.net ServerSocket,1,Success
+HelloServer,Class-level,java.net ServerSocket,1,Success
+ShutdownServer,Class-level,java.net ServerSocket,6,Fail
+SnapshotService,Class-level,java.net ServerSocket,1,Success
+BinaryLinkServer,Class-level,java.net ServerSocket,1,Success
+MockPop3Server,Class-level,java.net ServerSocket,1,Success
+EmbedHttpServer,Class-level,java.net ServerSocket,1,Success
+Webserver,Class-level,java.net ServerSocket,1,Success
+Webserver,Class-level,java.net ServerSocket,1,Success
+TCPServer,Class-level,java.net ServerSocket,1,Success
+EchoServer,Class-level,java.net ServerSocket,1,Success
+LinkServer,Class-level,java.net ServerSocket,1,Success
+ViewServer,Class-level,java.net ServerSocket,1,Success
+HttpProxyCacheServer,Class-level,java.net ServerSocket,1,Success
+EmbedHttpServer,Class-level,java.net ServerSocket,1,Success
+MockSmtpServer,Class-level,java.net ServerSocket,1,Success
+TLS13HalfCloseHangTestCase,Class-level,java.net Socket,1,Success
+RouterSocketClient,Class-level,java.net Socket,1,Success
+SendMailJob,Class-level,java.net Socket,2,Success
+ServerSentEventTestCase,Function-level,java.net Socket,1,Success
+ConnectionTerminationTestCase,Function-level,java.net Socket,1,Success
+UrlConnection,Class-level,java.net Socket,1,Success
+UnixSocket,Class-level,java.net Socket,1,Success
+TcpClient,Class-level,java.net Socket,1,Success
+SocketServerTest,Class-level,java.net Socket,6,Fail
+Telnet,Class-level,java.net Socket,1,Success
+IRCClientConnection,Class-level,java.net Socket,1,Success
+Pop3Connection,Class-level,java.net Socket,6,Success
+Probe,Class-level,java.net Socket,1,Success
+TcpConnection,Class-level,java.net Socket,6,Fail
+TcpProgressParserTest,Function-level,java.net Socket,1,Success
+GaNetCat,Class-level,java.net Socket,1,Success
+ExampleEurekaClient,Function-level,java.net Socket,1,Success
+HTTPServerFactoryTest,Function-level,java.net Socket,6,Fail
+FourLetterCommand,Class-level,java.net Socket,1,Success
+ScrcpyInputSocketThread,Class-level,java.net Socket,1,Success
+MySQLChannel,Class-level,java.net Socket,1,Success
+HTTPRequest,Class-level,java.net Socket,1,Success
+TCPClientActivity,Class-level,java.net Socket,1,Success
+YangBangController,Function-level,java.net Socket,1,Success
+UnicastTestTcpSlow,Class-level,java.net Socket,1,Success
+tcpConnection,Class-level,java.net Socket,1,Success
+NetworkForwarder,Class-level,java.net Socket,1,Success
+MocoSocketHelper,Class-level,java.net Socket,1,Success
+PebbleIoThread,Class-level,java.net Socket,1,Success
+QmpClient,Class-level,java.net Socket,1,Success
+SimpleTCP,Class-level,java.net Socket,6,Fail
+UnicastTestTcp,Class-level,java.net Socket,1,Success
+GreysConsole,Class-level,java.net Socket,1,Success
+CustomSocketFactory,Class-level,java.net Socket,1,Success
+ServletInputStreamEarlyCloseClientSideTestCase,Function-level,java.net Socket,1,Success
+PositionForwarderWialon,Class-level,java.net UDP Server or Client,1,Success
+DNSResolver,Class-level,java.net UDP Server or Client,1,Success
+UdpTransport,Class-level,java.net UDP Server or Client,1,Success
+UDPClient,Class-level,java.net UDP Server or Client,1,Success
+SntpImpl,Class-level,java.net UDP Server or Client,1,Success
+AutoIPTest,Class-level,java.net UDP Server or Client,1,Success
+DefaultProber,Function-level,java.net UDP Server or Client,1,Success
+Statsd,Class-level,java.net UDP Server or Client,1,Success
+DropwizardUdpSocketAppender,Class-level,java.net UDP Server or Client,1,Success
+HTTPUSocket,Class-level,java.net UDP Server or Client,1,Success
+SnmpAdaptorServer,Class-level,java.net UDP Server or Client,1,Success
+SentryTest,Class-level,java.net UDP Server or Client,1,Success
+LanLinkProvider,Class-level,java.net UDP Server or Client,1,Success
+PacketForger,Class-level,java.net UDP Server or Client,1,Success
+SingleClientUdpTracker,Class-level,java.net UDP Server or Client,1,Success
+DatagramTest,Class-level,java.net UDP Server or Client,1,Success
+ReceiverWaitingActivity,Class-level,java.net UDP Server or Client,1,Success
+ConnectDatagram,Class-level,java.net UDP Server or Client,1,Success
+ServerActivity,Function-level,java.net UDP Server or Client,1,Success
+UDPTrackerClient,Class-level,java.net UDP Server or Client,1,Success
+FileReceiverActivity,Class-level,java.net UDP Server or Client,1,Success
+UDPServer,Class-level,java.net UDP Server or Client,1,Success
+SnmpSocket,Class-level,java.net UDP Server or Client,1,Success
+ClientActivity,Function-level,java.net UDP Server or Client,1,Success
+DnsUtils,Class-level,java.net UDP Server or Client,1,Success

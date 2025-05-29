@@ -1,0 +1,13 @@
+{
+  "Task_id": 163,
+  "Github_ID": "191218511",
+  "Github_Project_Name": "python_for_microscopists",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Server - side by using Flask in python",
+  "Instruction": "Task Description: Create a Flask-based web service that accepts POST requests with form data, processes the data using a pre-trained machine learning model, and returns a prediction result rendered in an HTML template.\n\nFunction Description: The `predict` function is a Flask route handler that processes incoming POST requests containing form data. It extracts the input values, converts them to a format suitable for the machine learning model, makes a prediction, and returns the result embedded in an HTML template.\n\nInput: \n- The function receives form data via Flask's request object (implicit input through `request.form.values()`)\n- The form data should contain numerical values that can be converted to floats\n\nOutput:\n- Returns a rendered HTML template ('index.html') with the prediction result embedded in the template variable `prediction_text`\n- The output is a string containing the prediction percentage formatted as \"Percent with heart disease is X.XX\" where X.XX is the rounded prediction value",
+  "Canonical_solution": "import numpy as np\nfrom flask import Flask, request, render_template\nimport pickle\n\napp = Flask(__name__)\nmodel = pickle.load(open('models/model.pkl', 'rb'))\n\n@app.route('/predict',methods=['POST'])\ndef predict():\n    int_features = [float(x) for x in request.form.values()]\n    features = [np.array(int_features)]\n    prediction = model.predict(features)\n    output = round(prediction[0], 2)\n    return render_template('index.html', prediction_text='Percent with heart disease is {}'.format(output))\n\nif __name__ == \"__main__\":\n    app.run()",
+  "FSMID_for_test": 60,
+  "Code_level": "Function-level"
+}

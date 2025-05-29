@@ -1,0 +1,13 @@
+{
+  "Task_id": 101,
+  "Github_ID": "720853375",
+  "Github_Project_Name": "data-engineer-handbook",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Client-side by using requests in python",
+  "Instruction": "Task Description: Create a Python class that implements a ScalarFunction to retrieve geographic location information for a given IP address using an external API.\n\nClass Description: The GetLocation class extends PyFlink's ScalarFunction to provide IP-to-location functionality. It makes HTTP requests to the ip2location.io API and processes the response to extract country, state, and city information.\n\nAttributes: None\n\nMethods:\n- eval(ip_address: str) -> str: \n  Takes an IP address as input, queries the ip2location.io API, and returns a JSON string containing the country code, region name, and city name. If the request fails, returns an empty JSON object. The API key is retrieved from environment variables.\n\n  Input Parameters:\n  - ip_address: str - The IP address to look up\n\n  Return Type:\n  - str - JSON string containing location information in format {'country': str, 'state': str, 'city': str} or empty object if request fails",
+  "Canonical_solution": "import os\nimport json\nimport requests\nfrom pyflink.table.udf import ScalarFunction\nfrom pyflink.table import DataTypes\n\nclass GetLocation(ScalarFunction):\n    def eval(self, ip_address):\n        url = \"https://api.ip2location.io\"\n        response = requests.get(url, params={\n            'ip': ip_address,\n            'key': os.environ.get(\"IP_CODING_KEY\")\n        })\n\n        if response.status_code != 200:\n            return json.dumps({})\n\n        data = json.loads(response.text)\n        country = data.get('country_code', '')\n        state = data.get('region_name', '')\n        city = data.get('city_name', '')\n        return json.dumps({'country': country, 'state': state, 'city': city})",
+  "FSMID_for_test": 57,
+  "Code_level": "Class-level"
+}

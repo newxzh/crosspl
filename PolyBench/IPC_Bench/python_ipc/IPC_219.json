@@ -1,0 +1,13 @@
+{
+  "Task_id": 219,
+  "Github_ID": "200653543",
+  "Github_Project_Name": "Parsr",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Server - side by using http.server in python",
+  "Instruction": "Task Description: Create a Python HTTP server that handles POST requests, processes JSON data, and returns a modified JSON response. The server should be implemented using Python's built-in http.server module with customizable port and request handler.\n\nClass Description: The solution consists of two classes: PostHandler (request handler) and HTTPServerWrapper (server manager). PostHandler processes incoming POST requests and their JSON data, while HTTPServerWrapper manages the server lifecycle.\n\nAttributes:\n- port: int - The port number on which the HTTP server will listen (default: 8888)\n- handler_class: class - The request handler class to be used (default: PostHandler)\n- server_address: tuple - A tuple containing the server address and port\n- httpd: HTTPServer - The HTTP server instance\n\nMethods:\n- PostHandler.do_POST() -> None - Handles incoming POST requests, reads JSON data, processes it, and sends back a JSON response\n- PostHandler.process_data(data: dict) -> dict - Processes the incoming JSON data (can be overridden for custom processing)\n- HTTPServerWrapper.__init__(port: int = 8888, handler_class: class = PostHandler) -> None - Initializes the server with specified port and handler\n- HTTPServerWrapper.run() -> None - Starts the HTTP server and begins serving requests indefinitely",
+  "Canonical_solution": "from http.server import BaseHTTPRequestHandler, HTTPServer\nimport json\n\nclass PostHandler(BaseHTTPRequestHandler):\n    def do_POST(self):\n        content_length = int(self.headers['Content-Length'])\n        post_data = self.rfile.read(content_length)\n        json_data = json.loads(post_data)\n\n        new_json_data = self.process_data(json_data)\n\n        self.send_response(200)\n        self.send_header(\"Content-type\", \"application/json\")\n        self.end_headers()\n        self.wfile.write(json.dumps(new_json_data).encode('utf-8'))\n\n    def process_data(self, data):\n        return data\n\nclass HTTPServerWrapper:\n    def __init__(self, port=8888, handler_class=PostHandler):\n        self.port = port\n        self.handler_class = handler_class\n        self.server_address = ('', self.port)\n        self.httpd = HTTPServer(self.server_address, self.handler_class)\n\n    def run(self):\n        print('Starting httpd on port {}'.format(self.port))\n        self.httpd.serve_forever()",
+  "FSMID_for_test": 55,
+  "Code_level": "Class-level"
+}

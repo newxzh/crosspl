@@ -1,0 +1,13 @@
+{
+    "Task_id": 178,
+    "Github_ID": "40453691",
+    "Github_Project_Name": "GolangTraining",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Net-based TCP Client in Go",
+    "Instruction": "Task Description: Create a function that establishes a TCP connection to a server, reads all data from the connection, and returns the data as a string.\n\nFunction Description: The function connects to a TCP server at the specified address, reads all available data from the connection, closes the connection, and returns the received data as a string. If the connection fails, it should panic with the error.\n\nInput: \n- address (string): The server address in the format \"host:port\" (e.g., \"localhost:9000\")\n\nOutput: \n- string: The data received from the server\n- error: Returns an error if the connection or read operation fails (though in the reference code it panics on connection error)",
+    "Canonical_solution": "import (\n\t\"fmt\"\n\t\"io/ioutil\"\n\t\"net\"\n)\n\nfunc main() {\n\tconn, err := net.Dial(\"tcp\", \"localhost:9000\")\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\tdefer conn.Close()\n\n\tbs, _ := ioutil.ReadAll(conn)\n\tfmt.Println(string(bs))\n}",
+    "FSMID_for_test": 110,
+    "Code_level": "Function-level"
+}

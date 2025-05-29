@@ -1,0 +1,13 @@
+{
+  "Task_id": 51,
+  "Github_ID": "28468993",
+  "Github_Project_Name": "curlconverter",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Server - side based on XMLHttpRequest in JavaScript",
+  "Instruction": "Task Description: Create a function that sends a POST request to a specified URL with form-urlencoded data and handles the response asynchronously.\n\nFunction Description: The function `sendPostRequest` constructs and sends an HTTP POST request to a given endpoint. It sets the appropriate content type header for form-urlencoded data, includes credentials if needed, and logs the server's response upon completion. This is useful for submitting form data or making authenticated API requests.\n\nInput: None (The URL and data are hardcoded in this example, but could be parameterized in a real implementation)\n\nOutput: None (The function logs the response to the console, but doesn't return anything)",
+  "Canonical_solution": "function sendPostRequest() {\n    const data = 'secret=*%5*!';\n    let xhr = new XMLHttpRequest();\n    xhr.withCredentials = true;\n    xhr.open('POST', 'http://localhost:28139/post');\n    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');\n    xhr.onload = function() {\n        console.log(xhr.response);\n    };\n    xhr.send(data);\n}",
+  "FSMID_for_test": 93,
+  "Code_level": "Function-level"
+}

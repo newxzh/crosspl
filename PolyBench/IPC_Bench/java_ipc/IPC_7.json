@@ -1,0 +1,13 @@
+{
+  "Task_id": 7,
+  "Github_ID": "80907025",
+  "Github_Project_Name": "EFAK",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "Create Kafka topic instance in AdminClient in java",
+  "Instruction": "Task Description: Create a Kafka topic using the AdminClient API in Java, specifying topic configuration such as name, partitions, replication factor, and retention time.\n\nFunction Description: This function creates a new Kafka topic with the specified configuration using the Kafka AdminClient. It handles the creation process, including setting up the AdminClient, defining the topic properties, and executing the topic creation while managing exceptions and resource cleanup.\n\nInput:\n- kafkaClientInfo: [KafkaClientInfo] - Contains connection and configuration details for the Kafka broker\n- newTopicInfo: [NewTopicInfo] - Contains the topic configuration including name, partitions, replication factor, and retention time in milliseconds\n\nOutput:\n- [boolean] - Returns true if the topic was successfully created, false if an error occurred",
+  "Canonical_solution": "import org.apache.kafka.clients.admin.AdminClient;\nimport org.apache.kafka.clients.admin.NewTopic;\nimport org.apache.kafka.common.config.TopicConfig;\n\nprivate final KafkaStoragePlugin plugin;\n\npublic boolean createTopicName(KafkaClientInfo kafkaClientInfo, NewTopicInfo newTopicInfo) {\n    boolean status = false;\n    AdminClient adminClient = null;\n    try {\n        adminClient = AdminClient.create(plugin.getKafkaAdminClientProps(kafkaClientInfo));\n        NewTopic newTopic = new NewTopic(newTopicInfo.getTopicName(), newTopicInfo.getPartitions(), newTopicInfo.getReplication());\n        newTopic.configs(Collections.singletonMap(TopicConfig.RETENTION_MS_CONFIG, String.valueOf(newTopicInfo.getRetainMs())));\n        adminClient.createTopics(Collections.singleton(newTopic)).all().get();\n        status = true;\n    } catch (Exception e) {\n        status = false;\n        log.error(\"Create kafka topic has error, new topic [{}], msg is {}\", newTopicInfo, e);\n    } finally {\n        adminClient.close();\n    }\n    return status;\n}",
+  "FSMID_for_test": 34,
+  "Code_level": "Function-level"
+}

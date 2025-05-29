@@ -1,0 +1,13 @@
+{
+    "Task_id": 35,
+    "Github_ID": "123211880",
+    "Github_Project_Name": "gonet",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Basic HTTP server using net/http with HandleFunc and ListenAndServe",
+    "Instruction": "Task Description: Implement a basic HTTP server in Go that handles specific command requests through a web interface. The server should process incoming commands and forward them to a command parser.\n\nFunction Description: The `cmdHandle` function is an HTTP handler that processes POST requests containing a \"cmd\" parameter. It extracts the command and passes it to a command parser. The `InitWeb` function initializes the web server, registers the handler, and starts listening on a specified URL.\n\nInput:\n- For `cmdHandle`:\n  - `w http.ResponseWriter` - Used to write the HTTP response\n  - `r *http.Request` - Contains the incoming HTTP request\n- For `InitWeb`:\n  - None (uses package-level variable `world.Web_Url` for server address)\n\nOutput:\n- For `cmdHandle`:\n  - None (writes response directly to `http.ResponseWriter`)\n- For `InitWeb`:\n  - None (starts server as a side effect, may log errors)",
+    "Canonical_solution": "import (\n\t\"net/http\"\n)\n\nfunc cmdHandle(w http.ResponseWriter, r *http.Request) {\n\tr.ParseForm()\n\tcmd := r.FormValue(\"cmd\")\n\tif cmd != \"\" {\n\t\tcm.ParseConsole(g_Cmd, (cmd))\n\t}\n}\n\nfunc InitWeb() {\n\thttp.HandleFunc(\"/gm\", cmdHandle)\n\terr := http.ListenAndServe(world.Web_Url, nil)\n\tif err != nil {\n\t\tbase.LOG.Println(\"World Web Server : \", err)\n\t}\n}",
+    "FSMID_for_test": 103,
+    "Code_level": "Function-level"
+}

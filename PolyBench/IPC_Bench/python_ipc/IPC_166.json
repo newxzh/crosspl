@@ -1,0 +1,13 @@
+{
+  "Task_id": 166,
+  "Github_ID": "140265025",
+  "Github_Project_Name": "ariadne",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Server - side by using Flask in python",
+  "Instruction": "Task Description: Create a Flask-based HTTP server that implements a GraphQL endpoint with both GET and POST methods, including a GraphiQL playground interface for testing queries.\n\nFunction Description: The code implements two Flask route handlers for a GraphQL server. The first handles GET requests to serve a GraphiQL playground interface, while the second handles POST requests to process GraphQL queries and mutations.\n\nInput:\n- For GET /graphql: No input parameters (uses Flask's request object internally)\n- For POST /graphql: Expects JSON payload containing GraphQL query/mutation\n\nOutput:\n- For GET /graphql: Returns HTML content for GraphiQL playground (status 200)\n- For POST /graphql: Returns JSON response containing either:\n  - Successful query result (status 200)\n  - Error response (status 400) if query fails",
+  "Canonical_solution": "from flask import Flask, jsonify, request\nfrom ariadne import graphql_sync\nfrom ariadne.explorer import ExplorerGraphiQL\n\napp = Flask(__name__)\napp.config.update(\n    {\n        \"TESTING\": True,\n    }\n)\n\nexplorer = ExplorerGraphiQL(title=\"My Flask GraphQL\")\n\n@app.route(\"/graphql\", methods=[\"GET\"])\ndef graphql_playground():\n    html = explorer.html(request)\n    return html, 200\n\n@app.route(\"/graphql\", methods=[\"POST\"])\ndef graphql_server():\n    data = request.get_json()\n    success, result = graphql_sync(\n        schema,\n        data,\n        context_value={\"request\": request},\n        root_value={\"hello\": \"Hello Flask!\"},\n        debug=app.debug,\n    )\n    status_code = 200 if success else 400\n    return jsonify(result), status_code",
+  "FSMID_for_test": 60,
+  "Code_level": "Function-level"
+}

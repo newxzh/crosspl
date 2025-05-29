@@ -1,0 +1,13 @@
+{
+  "Task_id": 295,
+  "Github_ID": "602270517",
+  "Github_Project_Name": "FlexLLMGen",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "Pipe based on subprocess in python",
+  "Instruction": "Task Description: Create a function that reads audio data from bytes using FFmpeg and converts it into a numpy array with specified sampling rate.\n\nFunction Description: The function `ffmpeg_read` takes raw audio bytes and converts them into a mono audio waveform with a specified sampling rate using FFmpeg. The audio is converted to 32-bit floating-point format. The function handles FFmpeg process creation, data piping, and conversion to numpy array.\n\nInput:\n- `bpayload`: bytes - Raw audio data to be processed\n- `sampling_rate`: int - Target sampling rate for the output audio\n\nOutput:\n- np.array - A numpy array containing the audio waveform in 32-bit floating-point format\n\nNote: The function raises `ValueError` if FFmpeg is not found or if the output audio is malformed.",
+  "Canonical_solution": "import subprocess\nimport numpy as np\n\ndef ffmpeg_read(bpayload: bytes, sampling_rate: int) -> np.array:\n    \"\"\"\n    Helper function to read an audio file through ffmpeg.\n    \"\"\"\n    ar = f\"{sampling_rate}\"\n    ac = \"1\"\n    format_for_conversion = \"f32le\"\n    ffmpeg_command = [\n        \"ffmpeg\",\n        \"-i\",\n        \"pipe:0\",\n        \"-ac\",\n        ac,\n        \"-ar\",\n        ar,\n        \"-f\",\n        format_for_conversion,\n        \"-hide_banner\",\n        \"-loglevel\",\n        \"quiet\",\n        \"pipe:1\",\n    ]\n\n    try:\n        ffmpeg_process = subprocess.Popen(ffmpeg_command, stdin=subprocess.PIPE, stdout=subprocess.PIPE)\n    except FileNotFoundError:\n        raise ValueError(\"ffmpeg was not found but is required to load audio files from filename\")\n    output_stream = ffmpeg_process.communicate(bpayload)\n    out_bytes = output_stream[0]\n\n    audio = np.frombuffer(out_bytes, np.float32)\n    if audio.shape[0] == 0:\n        raise ValueError(\"Malformed soundfile\")\n    return audio",
+  "FSMID_for_test": 76,
+  "Code_level": "Function-level"
+}

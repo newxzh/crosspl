@@ -1,0 +1,13 @@
+{
+  "Task_id": 463,
+  "Github_ID": "481412",
+  "Github_Project_Name": "Java-WebSocket",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "WebSocket Client Implementation using org.java_websocket",
+  "Instruction": "Task Description: Implement a WebSocket client class in Java using the org.java_websocket library to establish a connection with a WebSocket server, handle incoming messages, and manage connection events.\n\nClass Description: WebSocketChatClient is a class that extends WebSocketClient from the org.java_websocket library. It provides functionality to connect to a WebSocket server and handle various WebSocket events such as connection opening, message reception, connection closing, and errors.\n\nAttributes:\n- Inherited from WebSocketClient: All attributes from the parent class WebSocketClient are available but not explicitly defined here.\n\nMethods:\n- Constructor: WebSocketChatClient(URI serverUri) -> void - Initializes the WebSocket client with the server URI.\n- onOpen: onOpen(ServerHandshake handshakedata) -> void - Called when the WebSocket connection is established. Prints \"Connected\" to the console.\n- onMessage: onMessage(String message) -> void - Called when a message is received from the server. Prints the message to the console.\n- onClose: onClose(int code, String reason, boolean remote) -> void - Called when the WebSocket connection is closed. Prints \"Disconnected\" to the console.\n- onError: onError(Exception ex) -> void - Called when an error occurs. Prints the stack trace of the exception.",
+  "Canonical_solution": "import java.net.URI;\nimport org.java_websocket.client.WebSocketClient;\nimport org.java_websocket.handshake.ServerHandshake;\n\nclass WebSocketChatClient extends WebSocketClient {\n\n  public WebSocketChatClient(URI serverUri) {\n    super(serverUri);\n  }\n\n  @Override\n  public void onOpen(ServerHandshake handshakedata) {\n    System.out.println(\"Connected\");\n  }\n\n  @Override\n  public void onMessage(String message) {\n    System.out.println(\"got: \" + message);\n  }\n\n  @Override\n  public void onClose(int code, String reason, boolean remote) {\n    System.out.println(\"Disconnected\");\n  }\n\n  @Override\n  public void onError(Exception ex) {\n    ex.printStackTrace();\n  }\n}",
+  "FSMID_for_test": 27,
+  "Code_level": "Class-level"
+}

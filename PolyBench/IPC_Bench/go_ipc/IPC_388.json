@@ -1,0 +1,13 @@
+{
+    "Task_id": 388,
+    "Github_ID": "80723074",
+    "Github_Project_Name": "gopass",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "os.pipe-based pipe in Go",
+    "Instruction": "Task Description: Create a Go function that securely copies a password to the system clipboard using osascript (AppleScript) via a pipe, ensuring the password is handled safely and the clipboard is cleared after use.\n\nFunction Description: The function `copyViaOsascript` uses an inter-process communication mechanism (pipe) to securely pass a password to the AppleScript command `osascript`, which then sets the password in the system clipboard. The function ensures proper resource cleanup and checks for successful execution.\n\nInput:\n- `ctx context.Context`: Context for managing the command's lifecycle and cancellation.\n- `password string`: The password string to be copied to the clipboard.\n\nOutput:\n- `error`: Returns an error if any step fails (pipe creation, command execution, or clipboard setting). Returns nil on success.",
+    "Canonical_solution": "import (\n\t\"context\"\n\t\"fmt\"\n\t\"io\"\n\t\"os\"\n\t\"os/exec\"\n)\n\nfunc copyViaOsascript(ctx context.Context, password string) error {\n\targs := []string{\n\t\t\"-e\", `use framework \"Foundation\"`,\n\t\t\"-e\", \"use scripting additions\",\n\t\t\"-e\", \"set type to current application's NSPasteboardTypeString\",\n\t\t\"-e\", \"set pb to current application's NSPasteboard's generalPasteboard()\",\n\t\t\"-e\", \"pb's clearContents()\",\n\t\t\"-e\", `pb's setString:\"\" forType:\"org.nspasteboard.ConcealedType\"`,\n\t\t\"-e\", `pb's setString:(do shell script \"cat 0<&3\") forType:type`,\n\t}\n\tcmd := exec.CommandContext(ctx, \"osascript\", args...)\n\tr, w, err := os.Pipe()\n\tif err != nil {\n\t\treturn err\n\t}\n\n\tcmd.ExtraFiles = []*os.File{r}\n\tgo func() {\n\t\tdefer w.Close()\n\t\t_, _ = io.WriteString(w, password)\n\t}()\n\n\tout, err := cmd.Output()\n\tif err != nil {\n\t\treturn err\n\t}\n\n\tif string(out) != \"true\\n\" {\n\t\treturn fmt.Errorf(\"osascript failed to set password: %s\", string(out))\n\t}\n\n\treturn nil\n}",
+    "FSMID_for_test": 118,
+    "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 420,
+  "Github_ID": "9294498",
+  "Github_Project_Name": "python-cookbook",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "UDP Server - side by using socketserver in python",
+  "Instruction": "Task Description: Implement a UDP server in Python using the socketserver module to handle client requests and send responses.\n\nClass Description: The solution consists of two classes: TimeHandler (request handler) and UDPServerWrapper (server wrapper). TimeHandler processes incoming UDP requests and sends back the current time, while UDPServerWrapper manages the UDP server lifecycle.\n\nAttributes:\n- host: str - The host address to bind the server to (default: '' - all interfaces)\n- port: int - The port number to bind the server to (default: 20000)\n- server: UDPServer - The UDP server instance created with the specified host and port\n\nMethods:\n- __init__(host: str = '', port: int = 20000) -> None - Initializes the UDPServerWrapper with host and port, creates a UDPServer instance with TimeHandler\n- serve_forever() -> None - Starts the UDP server and keeps it running indefinitely to handle incoming requests\n\nThe TimeHandler class (inherits from BaseRequestHandler) contains:\n- handle() -> None - Processes each incoming request, prints client info, gets current time, and sends response back to client",
+  "Canonical_solution": "from socketserver import BaseRequestHandler, UDPServer\nimport time\n\nclass TimeHandler(BaseRequestHandler):\n    def handle(self):\n        print('Got connection from', self.client_address)\n        msg, sock = self.request\n        resp = time.ctime()\n        sock.sendto(resp.encode('ascii'), self.client_address)\n\nclass UDPServerWrapper:\n    def __init__(self, host='', port=20000):\n        self.host = host\n        self.port = port\n        self.server = UDPServer((self.host, self.port), TimeHandler)\n\n    def serve_forever(self):\n        self.server.serve_forever()",
+  "FSMID_for_test": 72,
+  "Code_level": "Class-level"
+}

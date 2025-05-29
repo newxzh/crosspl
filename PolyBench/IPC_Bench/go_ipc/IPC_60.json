@@ -1,0 +1,13 @@
+{
+    "Task_id": 60,
+    "Github_ID": "159568339",
+    "Github_Project_Name": "netcap",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Basic HTTP server using net/http with HandleFunc and ListenAndServe",
+    "Instruction": "Task Description: Create a function that serves Prometheus metrics via an HTTP server, updating custom metrics (uptime and packet count) on each request.\n\nFunction Description: The ServeMetricsAt function starts an HTTP server to expose Prometheus metrics. It registers custom metrics (uptime and packet count), updates them on each request to the metrics endpoint, and serves the metrics using the Prometheus HTTP handler. The function runs the server in a goroutine to avoid blocking the main program.\n\nInput:\n- addr (string): The network address (including port) where the metrics server should listen (e.g., \":8080\")\n- c (*collector.Collector): A pointer to a collector instance used to get the current packet count (can be nil)\n\nOutput: None (the function runs indefinitely in a background goroutine)",
+    "Canonical_solution": "import (\n\t\"fmt\"\n\t\"log\"\n\t\"math\"\n\t\"net/http\"\n\t\"time\"\n\n\t\"github.com/prometheus/client_golang/prometheus\"\n\t\"github.com/prometheus/client_golang/prometheus/promhttp\"\n\n\t\"github.com/dreadl0ck/netcap/collector\"\n)\nfunc ServeMetricsAt(addr string, c *collector.Collector) {\n\tprometheus.MustRegister(upTime)\n\tprometheus.MustRegister(numPackets)\n\n\tfmt.Println(\"starting to serve metrics at:\", addr+metricsRoute)\n\n\tgo func() {\n\t\tmetricsHandler := promhttp.Handler()\n\n\t\thttp.HandleFunc(metricsRoute, func(w http.ResponseWriter, r *http.Request) {\n\t\t\tupTime.WithLabelValues().Set(math.RoundToEven(time.Since(startTime).Seconds())\n\n\t\t\tif c != nil {\n\t\t\t\tnumPackets.WithLabelValues().Set(float64(c.GetNumPackets()))\n\t\t\t}\n\n\t\t\tmetricsHandler.ServeHTTP(w, r)\n\t\t})\n\t\tlog.Fatal(\"failed to serve metrics: \", http.ListenAndServe(addr, nil))\n\t}()\n}",
+    "FSMID_for_test": 103,
+    "Code_level": "Function-level"
+}

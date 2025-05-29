@@ -1,0 +1,13 @@
+{
+  "Task_id": 58,
+  "Github_ID": "185901023",
+  "Github_Project_Name": "opentelemetry-js",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Server - side based on XMLHttpRequest in JavaScript",
+  "Instruction": "Task Description: Create a function that performs an asynchronous HTTP GET request to a specified URL and returns a Promise that resolves when the request is successful or rejects when it fails.\n\nFunction Description: The function `getData` initiates an HTTP GET request using XMLHttpRequest. It sets appropriate headers for JSON content, handles the response asynchronously through Promise callbacks, and manages both successful and failed request scenarios.\n\nInput: \n- url [String] - The URL to which the HTTP GET request will be made\n\nOutput: \n- [Promise] - A Promise object that resolves when the request succeeds and rejects when it fails. The Promise doesn't return any specific value upon resolution/rejection in this basic implementation, but can be extended to return response data or error information.",
+  "Canonical_solution": "function getData(url) {\n  return new Promise((resolve, reject) => {\n    const req = new XMLHttpRequest();\n    req.open('GET', url, true);\n    req.setRequestHeader('Content-Type', 'application/json');\n    req.setRequestHeader('Accept', 'application/json');\n    req.onload = () => {\n      resolve();\n    };\n    req.onerror = () => {\n      reject();\n    };\n    req.send();\n  });\n}",
+  "FSMID_for_test": 93,
+  "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 174,
+  "Github_ID": "11899155",
+  "Github_Project_Name": "learnyounode",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "TCP Server - side based on node.js net",
+  "Instruction": "Task Description: Create a TCP server function that listens on a specified port and responds to client connections with the current timestamp.\n\nFunction Description: The function creates a TCP server using Node.js's built-in 'net' module. When a client connects, the server sends the current timestamp and closes the connection. The server listens on the specified port or a random available port if none is provided.\n\nInput: \n- port: [Number] - (Optional) The port number on which the TCP server should listen. If not provided or 0, the OS will assign a random available port.\n\nOutput: \n- None (The function creates and starts a TCP server but doesn't return anything)",
+  "Canonical_solution": "function createTCPServer(port) {\n  require('net').createServer(function (socket) {\n    socket.end(now(new Date()) + '\\n');\n  }).listen(port | 0);\n}",
+  "FSMID_for_test": 97,
+  "Code_level": "Function-level"
+}

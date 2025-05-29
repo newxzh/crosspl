@@ -1,0 +1,13 @@
+{
+    "Task_id": 30,
+    "Github_ID": "522195286",
+    "Github_Project_Name": "golang-guide",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Advanced HTTP client with custom http.Client and request headers",
+    "Instruction": "Task Description: Create a function to fetch video materials from an advertising API using HTTP requests with custom headers and process the response.\n\nFunction Description: The function `getVideo` makes a GET request to a specified API endpoint to retrieve video materials for a given advertiser. It handles request creation, header addition, response processing, and error handling. The response is parsed to extract video information and store it in a global map while returning pagination information.\n\nInput:\n- advertiserId: string - The ID of the advertiser whose videos are being requested\n- page: int - The page number for paginated results\n\nOutput:\n- int - Total number of pages available (for pagination)\n- error - Any error encountered during the HTTP request or response processing",
+    "Canonical_solution": "import (\n\t\"encoding/json\"\n\t\"fmt\"\n\t\"io/ioutil\"\n\t\"net/http\"\n\t\"strings\"\n)\n\nvar videoImageIdMaterialIdMap = map[string]int64{}\n\nfunc getVideo(advertiserId string, page int) (int, error) {\n\turl := \"https://ad.oceanengine.com/open_api/2/file/video/get/\"\n\tmethod := \"GET\"\n\tpayload := strings.NewReader(fmt.Sprintf(`{\n    \t\t\t\"advertiser_id\": %s,\n   \t\t\t\t \"page\":%d,\n   \t\t\t\t \"page_size\":100}`, advertiserId, page))\n\tclient := &http.Client{}\n\treq, err := http.NewRequest(method, url, payload)\n\tif err != nil {\n\t\treturn 0, err\n\t}\n\treq.Header.Add(\"Access-Token\", \"c0bfed085c0dbc19bb2e41920ecd6d2a6d398b32\")\n\treq.Header.Add(\"Content-Type\", \"application/json\")\n\tres, err := client.Do(req)\n\tif err != nil {\n\t\treturn 0, err\n\t}\n\tdefer res.Body.Close()\n\tbody, err := ioutil.ReadAll(res.Body)\n\tif err != nil {\n\t\treturn 0, err\n\t}\n\tvar getVideoMaterialResp GetVideoMaterialResp\n\terr = json.Unmarshal(body, &getVideoMaterialResp)\n\tif err != nil {\n\t\treturn 0, err\n\t}\n\tif getVideoMaterialResp.Code != 0 {\n\t\treturn 0, err\n\t}\n\tfor _, s := range getVideoMaterialResp.Data.List {\n\t\tvideoImageIdMaterialIdMap[s.Id] = s.MaterialId\n\t}\n\treturn getVideoMaterialResp.Data.PageInfo.TotalPage, nil\n}",
+    "FSMID_for_test": 102,
+    "Code_level": "Function-level"
+}

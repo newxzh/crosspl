@@ -1,0 +1,13 @@
+{
+  "Task_id": 11,
+  "Github_ID": "60457385",
+  "Github_Project_Name": "kratos",
+  "Programming_Language": "PHP",
+  "suffix": ".php",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP client using Guzzle in PHP",
+  "Instruction": "Task Description: Create a PHP class that handles file uploads to a specified host using HTTP PUT requests with Guzzle HTTP client, including CRC32 checksum verification.\n\nClass Description: ImageX is a class that extends V4Curl and provides functionality to upload files to a remote server. It handles file validation, CRC32 checksum generation, and HTTP communication using Guzzle's HTTP client.\n\nAttributes: (No explicit attributes in this class - it inherits from V4Curl)\n\nMethods:\nupload: [upload](string $uploadHost, array $storeInfo, string $filePath) -> int - Uploads a file to the specified host using HTTP PUT request. Validates file existence, calculates CRC32 checksum, and sends the file with appropriate headers. Returns 0 on success, -1 if file doesn't exist, or -2 if upload fails.\n\nParameters:\n- $uploadHost: string - The host address to upload to\n- $storeInfo: array - Contains 'StoreUri' for upload endpoint and 'Auth' for authorization\n- $filePath: string - Local path to the file to be uploaded\n\nReturn:\n- int: 0 for success, -1 for file not found, -2 for upload failure",
+  "Canonical_solution": "use Volc\\Base\\V4Curl;\nuse GuzzleHttp\\Client;\n\nclass ImageX extends V4Curl\n{\n    public function upload(string $uploadHost, $storeInfo, string $filePath)\n    {\n        if (!file_exists($filePath)) {\n            return -1;\n        }\n        $content = file_get_contents($filePath);\n        $crc32 = sprintf(\"%08x\", crc32($content));\n\n        $body = fopen($filePath, \"r\");\n        $tosClient = new Client([\n            'base_uri' => \"https://\" . $uploadHost,\n            'timeout' => 5.0,\n        ]);\n\n        $response = $tosClient->request('PUT', $storeInfo[\"StoreUri\"], [\"body\" => $body, \"headers\" => ['Authorization' => $storeInfo[\"Auth\"], 'Content-CRC32' => $crc32]]);\n        $uploadResponse = json_decode((string) $response->getBody(), true);\n        if (!isset($uploadResponse[\"success\"]) || $uploadResponse[\"success\"] != 0) {\n            return -2;\n        }\n        return 0;\n    }\n}",
+  "FSMID_for_test": 133,
+  "Code_level": "Class-level"
+}

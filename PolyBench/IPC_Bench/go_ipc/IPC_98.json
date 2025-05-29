@@ -1,0 +1,13 @@
+{
+    "Task_id": 98,
+    "Github_ID": "37374972",
+    "Github_Project_Name": "go-starter-kit",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Echo-based HTTP Server in Go",
+    "Instruction": "Task Description: Create an HTTP server using the Echo framework in Go that handles basic requests and includes middleware for processing statistics.\n\nStruct Description: The Stats struct is used to track and handle statistics for HTTP requests processed by the server.\n\nFields:\n- Count: [int] - Tracks the number of requests processed\n- StartTime: [time.Time] - Records the time when the server started processing requests\n\nMethods:\n- Process: [func(next echo.HandlerFunc) echo.HandlerFunc] -> [echo.HandlerFunc] - Middleware function that increments the request count for each processed request\n- Handle: [func(c echo.Context) error] -> [error] - Handler function that returns the current statistics (request count and uptime) in JSON format\n- NewStats: [func() *Stats] -> [*Stats] - Constructor function that initializes a new Stats instance with default values\n\nAdditional Functions:\n- ServerHeader: [func(next echo.HandlerFunc) echo.HandlerFunc] -> [echo.HandlerFunc] - Middleware function that adds a Server header to responses\n- main: [func()] -> [None] - Entry point that creates the Echo server, registers routes and middleware, and starts the server on port 1323",
+    "Canonical_solution": "import (\n\t\"net/http\"\n\n\t\"github.com/labstack/echo\"\n)\n\nfunc main() {\n\te := echo.New()\n\n\te.Debug = true\n\n\ts := NewStats()\n\te.Use(s.Process)\n\te.GET(\"/stats\", s.Handle)\n\n\te.Use(ServerHeader)\n\n\te.GET(\"/\", func(c echo.Context) error {\n\t\treturn c.String(http.StatusOK, \"Hello, World!\")\n\t})\n\n\te.Logger.Fatal(e.Start(\":1323\"))\n}",
+    "FSMID_for_test": 106,
+    "Code_level": "Class-level"
+}

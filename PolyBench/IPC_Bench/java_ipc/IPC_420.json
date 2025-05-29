@@ -1,0 +1,13 @@
+{
+  "Task_id": 420,
+  "Github_ID": "55224431",
+  "Github_Project_Name": "whatsmars",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "TCP Client-side Java.io",
+  "Instruction": "Task Description: Create a TCP client class in Java that establishes a connection to a server, sends a message, and properly handles the connection lifecycle including cleanup.\n\nClass Description: The TCPClient class encapsulates functionality for creating a TCP client that connects to a specified server, sends a UTF-8 encoded message, and manages socket resources. It handles potential network exceptions and ensures proper resource cleanup.\n\nAttributes:\n- s: Socket - The socket object used for the TCP connection\n- dos: DataOutputStream - The output stream for sending data to the server\n\nMethods:\n- connect(): void - Establishes a connection to the server at 127.0.0.1:5555, sends the message \"Happy\" after a 3-second delay, and handles connection cleanup. No parameters. No return value.",
+  "Canonical_solution": "import java.io.DataOutputStream;\nimport java.io.IOException;\nimport java.net.Socket;\nimport java.net.UnknownHostException;\n\npublic class TCPClient {\n\n    public void connect() {\n        Socket s = null;\n        DataOutputStream dos = null;\n        try {\n            s = new Socket(\"127.0.0.1\", 5555);\n            dos = new DataOutputStream(s.getOutputStream());\n            System.out.println(\"Yeah, I connected\");\n            Thread.sleep(3000);\n            dos.writeUTF(\"Happy\");\n            dos.flush();\n        } catch (UnknownHostException e) {\n            e.printStackTrace();\n        } catch (IOException e) {\n            e.printStackTrace();\n        } catch (InterruptedException e) {\n            e.printStackTrace();\n        } finally {\n            try {\n                if (dos != null) {\n                    dos.close();\n                }\n                if (s != null) {\n                    s.close();\n                }\n            } catch (IOException e) {\n                e.printStackTrace();\n            }\n        }\n    }\n}",
+  "FSMID_for_test": 15,
+  "Code_level": "Class-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 138,
+  "Github_ID": "34716238",
+  "Github_Project_Name": "faveo-helpdesk",
+  "Programming_Language": "PHP",
+  "suffix": ".php",
+  "Interface_class": "IPC",
+  "Interface_name": "pipe based on proc_open in PHP",
+  "Instruction": "Task Description: Create a function that retrieves Git tag information from a specified directory using subprocess communication via pipes.\n\nFunction Description: The function checks if a given directory is a Git repository (by checking for .git folder) and then executes the 'git describe --tags' command to get the latest tag information. It handles subprocess communication using pipes for stdout and stderr, properly manages resources, and returns the tag information or false if unsuccessful.\n\nInput: \n- $path (string): The filesystem path to check for Git repository information\n\nOutput:\n- Returns either:\n  - (string) The trimmed output from 'git describe --tags' command if successful\n  - (bool) false if:\n    - The path is not a Git repository\n    - The subprocess cannot be created\n    - The command returns a non-zero exit code",
+  "Canonical_solution": "function getGitInformation(string $path)\n{\n    if (!\\is_dir($path . DIRECTORY_SEPARATOR . '.git')) {\n        return false;\n    }\n\n    $process = \\proc_open(\n        'git describe --tags',\n        [\n            1 => ['pipe', 'w'],\n            2 => ['pipe', 'w'],\n        ],\n        $pipes,\n        $path\n    );\n\n    if (!\\is_resource($process)) {\n        return false;\n    }\n\n    $result = \\trim(\\stream_get_contents($pipes[1]));\n\n    \\fclose($pipes[1]);\n    \\fclose($pipes[2]);\n\n    $returnCode = \\proc_close($process);\n\n    if ($returnCode !== 0) {\n        return false;\n    }\n\n    return $result;\n}",
+  "FSMID_for_test": 145,
+  "Code_level": "Function-level"
+}

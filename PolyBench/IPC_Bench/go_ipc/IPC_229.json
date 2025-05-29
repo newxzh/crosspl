@@ -1,0 +1,13 @@
+{
+    "Task_id": 229,
+    "Github_ID": "137360315",
+    "Github_Project_Name": "learning_tools",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Official-based gRPC client in Go",
+    "Instruction": "Task Description: Create a function that tests a gRPC client connection to a user authentication service, sends multiple login requests, and prints the received authentication tokens.\n\nFunction Description: The function establishes an insecure gRPC connection to a specified server address, creates a user client, and sends 20 consecutive login requests with metadata containing a UUID. Each successful response's token is printed, while errors cause immediate termination.\n\nInput: None (The service address is hardcoded as \"127.0.0.1:8881\" and login credentials are fixed as account \"hwholiday\" and password \"123456\")\n\nOutput: None (The function prints tokens to stdout and may return early on error through testing.T's Error method)",
+    "Canonical_solution": "import (\n\t\"context\"\n\t\"fmt\"\n\t\"testing\"\n\n\t\"google.golang.org/grpc\"\n\t\"google.golang.org/grpc/metadata\"\n\n\t\"github.com/hwholiday/learning_tools/go-kit/v7/user_agent/pb\"\n\t\"github.com/hwholiday/learning_tools/go-kit/v7/user_agent/src\"\n\tuuid \"github.com/satori/go.uuid\"\n)\n\nfunc TestGrpc(t *testing.T) {\n\tserviceAddress := \"127.0.0.1:8881\"\n\tconn, err := grpc.Dial(serviceAddress, grpc.WithInsecure())\n\tif err != nil {\n\t\tpanic(\"connect error\")\n\t}\n\tdefer conn.Close()\n\tuserClient := pb.NewUserClient(conn)\n\tUUID := uuid.NewV5(uuid.NewV4(), \"req_uuid\").String()\n\tmd := metadata.Pairs(src.ContextReqUUid, UUID)\n\tctx := metadata.NewOutgoingContext(context.Background(), md)\n\tfor i := 0; i < 20; i++ {\n\t\tres, err := userClient.RpcUserLogin(ctx, &pb.Login{\n\t\t\tAccount:  \"hwholiday\",\n\t\t\tPassword: \"123456\",\n\t\t})\n\t\tif err != nil {\n\t\t\tt.Error(err)\n\t\t\treturn\n\t\t}\n\t\tfmt.Println(res.Token)\n\t}\n}",
+    "FSMID_for_test": 120,
+    "Code_level": "Function-level"
+}

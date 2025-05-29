@@ -1,0 +1,13 @@
+{
+  "Task_id": 145,
+  "Github_ID": "138328462",
+  "Github_Project_Name": "freescout",
+  "Programming_Language": "PHP",
+  "suffix": ".php",
+  "Interface_class": "IPC",
+  "Interface_name": "pipe based on proc_open in PHP",
+  "Instruction": "Task Description: Create a function that executes a shell command in a subprocess and captures its standard output while properly handling resources and errors.\n\nFunction Description: The function `readFromProcess` executes a given shell command as a subprocess using PHP's `proc_open`, captures the output from the subprocess's stdout stream, and ensures all resources are properly closed. It handles cases where the `proc_open` function is unavailable or fails to create the subprocess.\n\nInput: \n- `$command` (string): The shell command to be executed in the subprocess.\n\nOutput: \n- (string|null): Returns the captured output from the subprocess's stdout if successful, or null if the subprocess could not be created or if `proc_open` is unavailable.",
+  "Canonical_solution": "function readFromProcess($command)\n{\n    if (!\\function_exists('proc_open')) {\n        return null;\n    }\n\n    $descriptorspec = [\n        1 => ['pipe', 'w'],\n        2 => ['pipe', 'w'],\n    ];\n\n    $process = proc_open($command, $descriptorspec, $pipes, null, null, ['suppress_errors' => true]);\n    if (!\\is_resource($process)) {\n        return null;\n    }\n\n    $info = stream_get_contents($pipes[1]);\n    fclose($pipes[1]);\n    fclose($pipes[2]);\n    proc_close($process);\n\n    return $info;\n}",
+  "FSMID_for_test": 145,
+  "Code_level": "Function-level"
+}

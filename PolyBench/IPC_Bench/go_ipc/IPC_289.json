@@ -1,0 +1,13 @@
+{
+    "Task_id": 289,
+    "Github_ID": "357897199",
+    "Github_Project_Name": "netbird",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Official-based gRPC server in Go",
+    "Instruction": "Task Description: Create a function to start a gRPC server for signal exchange, including setting up a network listener and registering the server with gRPC.\n\nFunction Description: The function `startSignal` initializes and starts a gRPC server for signal exchange. It creates a TCP listener on an available port, initializes a new gRPC server instance, registers the signal exchange service, and starts the server in a goroutine. The function is designed for testing purposes and includes error handling.\n\nInput: \n- `t *testing.T`: A testing context for error reporting and test helpers.\n\nOutput:\n- `*grpc.Server`: The created gRPC server instance.\n- `net.Listener`: The network listener used by the gRPC server.",
+    "Canonical_solution": "import (\n\t\"context\"\n\t\"net\"\n\t\"testing\"\n\n\t\"google.golang.org/grpc\"\n\n\tsigProto \"github.com/netbirdio/netbird/signal/proto\"\n\tsig \"github.com/netbirdio/netbird/signal/server\"\n)\n\nfunc startSignal(t *testing.T) (*grpc.Server, net.Listener) {\n\tt.Helper()\n\tlis, err := net.Listen(\"tcp\", \":0\")\n\tif err != nil {\n\t\tt.Fatal(err)\n\t}\n\ts := grpc.NewServer()\n\tsrv, err := sig.NewServer(context.Background(), otel.Meter(\"\"))\n\trequire.NoError(t, err)\n\n\tsigProto.RegisterSignalExchangeServer(s, srv)\n\tgo func() {\n\t\tif err := s.Serve(lis); err != nil {\n\t\t\tpanic(err)\n\t\t}\n\t}()\n\n\treturn s, lis\n}",
+    "FSMID_for_test": 119,
+    "Code_level": "Function-level"
+}

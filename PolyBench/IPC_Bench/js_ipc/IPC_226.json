@@ -1,0 +1,13 @@
+{
+  "Task_id": 226,
+  "Github_ID": "187342565",
+  "Github_Project_Name": "Bonjourr",
+  "Programming_Language": "JavaScript",
+  "suffix": ".ts",
+  "Interface_class": "IPC",
+  "Interface_name": "WebSocket Client-side based on browser native API in JavaScript",
+  "Instruction": "Task Description: Create a function that establishes a WebSocket connection to a specified path on a server and returns the WebSocket object if the connection is successfully opened.\n\nFunction Description: The function `apiWebSocket` attempts to create a WebSocket connection to a given path on a secure WebSocket server. It waits for the connection to be established or fail (due to error or closure) and returns the WebSocket object only if the connection is successfully opened. If the connection fails or an error occurs, the function returns `undefined`.\n\nInput: \n- `path` (string): The path on the server to which the WebSocket connection should be established. This is appended to the base URL `wss://services.bonjourr.fr/`.\n\nOutput: \n- `Promise<WebSocket | undefined>`: A promise that resolves to the WebSocket object if the connection is successfully opened, or `undefined` if the connection fails or an error occurs.",
+  "Canonical_solution": "export async function apiWebSocket(path: string): Promise<WebSocket | undefined> {\n\ttry {\n\t\tconst socket = new WebSocket(`wss://services.bonjourr.fr/${path}`)\n\t\tconst isOpened = await new Promise((resolve) => {\n\t\t\tsocket.onopen = () => resolve(true)\n\t\t\tsocket.onerror = () => resolve(false)\n\t\t\tsocket.onclose = () => resolve(false)\n\t\t})\n\n\t\tif (isOpened) {\n\t\t\treturn socket\n\t\t}\n\t} catch (_error) {\n\t\t// ...\n\t}\n}",
+  "FSMID_for_test": 89,
+  "Code_level": "Function-level"
+}

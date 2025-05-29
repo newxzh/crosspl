@@ -1,0 +1,13 @@
+{
+  "Task_id": 609,
+  "Github_ID": "75989169",
+  "Github_Project_Name": "KuaiChuan",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "java.net UDP Server or Client",
+  "Instruction": "Task Description: Implement a UDP client function that sends a message to a server and waits for a response.\n\nFunction Description: The function establishes a UDP connection, sends a predefined message (\"hello world\") to a specified server (localhost on port 9876), waits for a response, prints the server's reply, and then closes the connection. This demonstrates basic UDP client-server communication.\n\nInput: None (The target address and port are hardcoded as \"localhost\" and 9876 respectively)\n\nOutput: None (The function prints the server's response to the console but doesn't return any value)",
+  "Canonical_solution": "import java.net.DatagramSocket;\nimport java.net.InetAddress;\nimport java.net.DatagramPacket;\n\nprivate void sendWifiInfoToClient() throws Exception {\n    DatagramSocket clientSocket = new DatagramSocket();\n    InetAddress IPAddress = InetAddress.getByName(\"localhost\");\n    byte[] sendData = new byte[1024];\n    byte[] receiveData = new byte[1024];\n    String sentence = \"hello world\";\n    sendData = sentence.getBytes();\n    DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, 9876);\n    clientSocket.send(sendPacket);\n    DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);\n    clientSocket.receive(receivePacket);\n    String modifiedSentence = new String(receivePacket.getData());\n    System.out.println(\"FROM SERVER:\" + modifiedSentence);\n    clientSocket.close();\n}",
+  "FSMID_for_test": 2,
+  "Code_level": "Function-level"
+}

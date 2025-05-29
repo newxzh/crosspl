@@ -1,0 +1,13 @@
+{
+  "Task_id": 136,
+  "Github_ID": "165894",
+  "Github_Project_Name": "xhprof",
+  "Programming_Language": "PHP",
+  "suffix": ".php",
+  "Interface_class": "IPC",
+  "Interface_name": "pipe based on proc_open in PHP",
+  "Instruction": "Task Description: Create a function that generates an image from a DOT script using the Graphviz `dot` command-line tool through inter-process communication in PHP.\n\nFunction Description: The function takes a DOT script and an image type as input, executes the `dot` command with the specified type, and returns the generated image data. It handles the subprocess communication using pipes for stdin, stdout, and stderr, ensuring proper resource cleanup and error handling.\n\nInput: \n- $dot_script: string - The DOT language script to be processed by Graphviz\n- $type: string - The output image type (e.g., 'png', 'svg', 'jpg')\n\nOutput: \n- Returns: string - The binary data of the generated image\n- On error: Prints error message to stderr and exits the program",
+  "Canonical_solution": "function xhprof_generate_image_by_dot($dot_script, $type) {\n  $descriptorspec = array(\n       // stdin is a pipe that the child will read from\n       0 => array(\"pipe\", \"r\"),\n       // stdout is a pipe that the child will write to\n       1 => array(\"pipe\", \"w\"),\n       // stderr is a pipe that the child will write to\n       2 => array(\"pipe\", \"w\")\n       );\n\n  $cmd = \" dot -T\".$type;\n\n  $process = proc_open( $cmd, $descriptorspec, $pipes, sys_get_temp_dir(), array( 'PATH' => getenv( 'PATH' ) );\n  if (is_resource($process)) {\n    fwrite($pipes[0], $dot_script);\n    fclose($pipes[0]);\n\n    $output = stream_get_contents($pipes[1]);\n\n    $err = stream_get_contents($pipes[2]);\n    if (!empty($err)) {\n      print \"failed to execute cmd: \\\"$cmd\\\". stderr: `$err'\\n\";\n      exit;\n    }\n\n    fclose($pipes[2]);\n    fclose($pipes[1]);\n    proc_close($process);\n    return $output;\n  }\n  print \"failed to execute cmd \\\"$cmd\\\"\";\n  exit();\n}",
+  "FSMID_for_test": 145,
+  "Code_level": "Function-level"
+}

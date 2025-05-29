@@ -1,0 +1,13 @@
+{
+  "Task_id": 111,
+  "Github_ID": "542713154",
+  "Github_Project_Name": "uAgents",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Client-side by using requests in python",
+  "Instruction": "Task Description: Implement a function that translates text using the Hugging Face T5-base model API, handling HTTP requests and responses appropriately.\n\nFunction Description: The function `translate_text` sends a text input to the Hugging Face T5-base model API for translation. It handles the HTTP POST request, checks the response status, and returns either the translated text or an error message. The function uses the `requests` library for HTTP communication and requires an access token for authorization.\n\nInput:\n- `ctx: Context` - The context object for sending responses.\n- `sender: str` - The identifier of the sender to whom the response will be sent.\n- `input_text: str` - The text to be translated.\n\nOutput:\n- The function does not return a value directly but sends a `TranslationResponse` with the translated text if successful, or an `Error` with the error message if the request fails or an exception occurs.",
+  "Canonical_solution": "import os\nimport requests\nfrom messages.t5_base import TranslationRequest, TranslationResponse, Error\n\nHUGGING_FACE_ACCESS_TOKEN = os.getenv(\n    \"HUGGING_FACE_ACCESS_TOKEN\", \"HUGGING_FACE_ACCESS_TOKEN\")\nT5_BASE_URL = \"https://api-inference.huggingface.co/models/t5-base\"\nHEADERS = {\n    \"Authorization\": f\"Bearer {HUGGING_FACE_ACCESS_TOKEN}\"\n}\n\nasync def translate_text(ctx: Context, sender: str, input_text: str):\n    payload = {\n        \"inputs\": input_text\n    }\n    try:\n        response = requests.post(T5_BASE_URL, headers=HEADERS, json=payload)\n        if response.status_code == 200:\n            await ctx.send(sender, TranslationResponse(translated_text=f\"{response.json()}\"))\n            return\n        else:\n            await ctx.send(sender, Error(error=f\"Error: {response.json()}\"))\n            return\n    except Exception as ex:\n        await ctx.send(sender, Error(error=f\"Exception Occurred: {ex}\"))\n        return",
+  "FSMID_for_test": 57,
+  "Code_level": "Function-level"
+}

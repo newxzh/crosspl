@@ -1,0 +1,13 @@
+{
+  "Task_id": 19,
+  "Github_ID": "574012459",
+  "Github_Project_Name": "QLScriptPublic",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Client-side based on Axios",
+  "Instruction": "Task Description: Create a reusable HTTP client class that simplifies making HTTP requests using Axios, with support for common methods like GET and POST, while handling errors consistently.\n\nClass Description: The HTTPClient class encapsulates Axios functionality to provide a clean interface for making HTTP requests. It maintains headers across requests and provides methods for GET and POST operations with error handling.\n\nAttributes:\n- headers: Object - Contains HTTP headers to be sent with every request\n\nMethods:\n- constructor(headers: Object) -> void - Initializes the HTTP client with default headers\n- get(url: String, params: Object = {}) -> Promise<Object> - Sends a GET request to the specified URL with optional query parameters, returns response data or throws error\n- post(url: String, data: Object = {}, params: Object = {}) -> Promise<Object> - Sends a POST request to the specified URL with optional request body and query parameters, returns response data or throws error",
+  "Canonical_solution": "const axios = require('axios');\n\nclass HTTPClient {\n    constructor(headers) {\n        this.headers = headers;\n    }\n\n    async get(url, params = {}) {\n        try {\n            const response = await axios({\n                method: 'get',\n                url: url,\n                headers: this.headers,\n                params: params\n            });\n            return response.data;\n        } catch (error) {\n            console.error('GET request failed:', error);\n            throw error;\n        }\n    }\n\n    async post(url, data = {}, params = {}) {\n        try {\n            const response = await axios({\n                method: 'post',\n                url: url,\n                headers: this.headers,\n                data: data,\n                params: params\n            });\n            return response.data;\n        } catch (error) {\n            console.error('POST request failed:', error);\n            throw error;\n        }\n    }\n}",
+  "FSMID_for_test": 94,
+  "Code_level": "Class-level"
+}

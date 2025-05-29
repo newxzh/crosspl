@@ -1,0 +1,13 @@
+{
+  "Task_id": 72,
+  "Github_ID": "67361765",
+  "Github_Project_Name": "react-draft-wysiwyg",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP based on express in javascript",
+  "Instruction": "Task Description: Create a function to set up an Express server with webpack middleware for development purposes, serving a single-page application.\n\nFunction Description: The function `setupExpressServer` initializes an Express application, configures webpack development and hot-reload middleware, sets up a catch-all route to serve the main HTML file, and starts the server on localhost port 3000. This is typically used in development environments for frontend applications bundled with webpack.\n\nInput: None (The function doesn't take any explicit parameters, but assumes the existence of `compiler` and `config` variables in its scope, which would typically be webpack compiler instance and configuration object respectively)\n\nOutput: None (The function doesn't return anything but starts an HTTP server that listens on port 3000)",
+  "Canonical_solution": "function setupExpressServer() {\n    const express = require('express');\n    const app = express();\n    \n    app.use(require('webpack-dev-middleware')(compiler, {\n        noInfo: true,\n        publicPath: config.output.publicPath,\n    }));\n    \n    app.use(require('webpack-hot-middleware')(compiler));\n    \n    app.get('*', (req, res) => {\n        res.sendFile(path.join(__dirname, '../index.html'));\n    });\n    \n    app.listen(3000, 'localhost', (err) => {\n        if (err) {\n            console.log(err);\n            return;\n        }\n        console.log('Listening at http://localhost:3000');\n    });\n}",
+  "FSMID_for_test": 96,
+  "Code_level": "Function-level"
+}

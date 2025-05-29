@@ -1,0 +1,13 @@
+{
+  "Task_id": 33,
+  "Github_ID": "7589945",
+  "Github_Project_Name": "asio",
+  "Programming_Language": "C++",
+  "suffix": ".cpp",
+  "Interface_class": "IPC",
+  "Interface_name": "UDP based on Boost.Asio in C++",
+  "Instruction": "Task Description: Implement a UDP echo server using Boost.Asio that listens on a specified port, receives incoming datagrams, and sends them back to the sender.\n\nFunction Description: The function creates a UDP socket bound to a specified port, then enters an infinite loop where it receives datagrams from clients and echoes them back to the sender. This demonstrates basic UDP communication using Boost.Asio.\n\nInput:\n- io_context: boost::asio::io_context& - Reference to an I/O execution context that manages asynchronous operations\n- port: unsigned short - The port number on which the server should listen for incoming UDP datagrams\n\nOutput: None (The function runs indefinitely in a loop, processing incoming datagrams)",
+  "Canonical_solution": "#include <boost/asio.hpp>\nusing boost::asio::ip::udp;\nenum { max_length = 1024 };\n\nvoid server(boost::asio::io_context& io_context, unsigned short port)\n{\n  udp::socket sock(io_context, udp::endpoint(udp::v4(), port));\n  for (;;)\n  {\n    char data[max_length];\n    udp::endpoint sender_endpoint;\n    size_t length = sock.receive_from(\n        boost::asio::buffer(data, max_length), sender_endpoint);\n    sock.send_to(boost::asio::buffer(data, length), sender_endpoint);\n  }\n}",
+  "FSMID_for_test": 153,
+  "Code_level": "Function-level"
+}

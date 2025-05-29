@@ -1,0 +1,13 @@
+{
+  "Task_id": 263,
+  "Github_ID": "60349380",
+  "Github_Project_Name": "godot-demo-projects",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "WebSocket Server-side based on Node.js",
+  "Instruction": "Task Description: Implement a WebSocket server class in Node.js that can handle client connections, messages, errors, and disconnections.\n\nClass Description: The WebSocketServer class creates and manages a WebSocket server instance, setting up event handlers for various WebSocket events. It provides methods to handle incoming messages, connection closures, and errors.\n\nAttributes:\n- wss: [WebSocket.Server] - The WebSocket server instance created with the specified port.\n\nMethods:\n- constructor(port: number) -> void - Initializes the WebSocket server on the specified port and sets up event handlers.\n- setupEventHandlers() -> void - Configures event listeners for connection, message, close, and error events.\n- handleMessage(ws: WebSocket, message: string) -> void - Placeholder for message handling logic (to be implemented by the user).\n- handleClose(ws: WebSocket, code: number, reason: string) -> void - Placeholder for connection close handling logic (to be implemented by the user).\n- handleError(ws: WebSocket, error: Error) -> void - Placeholder for error handling logic (to be implemented by the user).",
+  "Canonical_solution": "const WebSocket = require('ws');\n\nclass WebSocketServer {\n  constructor(port) {\n    this.wss = new WebSocket.Server({ port: port });\n    this.setupEventHandlers();\n  }\n\n  setupEventHandlers() {\n    this.wss.on('connection', (ws) => {\n      ws.on('message', (message) => {\n        this.handleMessage(ws, message);\n      });\n\n      ws.on('close', (code, reason) => {\n        this.handleClose(ws, code, reason);\n      });\n\n      ws.on('error', (error) => {\n        this.handleError(ws, error);\n      });\n    });\n  }\n\n  handleMessage(ws, message) {\n    // Message handling logic would be implemented here\n  }\n\n  handleClose(ws, code, reason) {\n    // Connection close handling logic would be implemented here\n  }\n\n  handleError(ws, error) {\n    // Error handling logic would be implemented here\n  }\n}",
+  "FSMID_for_test": 90,
+  "Code_level": "Class-level"
+}

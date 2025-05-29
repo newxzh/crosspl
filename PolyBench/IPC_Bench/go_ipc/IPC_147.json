@@ -1,0 +1,13 @@
+{
+    "Task_id": 147,
+    "Github_ID": "44634390",
+    "Github_Project_Name": "find",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Gin-based HTTP Server in Go",
+    "Instruction": "Task Description: Create a Go HTTP server using the Gin framework that implements a simple session-based counter. The server should increment and return a counter value with each request, storing the count in a session cookie.\n\nFunction Description: The main function initializes a Gin server with session middleware, sets up a route handler for GET requests at \"/incr\" that increments and returns a session-based counter, and starts the server on port 8000.\n\nInput: None (The function takes no direct input parameters, but handles HTTP GET requests to the \"/incr\" endpoint)\n\nOutput: None (The function doesn't return any value, but starts an HTTP server that responds to requests with JSON containing the current count, e.g., {\"count\": 5})",
+    "Canonical_solution": "import (\n\t\"github.com/gin-gonic/contrib/sessions\"\n\t\"github.com/gin-gonic/gin\"\n)\nfunc main() {\n\tr := gin.Default()\n\tstore := sessions.NewCookieStore([]byte(\"secret\"))\n\tr.Use(sessions.Sessions(\"mysession\", store))\n\n\tr.GET(\"/incr\", func(c *gin.Context) {\n\t\tsession := sessions.Default(c)\n\t\tvar count int\n\t\tv := session.Get(\"count\")\n\t\tif v == nil {\n\t\t\tcount = 0\n\t\t} else {\n\t\t\tcount = v.(int)\n\t\t\tcount += 1\n\t\t}\n\t\tsession.Set(\"count\", count)\n\t\tsession.Save()\n\t\tc.JSON(200, gin.H{\"count\": count})\n\t})\n\tr.Run(\":8000\")\n}",
+    "FSMID_for_test": 105,
+    "Code_level": "Function-level"
+}

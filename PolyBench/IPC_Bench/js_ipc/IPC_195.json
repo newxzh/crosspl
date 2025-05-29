@@ -1,0 +1,13 @@
+{
+  "Task_id": 195,
+  "Github_ID": "133092972",
+  "Github_Project_Name": "undici",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "WebSocket Client-side based on Node.js",
+  "Instruction": "Task Description: Create a function to test WebSocket communication between a client and server, verifying the ability to send and receive empty payload messages.\n\nFunction Description: The function sets up a WebSocket server and client, where the server echoes back an empty message when it receives any message from the client. The test verifies that the client can successfully receive this empty message.\n\nInput: None (The function is self-contained and doesn't require external parameters)\n\nOutput: None (The function performs assertions internally and doesn't return any value)",
+  "Canonical_solution": "function testWebSocketCommunication() {\n  const { test } = require('node:test');\n  const { WebSocketServer } = require('ws');\n  const { WebSocket } = require('../..');\n  const { tspl } = require('@matteo.collina/tspl');\n\n  test('Receiving frame with payload length 0 works', async (t) => {\n    const { ok, completed } = tspl(t, { plan: 1 });\n\n    const server = new WebSocketServer({ port: 0 });\n\n    server.on('connection', (socket) => {\n      socket.on('message', () => {\n        socket.send('');\n      });\n    });\n\n    t.after(() => {\n      server.close();\n      ws.close();\n    });\n\n    const ws = new WebSocket(`ws://127.0.0.1:${server.address().port}`);\n\n    ws.addEventListener('open', () => {\n      ws.send('Hi');\n    });\n\n    ws.addEventListener('message', () => {\n      ok(true);\n    });\n\n    await completed;\n  });\n}",
+  "FSMID_for_test": 91,
+  "Code_level": "Function-level"
+}

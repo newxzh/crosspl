@@ -1,0 +1,13 @@
+{
+    "Task_id": 196,
+    "Github_ID": "40453691",
+    "Github_Project_Name": "GolangTraining",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Net-based TCP Server in Go",
+    "Instruction": "Task Description: Create a TCP echo server in Go that listens for incoming connections on a specified port, reads data from clients, and echoes the same data back to them.\n\nFunction Description: The function implements a simple TCP server that continuously accepts client connections, reads data from each connection, and writes the same data back (echo). It handles network errors appropriately and ensures resources are cleaned up.\n\nInput: None (The port number is hardcoded as \":9000\" in the implementation)\n\nOutput: None (The function runs indefinitely until interrupted, with all output being network communication with clients)",
+    "Canonical_solution": "import \"net\"\n\nfunc main() {\n\tln, err := net.Listen(\"tcp\", \":9000\")\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\tdefer ln.Close()\n\n\tfor {\n\t\tconn, err := ln.Accept()\n\t\tif err != nil {\n\t\t\tpanic(err)\n\t\t}\n\n\t\tfor {\n\t\t\tbs := make([]byte, 1024)\n\t\t\tn, err := conn.Read(bs)\n\t\t\tif err != nil {\n\t\t\t\tbreak\n\t\t\t}\n\t\t\t_, err = conn.Write(bs[:n])\n\t\t\tif err != nil {\n\t\t\t\tbreak\n\t\t\t}\n\t\t}\n\n\t\tconn.Close()\n\t}\n}",
+    "FSMID_for_test": 109,
+    "Code_level": "Function-level"
+}

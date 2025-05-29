@@ -1,0 +1,69 @@
+from fastapi import Body, FastAPI, HTTPException
+from fastapi.routing import APIRoute
+from pydantic import BaseModel
+from starlette.responses import JSONResponse
+from uvicorn import run
+from typing import List, Any, Optional
+
+class ServeModelInfoResult(BaseModel):
+    infos: dict
+
+class ServeTokenizeResult(BaseModel):
+    tokens: List[str]
+    tokens_ids: Optional[List[int]]
+
+class ServeDeTokenizeResult(BaseModel):
+    text: str
+
+class ServeForwardResult(BaseModel):
+    output: Any
+
+class ServeCommand:
+    def __init__(self, pipeline, host: str = "localhost", port: int = 8888, workers: int = 1):
+        self._pipeline = pipeline
+        self.host = host
+        self.port = port
+        self.workers = workers
+
+        self._app = FastAPI(
+            routes=[
+                APIRoute("/", self.model_info, response_model=ServeModelInfoResult, response_class=JSONResponse, methods=["GET"]),
+                APIRoute("/tokenize", self.tokenize, response_model=ServeTokenizeResult, response_class=JSONResponse, methods=["POST"]),
+                APIRoute("/detokenize", self.detokenize, response_model=ServeDeTokenizeResult, response_class=JSONResponse, methods=["POST"]),
+                APIRoute("/forward", self.forward, response_model=ServeForwardResult, response_class=JSONResponse, methods=["POST"]),
+            ],
+            timeout=600,
+        )
+
+    def run(self):
+        run(self._app, host=self.host, port=self.port, workers=self.workers)
+
+    def model_info(self):
+        return ServeModelInfoResult(infos=vars(self._pipeline.model.config))
+
+    def tokenize(self, text_input: str = Body(None, embed=True), return_ids: bool = Body(False, embed=True)):
+        try:
+            tokens_txt = self._pipeline.tokenizer.tokenize(text_input)
+            if return_ids:
+                tokens_ids = self._pipeline.tokenizer.convert_tokens_to_ids(tokens_txt)
+                return ServeTokenizeResult(tokens=tokens_txt, tokens_ids=tokens_ids)
+            else:
+                return ServeTokenizeResult(tokens=tokens_txt)
+        except Exception as e:
+            raise HTTPException(status_code=500, detail={"error": str(e)})
+
+    def detokenize(self, tokens_ids: List[int] = Body(None, embed=True), skip_special_tokens: bool = Body(False, embed=True), cleanup_tokenization_spaces: bool = Body(True, embed=True)):
+        try:
+            decoded_str = self._pipeline.tokenizer.decode(tokens_ids, skip_special_tokens, cleanup_tokenization_spaces)
+            return ServeDeTokenizeResult(text=decoded_str)
+        except Exception as e:
+            raise HTTPException(status_code=500, detail={"error": str(e)})
+
+    async def forward(self, inputs=Body(None, embed=True)):
+        if len(inputs) == 0:
+            return ServeForwardResult(output=[])
+        try:
+            output = self._pipeline(inputs)
+            return ServeForwardResult(output=output)
+        except Exception as e:
+            raise HTTPException(status_code=500, detail={"error": str(e)})

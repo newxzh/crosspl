@@ -1,0 +1,13 @@
+{
+    "Task_id": 377,
+    "Github_ID": "237778673",
+    "Github_Project_Name": "kube-vip",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "net-based UDP Server with listenUDP in Go",
+    "Instruction": "Task Description: Create a UDP server in Go that listens on a specified port, receives messages from clients, and echoes them back to the sender.\n\nFunction Description: The function sets up a UDP server that binds to a given port, continuously listens for incoming messages, and responds by sending the received message back to the client. It handles network errors gracefully and ensures resources are properly cleaned up.\n\nInput: \n- port [string] - The port number on which the UDP server should listen (e.g., \":10002\")\n\nOutput: \n- None (The function runs indefinitely until interrupted)\n- Error messages are printed to stdout if any occur during setup or operation\n\nNote: The function does not return any values but prints status and error messages to stdout. It runs in an infinite loop to handle continuous incoming UDP messages.\n\nThe function performs the following key operations:\n1. Resolves the UDP address using the provided port\n2. Creates and binds a UDP listener\n3. Sets up deferred cleanup for the connection\n4. Enters a loop to read incoming messages and echo them back\n5. Handles and reports any network errors that occur",
+    "Canonical_solution": "import (\n\t\"fmt\"\n\t\"net\"\n\t\"os\"\n)\n\nfunc main() {\n\tserverType := strings.ToLower(os.Getenv(\"serverType\"))\n\n\tif serverType == \"udp\" {\n\t\tServerAddr, err := net.ResolveUDPAddr(\"udp\", \":10002\")\n\t\tif err != nil {\n\t\t\tfmt.Println(\"Error: \", err)\n\t\t\treturn\n\t\t}\n\t\tfmt.Println(\"Started UDP server on port 10002\")\n\n\t\tServerConn, err := net.ListenUDP(\"udp\", ServerAddr)\n\t\tif err != nil {\n\t\t\tfmt.Println(\"Error: \", err)\n\t\t\treturn\n\t\t}\n\t\tdefer ServerConn.Close()\n\n\t\tbuf := make([]byte, 1024)\n\n\t\tfor {\n\t\t\tn, addr, err := ServerConn.ReadFromUDP(buf)\n\t\t\tfmt.Printf(\"received: %s from: %s\\n\", string(buf[0:n]), addr)\n\n\t\t\tif err != nil {\n\t\t\t\tfmt.Println(\"error: \", err)\n\t\t\t}\n\n\t\t\tServerConn.WriteTo(buf[0:n], addr)\n\t\t}\n\t}\n}",
+    "FSMID_for_test": 112,
+    "Code_level": "Function-level"
+}

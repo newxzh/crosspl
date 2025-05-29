@@ -1,0 +1,13 @@
+{
+  "Task_id": 236,
+  "Github_ID": "572911222",
+  "Github_Project_Name": "faststream",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Server-side based on Tornado in python",
+  "Instruction": "Task Description: Create a Tornado-based HTTP server application that handles web requests and responds with a simple message.\n\nClass Description: The TornadoApp class encapsulates a Tornado web server with configurable port settings. It initializes the web application with route handlers and provides a method to start the server.\n\nAttributes:\n- port: int - The port number on which the server will listen (default: 8888)\n- app: tornado.web.Application - The Tornado web application instance that manages request routing\n\nMethods:\n- __init__(port: int = 8888) -> None - Initializes the Tornado application with the specified port and sets up the route handler\n- run() -> None - Starts the Tornado web server on the specified port and begins processing requests\n\nAdditional Class (MainHandler):\nClass Description: The MainHandler class processes HTTP GET requests to the root URL and returns a simple text response.\n\nMethods:\n- get() -> None - Handles GET requests to the root URL and writes \"Hello, world\" as the response",
+  "Canonical_solution": "import tornado.web\n\nclass MainHandler(tornado.web.RequestHandler):\n    def get(self):\n        self.write(\"Hello, world\")\n\nclass TornadoApp:\n    def __init__(self, port: int = 8888):\n        self.port = port\n        self.app = tornado.web.Application(\n            [\n                (r\"/\", MainHandler),\n            ]\n        )\n\n    def run(self):\n        self.app.listen(self.port)\n        tornado.ioloop.IOLoop.current().start()",
+  "FSMID_for_test": 64,
+  "Code_level": "Class-level"
+}

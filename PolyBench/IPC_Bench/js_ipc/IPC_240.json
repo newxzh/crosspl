@@ -1,0 +1,13 @@
+{
+  "Task_id": 240,
+  "Github_ID": "1141441",
+  "Github_Project_Name": "zombie",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "WebSocket Client-side based on browser native API in JavaScript",
+  "Instruction": "Task Description: Create a function to establish and manage a WebSocket connection in a browser environment, including handling connection events, sending messages, and closing the connection.\n\nFunction Description: The function `setupWebSocketConnection` initializes a WebSocket connection to a specified URL and provides methods to interact with the connection. It sets up event handlers for connection events (`open`, `message`, `close`, `error`) and returns an object with methods to send data, close the connection, and set the binary type of the WebSocket.\n\nInput: \n- `url` [String] - The URL to which the WebSocket connection will be established.\n\nOutput: \n- Returns an object with the following methods:\n  - `send(data)` - Sends data through the WebSocket connection.\n  - `close()` - Closes the WebSocket connection.\n  - `setBinaryType(type)` - Sets the binary type of the WebSocket connection (`blob` or `arraybuffer`).",
+  "Canonical_solution": "function setupWebSocketConnection(url) {\n  const ws = new WebSocket(url);\n  \n  ws.onopen = function() {\n    alert('open');\n  };\n  \n  ws.onmessage = function(message) {\n    alert(message.data);\n  };\n  \n  ws.onclose = function() {\n    alert('close');\n  };\n  \n  ws.onerror = function(error) {\n    console.error('WebSocket error:', error);\n  };\n\n  return {\n    send: function(data) {\n      ws.send(data);\n    },\n    close: function() {\n      ws.close();\n    },\n    setBinaryType: function(type) {\n      ws.binaryType = type;\n    }\n  };\n}",
+  "FSMID_for_test": 89,
+  "Code_level": "Function-level"
+}

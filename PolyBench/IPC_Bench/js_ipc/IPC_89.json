@@ -1,0 +1,13 @@
+{
+  "Task_id": 89,
+  "Github_ID": "59345600",
+  "Github_Project_Name": "vue-zhihu-daily",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP based on express in javascript",
+  "Instruction": "Task Description: Create a function that sets up and starts an Express.js server with middleware configuration and route handling.\n\nFunction Description: The function `setupServer` initializes an Express application, configures necessary middleware for JSON and URL-encoded request parsing, defines route handlers for specific endpoints, and starts the server listening on a specified port and host.\n\nInput:\n- `port` [Number] - The port number on which the server should listen.\n- `config` [Object] - (Optional) Configuration object for additional server settings (not currently used in the reference implementation but included for extensibility).\n\nOutput:\n- Returns the HTTP server instance created by `app.listen()`.\n- The server will log its listening address to the console upon successful startup or log any errors encountered during startup.",
+  "Canonical_solution": "var express = require('express')\nvar app = express()\n\nfunction setupServer(port, config) {\n    // Configure middleware\n    app.use(express.json())\n    app.use(express.urlencoded({ extended: true }))\n    \n    // Define routes\n    app.get('/imagebox', require('../server/routes/imagebox').upload)\n    app.get('/readapi', require('../server/routes/api').requestApi)\n    \n    // Start server\n    return app.listen(port, '0.0.0.0', function(err) {\n        if (err) {\n            console.log(err)\n            return\n        }\n        console.log('Listening at http://localhost:' + port + '\\n')\n    })\n}",
+  "FSMID_for_test": 96,
+  "Code_level": "Function-level"
+}

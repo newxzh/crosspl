@@ -1,0 +1,40 @@
+Task description:
+Based on the original code and information related to the original code, extract the expected class-level code for multi-programming language interaction from the original code.
+
+Requirements:
+1. Only extract one class-level code involving multi-programming language interaction in the original code, including Class name, all relevant functions, parameters, return values and core logic.
+2. According to the "Source code" and the key steps of the inter-process communication technology, if the inter-process communication technique requires multiple functions to work together, but the source code does not define any classes, please extract these functions and encapsulate these functions into a class-level code, preserve the original semantics of the code as much as possible; do not introduce any content other than encapsulation.
+3. Extract all external library files and global variables that use the class, and ensure that these codes are completely derived from the original code.
+4. Only extract task-related code, and the extracted code must strictly contain the key steps of the inter-process communication technology.
+5. The output result should follow the format of "Output" in the example. Do not include any characters other than code, including "Output", "Java", " ''' ", or "Here's the extracted...".
+6. Please strictly follow the instructions above.
+
+Instruct:
+You are an advanced programmer who focuses on multi-language interaction and inter-process communication technology.
+Please complete the task according to the following example.
+
+Example:
+Input:
+Original code: {Reference_raw_code}
+Information related to the original code:
+  - Programming language: Java
+  - Inter-process communication technology name: java.net ServerSocket
+  - The key steps of this inter-process communication technology:
+    Step 1: Import java.net package, ServerSocket or Socket class
+    Step 2: Create ServerSocket instance
+    Step 3: Accept incoming connection
+    Step 4: Handle input/output streams
+    Step 5: Close the connection
+
+Output:
+{Reference_class_level_code}
+
+Request:
+Now please follow the task description and the example to extract one expected multi-language interaction class-level code from the original code based on the input.
+
+Input:
+Original code: {Original_code}
+Information related to the original code:
+  - Programming language: {PL}
+  - Inter-process communication technology name: {IPC_Name}
+  - The key steps of this inter-process communication technology: {Steps}

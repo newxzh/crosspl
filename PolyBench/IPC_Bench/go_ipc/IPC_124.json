@@ -1,0 +1,13 @@
+{
+    "Task_id": 124,
+    "Github_ID": "173227087",
+    "Github_Project_Name": "examples",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Gin-based HTTP Server in Go",
+    "Instruction": "Task Description: Create a Go function that sets up a Gin HTTP server to handle file uploads along with form data, save the uploaded file to the server, and return a success message with the file details and form fields.\n\nFunction Description: The function initializes a Gin router, configures it to handle multipart form uploads (with a maximum size limit), serves static files from a public directory, and sets up a POST endpoint for file uploads. The endpoint binds the incoming request to a struct containing the file and form fields, saves the file to the server, and returns a success message with the file name and form field values.\n\nInput: None (The function takes no direct input parameters; it receives HTTP requests through the Gin router)\n\nOutput: None (The function does not return any value; it sends HTTP responses through the Gin context)\n\nNote: The function assumes the existence of a `BindFile` struct type which should contain at least these fields:\n- File: *multipart.FileHeader - The uploaded file\n- Name: string - A form field value\n- Email: string - A form field value",
+    "Canonical_solution": "import (\n\t\"fmt\"\n\t\"mime/multipart\"\n\t\"net/http\"\n\t\"path/filepath\"\n\n\t\"github.com/gin-gonic/gin\"\n)\nfunc main() {\n\trouter := gin.Default()\n\trouter.MaxMultipartMemory = 8 << 20\n\trouter.Static(\"/\", \"./public\")\n\trouter.POST(\"/upload\", func(c *gin.Context) {\n\t\tvar bindFile BindFile\n\n\t\tif err := c.ShouldBind(&bindFile); err != nil {\n\t\t\tc.String(http.StatusBadRequest, fmt.Sprintf(\"err: %s\", err.Error()))\n\t\t\treturn\n\t\t}\n\n\t\tfile := bindFile.File\n\t\tdst := filepath.Base(file.Filename)\n\t\tif err := c.SaveUploadedFile(file, dst); err != nil {\n\t\t\tc.String(http.StatusBadRequest, fmt.Sprintf(\"upload file err: %s\", err.Error()))\n\t\t\treturn\n\t\t}\n\n\t\tc.String(http.StatusOK, fmt.Sprintf(\"File %s uploaded successfully with fields name=%s and email=%s.\", file.Filename, bindFile.Name, bindFile.Email))\n\t})\n\trouter.Run(\":8080\")\n}",
+    "FSMID_for_test": 105,
+    "Code_level": "Function-level"
+}

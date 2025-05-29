@@ -1,0 +1,13 @@
+{
+  "Task_id": 114,
+  "Github_ID": "15324383",
+  "Github_Project_Name": "bootstrap-treeview",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP based on express in javascript",
+  "Instruction": "Task Description: Create a function that sets up and starts an HTTP server using the Express framework in JavaScript, with middleware configurations for request processing and static file serving.\n\nFunction Description: The function `createServer` initializes an Express application, configures various middleware for logging, request parsing, and static file serving, and starts an HTTP server listening on a specified port. It also includes environment-specific error handling for development mode.\n\nInput: None (The function does not take any parameters; it uses environment variables like `process.env.PORT` for configuration.)\n\nOutput: None (The function does not return any value; it starts an HTTP server that listens on the specified port and logs a message upon successful startup.)",
+  "Canonical_solution": "function createServer() {\n    var express = require('express');\n    var http = require('http');\n    var path = require('path');\n\n    var app = express();\n\n    app.set('port', process.env.PORT || 3000);\n    app.use(express.favicon());\n    app.use(express.logger('dev'));\n    app.use(express.json());\n    app.use(express.urlencoded());\n    app.use(express.methodOverride());\n    app.use(express.static(path.join(__dirname, '/public')));\n    app.use(express.static(path.join(__dirname, '/tests')));\n\n    if ('development' == app.get('env')) {\n        app.use(express.errorHandler());\n    }\n\n    http.createServer(app).listen(app.get('port'), function(){\n        console.log('Express server listening on port ' + app.get('port'));\n    });\n}",
+  "FSMID_for_test": 96,
+  "Code_level": "Function-level"
+}

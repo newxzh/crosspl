@@ -1,0 +1,37 @@
+import ctypes
+import os
+import timeit
+import array
+import numpy as np
+import random
+from typing import Tuple
+_path = '../libsample.so'
+class DoubleArrayType:
+    def from_param(self, param):
+        typename = type(param).__name__
+        if hasattr(self, 'from_'+typename):
+            return getattr(self, 'from_'+typename)(param)
+        elif isinstance(param, ctypes.Array):
+            return param
+        else:
+            raise TypeError("Can't convert %s" % typename)
+    def from_array(self, param):
+        if param.typecode != 'd':
+            raise TypeError('must be an array of doubles')
+        ptr, _ = param.buffer_info()
+        return ctypes.cast(ptr, ctypes.POINTER(ctypes.c_double))
+
+    def from_list(self, param):
+        val = ((ctypes.c_double)*len(param))(*param)
+        return val
+
+    from_tuple = from_list
+
+    def from_ndarray(self, param):
+        return param.ctypes.data_as(ctypes.POINTER(ctypes.c_double))
+DoubleArray = DoubleArrayType()
+_avg = _mod.avg
+_avg.argtypes = (DoubleArray, ctypes.c_int)
+_avg.restype = ctypes.c_double
+def py_avg(values) -> float:
+    return _avg(values, len(values))

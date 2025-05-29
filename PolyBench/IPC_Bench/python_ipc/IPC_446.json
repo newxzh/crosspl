@@ -1,0 +1,13 @@
+{
+  "Task_id": 446,
+  "Github_ID": "616766088",
+  "Github_Project_Name": "langchain-serve",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "WebSocket Server - side by using FastAPI in python",
+  "Instruction": "Task Description: Create a WebSocket server using FastAPI that accepts client connections, sends a sequence of numbers at a specified interval, and then closes the connection.\n\nFunction Description: The function `websocket_endpoint` establishes a WebSocket connection with a client, sends a sequence of numbers (0 to 4) at a specified time interval, and then closes the connection. It handles any exceptions that may occur during the process.\n\nInput:  \n- `websocket`: WebSocket - The WebSocket connection instance provided by FastAPI.  \n- `interval`: int (default: 1) - The time interval (in seconds) between sending consecutive numbers.  \n\nOutput: None (The function sends messages over the WebSocket but does not return any value.)",
+  "Canonical_solution": "import asyncio\nfrom fastapi import FastAPI, WebSocket\n\napp = FastAPI()\n\n@app.websocket(\"/ws\")\nasync def websocket_endpoint(websocket: WebSocket, interval: int = 1):\n    await websocket.accept()\n    try:\n        for i in range(5):\n            await websocket.send_text(str(i))\n            await asyncio.sleep(interval)\n        await websocket.close()\n    except Exception as e:\n        print(e)",
+  "FSMID_for_test": 48,
+  "Code_level": "Function-level"
+}

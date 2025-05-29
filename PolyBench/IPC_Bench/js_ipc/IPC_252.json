@@ -1,0 +1,13 @@
+{
+  "Task_id": 252,
+  "Github_ID": "98419904",
+  "Github_Project_Name": "android_interview",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "WebSocket Client-side based on browser native API in JavaScript",
+  "Instruction": "Task Description: Implement a WebSocket client function in JavaScript that establishes a connection to a WebSocket server, handles connection events, sends messages, and manages errors and closures.\n\nFunction Description: The function `connectWebSocket` initializes a WebSocket client connection to a specified server. It sets up event handlers for connection opening, incoming messages, and connection closing. The function also sends an initial message upon successful connection and logs all events to the console.\n\nInput: \n- Optional command line arguments:\n  - `port` (number): The port number to connect to (default: 7000).\n  - `secure` (boolean): Whether to use a secure WebSocket connection (wss) (default: false, uses ws).\n\nOutput: \n- No explicit return value. The function logs connection status, received messages, and closure events to the console.\n- Side effects: Establishes a WebSocket connection and sends/receives messages.",
+  "Canonical_solution": "function connectWebSocket() {\n    var WebSocket = require('../lib/faye/websocket'),\n        port = process.argv[2] || 7000,\n        secure = process.argv[3] === 'ssl',\n        scheme = secure ? 'wss' : 'ws',\n        ws = new WebSocket.Client(scheme + '://localhost:' + port + '/');\n\n    console.log('Connecting to ' + ws.url);\n\n    ws.onopen = function(event) {\n        console.log('open');\n        ws.send('Hello, WebSocket!');\n    };\n\n    ws.onmessage = function(event) {\n        console.log('message', event.data);\n    };\n\n    ws.onclose = function(event) {\n        console.log('close', event.code, event.reason);\n    };\n}",
+  "FSMID_for_test": 89,
+  "Code_level": "Function-level"
+}

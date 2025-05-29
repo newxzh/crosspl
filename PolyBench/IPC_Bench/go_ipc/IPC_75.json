@@ -1,0 +1,13 @@
+{
+    "Task_id": 75,
+    "Github_ID": "40453691",
+    "Github_Project_Name": "GolangTraining",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Basic HTTP server using net/http with HandleFunc and ListenAndServe",
+    "Instruction": "Task Description: Create a Go HTTP server that handles file uploads via a multipart form and displays an upload form to the client.\n\nFunction Description: The main function sets up an HTTP server with a single route (\"/\") that handles both GET and POST requests. For GET requests, it displays an HTML form for file uploads. For POST requests, it processes the uploaded file. The server listens on port 9000.\n\nInput: \n- None (The function takes no direct input parameters, but handles HTTP requests with:\n  - GET requests to \"/\" path\n  - POST requests with multipart/form-data containing a file under the \"q\" field)\n\nOutput:\n- For GET requests: Returns HTML form for file upload (content-type: text/html)\n- For POST requests: Processes the uploaded file (prints file info to console)\n- Server runs continuously on port 9000 until terminated",
+    "Canonical_solution": "import (\n\t\"fmt\"\n\t\"io\"\n\t\"net/http\"\n)\nfunc main() {\n\thttp.HandleFunc(\"/\", func(res http.ResponseWriter, req *http.Request) {\n\t\tkey := \"q\"\n\t\tfile, hdr, err := req.FormFile(key)\n\t\tfmt.Println(file, hdr, err)\n\t\tres.Header().Set(\"Content-Type\", \"text/html\")\n\t\tio.WriteString(res, `<form method=\"POST\" enctype=\"multipart/form-data\">\n      <input type=\"file\" name=\"q\">\n      <input type=\"submit\">\n    </form>`)\n\t})\n\thttp.ListenAndServe(\":9000\", nil)\n}",
+    "FSMID_for_test": 103,
+    "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 28,
+  "Github_ID": "347434932",
+  "Github_Project_Name": "epg",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Client-side based on Axios",
+  "Instruction": "Task Description: Write a function that scrapes TV channel information from a webpage, processes the data, and returns a list of channel objects with their details.\n\nFunction Description: The function `getChannels` asynchronously fetches HTML content from a URL, parses it to extract TV channel information, and returns an array of channel objects. Each channel object contains language, site ID, and name. The function uses Axios for HTTP requests and Cheerio for HTML parsing.\n\nInput: None (The function uses an implicit `this.url()` method to generate the target URL)\n\nOutput: Array<Object> - Returns an array of channel objects with the following structure:\n[\n  {\n    lang: string,      // Language code of the channel (e.g., 'tr')\n    site_id: string,   // Unique identifier for the channel\n    name: string       // Name of the channel\n  },\n  ...\n]",
+  "Canonical_solution": "async function getChannels() {\n    const channels = {};\n    const axios = require('axios');\n    const data = await axios\n        .get(this.url({ date: dayjs() }))\n        .then(r => r.data)\n        .catch(console.error);\n\n    const $ = cheerio.load(data);\n    $('.channelContent').toArray()\n        .forEach(el => {\n            const item = $(el);\n            const channelId = item.find('.channelDetail .tvGuideResult-box-wholeDates-title')\n                .first()\n                .attr('onclick');\n            if (channelId) {\n                const site_id = channelId.match(/\\s(\\d+)\\)/)[1];\n                if (channels[site_id] === undefined) {\n                    channels[site_id] = {\n                        lang: 'tr',\n                        site_id,\n                        name: item.find('#channelID').val()\n                    };\n                }\n            }\n        });\n\n    return Object.values(channels);\n}",
+  "FSMID_for_test": 94,
+  "Code_level": "Function-level"
+}

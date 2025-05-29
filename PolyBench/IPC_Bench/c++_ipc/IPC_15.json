@@ -1,0 +1,13 @@
+{
+  "Task_id": 15,
+  "Github_ID": "54698436",
+  "Github_Project_Name": "CS_Offer",
+  "Programming_Language": "C++",
+  "suffix": ".cpp",
+  "Interface_class": "IPC",
+  "Interface_name": "TCP Client based on socket+inet in C++",
+  "Instruction": "Task Description: Implement a TCP client function in C++ that establishes a connection to a server, sends a single character, receives a response, and then closes the connection.\n\nFunction Description: The function `tcp_client_communication` creates a TCP socket, connects to a specified server address and port, sends a predefined character ('A') to the server, reads the server's response, prints the received character, and finally closes the socket. This demonstrates basic TCP client functionality using BSD sockets.\n\nInput: None (The server address and port are hardcoded as 127.0.0.1:9736 in the function)\n\nOutput: \n- Returns 0 on successful execution\n- Prints the received character from the server\n- Exits with error code 1 if connection fails",
+  "Canonical_solution": "#include <unistd.h>\n#include <sys/types.h>\n#include <sys/socket.h>\n#include <netinet/in.h>\n#include <arpa/inet.h>\n#include <stdio.h>\n#include <stdlib.h>\n\nint tcp_client_communication()\n{\n    int sockfd = -1;\n    int len = 0;\n    struct sockaddr_in address;\n    int result;\n    char ch = 'A';\n    \n    sockfd = socket(AF_INET, SOCK_STREAM, 0);\n    \n    address.sin_family = AF_INET;\n    address.sin_addr.s_addr = inet_addr(\"127.0.0.1\");\n    address.sin_port = htons(9736);\n    len = sizeof(address);\n    \n    result = connect(sockfd, (struct sockaddr*)&address, len);\n\n    if(result == -1)\n    {\n        perror(\"ops:client\\n\");\n        exit(1);\n    }\n    \n    write(sockfd, &ch, 1);\n    read(sockfd, &ch, 1);\n    printf(\"char form server = %c\\n\", ch);\n    close(sockfd);\n    return 0;\n}",
+  "FSMID_for_test": 149,
+  "Code_level": "Function-level"
+}

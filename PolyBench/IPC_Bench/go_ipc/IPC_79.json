@@ -1,0 +1,13 @@
+{
+    "Task_id": 79,
+    "Github_ID": "134012064",
+    "Github_Project_Name": "webrtc",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Basic HTTP server using net/http with HandleFunc and ListenAndServe",
+    "Instruction": "Task Description: Create a function that sets up a basic HTTP server to receive SDP (Session Description Protocol) data through HTTP POST requests and forward it through a channel.\n\nFunction Description: The function `httpSDPServer` creates an HTTP server that listens on a specified port. When a POST request is received at the root path (\"/\"), it reads the request body, sends the body content through a channel, and responds with \"done\". The server runs in a separate goroutine to avoid blocking.\n\nInput: \n- `port` [int] - The port number on which the HTTP server should listen.\n\nOutput:\n- `chan string` - A channel that will receive the SDP data from incoming HTTP requests.",
+    "Canonical_solution": "import (\n\t\"fmt\"\n\t\"io\"\n\t\"net/http\"\n\t\"strconv\"\n)\n\nfunc httpSDPServer(port int) chan string {\n\tsdpChan := make(chan string)\n\thttp.HandleFunc(\"/\", func(w http.ResponseWriter, r *http.Request) {\n\t\tbody, _ := io.ReadAll(r.Body)\n\t\tfmt.Fprintf(w, \"done\")\n\t\tsdpChan <- string(body)\n\t})\n\n\tgo func() {\n\t\tpanic(http.ListenAndServe(\":\"+strconv.Itoa(port), nil))\n\t}()\n\n\treturn sdpChan\n}",
+    "FSMID_for_test": 103,
+    "Code_level": "Function-level"
+}

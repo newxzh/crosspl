@@ -1,0 +1,13 @@
+{
+    "Task_id": 226,
+    "Github_ID": "137360315",
+    "Github_Project_Name": "learning_tools",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Official-based gRPC client in Go",
+    "Instruction": "Task Description: Create a Go function that demonstrates how to interact with a gRPC server using the official Go gRPC client package. The function should establish a connection, make multiple RPC calls with metadata, and properly handle the connection lifecycle.\n\nFunction Description: The function tests gRPC client functionality by connecting to a user authentication service, sending login requests with metadata containing a UUID, and printing the received authentication tokens. It demonstrates proper gRPC connection management and metadata handling.\n\nInput: \n- serviceAddress: string - The address of the gRPC server in \"host:port\" format\n- account: string - The username for login\n- password: string - The password for login\n- testCount: int - Number of test iterations to perform\n\nOutput: \n- None directly returned, but prints authentication tokens to stdout\n- Returns error if connection or RPC calls fail\n\nNote: The function includes error handling and connection cleanup via defer. It uses metadata to pass a UUID for request tracking and demonstrates multiple RPC calls in a loop.",
+    "Canonical_solution": "import (\n\t\"context\"\n\t\"google.golang.org/grpc\"\n\t\"google.golang.org/grpc/metadata\"\n\tuuid \"github.com/satori/go.uuid\"\n\t\"github.com/hwholiday/learning_tools/go-kit/v8/user_agent/pb\"\n\t\"github.com/hwholiday/learning_tools/go-kit/v8/user_agent/src\"\n)\nfunc TestGrpc(t *testing.T) {\n\tserviceAddress := \"127.0.0.1:8881\"\n\tconn, err := grpc.Dial(serviceAddress, grpc.WithInsecure())\n\tif err != nil {\n\t\tpanic(\"connect error\")\n\t}\n\tdefer conn.Close()\n\tuserClient := pb.NewUserClient(conn)\n\tUUID := uuid.NewV5(uuid.NewV4(), \"req_uuid\").String()\n\tmd := metadata.Pairs(src.ContextReqUUid, UUID)\n\tctx := metadata.NewOutgoingContext(context.Background(), md)\n\tfor i := 0; i < 20; i++ {\n\t\tres, err := userClient.RpcUserLogin(ctx, &pb.Login{\n\t\t\tAccount:  \"hwholiday\",\n\t\t\tPassword: \"123456\",\n\t\t})\n\t\tif err != nil {\n\t\t\tt.Error(err)\n\t\t\treturn\n\t\t}\n\t\tfmt.Println(res.Token)\n\t}\n}",
+    "FSMID_for_test": 120,
+    "Code_level": "Function-level"
+}

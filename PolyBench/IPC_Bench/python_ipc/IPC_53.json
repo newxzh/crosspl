@@ -1,0 +1,13 @@
+{
+  "Task_id": 53,
+  "Github_ID": "425387994",
+  "Github_Project_Name": "Douyin_TikTok_Download_API",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Client-side by using httpx+asyncio in python",
+  "Instruction": "Task Description: Create an asynchronous function to fetch data from a specified URL using HTTP GET request with customizable headers, handling potential HTTP errors.\n\nFunction Description: The function uses httpx library with asyncio to make asynchronous HTTP requests. It creates an async client, sends a GET request to the provided URL, checks for successful response status, and returns the response object. Default headers are provided but can be overridden.\n\nInput:\n- url: str - The target URL to fetch data from\n- headers: dict (optional) - Custom headers to include in the request (defaults to common browser User-Agent if not provided)\n\nOutput:\n- Returns: httpx.Response - The HTTP response object containing status code, headers, and content\n- Raises: httpx.HTTPStatusError - If the response status code indicates an error (4xx or 5xx)",
+  "Canonical_solution": "import os\nimport httpx\nimport aiofiles\n\nasync def fetch_data(url: str, headers: dict = None):\n    headers = {\n        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'\n    } if headers is None else headers.get('headers')\n    async with httpx.AsyncClient() as client:\n        response = await client.get(url, headers=headers)\n        response.raise_for_status()  # Ensure successful response\n        return response",
+  "FSMID_for_test": 59,
+  "Code_level": "Function-level"
+}

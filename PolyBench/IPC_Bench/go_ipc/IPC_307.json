@@ -1,0 +1,13 @@
+{
+    "Task_id": 307,
+    "Github_ID": "549192",
+    "Github_Project_Name": "svgo",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Simple HTTP GET client using net/http",
+    "Instruction": "Task Description: Implement a function to fetch and process Google Font CSS data for embedding in SVG documents.\n\nFunction Description: The function `googlefont` retrieves CSS data from Google Fonts API for a specified font family, embeds it in SVG-compatible format, and returns available font variants. It handles HTTP requests, response processing, and error cases gracefully.\n\nInput: \n- `f` [string] - The font family name to query (e.g., \"Roboto\" or \"Open Sans\")\n\nOutput:\n- `[]string` - A slice of strings representing available font variants (split by \"|\"), or an empty slice if the request fails or returns non-200 status",
+    "Canonical_solution": "import (\n\t\"fmt\"\n\t\"io/ioutil\"\n\t\"net/http\"\n\t\"net/url\"\n\t\"strings\"\n)\n\nvar (\n\tcanvas = svg.New(os.Stdout)\n)\n\nconst (\n\tgwfURI  = \"http://fonts.googleapis.com/css?family=\"\n\tfontfmt = \"<style type=\\\"text/css\\\">\\n<![CDATA[\\n%s]]>\\n</style>\\n\"\n)\n\nfunc googlefont(f string) []string {\n\tempty := []string{}\n\tr, err := http.Get(gwfURI + url.QueryEscape(f))\n\tif err != nil {\n\t\treturn empty\n\t}\n\tdefer r.Body.Close()\n\tb, rerr := ioutil.ReadAll(r.Body)\n\tif rerr != nil || r.StatusCode != http.StatusOK {\n\t\treturn empty\n\t}\n\tcanvas.Def()\n\tfmt.Fprintf(canvas.Writer, fontfmt, b)\n\tcanvas.DefEnd()\n\treturn strings.Split(fontlist, \"|\")\n}",
+    "FSMID_for_test": 101,
+    "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+    "Task_id": 325,
+    "Github_ID": "44820350",
+    "Github_Project_Name": "matterbridge",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Simple HTTP GET client using net/http",
+    "Instruction": "Task Description: Create a function that reads data from a given location, supporting HTTP/HTTPS protocols. The function should handle URL parsing, make HTTP requests, and return the response body or appropriate errors.\n\nFunction Description: The function `ReadLocation` takes a location string (URL) as input, parses it to determine the protocol, and if it's HTTP/HTTPS, makes a GET request to fetch the data. It handles response status checks, reads the response body, and ensures proper resource cleanup.\n\nInput: \n- `loc` (string): A URL string specifying the location to read from (e.g., \"http://example.com/data\")\n\nOutput: \n- `[]byte`: The response body as a byte slice if successful\n- `error`: An error object describing any issues encountered during URL parsing, HTTP request, or response handling",
+    "Canonical_solution": "import (\n\t\"fmt\"\n\t\"io/ioutil\"\n\t\"net/http\"\n\t\"net/url\"\n)\n\nfunc ReadLocation(loc string) ([]byte, error) {\n\tu, err := url.Parse(loc)\n\tif err != nil {\n\t\treturn nil, err\n\t}\n\tswitch u.Scheme {\n\tcase \"http\", \"https\":\n\t\tres, err := http.Get(loc)\n\t\tif err != nil {\n\t\t\treturn nil, err\n\t\t}\n\t\tdefer res.Body.Close()\n\t\tif res.StatusCode != http.StatusOK {\n\t\t\treturn nil, fmt.Errorf(\"%s\", res.Status)\n\t\t}\n\t\tb, err := ioutil.ReadAll(res.Body)\n\t\tif err != nil {\n\t\t\treturn nil, err\n\t\t}\n\t\treturn b, nil\n\t}\n\treturn nil, fmt.Errorf(\"Unsupported location to load: %s\", loc)\n}",
+    "FSMID_for_test": 101,
+    "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 220,
+  "Github_ID": "651170890",
+  "Github_Project_Name": "eidos",
+  "Programming_Language": "JavaScript",
+  "suffix": ".ts",
+  "Interface_class": "IPC",
+  "Interface_name": "WebSocket Client-side based on browser native API in JavaScript",
+  "Instruction": "Task Description: Implement a WebSocket client initialization function that establishes a connection to a server, handles incoming messages, manages connection events, and provides reconnection logic upon disconnection.\n\nFunction Description: The function initializes a WebSocket connection to the specified URL and sets up event handlers for connection opening, message reception, and connection closing. It also provides a callback mechanism to expose the WebSocket instance to the caller and implements automatic reconnection when the connection is lost.\n\nInput:\n- handleFunctionCall: Function - A callback function to handle incoming messages from the WebSocket server\n- url: string - The WebSocket server URL to connect to\n- cb: Function - A callback function that receives the initialized WebSocket instance\n\nOutput: None (The function's effects are through callbacks and event handlers)\n- The function doesn't return anything directly but:\n  - Calls the provided callback with the WebSocket instance\n  - Posts messages via postMessage for connection status changes\n  - Automatically attempts reconnection on close\n  - Handles incoming messages through the provided handleFunctionCall",
+  "Canonical_solution": "export const initWs = (\n  handleFunctionCall: Function,\n  url: string,\n  cb: (_ws: WebSocket) => void\n) => {\n  const ws = new WebSocket(url);\n  ws.onopen = () => {\n    console.log(\"Connected to server\");\n    postMessage(\"msg:Connected to server\");\n    postMessage({\n      id: getUuid(),\n      data: null,\n      type: MsgType.WebSocketConnected,\n    });\n  };\n  ws.onmessage = (e) => {\n    const channel = new MessageChannel();\n    const msg = deserializedMsg(e.data);\n    handleFunctionCall(msg.data, msg.id, channel.port1);\n    channel.port2.onmessage = (e) => {\n      ws.send(JSON.stringify(e.data));\n    };\n  };\n  ws.onclose = () => {\n    console.log(\"Disconnected from server\");\n    postMessage({\n      id: getUuid(),\n      data: null,\n      type: MsgType.WebSocketDisconnected,\n    });\n    setTimeout(() => {\n      initWs(handleFunctionCall, url, cb);\n    }, 1000);\n  };\n  cb(ws);\n};",
+  "FSMID_for_test": 89,
+  "Code_level": "Function-level"
+}

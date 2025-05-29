@@ -1,0 +1,13 @@
+{
+  "Task_id": 72,
+  "Github_ID": "778210042",
+  "Github_Project_Name": "one-person-businesses-methodology-v2.0",
+  "Programming_Language": "PHP",
+  "suffix": ".php",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP client using cURL in PHP",
+  "Instruction": "Task Description: Create a function to download an image from a given URL and save it to a specified file path using PHP's cURL library.\n\nFunction Description: The function uses cURL to make an HTTP request to download an image from the provided URL. It saves the downloaded image to the specified file path. The function includes error handling for the cURL session and file operations.\n\nInput:\n- $url (string): The URL of the image to download\n- $filepath (string): The local file path where the image should be saved\n\nOutput:\n- void: The function does not return a value but outputs a success message when the download is complete\n- The downloaded image is saved to the specified file path\n- Errors during the download process are handled by cURL's error reporting",
+  "Canonical_solution": "function downloadImage($url, $filepath)\n{\n    $ch = curl_init($url);\n    $fp = fopen($filepath, 'wb');\n    curl_setopt($ch, CURLOPT_FILE, $fp);\n    curl_setopt($ch, CURLOPT_HEADER, 0);\n    curl_setopt($ch, CURLOPT_REFERER, 'https://ft07.com');\n    curl_exec($ch);\n    curl_close($ch);\n    fclose($fp);\n    echo \"Downloaded: $filepath\\n\";\n}",
+  "FSMID_for_test": 132,
+  "Code_level": "Function-level"
+}

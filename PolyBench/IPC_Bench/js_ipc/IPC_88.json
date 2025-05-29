@@ -1,0 +1,13 @@
+{
+  "Task_id": 88,
+  "Github_ID": "269846860",
+  "Github_Project_Name": "dizquetv",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP based on express in javascript",
+  "Instruction": "Task Description: Create an HTTP server using Express.js that serves a JavaScript version endpoint and handles file uploads with configuration options.\n\nFunction Description: The function sets up an Express.js server with middleware for file uploads and JSON body parsing. It defines a route '/version.js' that returns JavaScript code to display a version number in the UI. The server listens on a specified port from environment variables.\n\nInput:\n- process.env.PORT: [String] - The port number on which the server should listen\n- constants.VERSION_NAME: [String] - The version string to be displayed in the UI (used in the version.js endpoint)\n\nOutput:\n- An active HTTP server listening on the specified port\n- The '/version.js' endpoint returns JavaScript code that updates the UI with the version number every second\n\nMethods:\n- app.use(): [Function] - Configures middleware for file uploads and JSON body parsing\n- app.get(): [Function] - Defines a GET route handler for '/version.js'\n- app.listen(): [Function] - Starts the server on the specified port\n\nMiddleware Configuration:\n- fileUpload: [Object] - Configures file upload options (createParentPath: true)\n- bodyParser.json: [Object] - Configures JSON body parsing with a 50MB limit\n\nRoute Handlers:\n- '/version.js': [GET] - Returns JavaScript code that continuously updates an element with id \"uiversion\" with the version string",
+  "Canonical_solution": "const express = require('express')\nconst bodyParser = require('body-parser')\nconst fileUpload = require('express-fileupload');\n\nlet app = express()\n\napp.use(fileUpload({\n    createParentPath: true\n}));\napp.use(bodyParser.json({limit: '50mb'}))\n\napp.get('/version.js', (req, res) => {\n    res.writeHead(200, {\n        'Content-Type': 'application/javascript'\n    });\n\n    res.write( `\n        function setUIVersionNow() {\n            setTimeout( setUIVersionNow, 1000);\n            var element = document.getElementById(\"uiversion\");\n            if (element != null) {\n                element.innerHTML = \"${constants.VERSION_NAME}\";\n            }\n        }\n        setTimeout( setUIVersionNow, 1000);\n    ` );\n    res.end();\n});\n\napp.listen(process.env.PORT, () => {\n    console.log(`HTTP server running on port: http://*:${process.env.PORT}`)\n})",
+  "FSMID_for_test": 96,
+  "Code_level": "Function-level"
+}

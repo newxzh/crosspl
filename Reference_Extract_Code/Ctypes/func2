@@ -1,0 +1,14 @@
+import ctypes
+import os
+import timeit
+import array
+import numpy as np
+import random
+from typing import Tuple
+_path = '../libsample.so'
+_mod = ctypes.cdll.LoadLibrary(_path)
+in_mandel = _mod.in_mandel
+in_mandel.argtypes = (ctypes.c_double, ctypes.c_double, ctypes.c_int)
+in_mandel.restype = ctypes.c_int
+def py_in_mandel(x: float, y: float, max_iters: int) -> bool:
+    return bool(in_mandel(x, y, max_iters))

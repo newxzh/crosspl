@@ -1,0 +1,13 @@
+{
+    "Task_id": 369,
+    "Github_ID": "138587856",
+    "Github_Project_Name": "go-tun2socks",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "net-based UDP Client with DialUDP in Go",
+    "Instruction": "Task Description: Create a function that sends a predefined stop marker to a destination address over UDP protocol.\n\nFunction Description: The function `sendStopMarker` establishes a UDP connection between a source address and a destination address, then sends a fixed byte sequence (stop marker) to indicate a stopping condition. It handles basic error logging if the connection fails.\n\nInput: \n- `src` [string]: The source IP address or hostname (without port)\n- `dst` [string]: The destination IP address or hostname (without port)\n\nOutput: None (void function). The function writes the stop marker to the UDP connection but doesn't return any value. Errors are logged if they occur.",
+    "Canonical_solution": "import (\n\t\"log\"\n\t\"net\"\n)\n\nvar stopMarker = []byte{2, 2, 2, 2, 2, 2, 2, 2}\n\nfunc sendStopMarker(src, dst string) {\n\tl, _ := net.ResolveUDPAddr(\"udp\", src+\":2222\")\n\tr, _ := net.ResolveUDPAddr(\"udp\", dst+\":2222\")\n\tconn, err := net.DialUDP(\"udp\", l, r)\n\tif err != nil {\n\t\tlog.Printf(\"fail to send stopmarker: %s\", err)\n\t\treturn\n\t}\n\tdefer conn.Close()\n\tconn.Write(stopMarker)\n}",
+    "FSMID_for_test": 113,
+    "Code_level": "Function-level"
+}

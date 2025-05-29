@@ -1,0 +1,13 @@
+{
+  "Task_id": 245,
+  "Github_ID": "21029558",
+  "Github_Project_Name": "ITArticles",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Server-side based on Tornado in python",
+  "Instruction": "Task Description: Create a Tornado-based HTTP server that handles web requests and serves responses, including rendering templates and serving static files.\n\nClass Description: TornadoServer is a class that encapsulates the setup and running of a Tornado web server. It configures routes, template paths, and static file paths, and provides a method to start the server.\n\nAttributes:\n- handlers: [list] - A list of URL routing tuples mapping paths to request handlers\n- template_path: [str] - The file system path to the directory containing template files\n- static_path: [str] - The file system path to the directory containing static files\n\nMethods:\n- __init__: [Name](port: int = 8000) -> None - Initializes the server with default port 8000, sets up default handlers, and configures template and static paths\n- run: [Name]() -> None - Starts the Tornado web server by:\n  1. Parsing command line options\n  2. Creating a Tornado Application instance with configured handlers and paths\n  3. Starting an HTTP server on the specified port\n  4. Beginning the I/O event loop\n\nThe class works with a companion request handler (IndexHandler) that:\n- Inherits from tornado.web.RequestHandler\n- Implements a GET method to render a template with provided data\n- Takes no explicit constructor parameters\n- Returns rendered HTML output via self.render()",
+  "Canonical_solution": "import tornado.httpserver\nimport tornado.ioloop\nimport tornado.web\nimport tornado.options\nfrom tornado.options import define, options\n\ndefine(\"port\", default=8000, help=\"run on the given port\", type=int)\n\nclass IndexHandler(tornado.web.RequestHandler):\n    def get(self):\n        lst = [\"python\",\"www.itdiffer.com\",\"qiwsir@gmail.com\"]\n        self.render(\"index.html\", info=lst)\n\nclass TornadoServer:\n    def __init__(self, port=8000):\n        options.port = port\n        self.handlers = [(r\"/\", IndexHandler)]\n        self.template_path = os.path.join(os.path.dirname(__file__), \"temploop\")\n        self.static_path = \"./static\"\n\n    def run(self):\n        tornado.options.parse_command_line()\n        app = tornado.web.Application(self.handlers, self.template_path, debug=True)\n        http_server = tornado.httpserver.HTTPServer(app)\n        http_server.listen(options.port)\n        tornado.ioloop.IOLoop.instance().start()",
+  "FSMID_for_test": 64,
+  "Code_level": "Class-level"
+}

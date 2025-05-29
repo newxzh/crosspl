@@ -1,0 +1,13 @@
+{
+    "Task_id": 296,
+    "Github_ID": "357897199",
+    "Github_Project_Name": "netbird",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Official-based gRPC server in Go",
+    "Instruction": "Task Description: Create a function that sets up and starts a mock gRPC server for management service testing, including generating a WireGuard key for authentication purposes.\n\nFunction Description: The function `startMockManagement` initializes and starts a mock gRPC server that implements a management service interface. It creates a TCP listener on an available port, generates a WireGuard key pair for server authentication, and registers mock implementations of the management service methods. The server runs in a goroutine to handle incoming requests asynchronously.\n\nInput: \n- t *testing.T: Testing context for error reporting and test helpers\n\nOutput:\n- *grpc.Server: The created gRPC server instance\n- net.Listener: The network listener for the server\n- *mock_server.ManagementServiceServerMock: The mock implementation of the management service\n- wgtypes.Key: The generated WireGuard private key for the server",
+    "Canonical_solution": "import (\n\t\"context\"\n\t\"net\"\n\t\"testing\"\n\n\t\"google.golang.org/grpc\"\n\n\tmgmtProto \"github.com/netbirdio/netbird/management/proto\"\n\t\"github.com/netbirdio/netbird/management/server/mock_server\"\n\t\"golang.zx2c4.com/wireguard/wgctrl/wgtypes\"\n)\n\nfunc startMockManagement(t *testing.T) (*grpc.Server, net.Listener, *mock_server.ManagementServiceServerMock, wgtypes.Key) {\n\tt.Helper()\n\tlis, err := net.Listen(\"tcp\", \":0\")\n\tif err != nil {\n\t\tt.Fatal(err)\n\t}\n\n\ts := grpc.NewServer()\n\n\tserverKey, err := wgtypes.GenerateKey()\n\tif err != nil {\n\t\tt.Fatal(err)\n\t}\n\n\tmgmtMockServer := &mock_server.ManagementServiceServerMock{\n\t\tGetServerKeyFunc: func(context.Context, *mgmtProto.Empty) (*mgmtProto.ServerKeyResponse, error) {\n\t\t\tresponse := &mgmtProto.ServerKeyResponse{\n\t\t\t\tKey: serverKey.PublicKey().String(),\n\t\t\t}\n\t\t\treturn response, nil\n\t\t},\n\t}\n\n\tmgmtProto.RegisterManagementServiceServer(s, mgmtMockServer)\n\tgo func() {\n\t\tif err := s.Serve(lis); err != nil {\n\t\t\tt.Error(err)\n\t\t\treturn\n\t\t}\n\t}()\n\n\treturn s, lis, mgmtMockServer, serverKey\n}",
+    "FSMID_for_test": 119,
+    "Code_level": "Function-level"
+}

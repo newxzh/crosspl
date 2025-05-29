@@ -1,0 +1,13 @@
+{
+  "Task_id": 260,
+  "Github_ID": "9934117",
+  "Github_Project_Name": "jsmpeg",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "WebSocket Server-side based on Node.js",
+  "Instruction": "Task Description: Create a WebSocket server in Node.js that handles client connections, tracks connection counts, and provides broadcast functionality to all connected clients.\n\nFunction Description: The function creates and configures a WebSocket server instance. It maintains a count of active connections, logs connection/disconnection events, and provides a broadcast method to send data to all connected clients. The server handles WebSocket connections on the specified port.\n\nInput: \n- port: [Number] - The port number on which the WebSocket server should listen for connections\n\nOutput:\n- Returns: [WebSocket.Server] - An instance of WebSocket server with additional connection tracking and broadcast functionality\n\nAttributes:\n- connectionCount: [Number] - Tracks the number of active WebSocket connections\n\nMethods:\n- broadcast: [Name](data) -> [void] - Sends the provided data to all connected clients that are in OPEN state\n- on: [Name](event, callback) -> [void] - Inherited from WebSocket.Server to handle server events ('connection', 'error', etc.)",
+  "Canonical_solution": "function createWebSocketServer(port) {\n    var WebSocket = require('ws');\n    var socketServer = new WebSocket.Server({port: port, perMessageDeflate: false});\n    socketServer.connectionCount = 0;\n    socketServer.on('connection', function(socket, upgradeReq) {\n        socketServer.connectionCount++;\n        console.log(\n            'New WebSocket Connection: ',\n            (upgradeReq || socket.upgradeReq).socket.remoteAddress,\n            (upgradeReq || socket.upgradeReq).headers['user-agent'],\n            '('+socketServer.connectionCount+' total)'\n        );\n        socket.on('close', function(code, message){\n            socketServer.connectionCount--;\n            console.log(\n                'Disconnected WebSocket ('+socketServer.connectionCount+' total)'\n            );\n        });\n    });\n    socketServer.broadcast = function(data) {\n        socketServer.clients.forEach(function each(client) {\n            if (client.readyState === WebSocket.OPEN) {\n                client.send(data);\n            }\n        });\n    };\n    return socketServer;\n}",
+  "FSMID_for_test": 90,
+  "Code_level": "Function-level"
+}

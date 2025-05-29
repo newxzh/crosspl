@@ -1,0 +1,13 @@
+{
+  "Task_id": 400,
+  "Github_ID": "9294498",
+  "Github_Project_Name": "python-cookbook",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "TCP Server - side by using socket in python",
+  "Instruction": "Task Description: Implement a TCP server that accepts client connections and forwards their file descriptors to a worker process over a Unix domain socket.\n\nFunction Description: The code consists of two main functions. `send_fd()` handles sending a file descriptor over a Unix domain socket, while `server()` sets up both the Unix domain socket for worker communication and the TCP server for client connections. The server continuously accepts TCP clients, sends their file descriptors to the worker, and closes the client connection.\n\nInput:\n- `send_fd()`:\n  - `sock`: [socket.socket] - A connected Unix domain socket\n  - `fd`: [int] - File descriptor to send\n- `server()`:\n  - `work_address`: [str] - Path for the Unix domain socket\n  - `port`: [int] - TCP port number to listen on\n\nOutput:\n- `send_fd()`: None (but expects 'OK' acknowledgment from receiver)\n- `server()`: None (runs indefinitely serving clients)",
+  "Canonical_solution": "import socket\nimport struct\n\ndef send_fd(sock, fd):\n    '''\n    Send a single file descriptor.\n    '''\n    sock.sendmsg([b'x'],\n                 [(socket.SOL_SOCKET, socket.SCM_RIGHTS, struct.pack('i', fd))])\n    ack = sock.recv(2)\n    assert ack == b'OK'\n\ndef server(work_address, port):\n    # Wait for the worker to connect\n    work_serv = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)\n    work_serv.bind(work_address)\n    work_serv.listen(1)\n    worker, addr = work_serv.accept()\n\n    # Now run a TCP/IP server and send clients to worker\n    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\n    s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, True)\n    s.bind(('',port))\n    s.listen(1)\n    while True:\n        client, addr = s.accept()\n        print('SERVER: Got connection from', addr)\n        send_fd(worker, client.fileno())\n        client.close()",
+  "FSMID_for_test": 66,
+  "Code_level": "Function-level"
+}

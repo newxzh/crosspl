@@ -1,0 +1,13 @@
+{
+    "Task_id": 312,
+    "Github_ID": "53632140",
+    "Github_Project_Name": "micro",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Simple HTTP GET client using net/http",
+    "Instruction": "Task Description: Create a function that performs an HTTP GET request to a specified URL and returns the response body as a byte slice or an error if the request fails.\n\nFunction Description: The function makes an HTTP GET request to the provided URL, reads the response body, and returns it as a byte slice. It handles errors during the request or reading process and ensures the response body is properly closed to prevent resource leaks.\n\nInput: \n- url (string): The URL to which the HTTP GET request will be sent.\n\nOutput: \n- ([]byte, error): A byte slice containing the response body if the request is successful, or an error if the request fails or the response body cannot be read.",
+    "Canonical_solution": "import (\n\t\"fmt\"\n\t\"io/ioutil\"\n\t\"net/http\"\n)\n\nfunc main() {\n\tresp, err := http.Get(\"https://api.github.com/repos/zyedidia/micro/releases\")\n\tif err != nil {\n\t\tfmt.Println(err.Error())\n\t\treturn\n\t}\n\tdefer resp.Body.Close()\n\tbody, err := ioutil.ReadAll(resp.Body)\n}",
+    "FSMID_for_test": 101,
+    "Code_level": "Function-level"
+}

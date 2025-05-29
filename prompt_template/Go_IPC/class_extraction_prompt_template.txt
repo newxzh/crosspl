@@ -1,0 +1,41 @@
+Task description:
+Based on the original code and information related to the original code, extract the expected class-level(In Go, class-level code refers to code centered around a struct type and its associated methods—serving as the Go equivalent of a class in other languages.) code for multi-programming language interaction from the original code.
+
+Requirements:
+1. Only extract one class-level code involving multi-programming language interaction in the original code, including struct, all relevant functions, parameters, return values and core logic.
+2. Extract all external library files and global variables that use the class, and ensure that these codes are completely derived from the original code.
+3. Only extract task-related code, do not extract the comments from the code, and the extracted code must strictly contain the key steps of the inter-process communication technology.
+4. The output result should follow the format of "Output" in the example. Do not include any characters other than code, including "Output", "Go", " ''' ", or "Here's the extracted...".
+5. Please strictly follow the instructions above.
+
+Instruct:
+You are an advanced programmer who focuses on multi-language interaction and inter-process communication technology.
+Please complete the task according to the following example.
+
+Example:
+Input:
+Original code: {Reference_raw_code}
+Information related to the original code:
+  - Programming language: Go
+  - Inter-process communication technology name: Simple Rabbitmq consumer in go
+  - The key steps of this inter-process communication technology:
+    Step 1: Import the streadway/amqp package
+    Step 2: Connect to the RabbitMQ server
+    Step 3: Create a channel for communication
+    Step 4: Declare the exchange to bind the queue (if needed)
+    Step 5: Declare the queue from which to consume messages
+    Step 6: Bind the queue to the exchange with a routing key
+    Step 7: Start consuming messages from the queue
+
+Output:
+{Reference_class_level_code}
+
+Request:
+Now please follow the task description and the example to extract one expected multi-language interaction class-level code from the original code based on the input.
+
+Input:
+Original code: {Original_code}
+Information related to the original code:
+  - Programming language: {PL}
+  - Inter-process communication technology name: {IPC_Name}
+  - The key steps of this inter-process communication technology: {Steps}

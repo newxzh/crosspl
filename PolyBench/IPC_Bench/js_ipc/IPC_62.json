@@ -1,0 +1,13 @@
+{
+  "Task_id": 62,
+  "Github_ID": "44869078",
+  "Github_Project_Name": "redux-devtools-extension",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP based on express in javascript",
+  "Instruction": "Task Description: Create a function that sets up an Express server with webpack middleware for development purposes, serves a main HTML file, and listens on a specified port.\n\nFunction Description: The function `setupServer` initializes an Express application, configures webpack middleware for development (including hot module replacement), defines a route to serve the main HTML file, and starts the server on the specified port. It handles errors during server startup and logs success messages.\n\nInput: None (The function does not take any explicit parameters. It relies on external variables `compiler` and `config` for webpack configuration.)\n\nOutput: None (The function does not return any value. It starts the server process and logs messages to the console.)",
+  "Canonical_solution": "function setupServer() {\n    var app = new require('express')();\n    var port = 4001;\n\n    app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: config.output.publicPath }));\n    app.use(webpackHotMiddleware(compiler));\n\n    app.get(\"/\", function(req, res) {\n        res.sendFile(__dirname + '/index.html');\n    });\n\n    app.listen(port, function(error) {\n        if (error) {\n            console.error(error);\n        } else {\n            console.info(\"==> \ud83c\udf0e  Listening on port %s. Open up http://localhost:%s/ in your browser.\", port, port);\n        }\n    });\n}",
+  "FSMID_for_test": 96,
+  "Code_level": "Function-level"
+}

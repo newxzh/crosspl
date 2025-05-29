@@ -1,0 +1,13 @@
+{
+  "Task_id": 112,
+  "Github_ID": "2810191",
+  "Github_Project_Name": "jquip",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP based on express in javascript",
+  "Instruction": "Task Description: Create a JavaScript function that initializes and configures an Express server with middleware, route handling, and environment-specific settings, then starts the server on a specified port.\n\nFunction Description: The function `createAndConfigureServer` initializes an Express server, configures middleware for request processing, sets up view engines, defines route handlers, and applies environment-specific configurations. The function `startServer` takes the configured server instance and starts it on the specified port.\n\nInput: \n- `port` (Number) - The port number on which the server should listen.\n\nOutput: \n- `app` (Object) - The configured Express server instance (returned by `createAndConfigureServer`).\n- Server startup log message (output by `startServer`).\n\nMethods:\n- `createAndConfigureServer()` -> Object - Creates and configures an Express server with middleware, routes, and environment settings.\n- `startServer(app, port)` -> undefined - Starts the Express server on the specified port and logs the server status.",
+  "Canonical_solution": "var express = require('express');\nvar routes = require('./routes');\n\nfunction createAndConfigureServer() {\n    var app = express.createServer();\n    \n    app.configure(function(){\n        app.set('views', __dirname + '/views');\n        app.set('view engine', 'jade');\n        app.use(express.bodyParser());\n        app.use(express.methodOverride());\n        app.use(app.router);\n        app.use(express.static(__dirname + '/public'));\n    });\n\n    app.configure('development', function(){\n        app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); \n    });\n\n    app.configure('production', function(){\n        app.use(express.errorHandler()); \n    });\n\n    app.get('/', routes.index);\n    \n    return app;\n}\n\nfunction startServer(app, port) {\n    app.listen(port);\n    console.log(\"Express server listening on port %d in %s mode\", app.address().port, app.settings.env);\n}",
+  "FSMID_for_test": 96,
+  "Code_level": "Function-level"
+}

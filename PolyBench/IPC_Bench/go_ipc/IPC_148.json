@@ -1,0 +1,13 @@
+{
+    "Task_id": 148,
+    "Github_ID": "173227087",
+    "Github_Project_Name": "examples",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Gin-based HTTP Server in Go",
+    "Instruction": "Task Description: Implement a rate-limited HTTP server using the Gin framework in Go, which includes middleware for request rate limiting and a simple endpoint to test the rate limiting functionality.\n\nFunction Description: The `ginRun` function initializes and starts a Gin HTTP server with rate limiting capabilities. It sets up a leaky bucket rate limiter middleware and provides a single endpoint (\"/rate\") for testing the rate limiting. The server runs on port 8080.\n\nInput: \n- `rps` (int): The maximum number of requests per second that the server will allow (rate limit value)\n\nOutput: \n- None (The function starts an HTTP server that runs indefinitely until interrupted)\n- Logs the current rate limit setting to stdout\n- Responds to HTTP requests on the \"/rate\" endpoint with a JSON message",
+    "Canonical_solution": "import (\n\t\"log\"\n\n\t\"github.com/fatih/color\"\n\t\"github.com/gin-gonic/gin\"\n)\n\nfunc ginRun(rps int) {\n\tlimit = ratelimit.New(rps)\n\n\tapp := gin.Default()\n\tapp.Use(leakBucket())\n\n\tapp.GET(\"/rate\", func(ctx *gin.Context) {\n\t\tctx.JSON(200, \"rate limiting test\")\n\t})\n\n\tlog.Printf(color.CyanString(\"Current Rate Limit: %v requests/s\", rps))\n\tapp.Run(\":8080\")\n}",
+    "FSMID_for_test": 105,
+    "Code_level": "Function-level"
+}

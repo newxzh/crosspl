@@ -1,0 +1,13 @@
+{
+    "Task_id": 160,
+    "Github_ID": "173227087",
+    "Github_Project_Name": "examples",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Gin-based HTTP Server in Go",
+    "Instruction": "Task Description: Create a Go function that sets up a Gin HTTP server to handle file uploads along with form data, serving static files from a public directory.\n\nFunction Description: The function initializes a Gin router with default middleware, configures a static file server, and sets up a POST endpoint for handling file uploads with additional form fields. It validates the upload, saves the file, and returns a success message with the form data.\n\nInput: None (The function takes no direct input parameters but processes HTTP requests with the following expected form data:\n- \"name\": string - Name field from the form\n- \"email\": string - Email field from the form\n- \"file\": file - File to be uploaded)\n\nOutput: None (The function doesn't return any value but sends HTTP responses:\n- Success: HTTP 200 with upload confirmation message\n- Error: HTTP 400 with error message for invalid requests)",
+    "Canonical_solution": "import (\n\t\"net/http\"\n\t\"path/filepath\"\n\n\t\"github.com/gin-gonic/gin\"\n)\nfunc main() {\n\trouter := gin.Default()\n\trouter.MaxMultipartMemory = 8 << 20\n\trouter.Static(\"/\", \"./public\")\n\trouter.POST(\"/upload\", func(c *gin.Context) {\n\t\tname := c.PostForm(\"name\")\n\t\temail := c.PostForm(\"email\")\n\n\t\tfile, err := c.FormFile(\"file\")\n\t\tif err != nil {\n\t\t\tc.String(http.StatusBadRequest, \"get form err: %s\", err.Error())\n\t\t\treturn\n\t\t}\n\n\t\tfilename := filepath.Base(file.Filename)\n\t\tif err := c.SaveUploadedFile(file, filename); err != nil {\n\t\t\tc.String(http.StatusBadRequest, \"upload file err: %s\", err.Error())\n\t\t\treturn\n\t\t}\n\n\t\tc.String(http.StatusOK, \"File %s uploaded successfully with fields name=%s and email=%s.\", file.Filename, name, email)\n\t})\n\trouter.Run(\":8080\")\n}",
+    "FSMID_for_test": 105,
+    "Code_level": "Function-level"
+}

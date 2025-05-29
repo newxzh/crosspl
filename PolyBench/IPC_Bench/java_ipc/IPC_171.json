@@ -1,0 +1,13 @@
+{
+  "Task_id": 171,
+  "Github_ID": "30628859",
+  "Github_Project_Name": "netty-4-user-guide-demos",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "Java Netty TCP Server",
+  "Instruction": "Task Description: Create a Java class that implements a TCP server using the Netty framework to handle incoming client connections and process requests.\n\nClass Description: The `JacksonServer` class is a Netty-based TCP server that listens on a specified port for incoming client connections. It uses a boss-worker thread model to handle connections efficiently and includes logging for monitoring server activity. The server is designed to be gracefully shutdown when no longer needed.\n\nAttributes:\n- PORT: [int] - The port number on which the server will listen for incoming connections (default: 8082).\n\nMethods:\n- start(): [void] - Initializes and starts the Netty TCP server. It sets up the server configuration, binds to the specified port, and keeps the server running until it is shutdown. This method throws Exception if any error occurs during server startup or operation.\n  - Input: None\n  - Output: None (but may throw Exception)",
+  "Canonical_solution": "import io.netty.bootstrap.ServerBootstrap;\nimport io.netty.channel.ChannelFuture;\nimport io.netty.channel.ChannelOption;\nimport io.netty.channel.EventLoopGroup;\nimport io.netty.channel.nio.NioEventLoopGroup;\nimport io.netty.channel.socket.nio.NioServerSocketChannel;\nimport io.netty.handler.logging.LogLevel;\nimport io.netty.handler.logging.LoggingHandler;\n\npublic final class JacksonServer {\n\n    static final int PORT = 8082;\n\n    public void start() throws Exception {\n        EventLoopGroup bossGroup = new NioEventLoopGroup(1);\n        EventLoopGroup workerGroup = new NioEventLoopGroup();\n        try {\n            ServerBootstrap b = new ServerBootstrap();\n            b.group(bossGroup, workerGroup)\n             .channel(NioServerSocketChannel.class)\n             .option(ChannelOption.SO_BACKLOG, 100)\n             .childOption(ChannelOption.SO_KEEPALIVE, true)\n             .handler(new LoggingHandler(LogLevel.INFO))\n             .childHandler(new JacksonServerInitializer());\n\n            ChannelFuture f = b.bind(PORT).sync();\n            f.channel().closeFuture().sync();\n        } finally {\n            bossGroup.shutdownGracefully();\n            workerGroup.shutdownGracefully();\n        }\n    }\n}",
+  "FSMID_for_test": 4,
+  "Code_level": "Class-level"
+}

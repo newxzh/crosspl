@@ -1,0 +1,13 @@
+{
+  "Task_id": 485,
+  "Github_ID": "12414592",
+  "Github_Project_Name": "javaee7-samples",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "WebSocket Server based on Java EE",
+  "Instruction": "Task Description: Implement a WebSocket server endpoint in Java that handles binary data communication asynchronously using ByteBuffer.\n\nClass Description: This class represents a WebSocket server endpoint that receives binary data from clients and echoes it back asynchronously. The endpoint is mapped to the \"/bytebuffer\" path and uses Java's WebSocket API for communication.\n\nAttributes: None\n\nMethods:\n- echoByteBuffer(ByteBuffer data, Session session) -> void - Handles incoming binary messages from WebSocket clients. Receives the binary data as a ByteBuffer and the client's Session object, then asynchronously sends the same data back to the client. The method uses the session's async remote endpoint to send the response without blocking.\n\nInput:\n- data: ByteBuffer - The binary data received from the client\n- session: Session - The WebSocket session object representing the client connection\n\nOutput: None (The method sends data back to the client through the session object but doesn't return anything)",
+  "Canonical_solution": "import javax.websocket.OnMessage;\nimport javax.websocket.Session;\nimport javax.websocket.server.ServerEndpoint;\nimport java.nio.ByteBuffer;\n\n@ServerEndpoint(\"/bytebuffer\")\npublic class MyAsyncEndpointByteBuffer {\n\n    @OnMessage\n    public void echoByteBuffer(ByteBuffer data, Session session) {\n        session.getAsyncRemote().sendBinary(data);\n    }\n}",
+  "FSMID_for_test": 26,
+  "Code_level": "Class-level"
+}

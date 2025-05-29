@@ -1,0 +1,13 @@
+{
+    "Task_id": 257,
+    "Github_ID": "27729907",
+    "Github_Project_Name": "grpc-go",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Official-based gRPC server in Go",
+    "Instruction": "Task Description: Create a gRPC server in Go that listens for incoming requests on a specified TCP port and registers a service to handle those requests.\n\nFunction Description: The function sets up a gRPC server that listens on a given TCP port, creates a new gRPC server instance, registers a service to handle incoming requests, and starts the server in a goroutine. The server runs until it is stopped or encounters an error.\n\nInput: None (The port is hardcoded as \":50052\" in the example, but could be parameterized)\n\nOutput: None (The function runs indefinitely until stopped or an error occurs, with side effects of starting the gRPC server)\n\nNote: The actual service implementation (ChannelzService) would need to be defined elsewhere and imported. The example shows the server setup pattern but assumes the service is already implemented.",
+    "Canonical_solution": "import (\n\t\"context\"\n\t\"net\"\n\t\"log\"\n\n\t\"google.golang.org/grpc\"\n\tpb \"google.golang.org/grpc/examples/helloworld/helloworld\"\n)\n\nfunc main() {\n\tlis, err := net.Listen(\"tcp\", \":50052\")\n\tif err != nil {\n\t\tlog.Fatalf(\"failed to listen: %v\", err)\n\t}\n\tdefer lis.Close()\n\ts := grpc.NewServer()\n\tservice.RegisterChannelzServiceToServer(s)\n\tgo s.Serve(lis)\n\tdefer s.Stop()\n}",
+    "FSMID_for_test": 119,
+    "Code_level": "Function-level"
+}

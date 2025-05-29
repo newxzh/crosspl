@@ -1,0 +1,13 @@
+{
+  "Task_id": 172,
+  "Github_ID": "192476541",
+  "Github_Project_Name": "nodejs-basics",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "TCP Server - side based on node.js net",
+  "Instruction": "Task Description: Create a TCP server using Node.js's built-in 'net' module to handle client connections and manage server lifecycle events.\n\nFunction Description: The function creates a TCP server that listens for incoming client connections. When a client connects, the server immediately sends a 'goodbye' message and closes the connection. The server also handles errors by throwing them. Upon successful startup, it logs the server address.\n\nInput: None (The function takes no parameters)\n\nOutput: None (The function doesn't return anything but creates a server instance that listens for connections)",
+  "Canonical_solution": "function createTCPServer() {\n    const net = require('net');\n    var server = net.createServer((socket) => {  \n        socket.end('goodbye\\n');  \n    }).on('error', (err) => {  \n        throw err;  \n    });  \n    server.listen(() => {  \n        address = server.address();  \n        console.log('opened server on %j', address);  \n    });\n}",
+  "FSMID_for_test": 97,
+  "Code_level": "Function-level"
+}

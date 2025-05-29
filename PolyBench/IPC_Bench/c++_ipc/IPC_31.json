@@ -1,0 +1,13 @@
+{
+  "Task_id": 31,
+  "Github_ID": "7589945",
+  "Github_Project_Name": "asio",
+  "Programming_Language": "C++",
+  "suffix": ".cpp",
+  "Interface_class": "IPC",
+  "Interface_name": "UDP based on Boost.Asio in C++",
+  "Instruction": "Task Description: Implement a UDP server using Boost.Asio that listens for incoming datagrams and responds with the current daytime string.\n\nFunction Description: The function `udp_server` creates a UDP server that listens on port 13 (daytime protocol port). When it receives any datagram from a client, it responds with the current time in string format. The server runs indefinitely until an exception occurs.\n\nInput: None\n\nOutput: None (The function runs indefinitely and sends responses to clients, but doesn't return any value)",
+  "Canonical_solution": "#include <array>\n#include <string>\n#include <boost/asio.hpp>\n\nusing boost::asio::ip::udp;\n\nstd::string make_daytime_string()\n{\n  using namespace std;\n  time_t now = time(0);\n  return ctime(&now);\n}\n\nvoid udp_server()\n{\n  try\n  {\n    boost::asio::io_context io_context;\n\n    udp::socket socket(io_context, udp::endpoint(udp::v4(), 13));\n\n    for (;;)\n    {\n      std::array<char, 1> recv_buf;\n      udp::endpoint remote_endpoint;\n      socket.receive_from(boost::asio::buffer(recv_buf), remote_endpoint);\n\n      std::string message = make_daytime_string();\n\n      boost::system::error_code ignored_error;\n      socket.send_to(boost::asio::buffer(message),\n          remote_endpoint, 0, ignored_error);\n    }\n  }\n  catch (std::exception& e)\n  {\n    std::cerr << e.what() << std::endl;\n  }\n}",
+  "FSMID_for_test": 153,
+  "Code_level": "Function-level"
+}

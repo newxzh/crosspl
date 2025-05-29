@@ -1,0 +1,13 @@
+{
+  "Task_id": 3,
+  "Github_ID": "56004753",
+  "Github_Project_Name": "dijkstra-cartography",
+  "Programming_Language": "C++",
+  "suffix": ".cpp",
+  "Interface_class": "IPC",
+  "Interface_name": "Http based on libcurl in C++",
+  "Instruction": "Task Description: Create a C++ class that implements HTTP client functionality using libcurl for making HTTP requests to a specified base URL.\n\nClass Description: The HTTPClient class provides a simple interface for making HTTP GET requests to a given base URL. It handles libcurl initialization, request configuration, execution, and cleanup, while providing a method to append endpoints to the base URL and make requests.\n\nAttributes:\nbaseURL: std::string - The base URL to which endpoints will be appended for HTTP requests\n\nMethods:\nmakeRequest: makeRequest(const std::string& endpoint) -> std::string - Makes an HTTP GET request to the base URL plus the specified endpoint, returning the response as a string\nwrite_to_string: write_to_string(void* ptr, size_t size, size_t count, void* stream) -> size_t - Static callback function for libcurl to write response data into a string",
+  "Canonical_solution": "#include <curl/curl.h>\n#include <string>\n#include <sstream>\n#include \"json.hpp\"\n\nusing json = nlohmann::json;\n\nclass HTTPClient {\npublic:\n    HTTPClient(const std::string& baseUrl) : baseURL(baseUrl) {}\n\n    std::string makeRequest(const std::string& endpoint) {\n        CURL* curl = curl_easy_init();\n        std::string response;\n\n        if (curl) {\n            std::string URL = baseURL + endpoint;\n            curl_easy_setopt(curl, CURLOPT_URL, URL.c_str());\n            curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_to_string);\n            curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);\n            curl_easy_perform(curl);\n            curl_easy_cleanup(curl);\n        }\n\n        return response;\n    }\n\nprivate:\n    static size_t write_to_string(void* ptr, size_t size, size_t count, void* stream) {\n        ((std::string*)stream)->append((char*)ptr, 0, size*count);\n        return size*count;\n    }\n\n    std::string baseURL;\n};",
+  "FSMID_for_test": 146,
+  "Code_level": "Class-level"
+}

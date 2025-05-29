@@ -1,0 +1,13 @@
+{
+  "Task_id": 264,
+  "Github_ID": "571186647",
+  "Github_Project_Name": "pathway",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "Kafka producer in python",
+  "Instruction": "Task Description: Create a Python function that sends messages to a Kafka topic with simulated linear regression data points.\n\nFunction Description: The function `send_kafka_messages` generates a sequence of data points following a linear pattern with slight random noise, then sends these points as JSON-encoded messages to a specified Kafka topic. It handles Kafka producer initialization with secure authentication, message sending with a delay, and proper resource cleanup.\n\nInput: None (The function uses environment variables for Kafka credentials: UPSTASH_KAFKA_USER and UPSTASH_KAFKA_PASS)\n\nOutput: None (The function's effect is sending messages to Kafka, not returning a value)",
+  "Canonical_solution": "import json\nimport os\nimport random\nimport time\nfrom kafka import KafkaProducer\n\ndef send_kafka_messages():\n    topic = \"linear-regression\"\n    random.seed(0)\n\n    def get_value(i):\n        return i + (2 * random.random() - 1) / 10\n\n    kafka_endpoint = \"talented-cow-10356-eu1-kafka.upstash.io:9092\"\n    kafka_user = os.environ[\"UPSTASH_KAFKA_USER\"]\n    kafka_pass = os.environ[\"UPSTASH_KAFKA_PASS\"]\n\n    producer = KafkaProducer(\n        bootstrap_servers=[kafka_endpoint],\n        sasl_mechanism=\"SCRAM-SHA-256\",\n        security_protocol=\"SASL_SSL\",\n        sasl_plain_username=kafka_user,\n        sasl_plain_password=kafka_pass,\n        api_version=(0, 10, 2),\n    )\n\n    for i in range(10):\n        time.sleep(1)\n        payload = {\n            \"x\": i,\n            \"y\": get_value(i),\n        }\n        producer.send(topic, json.dumps(payload).encode(\"utf-8\"))\n\n    producer.close()",
+  "FSMID_for_test": 78,
+  "Code_level": "Function-level"
+}

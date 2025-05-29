@@ -1,0 +1,13 @@
+{
+  "Task_id": 121,
+  "Github_ID": "20054543",
+  "Github_Project_Name": "bpmn-js-examples",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP based on express in javascript",
+  "Instruction": "Task Description: Create a function that initializes and starts an HTTP server using Express.js, which serves a predefined list of spells and handles CORS (Cross-Origin Resource Sharing) to allow requests from different origins.\n\nFunction Description: The function `startServer` sets up an Express.js server that listens on port 1234. It configures CORS middleware to enable cross-origin requests and defines a single route (`/spell`) that returns a JSON array of spell names. The server starts listening once all configurations are complete.\n\nInput: None. The function does not take any input parameters.\n\nOutput: None. The function does not return any value but starts an HTTP server that logs a message to the console when it begins listening on the specified port.",
+  "Canonical_solution": "function startServer() {\n    const express = require('express');\n    const cors = require('cors');\n    \n    const spells = [\n        'Avada Kedavra',\n        'Crucio',\n        'Vulnera Sanentur',\n        'Vingardium Leviosa',\n        'Alohomora'\n    ];\n    \n    const app = express();\n    app.use(cors());\n    app.options('*', cors());\n    \n    app.get('/spell', (req, res) => {\n        res.json(spells);\n    });\n    \n    app.listen(1234, () => {\n        console.log('Listening on port 1234');\n    });\n}",
+  "FSMID_for_test": 96,
+  "Code_level": "Function-level"
+}

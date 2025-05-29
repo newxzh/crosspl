@@ -1,0 +1,13 @@
+{
+  "Task_id": 263,
+  "Github_ID": "5934517",
+  "Github_Project_Name": "kafka-python",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "Kafka producer in python",
+  "Instruction": "Task Description: Write a Python function that tests end-to-end message production to a Kafka topic with configurable compression, verifying successful message delivery.\n\nFunction Description: This function creates a Kafka producer, sends a batch of test messages to a specified topic with the given compression type, verifies all messages were successfully delivered, and properly cleans up resources. It includes version compatibility checks for specific compression types (LZ4 and Zstd).\n\nInput:\n- kafka_broker: [object] - An object containing host and port information for the Kafka broker (must have .host and .port attributes)\n- compression: [str] - The compression type to use for message production (e.g., 'none', 'gzip', 'snappy', 'lz4', 'zstd')\n\nOutput:\n- None (asserts message count matches expected value, raises exceptions on failure)\n\nNote: The function uses pytest.skip() for unsupported compression/version combinations and asserts the successful delivery of all messages.",
+  "Canonical_solution": "import pytest\nfrom kafka import KafkaProducer\nfrom test.testutil import env_kafka_version, random_string\n\ndef test_end_to_end(kafka_broker, compression):\n    if compression == 'lz4':\n        if env_kafka_version() < (0, 8, 2):\n            pytest.skip('LZ4 requires 0.8.2')\n        elif platform.python_implementation() == 'PyPy':\n            pytest.skip('python-lz4 crashes on older versions of pypy')\n\n    if compression == 'zstd' and env_kafka_version() < (2, 1, 0):\n        pytest.skip('zstd requires kafka 2.1.0 or newer')\n\n    connect_str = ':'.join([kafka_broker.host, str(kafka_broker.port)])\n    producer = KafkaProducer(bootstrap_servers=connect_str,\n                             retries=5,\n                             max_block_ms=30000,\n                             compression_type=compression,\n                             value_serializer=str.encode)\n\n    topic = random_string(5)\n\n    messages = 100\n    futures = []\n    for i in range(messages):\n        futures.append(producer.send(topic, 'msg %d' % i))\n    ret = [f.get(timeout=30) for f in futures]\n    assert len(ret) == messages\n    producer.close()",
+  "FSMID_for_test": 78,
+  "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 479,
+  "Github_ID": "537827151",
+  "Github_Project_Name": "CodeGeeX",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "ZeroMQ Consumer in Python(REQ/REP)",
+  "Instruction": "Task Description: Implement a ZeroMQ-based server that handles task distribution and status updates from multiple workers using the REQ/REP pattern. The server should manage a queue of tasks, distribute them to workers, and handle task success/failure notifications.\n\nFunction Description: The `server` function sets up a ZeroMQ REP socket to listen for worker requests. It manages a task queue (`remaining_entries`) and worker count (`running_workers`), distributing tasks to workers and processing their success/failure responses. The server runs indefinitely until all tasks are completed or workers disconnect.\n\nInput:\n- `--channel-ip` (str, optional): IP address for ZeroMQ communication (default: None, binds to all interfaces)\n- `--channel-port` (int, optional): Port number for ZeroMQ communication (default: 5555)\n\nOutput: None (runs indefinitely as a server process)\n\nNote: The function maintains internal state for:\n1. `remaining_entries`: List of pending task IDs\n2. `running_workers`: Count of active workers\nThese should be initialized before the main loop (not shown in reference code)",
+  "Canonical_solution": "import zmq\nimport time\nimport argparse\n\ndef server():\n    parser = argparse.ArgumentParser()\n    parser.add_argument(\n        \"--channel-ip\",\n        type=str,\n        default=None,\n        help=\"IP for ZeroMQ channel\",\n    )\n    parser.add_argument(\n        \"--channel-port\",\n        type=int,\n        default=5555,\n        help=\"Port for ZeroMQ channel\",\n    )\n    args = parser.parse_known_args()[0]\n\n    context = zmq.Context()\n    socket = context.socket(zmq.REP)\n    socket.bind(f\"tcp://*:{args.channel_port}\")\n\n    while True:\n        msg = socket.recv_json()\n        rank = msg[\"rank\"]\n        action = msg[\"action\"]\n\n        if action == \"pull\":\n            if len(remaining_entries) == 0:\n                socket.send_json({\"task_id\": None})\n                running_workers -= 1\n                if running_workers == 0:\n                    break\n            else:\n                entry = remaining_entries.pop()\n                socket.send_json({\"task_id\": entry})\n        else:\n            if action == \"success\":\n                socket.send_json({\"pong\": 1})\n            else:\n                remaining_entries.append(msg['task_id'])\n                socket.send_json({\"pong\": 1})\n                break",
+  "FSMID_for_test": 87,
+  "Code_level": "Function-level"
+}

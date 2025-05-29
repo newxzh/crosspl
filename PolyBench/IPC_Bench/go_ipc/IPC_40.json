@@ -1,0 +1,13 @@
+{
+    "Task_id": 40,
+    "Github_ID": "59949570",
+    "Github_Project_Name": "bombardier",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Basic HTTP server using net/http with HandleFunc and ListenAndServe",
+    "Instruction": "Task Description: Create a Go function that implements a basic HTTP server which responds to all requests with a repeated character response of specified size.\n\nFunction Description: The function should start an HTTP server on a specified port that handles all incoming requests by writing a response consisting of a repeated character ('a') with a length determined by the responseSize parameter. The server should log any errors that occur during writing or server startup.\n\nInput: \n- serverPort: string - The port number on which the HTTP server should listen (e.g., \"8080\")\n- responseSize: int - The size/length of the response to be generated (number of 'a' characters to repeat)\n\nOutput: \n- None (the function runs indefinitely until the server is stopped or encounters an error)\n- Error messages are logged to stdout if any occur during server operation\n\nNote: The function doesn't explicitly return values but runs an HTTP server that handles requests and may log errors. The response is written directly to the http.ResponseWriter for each incoming request.\n\nExample usage:\n```go\nfunc main() {\n    startHTTPServer(\"8080\", 1024)  // Starts server on port 8080 with 1024-byte responses\n}\n```",
+    "Canonical_solution": "import (\n\t\"bytes\"\n\t\"log\"\n\t\"net/http\"\n)\n\nfunc main() {\n\tresponse := bytes.Repeat([]byte(\"a\"), int(*responseSize))\n\taddr := \"localhost:\" + *serverPort\n\tlog.Println(\"Starting HTTP server on:\", addr)\n\tlserr := http.ListenAndServe(addr, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {\n\t\t_, werr := w.Write(response)\n\t\tif werr != nil {\n\t\t\tlog.Println(werr)\n\t\t}\n\t}))\n\tif lserr != nil {\n\t\tlog.Println(lserr)\n\t}\n}",
+    "FSMID_for_test": 103,
+    "Code_level": "Function-level"
+}

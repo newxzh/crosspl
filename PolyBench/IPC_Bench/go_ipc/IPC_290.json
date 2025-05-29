@@ -1,0 +1,13 @@
+{
+    "Task_id": 290,
+    "Github_ID": "19608522",
+    "Github_Project_Name": "google-cloud-go",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Official-based gRPC server in Go",
+    "Instruction": "Task Description: Create a gRPC server for a translation service that can handle text translation requests and return mock translations for testing purposes.\n\nStruct Description: The fakeTranslationServer struct implements a mock gRPC server for the TranslationService, providing a simple translation response without requiring an actual translation service.\n\nFields:\n- UnimplementedTranslationServiceServer: embed - Base type from translatepb package that provides default implementations for all service methods\n\nMethods:\n- TranslateText: [Name](ctx context.Context, req *translatepb.TranslateTextRequest) -> (*translatepb.TranslateTextResponse, error) - Handles translation requests by returning a mock response containing \"Hello World\" as the translated text",
+    "Canonical_solution": "import (\n\t\"context\"\n\t\"net\"\n\t\"google.golang.org/grpc\"\n\ttranslate \"cloud.google.com/go/translate/apiv3\"\n\t\"cloud.google.com/go/translate/apiv3/translatepb\"\n\t\"google.golang.org/api/option\"\n)\n\ntype fakeTranslationServer struct {\n\ttranslatepb.UnimplementedTranslationServiceServer\n}\n\nfunc (f *fakeTranslationServer) TranslateText(ctx context.Context, req *translatepb.TranslateTextRequest) (*translatepb.TranslateTextResponse, error) {\n\tresp := &translatepb.TranslateTextResponse{\n\t\tTranslations: []*translatepb.Translation{\n\t\t\t{TranslatedText: \"Hello World\"},\n\t\t},\n\t}\n\treturn resp, nil\n}\n\nfunc TestTranslateTextWithConcreteClient(t *testing.T) {\n\tctx := context.Background()\n\n\tfakeTranslationServer := &fakeTranslationServer{}\n\tl, err := net.Listen(\"tcp\", \"localhost:0\")\n\tif err != nil {\n\t\tt.Fatal(err)\n\t}\n\tgsrv := grpc.NewServer()\n\ttranslatepb.RegisterTranslationServiceServer(gsrv, fakeTranslationServer)\n\tfakeServerAddr := l.Addr().String()\n\tgo func() {\n\t\tif err := gsrv.Serve(l); err != nil {\n\t\t\tpanic(err)\n\t\t}\n\t}()\n\n\tclient, err := translate.NewTranslationClient(ctx,\n\t\toption.WithEndpoint(fakeServerAddr),\n\t\toption.WithoutAuthentication(),\n\t\toption.WithGRPCDialOption(grpc.WithInsecure()),\n\t)\n\tif err != nil {\n\t\tt.Fatal(err)\n\t}\n}",
+    "FSMID_for_test": 119,
+    "Code_level": "Class-level"
+}

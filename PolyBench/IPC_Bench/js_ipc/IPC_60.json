@@ -1,0 +1,13 @@
+{
+  "Task_id": 60,
+  "Github_ID": "59821494",
+  "Github_Project_Name": "CommonsNet",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP based on express in javascript",
+  "Instruction": "Task Description: Create a function that sets up an Express server to handle HTTP requests, including serving static files, processing form data, and executing external commands to generate PDF files.\n\nFunction Description: The function `startServer` initializes an Express application, configures middleware for request processing, defines route handlers for specific endpoints, and starts the server on a specified port. It serves static files, handles JSON and URL-encoded form data, and provides endpoints for rendering pages and generating PDFs via an external command.\n\nInput: None (The function does not take any input parameters)\n\nOutput: None (The function does not return any value but starts an HTTP server that listens on the specified port)",
+  "Canonical_solution": "function startServer() {\n    var express = require('express');\n    var app = express();\n    const execFile = require('child_process').execFile;\n\n    app.set('port', (process.env.PORT || 5000));\n    app.use(bodyParser.json());\n    app.use(bodyParser.urlencoded({ extended: false }));\n    app.use(cookieParser());\n    app.use(express.static(__dirname + '/'));\n\n    app.get('/', function(request, response) {\n        response.render('pages/index');\n    });\n\n    app.get('/path_to_pdf', function(request, response) {\n        const child = execFile('unoconv', ['-f', 'pdf', 'generate-wifi.odt'], function(error, stdout, stderr) {\n            if (error) {\n                throw error;\n            }\n            response.json({ message: stdout });\n        });\n    });\n\n    app.listen(app.get('port'), function() {\n        console.log('Node app is running on port', app.get('port'));\n    });\n}",
+  "FSMID_for_test": 96,
+  "Code_level": "Function-level"
+}

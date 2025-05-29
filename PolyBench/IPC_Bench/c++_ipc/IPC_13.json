@@ -1,0 +1,13 @@
+{
+  "Task_id": 13,
+  "Github_ID": "95624763",
+  "Github_Project_Name": "Skill-Tree",
+  "Programming_Language": "C++",
+  "suffix": ".cpp",
+  "Interface_class": "IPC",
+  "Interface_name": "TCP Client based on socket+inet in C++",
+  "Instruction": "Task Description: Create a TCP client function in C++ that establishes a connection to a server, sends and receives messages, and maintains the connection until terminated by the user.\n\nFunction Description: The function `create_tcp_client` initializes a TCP client that connects to a specified server IP address. It creates a socket, establishes a connection, and provides interactive communication where the user can send messages to the server and receive responses. The function handles basic error cases and properly closes the connection when done.\n\nInput: \n- `server_ip`: [const char*] - The IP address of the server to connect to in string format (e.g., \"127.0.0.1\")\n\nOutput: \n- [int] - Returns 0 on successful execution and -1 if any error occurs during socket creation or connection establishment. The function runs indefinitely until manually terminated by the user.\n\nNote: The function uses a default port 6666 for the connection. Error messages are printed to stderr using `perror` for debugging purposes. The communication loop continues until the program is interrupted, allowing continuous message exchange between client and server.",
+  "Canonical_solution": "#include <sys/socket.h>\n#include <netinet/in.h>\n#include <arpa/inet.h>\n#include <unistd.h>\n#include <string.h>\n\n#define DEFAULT_PORT 6666\n\nint create_tcp_client(const char* server_ip) {\n    int connfd = 0;\n    struct sockaddr_in client;\n    \n    client.sin_family = AF_INET;\n    client.sin_port = htons(DEFAULT_PORT);\n    client.sin_addr.s_addr = inet_addr(server_ip);\n    \n    connfd = socket(AF_INET, SOCK_STREAM, 0);\n    if(connfd < 0){\n        perror(\"socket\");\n        return -1;\n    }\n    \n    if(connect(connfd, (struct sockaddr *)&client, sizeof(client)) < 0){\n        perror(\"connect\");\n        close(connfd);\n        return -1;\n    }\n    \n    char buff[1024];\n    bzero(buff, sizeof(buff));\n    recv(connfd, buff, 1024, 0);\n    printf(\"recv : %s \\n\", buff);\n    \n    bzero(buff, sizeof(buff));\n    strcpy(buff, \"this is client \\n\");\n    send(connfd, buff, 1024, 0);\n    \n    while(1){\n        bzero(buff, sizeof(buff));\n        scanf(\"%s\", buff);\n        int p = strlen(buff);\n        buff[p] = '\\0';\n        send(connfd, buff, 1024, 0);\n        printf(\"i have send buff \\n\");\n    }\n    \n    close(connfd);\n    return 0;\n}",
+  "FSMID_for_test": 149,
+  "Code_level": "Function-level"
+}

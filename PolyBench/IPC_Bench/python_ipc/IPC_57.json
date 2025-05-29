@@ -1,0 +1,13 @@
+{
+  "Task_id": 57,
+  "Github_ID": "542713154",
+  "Github_Project_Name": "uAgents",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Client-side by using requests in python",
+  "Instruction": "Task Description: Implement a function to send audio data to the Hugging Face Whisper ASR (Automatic Speech Recognition) model API and retrieve the transcribed text.\n\nFunction Description: The function `get_audio_transcript` takes audio data in base64-encoded string format, decodes it, sends it to the Hugging Face Whisper API, and returns the transcribed text. It handles errors and exceptions appropriately, providing feedback if the API request fails.\n\nInput:\n- `ctx`: [Context] - The context object for sending responses or errors back to the caller.\n- `sender`: [str] - Identifier for the sender to direct the response to.\n- `audiodata`: [str] - Base64-encoded string representing the audio data to be transcribed.\n\nOutput:\n- The function does not return a value directly but sends the result or error back through the `ctx` object:\n  - On success: Sends an `AudioTranscriptResponse` containing the transcribed text.\n  - On failure: Sends an `Error` containing the error message from the API or exception details.",
+  "Canonical_solution": "import os\nimport requests\nimport base64\n\nHUGGING_FACE_ACCESS_TOKEN = os.getenv(\n    \"HUGGING_FACE_ACCESS_TOKEN\", \"HUGGING_FACE_ACCESS_TOKEN\")\n\nWHISPER_URL = \"https://api-inference.huggingface.co/models/openai/whisper-large-v2\"\n\nHEADERS = {\n    \"Authorization\": f\"Bearer {HUGGING_FACE_ACCESS_TOKEN}\"\n}\n\nasync def get_audio_transcript(ctx: Context, sender: str, audiodata: str):\n    try:\n        audiodata = audiodata.encode(\"ascii\")\n        audioBytes = base64.b64decode(audiodata)\n\n        response = requests.post(WHISPER_URL, headers=HEADERS, data=audioBytes)\n\n        if response.status_code != 200:\n            await ctx.send(sender, Error(error=f\"Error: {response.json().get('error')}\"))\n            return\n\n        await ctx.send(sender, AudioTranscriptResponse(transcript=response.json().get('text')))\n        return\n\n    except Exception as ex:\n        await ctx.send(sender, Error(error=f\"Exception detail: {ex}\"))\n        return",
+  "FSMID_for_test": 57,
+  "Code_level": "Function-level"
+}

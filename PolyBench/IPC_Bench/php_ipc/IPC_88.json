@@ -1,0 +1,13 @@
+{
+  "Task_id": 88,
+  "Github_ID": "14101953",
+  "Github_Project_Name": "plugins",
+  "Programming_Language": "PHP",
+  "suffix": ".php",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP client using cURL in PHP",
+  "Instruction": "Task Description: Create a PHP function that makes an HTTP request using cURL with specific configurations for web scraping purposes, including custom headers and SSL verification settings.\n\nFunction Description: The function `MCurl` performs an HTTP GET request to a specified URL using PHP's cURL library. It's designed for web scraping with a Baidu spider user agent, follows redirects, ignores SSL verification (for testing purposes), and returns the response body. This is particularly useful when you need to mimic a search engine crawler or bypass certain security restrictions during development.\n\nInput: \n- $url (string): The target URL to which the HTTP request will be made\n\nOutput: \n- Returns the response body (string) from the HTTP request if successful\n- Returns false if the request fails (though error handling should be added in production code)\n\nNote: The current implementation lacks proper error handling which should be added in a production environment. The SSL verification is disabled (CURLOPT_SSL_VERIFYPEER and CURLOPT_SSL_VERIFYHOST set to false) which is insecure for production use - this should only be used in development or with trusted connections.",
+  "Canonical_solution": "use Typecho_Db;\nuse ReflectionClass;\n\nclass CatClaw_Action extends Widget_Abstract_Contents implements Widget_Interface_Do\n{\n    private function MCurl($url)\n    {\n        $headers[] = \"User-Agent: Mozilla/5.0 (compatible; Baiduspider/2.0; +http://www.baidu.com/search/spider.html)\";\n        $curl = curl_init();\n        curl_setopt($curl, CURLOPT_URL, $url);\n        curl_setopt($curl, CURLOPT_HEADER, 0);\n        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);\n        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);\n        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);\n        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);\n        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);\n        $tmpInfo = curl_exec($curl);\n        curl_close($curl);\n        return $tmpInfo;\n    }\n}",
+  "FSMID_for_test": 132,
+  "Code_level": "Class-level"
+}

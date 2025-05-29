@@ -1,0 +1,13 @@
+{
+  "Task_id": 10,
+  "Github_ID": "682834027",
+  "Github_Project_Name": "jvector",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "FileChannel usage in java.nio",
+  "Instruction": "Task Description: Create a Java class that provides read-only access to file contents using MemorySegment and FileChannel for efficient memory-mapped file operations.\n\nClass Description: MemorySegmentReaderSupplier is a utility class that implements ReaderSupplier interface, designed to provide memory-mapped file reading capabilities. It uses Java NIO's FileChannel to map a file into memory as a MemorySegment, allowing efficient read operations. The class manages memory resources through an Arena and automatically handles resource cleanup.\n\nAttributes:\n- arena: Arena - Manages the lifecycle of the memory segment and ensures proper cleanup\n- memory: MemorySegment - The memory-mapped representation of the file content\n\nMethods:\n- Constructor: MemorySegmentReaderSupplier(Path path) throws IOException - Initializes the reader by opening the specified file and mapping it into memory. Throws IOException if file operations fail.\n- get: get() -> MemorySegmentReader - Returns a new MemorySegmentReader instance for accessing the memory-mapped file content\n- close: close() -> void - Releases all allocated resources by closing the arena and unmapping the memory segment",
+  "Canonical_solution": "import java.io.IOException;\nimport java.lang.foreign.Arena;\nimport java.lang.foreign.MemorySegment;\nimport java.nio.channels.FileChannel;\nimport java.nio.file.Path;\nimport java.nio.file.StandardOpenOption;\n\npublic class MemorySegmentReaderSupplier implements ReaderSupplier {\n    private final Arena arena;\n    private final MemorySegment memory;\n\n    public MemorySegmentReaderSupplier(Path path) throws IOException {\n        this.arena = Arena.ofShared();\n        try (var ch = FileChannel.open(path, StandardOpenOption.READ)) {\n            this.memory = ch.map(FileChannel.MapMode.READ_ONLY, 0L, ch.size(), arena);\n        } catch (Throwable e) {\n            arena.close();\n            if (e instanceof IOException) {\n                throw (IOException) e;\n            }\n            throw new RuntimeException(e);\n        }\n    }\n\n    @Override\n    public MemorySegmentReader get() {\n        return new MemorySegmentReader(memory);\n    }\n\n    @Override\n    public void close() {\n        arena.close();\n    }\n}",
+  "FSMID_for_test": 9,
+  "Code_level": "Class-level"
+}

@@ -1,0 +1,13 @@
+{
+    "Task_id": 91,
+    "Github_ID": "38518423",
+    "Github_Project_Name": "kingshard",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Echo-based HTTP Server in Go",
+    "Instruction": "Task Description: Create a function that initializes and starts an HTTP server using the Echo framework in Go, with basic middleware and a simple route handler.\n\nFunction Description: The function `StartHTTPServer` initializes a new Echo instance, adds logger and recovery middleware, registers a GET route handler for the root path (\"/\"), and starts the HTTP server on the specified address.\n\nInput:  \n- `address` (string): The network address (e.g., \":8080\") on which the HTTP server should listen.\n\nOutput:  \n- `error`: Returns an error if the server fails to start; otherwise, it blocks until the server is stopped.",
+    "Canonical_solution": "import (\n\t\"net/http\"\n\n\t\"github.com/labstack/echo\"\n\t\"github.com/labstack/echo/middleware\"\n)\n\nfunc StartHTTPServer(address string) error {\n\te := echo.New()\n\n\te.Use(middleware.Logger())\n\te.Use(middleware.Recover())\n\n\te.GET(\"/\", func(c echo.Context) error {\n\t\treturn c.String(http.StatusOK, \"Hello, World!\")\n\t})\n\n\treturn e.Start(address)\n}",
+    "FSMID_for_test": 106,
+    "Code_level": "Function-level"
+}

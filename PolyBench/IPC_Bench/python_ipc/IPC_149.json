@@ -1,0 +1,13 @@
+{
+  "Task_id": 149,
+  "Github_ID": "53416555",
+  "Github_Project_Name": "learning-area",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Server - side by using Flask in python",
+  "Instruction": "Task Description: Create a Flask web application that handles HTTP requests on a '/hello' endpoint, processes form data, and returns a rendered HTML template with the processed data.\n\nFunction Description: The function 'hello' is a Flask route handler that responds to both GET and POST requests at the '/hello' endpoint. It retrieves form data from the request, processes it, and renders an HTML template ('greeting.html') with the form data as template variables.\n\nInput: \n- The function receives HTTP requests (GET or POST) containing form data with two fields:\n  - 'say': [str] - The greeting message to be displayed\n  - 'to': [str] - The recipient of the greeting\n\nOutput:\n- Returns a rendered HTML template ('greeting.html') populated with the form data:\n  - Template variable 'say' contains the greeting message\n  - Template variable 'to' contains the recipient name",
+  "Canonical_solution": "from flask import Flask, render_template, request\n\napp = Flask(__name__)\n\n@app.route('/hello', methods=['GET', 'POST'])\ndef hello():\n    return render_template('greeting.html', say=request.form['say'], to=request.form['to'])\n\nif __name__ == \"__main__\":\n    app.run()",
+  "FSMID_for_test": 60,
+  "Code_level": "Function-level"
+}

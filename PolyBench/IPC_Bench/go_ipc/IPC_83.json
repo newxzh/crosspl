@@ -1,0 +1,13 @@
+{
+    "Task_id": 83,
+    "Github_ID": "55167435",
+    "Github_Project_Name": "jet",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Basic HTTP server using net/http with HandleFunc and ListenAndServe",
+    "Instruction": "Task Description: Create a basic HTTP server in Go that serves a template-based web page and handles requests on a configurable port.\n\nFunction Description: The main function sets up an HTTP server with a root route handler that renders a template. It configures the server port from environment variables with a default fallback, then starts the server.\n\nInput: \n- Environment variable \"PORT\" (optional): Specifies the port number to listen on\n- Template file \"todos/index.jet\": The template to be rendered and served\n\nOutput:\n- HTTP server running on the specified port, serving the rendered template at the root path (\"/\")\n- Log output indicating the server's running status and any template errors\n\nNote: The reference code shows the implementation but doesn't explicitly define separate functions for each operation. The main function combines:\n1. Route handling (with template rendering)\n2. Port configuration\n3. Server startup",
+    "Canonical_solution": "import (\n\t\"log\"\n\t\"net/http\"\n\t\"os\"\n\t\"strings\"\n)\n\nfunc main() {\n\thttp.HandleFunc(\"/\", func(w http.ResponseWriter, r *http.Request) {\n\t\tview, err := views.GetTemplate(\"todos/index.jet\")\n\t\tif err != nil {\n\t\t\tlog.Println(\"Unexpected template err:\", err.Error())\n\t\t}\n\t\tview.Execute(w, nil, todos)\n\t})\n\n\tport := os.Getenv(\"PORT\")\n\tif len(port) == 0 {\n\t\tport = \":8080\"\n\t} else if !strings.HasPrefix(\":\", port) {\n\t\tport = \":\" + port\n\t}\n\n\tlog.Println(\"Serving on \" + port)\n\thttp.ListenAndServe(port, nil)\n}",
+    "FSMID_for_test": 103,
+    "Code_level": "Function-level"
+}

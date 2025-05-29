@@ -1,0 +1,13 @@
+{
+  "Task_id": 336,
+  "Github_ID": "178120741",
+  "Github_Project_Name": "exploitation-course",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "TCP Client - side by using socket in python",
+  "Instruction": "Task Description: Create a Python function that sends a TCP payload to a specified server using socket programming.\n\nFunction Description: The function establishes a TCP connection to a target server using IPv4, sends a payload, and then closes the connection. It handles the socket creation, connection, data transmission, and cleanup.\n\nInput:\n- target_ip: str - The IP address of the target server\n- target_port: int - The port number of the target server\n- payload: str - The data to be sent to the server\n\nOutput: None (The function does not return any value but sends the payload to the server)",
+  "Canonical_solution": "import socket\n\ndef send_tcp_payload(target_ip: str, target_port: int, payload: str):\n    \"\"\"\n    Sends a TCP payload to a target server\n    \n    Args:\n        target_ip: IP address of target server\n        target_port: Port number of target server\n        payload: Data to send to server\n    \"\"\"\n    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\n    s.connect((target_ip, target_port))\n    s.send(payload.encode())\n    s.close()",
+  "FSMID_for_test": 67,
+  "Code_level": "Function-level"
+}

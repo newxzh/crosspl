@@ -1,0 +1,13 @@
+{
+  "Task_id": 389,
+  "Github_ID": "55224431",
+  "Github_Project_Name": "whatsmars",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "RocketMQ Producer in Java",
+  "Instruction": "Task Description: Create a Java class that implements a RocketMQ producer to send messages to a RocketMQ broker.\n\nClass Description: The RocketMQProducer class encapsulates the functionality for sending messages to a RocketMQ message broker. It handles producer initialization, message sending, and resource cleanup.\n\nAttributes:\n- producer: DefaultMQProducer - The RocketMQ producer instance that handles message sending operations\n\nMethods:\n- RocketMQProducer(String producerGroup, String namesrvAddr) -> void - Constructor that initializes the producer with a producer group and NameServer address. Starts the producer instance.\n- sendMessage(String topic, String tags, String keys, String body) -> SendResult - Creates and sends a message to the specified topic with given tags and keys. Returns the send result containing message status.\n- shutdown() -> void - Shuts down the producer instance and releases resources.\n\nInput:\n- Constructor parameters:\n  - producerGroup: String - The group name of the producer\n  - namesrvAddr: String - The address of the NameServer\n- sendMessage parameters:\n  - topic: String - The topic to send the message to\n  - tags: String - Tags for message filtering\n  - keys: String - The business key of the message\n  - body: String - The message content\n\nOutput:\n- sendMessage returns: SendResult - Contains information about the message sending operation\n- shutdown returns: void",
+  "Canonical_solution": "import org.apache.rocketmq.client.exception.MQClientException;\nimport org.apache.rocketmq.client.producer.DefaultMQProducer;\nimport org.apache.rocketmq.client.producer.SendResult;\nimport org.apache.rocketmq.common.message.Message;\nimport org.apache.rocketmq.remoting.common.RemotingHelper;\n\npublic class RocketMQProducer {\n\n    private DefaultMQProducer producer;\n\n    public RocketMQProducer(String producerGroup, String namesrvAddr) throws MQClientException {\n        producer = new DefaultMQProducer(producerGroup);\n        producer.setNamesrvAddr(namesrvAddr);\n        producer.start();\n    }\n\n    public SendResult sendMessage(String topic, String tags, String keys, String body) throws Exception {\n        Message msg = new Message(topic,\n                tags,\n                keys,\n                body.getBytes(RemotingHelper.DEFAULT_CHARSET));\n        return producer.send(msg);\n    }\n\n    public void shutdown() {\n        producer.shutdown();\n    }\n}",
+  "FSMID_for_test": 42,
+  "Code_level": "Class-level"
+}

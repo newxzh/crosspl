@@ -1,0 +1,13 @@
+{
+    "Task_id": 135,
+    "Github_ID": "173227087",
+    "Github_Project_Name": "examples",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Gin-based HTTP Server in Go",
+    "Instruction": "Task Description: Create a Go function that sets up a Gin HTTP server with a single GET endpoint. The endpoint should accept a name parameter, make a gRPC call to a Greeter service, and return the response as JSON. The function should handle both successful responses and errors from the gRPC call.\n\nFunction Description: The function initializes a Gin router with default middleware, establishes a gRPC connection to a Greeter service, and defines a GET endpoint at \"/rest/n/:name\". When called, the endpoint extracts the name parameter, makes a gRPC call to the Greeter service, and returns either the greeting message or an error in JSON format. The server listens on port 8080.\n\nInput: None (The function takes no direct input parameters but relies on incoming HTTP requests to the defined endpoint)\n\nOutput: None (The function doesn't return any value but starts an HTTP server that outputs JSON responses to incoming requests)",
+    "Canonical_solution": "import (\n\t\"fmt\"\n\t\"log\"\n\t\"net/http\"\n\n\t\"github.com/gin-gonic/gin\"\n\t\"google.golang.org/grpc\"\n\t\"github.com/gin-gonic/examples/grpc/example1/gen/helloworld/v1\"\n)\nfunc main() {\n\tconn, err := grpc.Dial(\"localhost:50051\", grpc.WithInsecure())\n\tif err != nil {\n\t\tlog.Fatalf(\"did not connect: %v\", err)\n\t}\n\tdefer conn.Close()\n\tclient := v1.NewGreeterClient(conn)\n\n\tr := gin.Default()\n\tr.GET(\"/rest/n/:name\", func(c *gin.Context) {\n\t\tname := c.Param(\"name\")\n\n\t\treq := &v1.HelloRequest{Name: name}\n\t\tres, err := client.SayHello(c, req)\n\t\tif err != nil {\n\t\t\tc.JSON(http.StatusInternalServerError, gin.H{\n\t\t\t\t\"error\": err.Error(),\n\t\t\t})\n\t\t\treturn\n\t\t}\n\n\t\tc.JSON(http.StatusOK, gin.H{\n\t\t\t\"result\": fmt.Sprint(res.Message),\n\t\t})\n\t})\n\n\tif err := r.Run(\":8080\"); err != nil {\n\t\tlog.Fatalf(\"could not run server: %v\", err)\n\t}\n}",
+    "FSMID_for_test": 105,
+    "Code_level": "Function-level"
+}

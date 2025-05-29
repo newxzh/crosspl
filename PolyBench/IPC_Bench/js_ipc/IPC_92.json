@@ -1,0 +1,13 @@
+{
+  "Task_id": 92,
+  "Github_ID": "137582912",
+  "Github_Project_Name": "Blog",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP based on express in javascript",
+  "Instruction": "Task Description: Create a function that starts an HTTP server using Express.js to serve static files and provide a real-time clock update endpoint.\n\nFunction Description: The function `startServer` initializes an Express.js application, configures it to serve static files from the current directory, and sets up a route (`/clock`) that sends real-time clock updates to the client every second. The server listens on port 8080.\n\nInput: None\n\nOutput: None (The function starts a server that runs indefinitely until manually stopped)",
+  "Canonical_solution": "function startServer() {\n    let express = require('express');\n    let app = express();\n    app.use(express.static(__dirname));\n    app.get('/clock', function(req, res) {\n        setInterval(function() {\n            let date = new Date().toLocaleString();\n            res.write(`\n                <script type=\"text/javascript\">\n                    parent.document.getElementById('clock').innerHTML = \"${date}\";\n                </script>\n            `);\n        }, 1000);\n    });\n    app.listen(8080);\n}",
+  "FSMID_for_test": 96,
+  "Code_level": "Function-level"
+}

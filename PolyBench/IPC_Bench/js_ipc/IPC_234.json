@@ -1,0 +1,13 @@
+{
+  "Task_id": 234,
+  "Github_ID": "54168759",
+  "Github_Project_Name": "Rocket",
+  "Programming_Language": "JavaScript",
+  "suffix": ".html",
+  "Interface_class": "IPC",
+  "Interface_name": "WebSocket Client-side based on browser native API in JavaScript",
+  "Instruction": "Task Description: Implement a WebSocket client in JavaScript that establishes a connection to a WebSocket server, handles connection events, sends and receives messages, and manages errors and connection closure.\n\nFunction Description: The function `testWebSocket` initializes a WebSocket connection to a specified URI and sets up event handlers for connection opening, closing, message reception, and errors. The event handlers (`onOpen`, `onClose`, `onMessage`, `onError`) manage the respective events, while `sendMessage` sends messages to the server.\n\nInput: \n- `wsUri` [String] - The WebSocket server URI to connect to.\n\nOutput: \n- None (The function sets up event handlers and manages WebSocket connection lifecycle).",
+  "Canonical_solution": "function testWebSocket() {\n    websocket = new WebSocket(wsUri);\n    websocket.onopen = onOpen;\n    websocket.onclose = onClose;\n    websocket.onmessage = onMessage;\n    websocket.onerror = onError;\n}\n\nfunction onOpen(evt) {\n    writeLog(\"CONNECTED\");\n    sendMessage(\"Hello, Rocket!\");\n}\n\nfunction onClose(evt) {\n    writeLog(\"Websocket DISCONNECTED\");\n}\n\nfunction onMessage(evt) {\n    writeLog('<span style=\"color: blue;\">RESPONSE: ' + evt.data+'</span>');\n}\n\nfunction onError(evt) {\n    writeLog('<span style=\"color: red;\">ERROR:</span> ' + evt.data);\n}\n\nfunction sendMessage(message) {\n    writeLog(\"SENT: \" + message);\n    websocket.send(message);\n}",
+  "FSMID_for_test": 89,
+  "Code_level": "Function-level"
+}

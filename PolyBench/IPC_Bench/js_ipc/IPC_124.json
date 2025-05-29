@@ -1,0 +1,13 @@
+{
+  "Task_id": 124,
+  "Github_ID": "11168449",
+  "Github_Project_Name": "N-chat",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "Pipe Client-side based on fs+http in JavaScript",
+  "Instruction": "Task Description: Implement a function to upload a file to a server using HTTP POST request with streaming capability to handle large files efficiently.\n\nFunction Description: The function should create a readable stream from a specified file and pipe it directly to an HTTP POST request. This approach avoids loading the entire file into memory, making it suitable for large files. The function should set appropriate headers including content type (multipart/form-data) and content length.\n\nInput:\n- FIXTURE: [String] - Path to the file to be uploaded\n- TEST_PORT: [Number] - Port number of the server to upload to\n- BOUNDARY: [String] - Boundary string for multipart/form-data content type\n\nOutput: None (The function streams the file directly to the HTTP request without returning any value)",
+  "Canonical_solution": "function uploadFile() {\n  var fs = require('fs'),\n      http = require('http'),\n      stat = fs.statSync(FIXTURE),\n      request = http.request({\n        port: TEST_PORT,\n        path: '/',\n        method: 'POST',\n        headers: {\n          'content-type': 'multipart/form-data; boundary='+BOUNDARY,\n          'content-length': stat.size,\n        },\n      });\n  fs.createReadStream(FIXTURE).pipe(request);\n}",
+  "FSMID_for_test": 99,
+  "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+    "Task_id": 355,
+    "Github_ID": "410430370",
+    "Github_Project_Name": "CasaOS",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "gorilla-based websocket server in Go",
+    "Instruction": "Task Description: Implement a WebSocket handler function in Go that upgrades an HTTP connection to a WebSocket connection, manages WebSocket connections, and handles message reading.\n\nFunction Description: The function `NotifyWS` handles WebSocket connections by upgrading an HTTP request to a WebSocket connection using the Gorilla WebSocket upgrader. It adds the new WebSocket connection to a global list of connections and ensures a message-sending service is running. The function then continuously reads messages from the WebSocket connection until it is closed.\n\nInput: \n- `ctx echo.Context`: An Echo framework context object representing the HTTP request and response. This is used to access the underlying HTTP connection for WebSocket upgrade.\n\nOutput: \n- `error`: Returns an error if the WebSocket upgrade fails, otherwise returns `nil` after the WebSocket connection is closed.\n\nNote: The function does not explicitly return any output other than potential errors, but it interacts with global state (`service.WebSocketConns` and `service.SocketRun`) and performs I/O operations on the WebSocket connection.",
+    "Canonical_solution": "import (\n\t\"fmt\"\n\t\"net/http\"\n\n\t\"github.com/IceWhaleTech/CasaOS/service\"\n\t\"github.com/gorilla/websocket\"\n\t\"github.com/labstack/echo/v4\"\n)\n\nvar upGrader = websocket.Upgrader{\n\tCheckOrigin: func(r *http.Request) bool {\n\t\treturn true\n\t},\n}\n\nfunc NotifyWS(ctx echo.Context) error {\n\tws, err := upGrader.Upgrade(ctx.Response().Writer, ctx.Request(), nil)\n\tif err != nil {\n\t\treturn nil\n\t}\n\tdefer ws.Close()\n\tservice.WebSocketConns = append(service.WebSocketConns, ws)\n\n\tif !service.SocketRun {\n\t\tservice.SocketRun = true\n\t\tservice.SendMeg()\n\t}\n\tfor {\n\t\tmt, message, err := ws.ReadMessage()\n\t\tfmt.Println(mt, message, err)\n\t}\n}",
+    "FSMID_for_test": 114,
+    "Code_level": "Function-level"
+}

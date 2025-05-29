@@ -1,0 +1,13 @@
+{
+  "Task_id": 77,
+  "Github_ID": "49178942",
+  "Github_Project_Name": "react-redux-tutorial",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP based on express in javascript",
+  "Instruction": "Task Description: Create a function to start an Express server with webpack middleware for development purposes, serving an HTML file as the main entry point.\n\nFunction Description: The function initializes an Express application, configures webpack middleware for development (including hot module replacement), sets up a catch-all route to serve the main HTML file, and starts the server on a specified port. It includes error handling for server startup.\n\nInput: None (The function doesn't take any parameters as input)\n\nOutput: None (The function doesn't return any value but starts a server process and logs messages to the console)",
+  "Canonical_solution": "function startServer() {\n    var app = new (require('express'))();\n    var port = 3000;\n    \n    app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: config.output.publicPath }));\n    app.use(webpackHotMiddleware(compiler));\n    \n    app.use(function(req, res) {\n        res.sendFile(__dirname + '/index.html');\n    });\n    \n    app.listen(port, function(error) {\n        if (error) {\n            console.error(error);\n        } else {\n            console.info(\"==> \ud83c\udf0e  Listening on port %s. Open up http://localhost:%s/ in your browser.\", port, port);\n        }\n    });\n}",
+  "FSMID_for_test": 96,
+  "Code_level": "Function-level"
+}

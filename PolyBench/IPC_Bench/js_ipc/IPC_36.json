@@ -1,0 +1,13 @@
+{
+  "Task_id": 36,
+  "Github_ID": "347434932",
+  "Github_Project_Name": "epg",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Client-side based on Axios",
+  "Instruction": "Task Description: Create an asynchronous function that fetches TV channel data from a specified API endpoint and processes it into a standardized format.\n\nFunction Description: The function makes an HTTP GET request to retrieve TV channel information from a remote API. It processes the response to extract relevant channel details (language, site ID, and name) and returns them in a structured array format. The function includes error handling to log any request failures.\n\nInput: None (The function uses a hardcoded API URL and parameters)\n\nOutput: An array of objects where each object represents a TV channel with the following properties:\n- lang: String - The language code for the channel (hardcoded as 'sq' in this case)\n- site_id: String - The unique identifier for the channel from the API\n- name: String - The display name of the channel",
+  "Canonical_solution": "async function channels() {\n    const axios = require('axios')\n    const data = await axios\n        .get('https://www.tvim.tv/script/epg/category_channels?category=all&filter=playable')\n        .then(r => r.data)\n        .catch(console.log)\n\n    let channels = []\n    data.data.forEach(item => {\n        channels.push({\n            lang: 'sq',\n            site_id: item.epg_id,\n            name: item.name\n        })\n    })\n\n    return channels\n}",
+  "FSMID_for_test": 94,
+  "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+    "Task_id": 346,
+    "Github_ID": "11931032",
+    "Github_Project_Name": "btcd",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "gorilla-based websocket server in Go",
+    "Instruction": "Task Description: Create a function that handles WebSocket connections by upgrading HTTP connections, reading incoming messages, and forwarding them to a channel for further processing.\n\nFunction Description: The function `makeUpgradeOnConnect` generates and returns an HTTP handler function that upgrades incoming HTTP connections to WebSocket connections. It reads messages from the WebSocket connection and sends them to a provided channel. The WebSocket connection is properly closed when processing is complete.\n\nInput: \n- `ch chan string`: A channel of strings used to forward incoming WebSocket messages for further processing.\n\nOutput: \n- Returns a function of type `func(http.ResponseWriter, *http.Request)` that serves as an HTTP handler for WebSocket connections.\n\nNote: The returned HTTP handler function does not explicitly return any value but handles WebSocket communication and message forwarding internally.",
+    "Canonical_solution": "import (\n\t\"net/http\"\n\t\"strings\"\n\n\t\"github.com/gorilla/websocket\"\n)\n\nvar upgrader = websocket.Upgrader{}\n\nfunc makeUpgradeOnConnect(ch chan string) func(http.ResponseWriter, *http.Request) {\n\treturn func(w http.ResponseWriter, r *http.Request) {\n\t\tc, err := upgrader.Upgrade(w, r, nil)\n\t\tif err != nil {\n\t\t\treturn\n\t\t}\n\t\tdefer c.Close()\n\t\tfor {\n\t\t\t_, message, err := c.ReadMessage()\n\t\t\tif err != nil {\n\t\t\t\tbreak\n\t\t\t}\n\n\t\t\tgo func() {\n\t\t\t\tch <- string(message)\n\t\t\t}()\n\t\t}\n\t}\n}",
+    "FSMID_for_test": 114,
+    "Code_level": "Function-level"
+}

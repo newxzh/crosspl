@@ -1,0 +1,13 @@
+{
+  "Task_id": 62,
+  "Github_ID": "28233099",
+  "Github_Project_Name": "openbay",
+  "Programming_Language": "PHP",
+  "suffix": ".php",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP client using cURL in PHP",
+  "Instruction": "Task Description: Create a PHP class that implements HTTP scraping functionality using cURL to make requests to a specified URL with query parameters and handle the response.\n\nClass Description: The HttpScraper class extends a BaseScraper and provides functionality to make HTTP GET requests using cURL. It includes timeout configuration and basic error handling for HTTP status codes.\n\nAttributes:\ntimeout: [int] - The maximum time in seconds the cURL request is allowed to take.\n\nMethods:\nrequest: [Name]([string $url, array $query]) -> [string|null] - Makes an HTTP GET request to the specified URL with the given query parameters. Returns the response body as a string if the request is successful (HTTP 200), or null otherwise.",
+  "Canonical_solution": "use Rych\\Bencode\\Bencode;\nuse Rych\\Bencode\\Exception\\RuntimeException;\n\nclass HttpScraper extends BaseScraper\n{\n    protected $timeout = 30;\n\n    public function request($url, array $query)\n    {\n        $ch = curl_init();\n        curl_setopt_array($ch, [\n            CURLOPT_URL => $url . '?' . join('&', $query),\n            CURLOPT_RETURNTRANSFER => true,\n            CURLOPT_TIMEOUT => $this->timeout,\n        ]);\n\n        $result = curl_exec($ch);\n\n        $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);\n        if ($code != 200) {\n            $result = null;\n        }\n\n        curl_close($ch);\n\n        return $result;\n    }\n}",
+  "FSMID_for_test": 132,
+  "Code_level": "Class-level"
+}

@@ -1,0 +1,13 @@
+{
+    "Task_id": 175,
+    "Github_ID": "137360315",
+    "Github_Project_Name": "learning_tools",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Kafka Sync producer in Go",
+    "Instruction": "Task Description: Create a function that demonstrates how to use the Kafka synchronous producer in Go to send a message to a Kafka topic.\n\nFunction Description: The function initializes and configures a synchronous Kafka producer, sends a single message to a specified Kafka topic, and handles any errors that may occur during the process. The producer is properly closed after use.\n\nInput: None (The function is self-contained with hardcoded values for demonstration purposes)\n\nOutput: The function returns the result of the message send operation (partition and offset if successful, or error if failed) and prints it to the console. The function itself doesn't return any value but may terminate early if producer initialization fails.\n\nTask Description: Create a function that demonstrates how to use the Kafka synchronous producer in Go to send a message to a Kafka topic.\n\nFunction Description: The function initializes and configures a synchronous Kafka producer, sends a single message to a specified Kafka topic, and handles any errors that may occur during the process. The producer is properly closed after use.\n\nInput: None (The function is self-contained with hardcoded values for demonstration purposes)\n\nOutput: The function returns the result of the message send operation (partition and offset if successful, or error if failed) and prints it to the console. The function itself doesn't return any value but may terminate early if producer initialization fails.",
+    "Canonical_solution": "import (\n\t\"fmt\"\n\t\"github.com/Shopify/sarama\"\n\t\"testing\"\n)\n\nfunc TestKafkaSyncProducer(t *testing.T) {\n\tconf := sarama.NewConfig()\n\tconf.Producer.RequiredAcks = sarama.WaitForAll\n\tconf.Producer.Partitioner = sarama.NewRandomPartitioner\n\tconf.Producer.Return.Successes = true\n\tconf.Producer.Return.Errors = true\n\tconf.Producer.Retry.Max = 1000\n\tconf.Version = sarama.V2_8_0_0\n\tproducer, err := sarama.NewSyncProducer([]string{\"172.12.12.165:9092\"}, conf)\n\tif err != nil {\n\t\tt.Error(err)\n\t\treturn\n\t}\n\tdefer producer.Close()\n\tfmt.Println(producer.SendMessage(&sarama.ProducerMessage{\n\t\tTopic: \"gs_pay_transaction_topic\",\n\t\tValue: sarama.ByteEncoder(\"123123\"),\n\t}))\n\tselect {}\n}",
+    "FSMID_for_test": 123,
+    "Code_level": "Function-level"
+}

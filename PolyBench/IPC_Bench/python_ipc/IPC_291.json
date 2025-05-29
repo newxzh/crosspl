@@ -1,0 +1,13 @@
+{
+  "Task_id": 291,
+  "Github_ID": "143090423",
+  "Github_Project_Name": "DeepKE",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "Pipe based on subprocess in python",
+  "Instruction": "Task Description: Implement a function that evaluates coreference resolution results using the official CoNLL-2012 evaluation script, parsing and returning the recall, precision, and F1 scores.\n\nFunction Description: The function `official_conll_eval` executes the official CoNLL-2012 evaluation script as a subprocess, captures its output, and parses the recall, precision, and F1 scores from the output. It can optionally log the official output for debugging or reporting purposes.\n\nInput:\n- `gold_path` (str): Path to the file containing gold-standard coreference annotations.\n- `predicted_path` (str): Path to the file containing predicted coreference annotations.\n- `metric` (str): The evaluation metric to compute (e.g., \"muc\", \"bcub\", \"ceafe\").\n- `official_stdout` (bool, optional): If True, logs the official evaluation script output. Defaults to True.\n\nOutput:\n- Returns a dictionary with the following keys:\n  - \"r\" (float): Recall score in percentage.\n  - \"p\" (float): Precision score in percentage.\n  - \"f\" (float): F1 score in percentage.",
+  "Canonical_solution": "import re\nimport subprocess\nimport logging\n\nlogger = logging.getLogger(__name__)\nCOREF_RESULTS_REGEX = re.compile(r\".*Coreference: Recall: \\([0-9.]+ / [0-9.]+\\) ([0-9.]+)%\\tPrecision: \\([0-9.]+ / [0-9.]+\\) ([0-9.]+)%\\tF1: ([0-9.]+)%.*\", re.DOTALL)\n\ndef official_conll_eval(gold_path, predicted_path, metric, official_stdout=True):\n    cmd = [\"conll-2012/scorer/v8.01/scorer.pl\", metric, gold_path, predicted_path, \"none\"]\n    process = subprocess.Popen(cmd, stdout=subprocess.PIPE)\n    stdout, stderr = process.communicate()\n    process.wait()\n\n    stdout = stdout.decode(\"utf-8\")\n    if stderr is not None:\n        logger.error(stderr)\n\n    if official_stdout:\n        logger.info(\"Official result for {}\".format(metric))\n        logger.info(stdout)\n\n    coref_results_match = re.match(COREF_RESULTS_REGEX, stdout)\n    recall = float(coref_results_match.group(1))\n    precision = float(coref_results_match.group(2))\n    f1 = float(coref_results_match.group(3))\n    return {\"r\": recall, \"p\": precision, \"f\": f1}",
+  "FSMID_for_test": 76,
+  "Code_level": "Function-level"
+}

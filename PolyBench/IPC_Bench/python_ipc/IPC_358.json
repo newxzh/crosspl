@@ -1,0 +1,13 @@
+{
+  "Task_id": 358,
+  "Github_ID": "45202654",
+  "Github_Project_Name": "armory",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "TCP Client - side by using socket in python",
+  "Instruction": "Task Description: Create a Python function that establishes a TCP client connection to a server, sends a JSON-formatted command with arguments, receives the server's response, and then closes the connection.\n\nFunction Description: The function `connect_client` creates a TCP socket, connects to a specified server, sends a command with arguments in JSON format, waits for and prints the server's response, and finally closes the socket connection.\n\nInput:\n- `machine` (str): The IP address or hostname of the target server.\n- `port` (int): The port number on which the server is listening.\n- `blendpath` (str): A file path or identifier to be included in the command arguments.\n- `obj_num` (int): A numerical argument to be included in the command arguments.\n\nOutput:\n- The function does not return any value but prints the server's response to the console.",
+  "Canonical_solution": "import socket, json\n\ndef connect_client(machine, port, blendpath, obj_num):\n    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\n    sock.connect((machine, port))\n    args = [blendpath, obj_num]\n    command = json.dumps({'call':1, 'command':1, 'args':args})\n    sock.send((command).encode())\n    response_data = sock.recv(1024)\n    print(response_data.decode())\n    sock.close()",
+  "FSMID_for_test": 67,
+  "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+    "Task_id": 218,
+    "Github_ID": "36214040",
+    "Github_Project_Name": "hyperd",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Official-based gRPC client in Go",
+    "Instruction": "Task Description: Create a function that connects to a gRPC server, retrieves pod information using the HyperD Public API, and returns the response.\n\nFunction Description: The function establishes an insecure connection to a gRPC server at the specified address, creates a Public API client, sends a PodInfoRequest for a specific pod ID, and returns the pod information response. The connection is automatically closed when the function completes.\n\nInput: \n- server string: The address of the gRPC server (e.g., \"localhost:50051\")\n- podID string: The ID of the pod to query (e.g., \"pod-zpIOTSAjmM\")\n\nOutput:\n- *types.PodInfoResponse: The response containing pod information\n- error: Any error that occurred during the operation",
+    "Canonical_solution": "import (\n\t\"fmt\"\n\t\"os\"\n\n\t\"github.com/hyperhq/hyperd/types\"\n\t\"golang.org/x/net/context\"\n\t\"google.golang.org/grpc\"\n)\nfunc main() {\n\tconn, err := grpc.Dial(server, grpc.WithInsecure())\n\tif err != nil {\n\t\tfmt.Printf(\"Connect server error: %v\", err)\n\t\tos.Exit(1)\n\t}\n\tdefer conn.Close()\n\n\tclient := types.NewPublicAPIClient(conn)\n\trequest := types.PodInfoRequest{\n\t\tPodID: \"pod-zpIOTSAjmM\",\n\t}\n\tresponse, err := client.PodInfo(context.Background(), &request)\n\tif err != nil {\n\t\tfmt.Printf(\"Get PodInfo error: %v\", err)\n\t\tos.Exit(1)\n\t}\n\n\tfmt.Printf(\"Got response: %v\", response)\n}",
+    "FSMID_for_test": 120,
+    "Code_level": "Function-level"
+}

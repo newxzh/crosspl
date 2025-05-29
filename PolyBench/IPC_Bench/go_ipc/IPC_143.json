@@ -1,0 +1,13 @@
+{
+    "Task_id": 143,
+    "Github_ID": "153859939",
+    "Github_Project_Name": "go-microservices",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Gin-based HTTP Server in Go",
+    "Instruction": "Task Description: Create a Go struct that represents a main server application using the Gin web framework, with capabilities for logging configuration, route grouping, and JWT authentication middleware integration.\n\nStruct Description: The Main struct represents a web server application that uses Gin as its web framework. It handles server initialization, route configuration with JWT authentication for protected routes, and serves as the entry point for the application.\n\nFields:\nrouter: *gin.Engine - The Gin engine instance that handles all HTTP routing and middleware\n\nMethods:\ninitServer: () -> error - Initializes the Gin server with configured logging settings (file and console logging based on configuration). Returns error if initialization fails.\nmain: () - Entry point of the application that creates the Main instance, initializes the server, sets up route handlers with JWT authentication for protected routes, and starts the server on the configured port.",
+    "Canonical_solution": "import (\n\t\"io\"\n\t\"os\"\n\t\"github.com/gin-gonic/gin\"\n\t\"github.com/gin-gonic/contrib/jwt\"\n)\n\ntype Main struct {\n\trouter *gin.Engine\n}\n\nfunc (m *Main) initServer() error {\n\tvar err error\n\n\tif common.Config.EnableGinFileLog {\n\t\tf, _ := os.Create(\"logs/gin.log\")\n\t\tif common.Config.EnableGinConsoleLog {\n\t\t\tgin.DefaultWriter = io.MultiWriter(os.Stdout, f)\n\t\t} else {\n\t\t\tgin.DefaultWriter = io.MultiWriter(f)\n\t\t}\n\t} else {\n\t\tif !common.Config.EnableGinConsoleLog {\n\t\t\tgin.DefaultWriter = io.MultiWriter()\n\t\t}\n\t}\n\n\tm.router = gin.Default()\n\n\treturn nil\n}\n\nfunc main() {\n\tm := Main{}\n\n\tif m.initServer() != nil {\n\t\treturn\n\t}\n\n\tc := controllers.User{}\n\tv1 := m.router.Group(\"/api/v1\")\n\t{\n\t\tadmin := v1.Group(\"/admin\")\n\t\t{\n\t\t\tadmin.POST(\"/auth\", c.Authenticate)\n\t\t}\n\n\t\tuser := v1.Group(\"/users\")\n\n\t\tuser.Use(jwt.Auth(common.Config.JwtSecretPassword))\n\t\t{\n\t\t\tuser.POST(\"\", c.AddUser)\n\t\t\tuser.GET(\"/list\", c.ListUsers)\n\t\t\tuser.GET(\"detail/:id\", c.GetUserByID)\n\t\t\tuser.GET(\"/\", c.GetUserByParams)\n\t\t\tuser.DELETE(\":id\", c.DeleteUserByID)\n\t\t\tuser.PATCH(\"\", c.UpdateUser)\n\t\t}\n\t}\n\n\tm.router.GET(\"/swagger/*any\", ginSwagger.WrapHandler(swaggerFiles.Handler))\n\n\tm.router.Run(common.Config.Port)\n}",
+    "FSMID_for_test": 105,
+    "Code_level": "Class-level"
+}

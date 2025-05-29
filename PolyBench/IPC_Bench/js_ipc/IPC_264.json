@@ -1,0 +1,13 @@
+{
+  "Task_id": 264,
+  "Github_ID": "91866654",
+  "Github_Project_Name": "isolated-vm",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "WebSocket Server-side based on Node.js",
+  "Instruction": "Task Description: Create a WebSocket server that handles client connections, messages, and errors, while managing an isolated inspector session for each connection.\n\nFunction Description: The function `createWebSocketServer` initializes a WebSocket server on a specified port. For each client connection, it creates an isolated inspector session, sets up event handlers for messages, errors, and connection closure, and manages protocol message dispatching between the client and the inspector session.\n\nInput:  \n- `port` (Number): The port number on which the WebSocket server will listen for incoming connections.\n\nOutput:  \n- None (The function does not return a value but sets up a WebSocket server with the specified configuration and event handlers.)",
+  "Canonical_solution": "let WebSocket = require('ws');\n\nfunction createWebSocketServer(port) {\n    let wss = new WebSocket.Server({ port: port });\n\n    wss.on('connection', function(ws) {\n        let channel = isolate.createInspectorSession();\n        function dispose() {\n            try {\n                channel.dispose();\n            } catch (err) {}\n        }\n        ws.on('error', dispose);\n        ws.on('close', dispose);\n\n        ws.on('message', function(message) {\n            console.log('<', message.toString())\n            try {\n                channel.dispatchProtocolMessage(String(message));\n            } catch (err) {\n                ws.close();\n            }\n        });\n\n        function send(message) {\n            console.log('>', message.toString())\n            try {\n                ws.send(message);\n            } catch (err) {\n                dispose();\n            }\n        }\n        channel.onResponse = (callId, message) => send(message);\n        channel.onNotification = send;\n    });\n}",
+  "FSMID_for_test": 90,
+  "Code_level": "Function-level"
+}

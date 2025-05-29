@@ -1,0 +1,13 @@
+{
+  "Task_id": 44,
+  "Github_ID": "2837263",
+  "Github_Project_Name": "Sharrre",
+  "Programming_Language": "PHP",
+  "suffix": ".php",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP client using cURL in PHP",
+  "Instruction": "Task Description: Create a function that performs an HTTP request using cURL in PHP, with support for proxy configuration and error handling.\n\nFunction Description: The function makes an HTTP GET request to a specified URL using PHP's cURL library. It includes configuration options for handling redirects, timeouts, SSL verification, and proxy settings. The function returns the content of the response or null if an error occurs.\n\nInput: \n- $encUrl: string - The URL to which the HTTP request will be made\n- $proxy: string|null - (Optional) Proxy server address if proxy is required\n- $proxyAuth: array|null - (Optional) Associative array containing 'user' and 'pwd' keys for proxy authentication\n\nOutput: \n- string|null - Returns the response content as a string if successful, or null if an error occurs",
+  "Canonical_solution": "function parse($encUrl)\n{\n    global $proxy;\n    global $proxyAuth;\n    $options = array(\n        CURLOPT_RETURNTRANSFER => true,\n        CURLOPT_HEADER         => false,\n        CURLOPT_FOLLOWLOCATION => true,\n        CURLOPT_ENCODING       => \"\",\n        CURLOPT_USERAGENT      => 'sharrre',\n        CURLOPT_AUTOREFERER    => true,\n        CURLOPT_CONNECTTIMEOUT => 5,\n        CURLOPT_TIMEOUT        => 10,\n        CURLOPT_MAXREDIRS      => 3,\n        CURLOPT_SSL_VERIFYHOST => 0,\n        CURLOPT_SSL_VERIFYPEER => false,\n    );\n    $ch = curl_init();\n    \n    if ($proxy != null) {\n        $options[CURLOPT_PROXY] = $proxy;\n        if (isset($proxyAuth['user']) && isset($proxyAuth['pwd'])) {\n            $options[CURLOPT_PROXYUSERPWD] = $proxyAuth['user'] . ':' . $proxyAuth['pwd'];\n        }\n    }\n    \n    $options[CURLOPT_URL] = $encUrl;\n    curl_setopt_array($ch, $options);\n\n    $content = curl_exec($ch);\n    $err = curl_errno($ch);\n    $errmsg = curl_error($ch);\n\n    curl_close($ch);\n\n    return $content;\n}",
+  "FSMID_for_test": 132,
+  "Code_level": "Function-level"
+}

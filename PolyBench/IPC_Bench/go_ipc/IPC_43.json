@@ -1,0 +1,13 @@
+{
+    "Task_id": 43,
+    "Github_ID": "371564104",
+    "Github_Project_Name": "easegress",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Basic HTTP server using net/http with HandleFunc and ListenAndServe",
+    "Instruction": "Task Description: Create a Go HTTP server that handles incoming requests, processes JSON payloads, and returns a modified response with a large body and custom headers.\n\nFunction Description: The main function sets up an HTTP server that listens on port 10000. It defines a handler for the root path (\"/\") that:\n1. Reads and closes the request body\n2. Unmarshals the JSON body into a contextEntity struct\n3. Modifies the response status, headers, and body\n4. Marshals the modified contextEntity back to JSON and sends it as the response\n5. Handles errors appropriately with status codes\n\nInput: \n- HTTP requests with JSON body containing a contextEntity structure\n- The handler expects the request body to be a valid JSON representation of contextEntity\n\nOutput:\n- HTTP responses with:\n  - Status 200 on success with modified JSON payload\n  - Status 400 for bad requests (invalid JSON or read errors)\n  - Status 500 for internal server errors (marshaling failures)\n- Response includes:\n  - Custom header \"X-Remote-Name: G.O.O.D\"\n  - Large body (64KB of '-' characters)\n  - Modified contextEntity structure as JSON",
+    "Canonical_solution": "import (\n\t\"bytes\"\n\t\"encoding/json\"\n\t\"io\"\n\t\"net/http\"\n)\n\nfunc main() {\n\tlargeBodySize := 64 * 1024\n\tlargeBody := bytes.Repeat([]byte(`-`), largeBodySize)\n\n\thttp.HandleFunc(\"/\", func(w http.ResponseWriter, r *http.Request) {\n\t\tdefer r.Body.Close()\n\t\tbody, err := io.ReadAll(r.Body)\n\t\tif err != nil {\n\t\t\tw.WriteHeader(http.StatusBadRequest)\n\t\t\treturn\n\t\t}\n\n\t\tctxEntity := &contextEntity{}\n\t\terr = json.Unmarshal(body, ctxEntity)\n\t\tif err != nil {\n\t\t\tw.WriteHeader(http.StatusBadRequest)\n\t\t\treturn\n\t\t}\n\n\t\tctxEntity.Response.StatusCode = 200\n\t\tctxEntity.Response.Header.Add(\"X-Remote-Name\", \"G.O.O.D\")\n\t\tctxEntity.Response.Body = largeBody\n\n\t\tbuff, err := json.Marshal(ctxEntity)\n\t\tif err != nil {\n\t\t\tw.WriteHeader(http.StatusInternalServerError)\n\t\t\treturn\n\t\t}\n\n\t\tw.WriteHeader(http.StatusOK)\n\t\tw.Write(buff)\n\t})\n\n\thttp.ListenAndServe(\":10000\", nil)\n}",
+    "FSMID_for_test": 103,
+    "Code_level": "Function-level"
+}

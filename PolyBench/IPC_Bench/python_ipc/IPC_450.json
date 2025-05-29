@@ -1,0 +1,13 @@
+{
+  "Task_id": 450,
+  "Github_ID": "16991869",
+  "Github_Project_Name": "web-server-chrome",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "WebSocket Server - side by using Tornado in python",
+  "Instruction": "Task Description: Create a WebSocket server using Tornado in Python to handle WebSocket connections, messages, and disconnections.\n\nClass Description: The WebSocketServer class initializes and starts a Tornado-based WebSocket server that listens on a specified port. It uses a WebSocketHandler to manage individual WebSocket connections.\n\nAttributes:\n- port: int - The port number on which the WebSocket server will listen.\n- app: tornado.web.Application - The Tornado application instance that routes WebSocket connections.\n- server: tornado.httpserver.HTTPServer - The HTTP server instance that serves the WebSocket application.\n\nMethods:\n- __init__(port: int = 8080) -> None - Initializes the WebSocketServer with the specified port (default: 8080).\n- start() -> None - Starts the WebSocket server and begins listening for incoming connections.\n\nClass Description: The WebSocketHandler class extends tornado.websocket.WebSocketHandler to handle WebSocket connection events.\n\nMethods:\n- open() -> None - Called when a new WebSocket connection is opened.\n- on_message(msg: str) -> None - Called when a message is received from the WebSocket client.\n- on_close() -> None - Called when the WebSocket connection is closed.\n- check_origin(origin: str) -> bool - Overrides the origin check to allow connections from any origin (returns True).",
+  "Canonical_solution": "import tornado.websocket\nimport tornado.web\nimport tornado.httpserver\nimport tornado.ioloop\n\nclass WebSocketHandler(tornado.websocket.WebSocketHandler):\n    def open(self):\n        print('opened')\n\n    def on_message(self, msg):\n        print('onmessage', msg)\n\n    def on_close(self):\n        print('closed')\n\n    def check_origin(self, origin):\n        return True\n\nclass WebSocketServer:\n    def __init__(self, port=8080):\n        self.port = port\n        self.app = tornado.web.Application([\n            ('.*', WebSocketHandler)\n        ])\n        self.server = tornado.httpserver.HTTPServer(self.app)\n\n    def start(self):\n        self.server.listen(self.port)\n        tornado.ioloop.IOLoop.instance().start()",
+  "FSMID_for_test": 50,
+  "Code_level": "Class-level"
+}

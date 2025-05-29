@@ -1,0 +1,13 @@
+{
+  "Task_id": 30,
+  "Github_ID": "478222232",
+  "Github_Project_Name": "myspeed",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Client-side based on Axios",
+  "Instruction": "Task Description: Create a function that sends data to a webhook URL using an HTTP POST request and triggers a callback function upon completion or failure.\n\nFunction Description: The function uses Axios to send an HTTP POST request to a specified webhook URL with event and data payload. It triggers a callback function (triggerActivity) when the request succeeds or fails. The request includes custom headers for identification.\n\nInput:\n- url: [String] - The webhook URL to which the POST request will be sent\n- event: [String/Object] - The event information to be sent in the request payload\n- data: [Object] - The data payload to be sent in the request\n- triggerActivity: [Function] - Callback function to be triggered after request completion (takes an optional error parameter)\n\nOutput: [None] - The function doesn't return anything but triggers the callback function",
+  "Canonical_solution": "const axios = require(\"axios\");\n\nfunction postWebhook(url, event, data, triggerActivity) {\n    axios.post(url, {event, data}, {headers: {\"user-agent\": \"MySpeed/WebhookAgent\"}})\n        .then(() => triggerActivity())\n        .catch(() => triggerActivity(true));\n}",
+  "FSMID_for_test": 94,
+  "Code_level": "Function-level"
+}

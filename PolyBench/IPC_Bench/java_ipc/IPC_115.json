@@ -1,0 +1,13 @@
+{
+  "Task_id": 115,
+  "Github_ID": "30628859",
+  "Github_Project_Name": "netty-4-user-guide-demos",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "Java Netty TCP Client",
+  "Instruction": "Task Description: Create a Java class that implements a simple TCP chat client using Netty framework, capable of connecting to a remote server, sending messages from console input, and gracefully shutting down.\n\nClass Description: SimpleChatClient is a Netty-based TCP client that establishes a connection to a specified host and port, sends user input messages to the server, and handles connection lifecycle management.\n\nAttributes:\nhost: String - The hostname or IP address of the remote server to connect to\nport: int - The port number of the remote server to connect to\n\nMethods:\nSimpleChatClient: (String host, int port) -> void - Constructor that initializes the client with target host and port\nrun: () -> void - Main method that initializes Netty components, establishes connection, handles user input, and manages shutdown\n    - Initializes NioEventLoopGroup for I/O operations\n    - Configures Bootstrap with NioSocketChannel and handler\n    - Connects to remote server and maintains channel\n    - Reads user input from console and sends to server\n    - Handles graceful shutdown of resources",
+  "Canonical_solution": "import io.netty.bootstrap.Bootstrap;\nimport io.netty.channel.Channel;\nimport io.netty.channel.EventLoopGroup;\nimport io.netty.channel.nio.NioEventLoopGroup;\nimport io.netty.channel.socket.nio.NioSocketChannel;\nimport java.io.BufferedReader;\nimport java.io.InputStreamReader;\n\npublic class SimpleChatClient {\n\n    private final String host;\n    private final int port;\n\n    public SimpleChatClient(String host, int port) {\n        this.host = host;\n        this.port = port;\n    }\n\n    public void run() throws Exception {\n        EventLoopGroup group = new NioEventLoopGroup();\n        try {\n            Bootstrap bootstrap = new Bootstrap()\n                    .group(group)\n                    .channel(NioSocketChannel.class)\n                    .handler(new SimpleChatClientInitializer());\n            Channel channel = bootstrap.connect(host, port).sync().channel();\n            BufferedReader in = new BufferedReader(new InputStreamReader(System.in));\n            while (true) {\n                channel.writeAndFlush(in.readLine() + \"\\r\\n\");\n            }\n        } catch (Exception e) {\n            e.printStackTrace();\n        } finally {\n            group.shutdownGracefully();\n        }\n    }\n}",
+  "FSMID_for_test": 3,
+  "Code_level": "Class-level"
+}

@@ -1,0 +1,13 @@
+{
+    "Task_id": 141,
+    "Github_ID": "522195286",
+    "Github_Project_Name": "golang-guide",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Gin-based HTTP Server in Go",
+    "Instruction": "Task Description: Implement a streaming HTTP server endpoint using Gin in Go that sends chunked data responses to clients.\n\nFunction Description: The function sets up a Gin HTTP server with a single endpoint (\"/stream\") that streams data to the client in real-time using chunked transfer encoding. It demonstrates how to implement server-sent events or real-time data streaming in Go.\n\nInput: None (The function takes no direct input parameters as it's the main server setup function)\n\nOutput: None (The function doesn't return anything but sets up a running HTTP server that outputs streaming data to connected clients)\n\n---\n\nFor completeness, here's the alternative struct-level format (though the reference code is function-level):\n\nTask Description: Create a struct that encapsulates a streaming HTTP server using Gin framework in Go.\n\nStruct Description: The StreamServer struct represents a configurable HTTP server capable of streaming data to clients.\n\nFields:\n- router: *gin.Engine - The Gin router instance\n- port: string - The port number to listen on\n- streamData: chan string - Channel for streaming data to clients\n\nMethods:\n- NewStreamServer(port string) *StreamServer - Constructor that initializes a new StreamServer instance\n- SetupRoutes() - Configures all HTTP routes and handlers\n- GenerateStreamData() - Generates sample data for streaming\n- Start() error - Starts the HTTP server\n- Stop() - Gracefully shuts down the server",
+    "Canonical_solution": "import (\n\t\"fmt\"\n\t\"github.com/gin-gonic/gin\"\n\t\"io\"\n\t\"time\"\n)\n\nfunc main() {\n\tr := gin.Default()\n\n\tr.GET(\"/stream\", func(c *gin.Context) {\n\t\tc.Header(\"Content-Type\", \"text/plain\")\n\t\tc.Header(\"Transfer-Encoding\", \"chunked\")\n\n\t\tdataStream := make(chan string)\n\n\t\tgo func() {\n\t\t\tdefer close(dataStream)\n\t\t\tfor i := 0; i < 10; i++ {\n\t\t\t\ttime.Sleep(1 * time.Second)\n\t\t\t\tdataStream <- fmt.Sprintf(\"Data %d\\n\", i)\n\t\t\t}\n\t\t}()\n\n\t\tfor data := range dataStream {\n\t\t\t_, _ = io.WriteString(c.Writer, data)\n\t\t\tc.Writer.Flush()\n\t\t}\n\t})\n\n\tr.Run(\":8080\")\n}",
+    "FSMID_for_test": 105,
+    "Code_level": "Function-level"
+}

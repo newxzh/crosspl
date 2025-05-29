@@ -1,0 +1,13 @@
+{
+    "Task_id": 364,
+    "Github_ID": "56550961",
+    "Github_Project_Name": "jaeger-client-go",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "net-based UDP Client with DialUDP in Go",
+    "Instruction": "Task Description: Write a Go function that tests UDP communication between a client and server. The function should create a UDP server, establish a client connection, send a test message, and verify the server's response.\n\nFunction Description: The function `TestUDPTransport` tests UDP transport functionality by creating a UDP server, sending a message from a client to the server, and verifying that the server receives the correct message. It uses goroutines for asynchronous server handling and channels for communication between the server and test function.\n\nInput: \n- `t *testing.T`: A testing context provided by the Go testing framework for assertions and logging.\n\nOutput: \n- None (This is a test function, so it reports failures via the testing framework rather than returning values). \n\nNote: The function relies on an external `NewTUDPServerTransport` function (not shown in the reference) to create the server transport and a `serveOnce` helper function (also not shown) to handle the server-side receive operation.",
+    "Canonical_solution": "import (\n\t\"net\"\n\t\"testing\"\n\t\"time\"\n\n\t\"github.com/stretchr/testify/assert\"\n\t\"github.com/stretchr/testify/require\"\n)\nfunc TestUDPTransport(t *testing.T) {\n\tserver, err := NewTUDPServerTransport(\"127.0.0.1:0\")\n\trequire.NoError(t, err)\n\tdefer server.Close()\n\n\tassert.NoError(t, server.Open())\n\tassert.True(t, server.IsOpen())\n\tassert.NotNil(t, server.Conn())\n\n\tc := make(chan []byte)\n\tdefer close(c)\n\n\tgo serveOnce(t, server, c)\n\n\tdestAddr, err := net.ResolveUDPAddr(\"udp\", server.Addr().String())\n\trequire.NoError(t, err)\n\n\tconnUDP, err := net.DialUDP(destAddr.Network(), nil, destAddr)\n\trequire.NoError(t, err)\n\tdefer connUDP.Close()\n\n\tn, err := connUDP.Write([]byte(\"test\"))\n\tassert.NoError(t, err)\n\tassert.Equal(t, 4, n)\n\n\tselect {\n\tcase data := <-c:\n\t\tassert.Equal(t, \"test\", string(data))\n\tcase <-time.After(time.Second * 1):\n\t\tt.Error(\"Server did not respond in time\")\n\t}\n}",
+    "FSMID_for_test": 113,
+    "Code_level": "Function-level"
+}

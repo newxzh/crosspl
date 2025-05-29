@@ -1,0 +1,13 @@
+{
+  "Task_id": 495,
+  "Github_ID": "12414592",
+  "Github_Project_Name": "javaee7-samples",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "WebSocket Server based on Java EE",
+  "Instruction": "Task Description: Implement a WebSocket server endpoint in Java that echoes received text messages back to the client asynchronously.\n\nClass Description: This class represents a WebSocket server endpoint that handles text-based communication with clients. It listens for incoming text messages and echoes them back to the sender using asynchronous communication.\n\nAttributes: None\n\nMethods:\n- echoText: [String text, Session session] -> void - Handles incoming text messages from clients. Takes the received text and the client session as input, then sends the same text back to the client asynchronously using the session's async remote endpoint.",
+  "Canonical_solution": "import javax.websocket.OnMessage;\nimport javax.websocket.Session;\nimport javax.websocket.server.ServerEndpoint;\n\n@ServerEndpoint(\"/text\")\npublic class MyAsyncEndpointText {\n\n    @OnMessage\n    public void echoText(String text, Session session) {\n        session.getAsyncRemote().sendText(text);\n    }\n}",
+  "FSMID_for_test": 26,
+  "Code_level": "Class-level"
+}

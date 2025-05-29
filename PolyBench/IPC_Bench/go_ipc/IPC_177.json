@@ -1,0 +1,13 @@
+{
+    "Task_id": 177,
+    "Github_ID": "300576059",
+    "Github_Project_Name": "services",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Net-based TCP Client in Go",
+    "Instruction": "Task Description: Implement a TCP client function in Go that establishes a connection to a server, sends data, and receives a response.\n\nFunction Description: The function `Tcp` handles TCP communication with a remote server. It establishes a connection, sends optional data, and reads the server's response. Errors are captured and returned in the response structure. The connection is automatically closed when the function completes.\n\nInput: \n- `ctx context.Context`: Context for managing deadlines and cancellation signals\n- `req *pb.TcpRequest`: Request object containing:\n  - `Address string`: The server address to connect to (format \"host:port\")\n  - `Data string`: Optional data to send to the server\n- `rsp *pb.TcpResponse`: Response object to populate with results\n\nOutput:\n- `error`: Returns an error if address validation fails, otherwise nil (errors during TCP operations are stored in the response)\n- Modifies `rsp` with:\n  - `Status string`: \"OK\" on success or error message\n  - `Data string`: Received data from server (if any)",
+    "Canonical_solution": "import (\n\t\"bufio\"\n\t\"context\"\n\t\"fmt\"\n\t\"net\"\n\n\tpb \"github.com/micro/services/ping/proto\"\n)\n\nfunc (p *Ping) Tcp(ctx context.Context, req *pb.TcpRequest, rsp *pb.TcpResponse) error {\n\tif len(req.Address) == 0 {\n\t\treturn errors.BadRequest(\"ping.tcp\", \"missing address\")\n\t}\n\n\tc, err := net.Dial(\"tcp\", req.Address)\n\tif err != nil {\n\t\trsp.Status = err.Error()\n\t\treturn nil\n\t}\n\tdefer c.Close()\n\n\tif len(req.Data) == 0 {\n\t\trsp.Status = \"OK\"\n\t\treturn nil\n\t}\n\n\tfmt.Fprint(c, req.Data)\n\n\tdata, err := bufio.NewReader(c).ReadString('\\n')\n\tif err != nil {\n\t\trsp.Status = err.Error()\n\t\treturn nil\n\t}\n\n\trsp.Status = \"OK\"\n\trsp.Data = data\n\n\treturn nil\n}",
+    "FSMID_for_test": 110,
+    "Code_level": "Function-level"
+}

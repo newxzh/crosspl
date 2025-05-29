@@ -1,0 +1,13 @@
+{
+  "Task_id": 335,
+  "Github_ID": "158506288",
+  "Github_Project_Name": "edl",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "TCP Client - side by using socket in python",
+  "Instruction": "Task Description: Implement a TCP client class in Python that can connect to a server, send commands, and receive responses, including handling acknowledgment messages.\n\nClass Description: The TCPClient class establishes a TCP connection to a specified server and provides functionality to send commands and receive responses. It handles both text and binary data, and automatically closes the connection when done.\n\nAttributes:\n- sock: [socket.socket] - The TCP socket object used for communication with the server\n\nMethods:\n- __init__(port: int) -> None - Initializes the TCP client and connects to the specified port on localhost\n- send_commands(commands: list) -> None - Sends each command in the list to the server and prints the responses until receiving either an <ACK> or <NAK> message for each command",
+  "Canonical_solution": "import socket\nfrom binascii import hexlify\n\nclass TCPClient:\n    def __init__(self, port: int):\n        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\n        server_address = (\"localhost\", port)\n        print(\"connecting to %s port %s\" % server_address)\n        self.sock.connect(server_address)\n\n    def send_commands(self, commands: list):\n        try:\n            for command in commands:\n                self.sock.sendall(bytes(command, 'utf-8'))\n                data = \"\"\n                while \"<ACK>\" not in data and \"<NAK>\" not in data:\n                    tmp = self.sock.recv(4096)\n                    if tmp == b\"\":\n                        continue\n                    try:\n                        data += tmp.decode('utf-8')\n                    except:\n                        data += hexlify(tmp).decode('utf-8')\n                print(data)\n        finally:\n            print(\"closing socket\")\n            self.sock.close()",
+  "FSMID_for_test": 67,
+  "Code_level": "Class-level"
+}

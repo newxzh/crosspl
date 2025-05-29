@@ -1,0 +1,13 @@
+{
+    "Task_id": 130,
+    "Github_ID": "21525599",
+    "Github_Project_Name": "contrib",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Gin-based HTTP Server in Go",
+    "Instruction": "Task Description: Create a Go function that implements an HTTP server using the Gin framework, which includes session management using Redis for storing and incrementing a counter value.\n\nFunction Description: The function sets up a Gin web server with Redis-based session management. It provides a single endpoint \"/incr\" that increments a counter stored in the session and returns the current count in JSON format. The server runs on port 8000.\n\nInput: None (The function takes no direct input parameters, but handles HTTP requests to the \"/incr\" endpoint)\n\nOutput: None (The function doesn't return any value directly, but sends JSON responses to HTTP requests and runs the web server indefinitely)",
+    "Canonical_solution": "import (\n\t\"github.com/gin-gonic/contrib/sessions\"\n\t\"github.com/gin-gonic/gin\"\n)\nfunc main() {\n\tr := gin.Default()\n\tstore, _ := sessions.NewRedisStore(10, \"tcp\", \"localhost:6379\", \"\", []byte(\"secret\"))\n\tr.Use(sessions.Sessions(\"mysession\", store))\n\n\tr.GET(\"/incr\", func(c *gin.Context) {\n\t\tsession := sessions.Default(c)\n\t\tvar count int\n\t\tv := session.Get(\"count\")\n\t\tif v == nil {\n\t\t\tcount = 0\n\t\t} else {\n\t\t\tcount = v.(int)\n\t\t\tcount += 1\n\t\t}\n\t\tsession.Set(\"count\", count)\n\t\tsession.Save()\n\t\tc.JSON(200, gin.H{\"count\": count})\n\t})\n\tr.Run(\":8000\")\n}",
+    "FSMID_for_test": 105,
+    "Code_level": "Function-level"
+}

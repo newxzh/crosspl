@@ -1,0 +1,13 @@
+{
+  "Task_id": 231,
+  "Github_ID": "372172254",
+  "Github_Project_Name": "axum",
+  "Programming_Language": "JavaScript",
+  "suffix": ".html",
+  "Interface_class": "IPC",
+  "Interface_name": "WebSocket Client-side based on browser native API in JavaScript",
+  "Instruction": "Task Description: Implement a WebSocket client in JavaScript that connects to a server, sends messages, and displays received messages in a chat interface.\n\nFunction Description: The function `setupWebSocket` initializes a WebSocket connection to a server when a button is clicked. It handles connection events (open, close, message) and allows sending messages via an input field. The function disables the join button during active connection and re-enables it when closed.\n\nInput: \n- None (the function uses DOM elements internally: username input, join button, chat textarea, and message input field)\n\nOutput: \n- None (the function sets up event listeners and modifies DOM elements directly)\n\nAttributes: N/A (function-level implementation)\n\nMethods: N/A (function-level implementation)",
+  "Canonical_solution": "function setupWebSocket() {\n    const username = document.querySelector(\"#username\");\n    const join_btn = document.querySelector(\"#join-chat\");\n    const textarea = document.querySelector(\"#chat\");\n    const input = document.querySelector(\"#input\");\n\n    join_btn.addEventListener(\"click\", function(e) {\n        this.disabled = true;\n\n        const websocket = new WebSocket(\"ws://localhost:3000/websocket\");\n\n        websocket.onopen = function() {\n            console.log(\"connection opened\");\n            websocket.send(username.value);\n        }\n\n        const btn = this;\n\n        websocket.onclose = function() {\n            console.log(\"connection closed\");\n            btn.disabled = false;\n        }\n\n        websocket.onmessage = function(e) {\n            console.log(\"received message: \"+e.data);\n            textarea.value += e.data+\"\\r\\n\";\n        }\n\n        input.onkeydown = function(e) {\n            if (e.key == \"Enter\") {\n                websocket.send(input.value);\n                input.value = \"\";\n            }\n        }\n    });\n}",
+  "FSMID_for_test": 89,
+  "Code_level": "Function-level"
+}

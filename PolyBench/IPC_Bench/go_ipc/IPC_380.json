@@ -1,0 +1,13 @@
+{
+    "Task_id": 380,
+    "Github_ID": "49765480",
+    "Github_Project_Name": "lnd",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "nhooyr.io-based websocket client in Go",
+    "Instruction": "Task Description: Create a Go function that establishes a WebSocket connection to a specified URL, sends a protobuf message as a JSON payload, and returns the WebSocket connection for further communication.\n\nFunction Description: The function `openWebSocket` establishes a secure WebSocket connection (wss://) to a given URL with optional custom headers. It authenticates using admin macaroon if no custom headers are provided, sends a protobuf message as JSON, and returns the active WebSocket connection. The caller is responsible for closing the connection.\n\nInput:\n- `node` [*node.HarnessNode] - Node configuration containing REST address and authentication details\n- `url` [string] - The endpoint path for the WebSocket connection\n- `method` [string] - The method parameter to include in the query string\n- `req` [proto.Message] - The protobuf message to send as initial payload\n- `customHeader` [http.Header] - Optional custom HTTP headers for the request\n\nOutput:\n- [*websocket.Conn] - Established WebSocket connection for bidirectional communication\n- [error] - Error if any step in the connection process fails",
+    "Canonical_solution": "import (\n\t\"bytes\"\n\t\"encoding/hex\"\n\t\"fmt\"\n\t\"net/http\"\n\n\t\"github.com/gorilla/websocket\"\n\t\"github.com/lightningnetwork/lnd/lnrpc\"\n\t\"github.com/lightningnetwork/lnd/lntest/node\"\n\t\"google.golang.org/protobuf/proto\"\n)\n\nvar (\n\twebSocketDialer = &websocket.Dialer{\n\t\tHandshakeTimeout: time.Second,\n\t\tTLSClientConfig:  insecureTransport.TLSClientConfig,\n\t}\n\tcloseMsg = websocket.FormatCloseMessage(\n\t\twebsocket.CloseNormalClosure, \"done\",\n\t)\n)\n\nfunc openWebSocket(node *node.HarnessNode, url, method string,\n\treq proto.Message, customHeader http.Header) (*websocket.Conn, error) {\n\n\theader := customHeader\n\tif header == nil {\n\t\theader = make(http.Header)\n\t\tif err := addAdminMacaroon(node, header); err != nil {\n\t\t\treturn nil, err\n\t\t}\n\t}\n\tfullURL := fmt.Sprintf(\n\t\t\"wss://%s%s?method=%s\", node.Cfg.RESTAddr(), url, method,\n\t)\n\tconn, resp, err := webSocketDialer.Dial(fullURL, header)\n\tif err != nil {\n\t\treturn nil, err\n\t}\n\tdefer func() { _ = resp.Body.Close() }()\n\n\treqMsg, err := lnrpc.RESTJsonMarshalOpts.Marshal(req)\n\tif err != nil {\n\t\treturn nil, err\n\t}\n\terr = conn.WriteMessage(websocket.TextMessage, reqMsg)\n\tif err != nil {\n\t\treturn nil, err\n\t}\n\n\treturn conn, nil\n}",
+    "FSMID_for_test": 117,
+    "Code_level": "Function-level"
+}

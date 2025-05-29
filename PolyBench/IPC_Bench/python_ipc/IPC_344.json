@@ -1,0 +1,13 @@
+{
+  "Task_id": 344,
+  "Github_ID": "178120741",
+  "Github_Project_Name": "exploitation-course",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "TCP Client - side by using socket in python",
+  "Instruction": "Task Description: Create a Python function that establishes a TCP connection to a specified server, sends a payload consisting of a command and optional padding, and then closes the connection.\n\nFunction Description: The function `send_tcp_payload` creates a TCP socket, connects to a target server using the provided IP address and port, sends a payload formed by combining a command string with optional padding, and finally closes the socket connection. This is useful for simple TCP-based client-server communication scenarios.\n\nInput:\n- `ipaddr`: [str] - The IP address of the target server to connect to\n- `port`: [int] - The port number on the target server to connect to\n- `cmd`: [str] - The command string to be sent as part of the payload\n- `padding`: [str] - Optional additional data to be appended to the command\n\nOutput: None (The function performs an action but doesn't return any value)",
+  "Canonical_solution": "import socket\n\ndef send_tcp_payload(ipaddr, port, cmd, padding):\n    payload = cmd + padding\n    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\n    s.connect((ipaddr, port))\n    s.send(payload.encode())\n    s.close()",
+  "FSMID_for_test": 67,
+  "Code_level": "Function-level"
+}

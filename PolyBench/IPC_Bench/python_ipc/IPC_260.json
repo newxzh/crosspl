@@ -1,0 +1,13 @@
+{
+  "Task_id": 260,
+  "Github_ID": "85802819",
+  "Github_Project_Name": "testcontainers-python",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "Kafka producer in python",
+  "Instruction": "Task Description: Create a function that produces a message to a specified Kafka topic using the KafkaProducer from the kafka-python library.\n\nFunction Description: The function initializes a KafkaProducer instance, sends a message to the specified topic, waits for the message to be delivered, and then closes the producer to release resources.\n\nInput:  \n- bootstrap_server: str - The address of the Kafka bootstrap server (e.g., 'localhost:9092').  \n- topic: str - The name of the Kafka topic to which the message will be sent.  \n- message: bytes - The message content in bytes format.  \n\nOutput: None - The function does not return any value but ensures the message is sent to the Kafka topic.",
+  "Canonical_solution": "from kafka import KafkaProducer\n\ndef produce_message(bootstrap_server: str, topic: str, message: bytes) -> None:\n    \"\"\"\n    Produces a message to a Kafka topic.\n    \n    Args:\n        bootstrap_server: Kafka bootstrap server address\n        topic: Target topic name\n        message: Message content in bytes\n    \"\"\"\n    producer = KafkaProducer(bootstrap_servers=[bootstrap_server])\n    future = producer.send(topic, message)\n    future.get(timeout=10)\n    producer.close()",
+  "FSMID_for_test": 78,
+  "Code_level": "Function-level"
+}

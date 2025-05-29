@@ -1,0 +1,13 @@
+{
+  "Task_id": 268,
+  "Github_ID": "10733929",
+  "Github_Project_Name": "stream-adventure",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "WebSocket Server-side based on Node.js",
+  "Instruction": "Task Description: Create a WebSocket server in Node.js that listens for incoming connections, handles messages, and responds to specific initialization messages.\n\nFunction Description: The function `setupWebSocketServer` initializes a WebSocket server on a specified port. It sets up event handlers for connections and incoming messages. When a message is received, it echoes the message back to the client. If the received message matches a predefined initialization message, it sends a specific response message before closing the connection.\n\nInput: \n- `callback`: [Function] - A callback function to be executed once the server starts listening.\n- `initMsg`: [String] - The initialization message that triggers a specific response.\n- `responseMsg`: [String] - The response message to be sent when the initialization message is received.\n\nOutput: \n- None (The function sets up the server and event handlers but does not return any value).",
+  "Canonical_solution": "function setupWebSocketServer() {\n  const http = require('http');\n  const WebSocket = require('ws');\n\n  this.server = http.createServer();\n  this.server.listen(8099, function() {\n    callback();\n  });\n\n  this.wss = new WebSocket.Server({ server: this.server });\n  this.wss.on('connection', (ws) => {\n    ws.on('message', (data) => {\n      const received = data.toString();\n      ws.send(received);\n      if (received === initMsg) {\n        ws.send(responseMsg);\n      }\n      ws.close();\n    });\n  });\n}",
+  "FSMID_for_test": 90,
+  "Code_level": "Function-level"
+}

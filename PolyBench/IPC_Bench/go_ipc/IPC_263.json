@@ -1,0 +1,13 @@
+{
+    "Task_id": 263,
+    "Github_ID": "27729907",
+    "Github_Project_Name": "grpc-go",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Official-based gRPC server in Go",
+    "Instruction": "Task Description: Create a function that initializes and starts a gRPC server to handle incoming requests on a specified network address.\n\nFunction Description: The function `startServer` sets up a gRPC server that listens on the provided TCP address. It creates a new gRPC server instance, registers the Echo service implementation, and begins serving requests. If any step fails, it logs the error and terminates the program.\n\nInput: \n- `addr` [string] - The network address (including port) on which the gRPC server should listen (e.g., \"localhost:50051\").\n\nOutput: \n- None (The function runs indefinitely to serve requests or exits on error).",
+    "Canonical_solution": "import (\n\t\"context\"\n\t\"fmt\"\n\t\"log\"\n\t\"net\"\n\t\"sync\"\n\n\t\"google.golang.org/grpc\"\n\n\tpb \"google.golang.org/grpc/examples/features/proto/echo\"\n)\nfunc startServer(addr string) {\n\tlis, err := net.Listen(\"tcp\", addr)\n\tif err != nil {\n\t\tlog.Fatalf(\"failed to listen: %v\", err)\n\t}\n\ts := grpc.NewServer()\n\tpb.RegisterEchoServer(s, &ecServer{addr: addr})\n\tlog.Printf(\"serving on %s\\n\", addr)\n\tif err := s.Serve(lis); err != nil {\n\t\tlog.Fatalf(\"failed to serve: %v\", err)\n\t}\n}",
+    "FSMID_for_test": 119,
+    "Code_level": "Function-level"
+}

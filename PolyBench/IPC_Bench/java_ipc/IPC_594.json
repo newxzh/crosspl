@@ -1,0 +1,13 @@
+{
+  "Task_id": 594,
+  "Github_ID": "100704079",
+  "Github_Project_Name": "javacore",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "java.net UDP Server or Client",
+  "Instruction": "Task Description: Implement a UDP client class in Java that can receive data packets from a UDP server and process them, including extracting the sender's address and port information.\n\nClass Description: The UDPClient class is designed to handle UDP communication as a client. It creates a UDP socket bound to a specific port, receives incoming packets, processes the data, and provides information about the sender. The class includes methods for receiving data and cleaning up resources.\n\nAttributes:\n- socket: DatagramSocket - The UDP socket used for communication\n- packet: DatagramPacket - The packet object used for receiving data\n- buffer: byte[] - The buffer used to store incoming packet data\n\nMethods:\n- UDPClient(int port) -> void - Constructor that initializes the UDP client. Takes a port number as input to bind the socket.\n  - port: int - The port number to bind the socket to\n- receiveData() -> String - Receives a UDP packet, extracts the data, and returns it along with sender information\n  - Returns: String - The received data concatenated with sender's IP address and port\n- close() -> void - Closes the socket and releases system resources",
+  "Canonical_solution": "import java.net.DatagramPacket;\nimport java.net.DatagramSocket;\n\npublic class UDPClient {\n\n    private DatagramSocket socket;\n    private DatagramPacket packet;\n    private byte[] buffer;\n\n    public UDPClient(int port) throws Exception {\n        this.buffer = new byte[1024];\n        this.socket = new DatagramSocket(port);\n        this.packet = new DatagramPacket(buffer, buffer.length);\n    }\n\n    public String receiveData() throws Exception {\n        socket.receive(packet);\n        String data = new String(packet.getData(), 0, packet.getLength());\n        return data + \"from \" + packet.getAddress().getHostAddress() + \":\" + packet.getPort();\n    }\n\n    public void close() {\n        if (socket != null) {\n            socket.close();\n        }\n    }\n\n}",
+  "FSMID_for_test": 2,
+  "Code_level": "Class-level"
+}

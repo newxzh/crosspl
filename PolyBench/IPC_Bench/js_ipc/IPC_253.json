@@ -1,0 +1,13 @@
+{
+  "Task_id": 253,
+  "Github_ID": "5374914",
+  "Github_Project_Name": "nanohttpd",
+  "Programming_Language": "JavaScript",
+  "suffix": ".html",
+  "Interface_class": "IPC",
+  "Interface_name": "WebSocket Client-side based on browser native API in JavaScript",
+  "Instruction": "Task Description: Implement a WebSocket client in JavaScript that establishes a connection to a WebSocket server, handles connection events, sends and receives messages, and manages errors and connection closure.\n\nFunction Description: The code consists of several functions that work together to create and manage a WebSocket connection. The main function `testWebSocket` initializes the connection, while other functions handle specific events like opening/closing the connection, receiving messages, and handling errors. The `doSend` function is used to send messages through the WebSocket connection.\n\nInput:\n- `wsUri` (String): The WebSocket server URI to connect to (e.g., \"ws://example.com/socket\")\n\nOutput:\n- No direct return values, but the functions perform the following actions:\n  - Establish a WebSocket connection\n  - Send messages to the server\n  - Display connection status and messages in the UI\n  - Handle errors and connection closure\n\nFunctions:\n1. `testWebSocket()`: Initializes a new WebSocket connection and sets up event handlers\n2. `onOpen(evt)`: Handles the connection open event, sends a test message\n3. `onClose(evt)`: Handles the connection close event\n4. `onMessage(evt)`: Handles incoming messages and closes the connection\n5. `onError(evt)`: Handles connection errors\n6. `doSend(message)`: Sends a message through the WebSocket connection\n\nNote: The implementation assumes the existence of a `writeToScreen` function for displaying messages in the UI.",
+  "Canonical_solution": "function testWebSocket() {\n    websocket = new WebSocket(wsUri);\n    websocket.onopen = function (evt) {\n        onOpen(evt)\n    };\n    websocket.onclose = function (evt) {\n        onClose(evt)\n    };\n    websocket.onmessage = function (evt) {\n        onMessage(evt)\n    };\n    websocket.onerror = function (evt) {\n        onError(evt)\n    };\n}\n\nfunction onOpen(evt) {\n    writeToScreen(\"CONNECTED\");\n    doSend(\"WebSocket rocks\");\n}\n\nfunction onClose(evt) {\n    writeToScreen(\"DISCONNECTED\");\n}\n\nfunction onMessage(evt) {\n    writeToScreen('<span style=\"color: blue;\">RESPONSE: ' + evt.data + '</span>');\n    websocket.close();\n}\n\nfunction onError(evt) {\n    writeToScreen('<span style=\"color: red;\">ERROR:</span> ' + evt.data);\n}\n\nfunction doSend(message) {\n    writeToScreen(\"SENT: \" + message);\n    websocket.send(message);\n}",
+  "FSMID_for_test": 89,
+  "Code_level": "Function-level"
+}

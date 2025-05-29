@@ -1,0 +1,13 @@
+{
+  "Task_id": 314,
+  "Github_ID": "114459569",
+  "Github_Project_Name": "cryptofeed",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "RabbitMQ consumer based on pika in python",
+  "Instruction": "Task Description: Create a Python function that consumes messages from a RabbitMQ queue using the pika library, processing each message with a callback function.\n\nFunction Description: The function establishes a connection to a RabbitMQ server, declares a durable queue, and starts consuming messages from the specified queue. Each received message is processed by a callback function that prints the message body. The function runs in a blocking mode, continuously waiting for messages until interrupted.\n\nInput:\n- port: [int] - The port number of the RabbitMQ server to connect to (default is typically 5672)\n\nOutput: None (The function runs indefinitely until interrupted, printing received messages to the console)",
+  "Canonical_solution": "from multiprocessing import Process\nimport pika\n\ndef callback(ch, method, properties, body):\n    print(\" [x] Received %r\" % body.decode())\n\ndef receiver(port):\n    connection = pika.BlockingConnection(\n        pika.ConnectionParameters(host='localhost', port=port))\n    channel = connection.channel()\n    channel.queue_declare(queue='cryptofeed', durable=True)\n    channel.basic_consume(queue='cryptofeed',\n                          on_message_callback=callback, auto_ack=True)\n    print(' [*] Waiting for messages. To exit press CTRL+C')\n    channel.start_consuming()\n\nif __name__ == '__main__':\n    p = Process(target=receiver, args=(5672,))\n    p.start()",
+  "FSMID_for_test": 77,
+  "Code_level": "Function-level"
+}

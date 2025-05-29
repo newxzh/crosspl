@@ -1,0 +1,13 @@
+{
+  "Task_id": 146,
+  "Github_ID": "119047018",
+  "Github_Project_Name": "Heimdall",
+  "Programming_Language": "PHP",
+  "suffix": ".php",
+  "Interface_class": "IPC",
+  "Interface_name": "pipe based on proc_open in PHP",
+  "Instruction": "Task Description: Create a PHP class that manages a subprocess using proc_open, handling input/output streams and proper cleanup.\n\nClass Description: ProcessStream is a class that manages the lifecycle of a subprocess, including initialization, stream handling, and termination. It provides access to the subprocess's standard input and output streams while properly handling errors and resource cleanup.\n\nAttributes:\n- command: string - The command to be executed in the subprocess\n- stream: resource - The process resource created by proc_open\n- in: resource - The input stream (stdin) of the subprocess\n- out: resource - The output stream (stdout) of the subprocess\n\nMethods:\n- setCommand(string $command): void - Sets the command to be executed by the subprocess\n- initialize(): void - Starts the subprocess, sets up streams, and checks for startup errors\n- terminate(): void - Closes all streams and terminates the subprocess\n- getReadConnectionDescription(): string - Returns a description of the process connection",
+  "Canonical_solution": "namespace Symfony\\Component\\Mailer\\Transport\\Smtp\\Stream;\n\nuse Symfony\\Component\\Mailer\\Exception\\TransportException;\n\nfinal class ProcessStream extends AbstractStream\n{\n    private string $command;\n\n    public function setCommand(string $command): void\n    {\n        $this->command = $command;\n    }\n\n    public function initialize(): void\n    {\n        $descriptorSpec = [\n            0 => ['pipe', 'r'],\n            1 => ['pipe', 'w'],\n            2 => ['pipe', '\\\\' === \\DIRECTORY_SEPARATOR ? 'a' : 'w'],\n        ];\n        $pipes = [];\n        $this->stream = proc_open($this->command, $descriptorSpec, $pipes);\n        stream_set_blocking($pipes[2], false);\n        if ($err = stream_get_contents($pipes[2])) {\n            throw new TransportException('Process could not be started: '.$err);\n        }\n        $this->in = &$pipes[0];\n        $this->out = &$pipes[1];\n    }\n\n    public function terminate(): void\n    {\n        if (null !== $this->stream) {\n            fclose($this->in);\n            fclose($this->out);\n            proc_close($this->stream);\n        }\n\n        parent::terminate();\n    }\n\n    protected function getReadConnectionDescription(): string\n    {\n        return 'process '.$this->command;\n    }\n}",
+  "FSMID_for_test": 145,
+  "Code_level": "Class-level"
+}

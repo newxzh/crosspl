@@ -1,0 +1,13 @@
+{
+  "Task_id": 427,
+  "Github_ID": "460598783",
+  "Github_Project_Name": "tuya-cloudcutter",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "UDP communication by using socket in python",
+  "Instruction": "Task Description: Implement a function that listens for a multicast token over UDP, decodes the received message, and extracts the token value.\n\nFunction Description: The function continuously listens on a specified UDP port for incoming messages containing a token. When a valid message is received, it parses the message, extracts the token, and stores it in a global variable. The function handles socket creation, binding, timeout, and cleanup, and runs in a loop until a token is received or a cancellation flag is set.\n\nInput: None (uses global variables `multicast_token` and `cancel_thread` for state management)\n\nOutput: None (updates the global variable `multicast_token` with the received token if successful)",
+  "Canonical_solution": "import socket\nimport struct\nimport json\nimport threading\nimport time\n\nglobal multicast_token, cancel_thread\nmulticast_token = None\ncancel_thread = False\n\ndef receive_token():\n    global multicast_token, cancel_thread\n    received_token = False\n    while received_token == False and cancel_thread == False:\n        s = socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM)\n        s.bind(('0.0.0.0', 6669))\n        s.settimeout(2)\n        try:\n            # despite suggestions of being unused, addr must remain present, or this will fail\n            msg, addr = s.recvfrom(255)\n            (msglen,) = struct.unpack(\">I\", msg[12:16])\n            msg = msg[16: msglen + 8].decode()\n            msg = json.loads(msg)\n            token = msg[\"token\"]\n            received_token = True\n            s.close()\n            multicast_token = token\n        except KeyboardInterrupt:\n            return\n        except:\n            pass",
+  "FSMID_for_test": 71,
+  "Code_level": "Function-level"
+}

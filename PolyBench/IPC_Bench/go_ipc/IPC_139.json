@@ -1,0 +1,13 @@
+{
+    "Task_id": 139,
+    "Github_ID": "522195286",
+    "Github_Project_Name": "golang-guide",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Gin-based HTTP Server in Go",
+    "Instruction": "Task Description: Create a simple HTTP server using the Gin framework in Go that responds to GET requests with a JSON message.\n\nFunction Description: The main function initializes a Gin router with default middleware (Logger and Recovery), sets up a GET route handler at \"/api/hello\" that returns a JSON response, and starts the server on port 8080.\n\nInput: None (The function takes no direct input parameters, but handles incoming HTTP GET requests to the \"/api/hello\" endpoint)\n\nOutput: \n- When successful: The server runs indefinitely, listening on port 8080\n- When failing: An error message is printed if the server fails to start\n- HTTP Response: For GET requests to \"/api/hello\", returns a JSON response with status 200 OK: {\"message\": \"Hello, HTTP!\"}",
+    "Canonical_solution": "import (\n\t\"fmt\"\n\t\"github.com/gin-gonic/gin\"\n\t\"net/http\"\n)\nfunc main() {\n\trouter := gin.Default()\n\n\trouter.GET(\"/api/hello\", func(c *gin.Context) {\n\t\tc.JSON(http.StatusOK, gin.H{\"message\": \"Hello, HTTP!\"})\n\t})\n\n\terr := router.Run(\":8080\")\n\tif err != nil {\n\t\tfmt.Println(err)\n\t}\n}",
+    "FSMID_for_test": 105,
+    "Code_level": "Function-level"
+}

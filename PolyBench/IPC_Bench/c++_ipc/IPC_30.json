@@ -1,0 +1,13 @@
+{
+  "Task_id": 30,
+  "Github_ID": "7589945",
+  "Github_Project_Name": "asio",
+  "Programming_Language": "C++",
+  "suffix": ".cpp",
+  "Interface_class": "IPC",
+  "Interface_name": "UDP based on Boost.Asio in C++",
+  "Instruction": "Task Description: Implement a UDP server class using Boost.Asio that can asynchronously receive and send datagrams.\n\nClass Description: The `server` class represents a UDP server that listens on a specified port, receives incoming datagrams asynchronously, and sends responses back to the sender. It utilizes Boost.Asio for asynchronous I/O operations.\n\nAttributes:\n- socket_: [boost::asio::ip::udp::socket] - The UDP socket used for communication\n- sender_endpoint_: [boost::asio::ip::udp::endpoint] - Stores the endpoint of the last sender\n- max_length: [enum] - Maximum size of the receive buffer (1024 bytes)\n- data_: [char[max_length]] - Buffer for storing received data\n\nMethods:\n- server: [constructor](boost::asio::io_context& io_context, short port) -> void - Initializes the UDP socket and starts the receive operation\n- do_receive: [method]() -> void - Asynchronously receives data from clients and triggers do_send if data is received\n- do_send: [method](std::size_t length) -> void - Asynchronously sends the received data back to the sender",
+  "Canonical_solution": "#include <boost/asio.hpp>\n#include <boost/system/error_code.hpp>\n\nusing boost::asio::ip::udp;\n\nclass server\n{\npublic:\n  server(boost::asio::io_context& io_context, short port)\n    : socket_(io_context, udp::endpoint(udp::v4(), port))\n  {\n    do_receive();\n  }\n\n  void do_receive()\n  {\n    socket_.async_receive_from(\n        boost::asio::buffer(data_, max_length), sender_endpoint_,\n        [this](boost::system::error_code ec, std::size_t bytes_recvd)\n        {\n          if (!ec && bytes_recvd > 0)\n          {\n            do_send(bytes_recvd);\n          }\n          else\n          {\n            do_receive();\n          }\n        });\n  }\n\n  void do_send(std::size_t length)\n  {\n    socket_.async_send_to(\n        boost::asio::buffer(data_, length), sender_endpoint_,\n        [this](boost::system::error_code /*ec*/, std::size_t /*bytes_sent*/)\n        {\n          do_receive();\n        });\n  }\n\nprivate:\n  udp::socket socket_;\n  udp::endpoint sender_endpoint_;\n  enum { max_length = 1024 };\n  char data_[max_length];\n};",
+  "FSMID_for_test": 153,
+  "Code_level": "Class-level"
+}

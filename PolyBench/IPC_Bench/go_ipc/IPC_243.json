@@ -1,0 +1,13 @@
+{
+    "Task_id": 243,
+    "Github_ID": "95761244",
+    "Github_Project_Name": "gf",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Official-based gRPC client in Go",
+    "Instruction": "Task Description: Create a Go function that establishes a gRPC client connection to a server, sends multiple requests, and processes the responses using the GoFrame framework.\n\nFunction Description: The function connects to a gRPC server using service discovery, creates a client stub, and makes repeated calls to a SayHello RPC method. It handles connection errors and response processing, with built-in logging and graceful connection closure.\n\nInput: None (uses package-level constants and context)\n\nOutput: None (logs results to console via GoFrame's logging system)\n\nNote: The function includes an internal loop that makes 10 RPC calls with a 1-second delay between calls. Connection is automatically closed when function completes.",
+    "Canonical_solution": "import (\n\t\"fmt\"\n\n\t\"google.golang.org/grpc\"\n\t\"google.golang.org/grpc/credentials/insecure\"\n\n\t\"github.com/gogf/gf/v2/frame/g\"\n\t\"github.com/gogf/gf/v2/net/gsvc\"\n\t\"github.com/gogf/gf/v2/os/gctx\"\n\n\t\"github.com/gogf/gf/contrib/rpc/grpcx/v2\"\n\n\tpb \"github.com/gogf/gf/example/rpc/grpcx/rawgrpc/helloworld\"\n)\nfunc main() {\n\tvar (\n\t\tctx     = gctx.GetInitCtx()\n\t\tservice = gsvc.NewServiceWithName(`hello`)\n\t)\n\tconn, err := grpc.Dial(\n\t\tfmt.Sprintf(`%s://%s`, gsvc.Schema, service.GetKey()),\n\t\tgrpcx.Balancer.WithRandom(),\n\t\tgrpc.WithTransportCredentials(insecure.NewCredentials()),\n\t)\n\tif err != nil {\n\t\tg.Log().Fatalf(ctx, \"did not connect: %v\", err)\n\t}\n\tdefer conn.Close()\n\n\tclient := pb.NewGreeterClient(conn)\n\tfor i := 0; i < 10; i++ {\n\t\tres, err := client.SayHello(ctx, &pb.HelloRequest{Name: `GoFrame`})\n\t\tif err != nil {\n\t\t\tg.Log().Fatalf(ctx, \"could not greet: %+v\", err)\n\t\t}\n\t\tg.Log().Printf(ctx, \"Greeting: %s\", res.Message)\n\t\ttime.Sleep(time.Second)\n\t}\n}",
+    "FSMID_for_test": 120,
+    "Code_level": "Function-level"
+}

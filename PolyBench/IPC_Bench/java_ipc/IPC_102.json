@@ -1,0 +1,13 @@
+{
+  "Task_id": 102,
+  "Github_ID": "25940829",
+  "Github_Project_Name": "nogotofail",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "Http client-side based on Java.io & HttpURLConnection",
+  "Instruction": "Task Description: Create a Java class that demonstrates how to make an HTTP request using HttpURLConnection, including setting connection timeouts and request headers, and handling the response.\n\nClass Description: The CleartextHttpCredentialsTest class is designed to test basic HTTP connectivity with a target URL. It demonstrates how to establish a connection, set timeouts, add request headers, and retrieve response information. The class focuses on proper resource cleanup after the connection is used.\n\nAttributes:\n- TARGET: [String] - A constant storing the URL to which the HTTP request will be made\n\nMethods:\n- runTest: [runTest]() -> [void] - Executes the HTTP request to the target URL. Sets connection timeouts, adds an Authorization header, retrieves the response code and message, and ensures proper connection cleanup. Throws Exception if any step fails.",
+  "Canonical_solution": "import java.net.HttpURLConnection;\nimport java.net.URL;\n\npublic class CleartextHttpCredentialsTest {\n\n  private static final String TARGET = \"http://www.google.com\";\n\n  public void runTest() throws Exception {\n    HttpURLConnection connection = null;\n    try {\n      connection = (HttpURLConnection) new URL(TARGET).openConnection();\n      connection.setConnectTimeout(20000);\n      connection.setReadTimeout(20000);\n      connection.setRequestProperty(\"Authorization\", \"value\");\n      int responseCode = connection.getResponseCode();\n      String responseMessage = connection.getResponseMessage();\n    } finally {\n      if (connection != null) {\n        connection.disconnect();\n      }\n    }\n  }\n}",
+  "FSMID_for_test": 16,
+  "Code_level": "Class-level"
+}

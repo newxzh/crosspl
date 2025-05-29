@@ -1,0 +1,13 @@
+{
+    "Task_id": 361,
+    "Github_ID": "513701178",
+    "Github_Project_Name": "lucky",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "net-based UDP Client with DialUDP in Go",
+    "Instruction": "Task Description: Implement a function to send a Wake-on-LAN (WoL) magic packet to a target device using UDP broadcast.\n\nFunction Description: The function `WakeUp` sends a Wake-on-LAN magic packet to a specified MAC address over UDP broadcast. It allows optional specification of a local network interface for the broadcast and handles the creation and transmission of the magic packet.\n\nInput:\n- `macAddr` (string): The MAC address of the target device to wake up, in format \"XX:XX:XX:XX:XX:XX\"\n- `broadcastIP` (string): The broadcast IP address to use (e.g., \"255.255.255.255\")\n- `bcastInterface` (string): [Optional] The network interface to use for broadcasting. If empty, system default will be used\n- `port` (int): The UDP port number to use for the WoL packet (typically 7 or 9)\n\nOutput:\n- (error): Returns nil on success, or an error if any step fails (invalid MAC, network error, etc.)",
+    "Canonical_solution": "import (\n\t\"fmt\"\n\t\"net\"\n)\n\nfunc WakeUp(macAddr, broadcastIP, bcastInterface string, port int) error {\n\tvar localAddr *net.UDPAddr\n\tvar err error\n\tif bcastInterface != \"\" {\n\t\tlocalAddr, err = ipFromInterface(bcastInterface)\n\t\tif err != nil {\n\t\t\treturn err\n\t\t}\n\t}\n\n\tbcastAddr := fmt.Sprintf(\"%s:%d\", broadcastIP, port)\n\tudpAddr, err := net.ResolveUDPAddr(\"udp\", bcastAddr)\n\tif err != nil {\n\t\treturn err\n\t}\n\n\tmp, err := New(macAddr)\n\tif err != nil {\n\t\treturn err\n\t}\n\n\tbs, err := mp.Marshal()\n\tif err != nil {\n\t\treturn err\n\t}\n\n\tconn, err := net.DialUDP(\"udp\", localAddr, udpAddr)\n\tif err != nil {\n\t\treturn err\n\t}\n\tdefer conn.Close()\n\n\tn, err := conn.Write(bs)\n\tif err == nil && n != 102 {\n\t\terr = fmt.Errorf(\"magic packet sent was %d bytes (expected 102 bytes sent)\", n)\n\t}\n\tif err != nil {\n\t\treturn err\n\t}\n\n\treturn nil\n}",
+    "FSMID_for_test": 113,
+    "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 270,
+  "Github_ID": "79324058",
+  "Github_Project_Name": "networked-aframe",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "WebSocket Server-side based on socket.io in JavaScript",
+  "Instruction": "Task Description: Create a WebSocket server using socket.io in JavaScript to handle real-time bidirectional communication between clients and the server.\n\nFunction Description: The function `setupWebSocketServer` initializes and configures a WebSocket server using socket.io. It sets up event listeners for client connections, messages, and disconnections. The server broadcasts received messages to all connected clients.\n\nInput:\n- `port` (Number): The port number on which the WebSocket server will listen for incoming connections.\n\nOutput:\n- Returns the `socketServer` instance (Object) which can be used to further configure or interact with the WebSocket server.\n\nNote: The function internally uses the `http` module to create an HTTP server and binds socket.io to it for WebSocket communication. The server logs connection, message, and disconnection events to the console.",
+  "Canonical_solution": "const http = require(\"http\");\nconst socketIo = require(\"socket.io\");\n\nfunction setupWebSocketServer(port) {\n    const app = express();\n    const webServer = http.createServer(app);\n    const socketServer = socketIo(webServer, {\"log level\": 1});\n\n    socketServer.on(\"connection\", (socket) => {\n        console.log(\"New client connected\");\n\n        socket.on(\"message\", (data) => {\n            console.log(\"Message received: \", data);\n            socketServer.emit(\"message\", data);\n        });\n\n        socket.on(\"disconnect\", () => {\n            console.log(\"Client disconnected\");\n        });\n    });\n\n    webServer.listen(port, () => {\n        console.log(\"WebSocket server listening on port: \" + port);\n    });\n\n    return socketServer;\n}",
+  "FSMID_for_test": 92,
+  "Code_level": "Function-level"
+}

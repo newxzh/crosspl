@@ -1,0 +1,13 @@
+{
+  "Task_id": 460,
+  "Github_ID": "481412",
+  "Github_Project_Name": "Java-WebSocket",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "WebSocket Client Implementation using org.java_websocket",
+  "Instruction": "Task Description: Create a WebSocket client class in Java using the org.java_websocket library to establish a connection to a WebSocket server and handle communication events.\n\nClass Description: The SimpleClient class extends WebSocketClient to provide a basic WebSocket client implementation. It handles connection events, message reception, connection closure, and errors through callback methods.\n\nAttributes:\n- serverUri: URI - The URI of the WebSocket server to connect to (inherited from WebSocketClient)\n\nMethods:\n- SimpleClient(URI serverUri) -> None - Constructor that initializes the WebSocket client with the server URI.\n- onOpen(ServerHandshake handshakedata) -> void - Callback method invoked when the WebSocket connection is successfully opened.\n- onMessage(String message) -> void - Callback method invoked when a text message is received from the server.\n- onClose(int code, String reason, boolean remote) -> void - Callback method invoked when the WebSocket connection is closed.\n- onError(Exception ex) -> void - Callback method invoked when an error occurs in the WebSocket connection.",
+  "Canonical_solution": "import java.net.URI;\nimport org.java_websocket.client.WebSocketClient;\nimport org.java_websocket.handshake.ServerHandshake;\n\npublic class SimpleClient extends WebSocketClient {\n\n    public SimpleClient(URI serverUri) {\n        super(serverUri);\n    }\n\n    @Override\n    public void onOpen(ServerHandshake handshakedata) {\n        // Handle connection opening\n    }\n\n    @Override\n    public void onMessage(String message) {\n        // Handle text message received\n    }\n\n    @Override\n    public void onClose(int code, String reason, boolean remote) {\n        // Handle connection closing\n    }\n\n    @Override\n    public void onError(Exception ex) {\n        // Handle errors\n    }\n}",
+  "FSMID_for_test": 27,
+  "Code_level": "Class-level"
+}

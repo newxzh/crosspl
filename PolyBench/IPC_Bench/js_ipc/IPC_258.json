@@ -1,0 +1,13 @@
+{
+  "Task_id": 258,
+  "Github_ID": "137582912",
+  "Github_Project_Name": "Blog",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "WebSocket Server-side based on Node.js",
+  "Instruction": "Task Description: Create a function that sets up a WebSocket server using Node.js to handle client connections and message exchanges.\n\nFunction Description: The function initializes a WebSocket server on a specified port, listens for incoming client connections, and handles message events. When a message is received from a client, the server logs the message and sends a predefined response back to the client.\n\nInput: None (The port number is hardcoded as 3000 in the function.)\n\nOutput: None (The function sets up the WebSocket server and event handlers but does not return any value.)",
+  "Canonical_solution": "function handleWebSocketConnection() {\n    let WebSocket = require('ws');\n    let wss = new WebSocket.Server({port:3000});\n    wss.on('connection',function(ws) {\n        ws.on('message', function (data) {\n            console.log(data);\n            ws.send('\u6211\u4e0d\u7231\u4f60');\n        });\n    });\n}",
+  "FSMID_for_test": 90,
+  "Code_level": "Function-level"
+}

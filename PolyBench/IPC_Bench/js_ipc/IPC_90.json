@@ -1,0 +1,13 @@
+{
+  "Task_id": 90,
+  "Github_ID": "112898455",
+  "Github_Project_Name": "builderbook",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP based on express in javascript",
+  "Instruction": "Task Description: Create a function to set up an Express server with session management using MongoDB as the session store, define route handlers, and start the server on a specified port.\n\nFunction Description: The function `setupExpressServer` initializes an Express application, configures session management with MongoDB storage, defines route handlers for the root path and all other paths, and starts the server on the specified port. It uses environment variables for configuration.\n\nInput: None (The function relies on environment variables for configuration, such as `process.env.SESSION_NAME`, `process.env.SESSION_SECRET`, `process.env.MONGO_URL_TEST`, and `process.env.PORT`.)\n\nOutput: None (The function starts an Express server and logs the server's readiness to the console. It does not return any value.)",
+  "Canonical_solution": "function setupExpressServer() {\n    const express = require('express');\n    const app = express();\n    \n    const session = require('express-session');\n    const mongoSessionStore = require('connect-mongo');\n    \n    const sessionOptions = {\n        name: process.env.SESSION_NAME,\n        secret: process.env.SESSION_SECRET,\n        store: mongoSessionStore.create({\n            mongoUrl: process.env.MONGO_URL_TEST,\n            ttl: 14 * 24 * 60 * 60,\n        }),\n        resave: false,\n        saveUninitialized: false,\n        cookie: {\n            httpOnly: true,\n            maxAge: 14 * 24 * 60 * 60 * 1000,\n            domain: 'localhost',\n        },\n    };\n    \n    app.use(session(sessionOptions));\n    \n    app.get('/', async (req, res) => {\n        req.session.foo = 'bar';\n        const user = JSON.stringify(await User.findOne({ slug: 'team-builder-book' }));\n        app.render(req, res, '/', { user });\n    });\n    \n    app.get('*', (req, res) => handle(req, res));\n    \n    const port = process.env.PORT || 8000;\n    app.listen(port, (err) => {\n        if (err) throw err;\n        console.log(`> Ready on http://localhost:${port}`);\n    });\n}",
+  "FSMID_for_test": 96,
+  "Code_level": "Function-level"
+}

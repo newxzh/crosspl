@@ -1,0 +1,13 @@
+{
+  "Task_id": 170,
+  "Github_ID": "991475",
+  "Github_Project_Name": "node-postgres",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "TCP Server - side based on node.js net",
+  "Instruction": "Task Description: Create a function that establishes a TCP server which listens for specific termination codes from clients and responds with a predefined byte sequence before shutting down.\n\nFunction Description: The function `makeTerminatingBackend` creates a TCP server that listens for incoming connections. When a client sends data containing specific termination codes (80877103 or 80877104), the server responds with a predefined byte sequence and then closes the connection. The server automatically selects an available port and returns it for external use.\n\nInput: \n- `byte` [String] - The UTF-8 encoded byte sequence to send as a response when a termination code is received.\n\nOutput:\n- `port` [Number] - The port number on which the TCP server is listening. This is dynamically assigned by the system.",
+  "Canonical_solution": "function makeTerminatingBackend(byte) {\n  const { createServer } = require('net');\n\n  const server = createServer((socket) => {\n    socket.on('data', (buff) => {\n      const code = buff.readInt32BE(4);\n      if (code === 80877103 || code === 80877104) {\n        const packet = Buffer.from(byte, 'utf-8');\n        socket.write(packet);\n      }\n    });\n    socket.on('close', () => {\n      server.close();\n    });\n  });\n\n  server.listen();\n  const { port } = server.address();\n  return port;\n}",
+  "FSMID_for_test": 97,
+  "Code_level": "Function-level"
+}

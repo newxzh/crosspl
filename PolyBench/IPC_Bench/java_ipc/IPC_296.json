@@ -1,0 +1,13 @@
+{
+  "Task_id": 296,
+  "Github_ID": "67481986",
+  "Github_Project_Name": "tinker",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "ProcessBuilder in java.io",
+  "Instruction": "Task Description: Create a function that executes an external diff tool to compare two files and generate a difference file, while capturing and logging the tool's output.\n\nFunction Description: The function `diffFile` executes an external diff utility specified by its path and arguments, comparing two input files (old and new versions) and generating a difference file. It captures the standard output and error streams of the external process, logs them, and waits for the process to complete before returning.\n\nInput:\n- `mCustomDiffPath`: String - Path to the external diff tool executable\n- `mCustomDiffPathArgs`: String - Arguments to pass to the diff tool (space-separated)\n- `oldFile`: File - The original file to compare against\n- `newFile`: File - The modified file to compare\n- `diffFile`: File - The output file where differences will be written\n\nOutput:\n- None (void) - The function doesn't return any value but writes the diff output to the specified file and logs the process output\n- Throws IOException if process execution fails\n- Throws InterruptedException if the process is interrupted while waiting",
+  "Canonical_solution": "import java.io.BufferedReader;\nimport java.io.File;\nimport java.io.IOException;\nimport java.io.InputStreamReader;\nimport java.util.ArrayList;\nimport java.util.List;\n\npublic static void diffFile(String mCustomDiffPath, String mCustomDiffPathArgs, File oldFile, File newFile, File diffFile) throws IOException {\n    String outPath = diffFile.getAbsolutePath();\n    String cmd = mCustomDiffPath;\n    List<String> cmds = new ArrayList<>();\n    for (String s : cmd.split(\" \")) {\n        if (!s.isEmpty()) {\n            cmds.add(s);\n        }\n    }\n    for (String s : mCustomDiffPathArgs.split(\" \")) {\n        if (!s.isEmpty()) {\n            cmds.add(s);\n        }\n    }\n    cmds.add(oldFile.getAbsolutePath());\n    cmds.add(newFile.getAbsolutePath());\n    cmds.add(outPath);\n\n    ProcessBuilder pb = new ProcessBuilder(cmds);\n    pb.redirectErrorStream(true);\n    Process process = pb.start();\n    BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));\n    String line;\n    while ((line = br.readLine()) != null) {\n        Logger.d(line);\n    }\n    int exitCode = process.waitFor();\n    process.destroy();\n}",
+  "FSMID_for_test": 44,
+  "Code_level": "Function-level"
+}

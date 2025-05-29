@@ -1,0 +1,13 @@
+{
+    "Task_id": 38,
+    "Github_ID": "90411188",
+    "Github_Project_Name": "draft-classic",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Basic HTTP server using net/http with HandleFunc and ListenAndServe",
+    "Instruction": "Task Description: Create a basic HTTP server in Go that handles requests and returns a simple text response.\n\nFunction Description: The `handler` function is an HTTP request handler that writes a \"Hello World\" message to the response writer. The `main` function sets up the HTTP server by registering the handler and starting the server on port 8080.\n\nInput: \n- `w http.ResponseWriter`: Used to write the HTTP response.\n- `r *http.Request`: Contains information about the incoming HTTP request.\n\nOutput: \n- The `handler` function writes \"Hello World, I'm Golang!\" to the response writer (`w`).\n- The `main` function starts an HTTP server that listens on port 8080 and serves the response from the `handler` function.",
+    "Canonical_solution": "import (\n\t\"fmt\"\n\t\"net/http\"\n)\nfunc handler(w http.ResponseWriter, r *http.Request) {\n\tfmt.Fprintf(w, \"Hello World, I'm Golang!\")\n}\nfunc main() {\n\thttp.HandleFunc(\"/\", handler)\n\thttp.ListenAndServe(\":8080\", nil)\n}",
+    "FSMID_for_test": 103,
+    "Code_level": "Function-level"
+}

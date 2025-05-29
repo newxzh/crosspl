@@ -1,0 +1,13 @@
+{
+  "Task_id": 34,
+  "Github_ID": "478222232",
+  "Github_Project_Name": "myspeed",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Client-side based on Axios",
+  "Instruction": "Task Description: Create a function that sends an HTTP POST request to a specified URL with optional path extension and error data, then triggers an activity callback based on the request's success or failure.\n\nFunction Description: The function `sendPing` is an asynchronous function that constructs a target URL by combining a base URL and an optional path, then sends an HTTP POST request using Axios. The request includes error data in the payload and a custom user-agent header. Depending on the request's outcome, it triggers a callback function (`triggerActivity`) with a success or failure indicator.\n\nInput:  \n- `url`: [String] - The base URL to which the request will be sent.  \n- `path`: [String] (optional) - An additional path segment to append to the base URL.  \n- `error`: [Any] - Data to be sent as the request payload (typically error information).  \n- `triggerActivity`: [Function] - A callback function to be executed after the request completes, receiving a boolean parameter indicating failure (true) or success (false/undefined).  \n\nOutput:  \n- None (The function's primary effect is the HTTP request and callback execution, not a direct return value).",
+  "Canonical_solution": "const axios = require(\"axios\");\n\nasync function sendPing(url, path, error, triggerActivity) {\n    if (url == null) return;\n    if (path) url += \"/\" + path;\n\n    await axios.post(url, error, {headers: {\"user-agent\": \"MySpeed/HealthAgent\"}})\n        .then(() => triggerActivity())\n        .catch(() => triggerActivity(true));\n}",
+  "FSMID_for_test": 94,
+  "Code_level": "Function-level"
+}

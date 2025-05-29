@@ -1,0 +1,13 @@
+{
+    "Task_id": 340,
+    "Github_ID": "137360315",
+    "Github_Project_Name": "learning_tools",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "gorilla-based websocket client in Go",
+    "Instruction": "Task Description: The task involves creating a WebSocket client in Go that establishes multiple concurrent connections to a WebSocket server, maintains these connections, and handles incoming messages. The client should be able to gracefully handle connection errors and properly close connections when done.\n\nFunction Description: The function establishes WebSocket connections to a specified server endpoint with unique identifiers, maintains these connections in separate goroutines, and continuously reads incoming messages. Each connection includes user identification and authentication parameters in the URL query string.\n\nInput: \n- None (The function uses hardcoded values for demonstration, but could be modified to accept parameters like host, port, path, and connection count)\n\nOutput: \n- None (The function primarily logs its activities and errors to stdout)\n\nNote: The function runs indefinitely until 100,000 connections are established (for testing purposes), with each connection attempt spaced by 1 second. Each connection runs in its own goroutine and includes error handling for both connection establishment and message reading.",
+    "Canonical_solution": "import (\n\t\"fmt\"\n\t\"github.com/gorilla/websocket\"\n\t\"log\"\n\t\"net/url\"\n\t\"time\"\n)\n\nfunc Test(t *testing.T) {\n\ti := 0\n\tfor {\n\t\ti++\n\t\tif i == 100000 {\n\t\t\tfmt.Println(\"已经了解10000个链接\")\n\t\t\tbreak\n\t\t}\n\t\ttime.Sleep(time.Second)\n\t\tgo func(id int) {\n\t\t\tu := url.URL{Scheme: \"ws\", Host: \"127.0.0.1:8182\", Path: \"/v1/push\", RawQuery: fmt.Sprintf(\"uid=%d&sign=2&time=%d\", id, time.Now().Unix())}\n\t\t\tc, _, err := websocket.DefaultDialer.Dial(u.String(), nil)\n\t\t\tif err != nil {\n\t\t\t\tlog.Printf(\"链接地址%s,失败原因%s\", u.String(), err.Error())\n\t\t\t\treturn\n\t\t\t}\n\t\t\tdefer c.Close()\n\t\t\tfor {\n\t\t\t\t_, _, err := c.ReadMessage()\n\t\t\t\tif err != nil {\n\t\t\t\t\tlog.Println(\"ERR_ERR_ERR_ERR_ERR_ERR_read:\", err)\n\t\t\t\t\tcontinue\n\t\t\t\t}\n\t\t\t}\n\t\t}(i)\n\t}\n}",
+    "FSMID_for_test": 115,
+    "Code_level": "Function-level"
+}

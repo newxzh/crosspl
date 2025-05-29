@@ -1,0 +1,13 @@
+{
+    "Task_id": 126,
+    "Github_ID": "173227087",
+    "Github_Project_Name": "examples",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Gin-based HTTP Server in Go",
+    "Instruction": "Task Description: Create a Go function that sets up a Gin HTTP server to handle file uploads along with form data, and serves static files from a public directory.\n\nFunction Description: The function initializes a Gin router with default middleware, configures a static file server, and sets up a POST endpoint for handling multipart form uploads. It processes uploaded files along with name and email form fields, saves the files to the server, and returns a success message.\n\nInput: None (The function takes no direct input parameters but handles HTTP requests with the following expected inputs:\n- POST /upload requests containing:\n  - Form fields: \"name\" (string), \"email\" (string)\n  - Multipart files: \"files\" (array of files)\n- GET requests for static files from the \"./public\" directory)\n\nOutput: None (The function doesn't return any value but produces the following outputs:\n- For successful uploads: HTTP 200 response with success message\n- For errors: HTTP 400 responses with error messages\n- Static file serving for requests to the root path)",
+    "Canonical_solution": "import (\n\t\"net/http\"\n\t\"path/filepath\"\n\n\t\"github.com/gin-gonic/gin\"\n)\nfunc main() {\n\trouter := gin.Default()\n\trouter.MaxMultipartMemory = 8 << 20\n\trouter.Static(\"/\", \"./public\")\n\trouter.POST(\"/upload\", func(c *gin.Context) {\n\t\tname := c.PostForm(\"name\")\n\t\temail := c.PostForm(\"email\")\n\n\t\tform, err := c.MultipartForm()\n\t\tif err != nil {\n\t\t\tc.String(http.StatusBadRequest, \"get form err: %s\", err.Error())\n\t\t\treturn\n\t\t}\n\t\tfiles := form.File[\"files\"]\n\n\t\tfor _, file := range files {\n\t\t\tfilename := filepath.Base(file.Filename)\n\t\t\tif err := c.SaveUploadedFile(file, filename); err != nil {\n\t\t\t\tc.String(http.StatusBadRequest, \"upload file err: %s\", err.Error())\n\t\t\t\treturn\n\t\t\t}\n\t\t}\n\n\t\tc.String(http.StatusOK, \"Uploaded successfully %d files with fields name=%s and email=%s.\", len(files), name, email)\n\t})\n\trouter.Run(\":8080\")\n}",
+    "FSMID_for_test": 105,
+    "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+    "Task_id": 209,
+    "Github_ID": "199952039",
+    "Github_Project_Name": "Golang-100-Days",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Official-based gRPC client in Go",
+    "Instruction": "Task Description: Create a Go function that establishes a secure gRPC client connection to a server, performs a math operation (addition) using the gRPC service, and returns the response.\n\nFunction Description: The function connects to a gRPC server running on localhost:8092 using TLS credentials from a specified certificate file. It creates a client for the MathService, sends a request with two integer arguments, and returns the server's response containing the result of the addition operation.\n\nInput: \n- None (all configuration is hardcoded in the function)\n\nOutput:\n- Prints the response code and message from the gRPC server to stdout\n- Returns nothing (void function)\n\nNote: The function handles connection establishment, service client creation, request sending, and connection cleanup automatically. Error conditions will cause the function to panic.",
+    "Canonical_solution": "import (\n\t\"google.golang.org/grpc\"\n\t\"grpcSSLCode/message\"\n\t\"context\"\n\t\"google.golang.org/grpc/grpclog\"\n\t\"fmt\"\n\t\"google.golang.org/grpc/credentials\"\n)\nfunc main() {\n\tcreds, err := credentials.NewClientTLSFromFile(\"./keys/server.pem\", \"go-grpc-example\")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\n\tgrpc.WithInsecure()\n\n\tconn, err := grpc.Dial(\"localhost:8092\", grpc.WithTransportCredentials(creds))\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tdefer conn.Close()\n\n\tserviceClient := message.NewMathServiceClient(conn)\n\n\taddArgs := message.RequestArgs{Args1: 3, Args2: 5}\n\n\tresponse, err := serviceClient.AddMethod(context.Background(), &addArgs)\n\tif err != nil {\n\t\tgrpclog.Fatal(err.Error())\n\t}\n\n\tfmt.Println(response.GetCode(), response.GetMessage())\n}",
+    "FSMID_for_test": 120,
+    "Code_level": "Function-level"
+}

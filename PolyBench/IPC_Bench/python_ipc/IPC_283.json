@@ -1,0 +1,13 @@
+{
+  "Task_id": 283,
+  "Github_ID": "16258388",
+  "Github_Project_Name": "volatility3",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "Pipe based on subprocess in python",
+  "Instruction": "Task Description: Create a function that executes a command in a subprocess using Python's subprocess module, capturing and returning the output and error streams along with the return code.\n\nFunction Description: The function `runvol` executes a given command (constructed from Python interpreter path, volatility script path, and additional arguments) as a subprocess. It captures the standard output, standard error, and return code of the subprocess, then returns these values after printing them for debugging purposes.\n\nInput:\n- `args`: [List[str]] - Additional command-line arguments to pass to the volatility script\n- `volatility`: [str] - Path to the volatility script to be executed\n- `python`: [str] - Path to the Python interpreter to use for execution\n\nOutput:\n- Returns a tuple containing:\n  - `returncode`: [int] - The exit code of the subprocess\n  - `stdout`: [bytes] - The standard output of the subprocess\n  - `stderr`: [bytes] - The standard error of the subprocess",
+  "Canonical_solution": "import os\nimport subprocess\nimport sys\n\ndef runvol(args, volatility, python):\n    volpy = volatility\n    python_cmd = python\n\n    cmd = [python_cmd, volpy] + args\n    print(\" \".join(cmd))\n    p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n    stdout, stderr = p.communicate()\n    print(\"stdout:\")\n    sys.stdout.write(str(stdout))\n    print(\"\")\n    print(\"stderr:\")\n    sys.stdout.write(str(stderr))\n    print(\"\")\n\n    return p.returncode, stdout, stderr",
+  "FSMID_for_test": 76,
+  "Code_level": "Function-level"
+}

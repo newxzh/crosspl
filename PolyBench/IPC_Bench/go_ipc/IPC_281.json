@@ -1,0 +1,13 @@
+{
+    "Task_id": 281,
+    "Github_ID": "82515080",
+    "Github_Project_Name": "gocron",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Official-based gRPC server in Go",
+    "Instruction": "Task Description: Implement a gRPC server in Go that listens for incoming requests, supports optional TLS encryption, and handles graceful shutdown upon receiving termination signals.\n\nFunction Description: The Start function initializes and runs a gRPC server with configurable network address and TLS settings. It sets up keepalive parameters, registers the service implementation, and handles OS signals for graceful shutdown.\n\nInput:\n- addr: string - The network address (host:port) to listen on\n- enableTLS: bool - Flag to enable/disable TLS encryption\n- certificate: auth.Certificate - Certificate configuration for TLS (when enabled)\n\nOutput: None (the function runs indefinitely until a termination signal is received)",
+    "Canonical_solution": "import (\n\t\"net\"\n\t\"os\"\n\t\"os/signal\"\n\t\"syscall\"\n\t\"time\"\n\n\tpb \"github.com/ouqiang/gocron/internal/modules/rpc/proto\"\n\t\"golang.org/x/net/context\"\n\t\"google.golang.org/grpc\"\n\t\"google.golang.org/grpc/credentials\"\n\t\"google.golang.org/grpc/keepalive\"\n)\nfunc Start(addr string, enableTLS bool, certificate auth.Certificate) {\n\tl, err := net.Listen(\"tcp\", addr)\n\tif err != nil {\n\t\tlog.Fatal(err)\n\t}\n\topts := []grpc.ServerOption{\n\t\tgrpc.KeepaliveParams(keepAliveParams),\n\t\tgrpc.KeepaliveEnforcementPolicy(keepAlivePolicy),\n\t}\n\tif enableTLS {\n\t\ttlsConfig, err := certificate.GetTLSConfigForServer()\n\t\tif err != nil {\n\t\t\tlog.Fatal(err)\n\t\t}\n\t\topt := grpc.Creds(credentials.NewTLS(tlsConfig))\n\t\topts = append(opts, opt)\n\t}\n\tserver := grpc.NewServer(opts...)\n\tpb.RegisterTaskServer(server, Server{})\n\tlog.Infof(\"server listen on %s\", addr)\n\n\tgo func() {\n\t\terr = server.Serve(l)\n\t\tif err != nil {\n\t\t\tlog.Fatal(err)\n\t\t}\n\t}()\n\n\tc := make(chan os.Signal, 1)\n\tsignal.Notify(c, syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM)\n\tfor {\n\t\ts := <-c\n\t\tlog.Infoln(\"收到信号 -- \", s)\n\t\tswitch s {\n\t\tcase syscall.SIGHUP:\n\t\t\tlog.Infoln(\"收到终端断开信号, 忽略\")\n\t\tcase syscall.SIGINT, syscall.SIGTERM:\n\t\t\tlog.Info(\"应用准备退出\")\n\t\t\tserver.GracefulStop()\n\t\t\treturn\n\t\t}\n\t}\n}",
+    "FSMID_for_test": 119,
+    "Code_level": "Function-level"
+}

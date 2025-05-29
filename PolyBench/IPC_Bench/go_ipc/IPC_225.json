@@ -1,0 +1,13 @@
+{
+    "Task_id": 225,
+    "Github_ID": "522195286",
+    "Github_Project_Name": "golang-guide",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Official-based gRPC client in Go",
+    "Instruction": "Task Description: Create a gRPC client function in Go that connects to a gRPC server, sends a greeting request, and receives a response.\n\nFunction Description: The function establishes a connection to a gRPC server using the provided address, creates a client for the HelloService, sends a HelloRequest with the specified name, and returns the server's response. It handles connection errors and timeout contexts.\n\nInput:\n- addr: string - The address of the gRPC server to connect to (e.g., \"127.0.0.1:8972\")\n- name: string - The name to include in the greeting request\n\nOutput:\n- string - The greeting response from the server\n- error - Any error that occurred during the process\n\nNote: The function should properly close the connection when done and handle context timeouts.",
+    "Canonical_solution": "import (\n\t\"context\"\n\t\"flag\"\n\t\"google.golang.org/grpc\"\n\t\"google.golang.org/grpc/credentials/insecure\"\n\t\"hello_grpc_client/proto\"\n\t\"log\"\n\t\"time\"\n)\n\nvar (\n\taddr = flag.String(\"addr\", \"127.0.0.1:8972\", \"the address to connect to\")\n\tname = flag.String(\"name\", defaultName, \"Name to greet\")\n)\n\nfunc main() {\n\tflag.Parse()\n\tconn, err := grpc.Dial(*addr, grpc.WithTransportCredentials(insecure.NewCredentials()))\n\tif err != nil {\n\t\tlog.Fatalf(\"did not connect: %v\", err)\n\t}\n\tdefer conn.Close()\n\tc := proto.NewHelloServiceClient(conn)\n\n\tctx, cancel := context.WithTimeout(context.Background(), time.Second)\n\tdefer cancel()\n\tr, err := c.SayHello(ctx, &proto.HelloRequest{\n\t\tName: *name,\n\t})\n\tif err != nil {\n\t\tlog.Fatalf(\"could not greet: %v\", err)\n\t}\n\n\tlog.Printf(\"Greeting: %s\", r.GetReply())\n}",
+    "FSMID_for_test": 120,
+    "Code_level": "Function-level"
+}

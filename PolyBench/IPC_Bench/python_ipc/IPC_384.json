@@ -1,0 +1,13 @@
+{
+  "Task_id": 384,
+  "Github_ID": "178254323",
+  "Github_Project_Name": "recon-ng",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "TCP Server - side by using socket in python",
+  "Instruction": "Task Description: Implement a TCP server class that receives OAuth tokens through a local socket connection, handling the incoming HTTP request and extracting the authorization code or error message.\n\nClass Description: OAuthTokenReceiver is a class that creates a TCP server to listen for OAuth token responses on a specified local port. It handles the HTTP response, extracts the authorization code, and manages error cases.\n\nAttributes:\nport: int - The local port number on which the server will listen for incoming OAuth token responses (default: 31337)\n\nMethods:\nreceive_oauth_token: receive_oauth_token() -> str - Listens for an incoming connection, receives the OAuth token response, sends an HTTP success response, and returns the extracted authorization code. Raises an exception if the response contains an error description.",
+  "Canonical_solution": "import socket\nimport re\nimport urllib.parse\n\nclass OAuthTokenReceiver:\n    def __init__(self, port=31337):\n        self.port = port\n\n    def receive_oauth_token(self):\n        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\n        sock.bind(('127.0.0.1', self.port))\n        sock.listen(1)\n        conn, addr = sock.accept()\n        data = conn.recv(1024)\n        conn.sendall('HTTP/1.1 200 OK\\r\\nContent-Type: text/html\\r\\n\\r\\n<html><head><title>Recon-ng</title></head><body>Response received. Return to Recon-ng.</body></html>')\n        conn.close()\n        \n        if 'error_description' in data:\n            error = urllib.parse.unquote_plus(re.search(r'error_description=([^\\s&]*)', data).group(1))\n            raise Exception(error)\n        \n        authorization_code = re.search(r'code=([^\\s&]*)', data).group(1)\n        return authorization_code",
+  "FSMID_for_test": 66,
+  "Code_level": "Class-level"
+}

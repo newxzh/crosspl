@@ -1,0 +1,13 @@
+{
+    "Task_id": 173,
+    "Github_ID": "137360315",
+    "Github_Project_Name": "learning_tools",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Kafka Async producer in Go",
+    "Instruction": "Task Description: Implement a function that demonstrates asynchronous message production to a Kafka topic using the Sarama library in Go. The function should continuously generate and send messages at regular intervals while handling both successful deliveries and errors.\n\nFunction Description: The SaramaProducer function initializes and manages an asynchronous Kafka producer. It configures the producer with specific settings, handles message delivery success/failure notifications in a separate goroutine, and continuously generates and sends messages to a specified Kafka topic. The function runs indefinitely until terminated.\n\nInput: None (The function takes no input parameters as broker addresses and topic are hardcoded)\n\nOutput: None (The function doesn't return any value but prints success/error messages to stdout)",
+    "Canonical_solution": "import (\n\t\"fmt\"\n\t\"github.com/Shopify/sarama\"\n\t\"time\"\n)\n\nfunc SaramaProducer() {\n\tconfig := sarama.NewConfig()\n\tconfig.Producer.RequiredAcks = sarama.WaitForAll\n\tconfig.Producer.Partitioner = sarama.NewRandomPartitioner\n\tconfig.Producer.Return.Successes = true\n\tconfig.Producer.Return.Errors = true\n\tconfig.Producer.Retry.Max = 1000\n\tconfig.Version = sarama.V2_2_0_0\n\n\tproducer, e := sarama.NewAsyncProducer([]string{\"172.12.17.161:9092\"}, config)\n\tif e != nil {\n\t\tfmt.Println(e)\n\t\treturn\n\t}\n\tdefer producer.AsyncClose()\n\n\tgo func(p sarama.AsyncProducer) {\n\t\tfor {\n\t\t\tselect {\n\t\t\tcase suc := <-p.Successes():\n\t\t\t\tfmt.Println(\"offset: \", suc.Offset, \"timestamp: \", suc.Timestamp.String(), \"partitions: \", suc.Partition)\n\t\t\tcase fail := <-p.Errors():\n\t\t\t\tfmt.Println(\"err: \", fail.Err)\n\t\t\t}\n\t\t}\n\t}(producer)\n\n\tvar value string\n\tfor i := 0; ; i++ {\n\t\ttime.Sleep(500 * time.Millisecond)\n\t\ttime11 := time.Now()\n\t\tvalue = \"this is a message 0606 \" + time11.Format(\"15:04:05\")\n\t\tmsg := &sarama.ProducerMessage{\n\t\t\tTopic: \"0606_test\",\n\t\t}\n\t\tmsg.Value = sarama.ByteEncoder(value)\n\t\tfmt.Println(value)\n\t\tproducer.Input() <- msg\n\t}\n}",
+    "FSMID_for_test": 125,
+    "Code_level": "Function-level"
+}

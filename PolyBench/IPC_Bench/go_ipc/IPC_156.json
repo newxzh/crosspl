@@ -1,0 +1,13 @@
+{
+    "Task_id": 156,
+    "Github_ID": "173227087",
+    "Github_Project_Name": "examples",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Gin-based HTTP Server in Go",
+    "Instruction": "Task Description: Create a Go function that initializes and runs a Gin HTTP server with automatic TLS support using Let's Encrypt, handling a simple ping-pong endpoint.\n\nFunction Description: The function initializes a default Gin engine with logger and recovery middleware, registers a GET endpoint \"/ping\" that responds with \"pong\", and starts the HTTPS server with automatic TLS certificate management for the specified domains.\n\nInput: \n- domains: []string - A slice of domain names for which TLS certificates should be obtained (e.g., [\"example1.com\", \"example2.com\"])\n\nOutput: \n- error - Returns an error if the server fails to start, otherwise runs indefinitely (the function will log.Fatal on error)\n\nNote: The function does not explicitly return but will log.Fatal if the server fails to start. The server runs indefinitely when successful.",
+    "Canonical_solution": "import (\n\t\"log\"\n\n\t\"github.com/gin-gonic/autotls\"\n\t\"github.com/gin-gonic/gin\"\n)\nfunc main() {\n\tr := gin.Default()\n\n\tr.GET(\"/ping\", func(c *gin.Context) {\n\t\tc.String(200, \"pong\")\n\t})\n\n\tlog.Fatal(autotls.Run(r, \"example1.com\", \"example2.com\"))\n}",
+    "FSMID_for_test": 105,
+    "Code_level": "Function-level"
+}

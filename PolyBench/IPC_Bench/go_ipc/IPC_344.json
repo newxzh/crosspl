@@ -1,0 +1,13 @@
+{
+    "Task_id": 344,
+    "Github_ID": "3389838",
+    "Github_Project_Name": "goflow",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "gorilla-based websocket client in Go",
+    "Instruction": "Task Description: The task involves testing a WebSocket connection to a runtime service, verifying the connection establishment, message exchange, and validating the received runtime information against expected values.\n\nFunction Description: The function `TestRuntimeGetRuntime` tests the WebSocket-based communication with a runtime service. It establishes a connection, sends a request message, receives and parses the response, then validates the response contents including protocol, version, capabilities, and runtime ID.\n\nInput: \n- None (This is a test function that takes a testing.T pointer as per Go testing conventions)\n\nOutput: \n- None (The function reports errors through the testing.T parameter if any assertions fail)\n- Side effect: The test will pass if all validations succeed or fail with appropriate error messages if any checks don't match expected values",
+    "Canonical_solution": "import (\n\t\"encoding/json\"\n\t\"testing\"\n\n\t\"github.com/gorilla/websocket\"\n)\n\nfunc TestRuntimeGetRuntime(t *testing.T) {\n\tensureRuntimeStarted()\n\tws, _, err := websocket.DefaultDialer.Dial(\"ws://localhost:13014/\", nil)\n\tdefer ws.Close()\n\tif err != nil {\n\t\tt.Error(err.Error())\n\t}\n\tif err = sendJSONE(ws, &Message{\"runtime\", \"getruntime\", nil}); err != nil {\n\t\tt.Error(err.Error())\n\t}\n\tvar msg runtimeMessage\n\tvar bytes []byte\n\tif _, bytes, err = ws.ReadMessage(); err != nil {\n\t\tt.Error(err.Error())\n\t\treturn\n\t}\n\tif err = json.Unmarshal(bytes, &msg); err != nil {\n\t\tt.Error(err.Error())\n\t\treturn\n\t}\n\tif msg.Protocol != \"runtime\" || msg.Command != \"runtime\" {\n\t\tt.Errorf(\"Invalid protocol (%s) or command (%s)\", msg.Protocol, msg.Command)\n\t\treturn\n\t}\n\tres := msg.Payload\n\tif res.Type != \"goflow\" {\n\t\tt.Errorf(\"Invalid protocol type: %s\\n\", res.Type)\n\t}\n\tif res.Version != \"0.4\" {\n\t\tt.Errorf(\"Invalid protocol version: %s\\n\", res.Version)\n\t}\n\tif len(res.Capabilities) != 5 {\n\t\tt.Errorf(\"Invalid number of supported capabilities: %v\\n\", res.Capabilities)\n\t}\n\tif res.Id == \"\" {\n\t\tt.Error(\"Runtime Id is empty\")\n\t}\n}",
+    "FSMID_for_test": 115,
+    "Code_level": "Function-level"
+}

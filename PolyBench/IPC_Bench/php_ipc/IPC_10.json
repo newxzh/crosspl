@@ -1,0 +1,13 @@
+{
+  "Task_id": 10,
+  "Github_ID": "116389886",
+  "Github_Project_Name": "SSPanel-UIM",
+  "Programming_Language": "PHP",
+  "suffix": ".php",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP client using Guzzle in PHP",
+  "Instruction": "Task Description: Create a PHP class that implements an HTTP client for sending payment requests to an e-payment API using Guzzle.\n\nClass Description: The EpayHttpClient class is designed to handle HTTP communication with an e-payment API. It encapsulates the functionality for sending payment requests and processing the responses. The class uses Guzzle HTTP client for making requests and handles potential exceptions that may occur during the process.\n\nAttributes:\n- epay: array - Stores the configuration for the e-payment API\n- client: Client - The Guzzle HTTP client instance used for making requests\n\nMethods:\n- __construct(array $epayConfig) -> void - Initializes the class with e-payment configuration and creates a new Guzzle Client instance\n- sendPaymentRequest(array $data) -> array - Sends a payment request to the API endpoint and processes the response. Returns an array indicating success/failure and containing either the payment URL or an error message",
+  "Canonical_solution": "use GuzzleHttp\\Client;\nuse GuzzleHttp\\Exception\\GuzzleException;\n\nclass EpayHttpClient\n{\n    protected array $epay;\n    protected Client $client;\n\n    public function __construct(array $epayConfig)\n    {\n        $this->epay = $epayConfig;\n        $this->client = new Client();\n    }\n\n    public function sendPaymentRequest(array $data): array\n    {\n        try {\n            $res = $this->client->request('POST', $this->epay['apiurl'] . 'mapi.php', ['form_params' => $data]);\n\n            if ($res->getStatusCode() !== 200) {\n                throw new Exception();\n            }\n\n            $resData = json_decode($res->getBody()->__toString(), true);\n\n            if ($resData['code'] !== 1 || !isset($resData['payurl'])) {\n                throw new Exception();\n            }\n\n            return [\n                'success' => true,\n                'payurl' => $resData['payurl']\n            ];\n        } catch (Exception|GuzzleException) {\n            return [\n                'success' => false,\n                'error' => '\u8bf7\u6c42\u652f\u4ed8\u5931\u8d25'\n            ];\n        }\n    }\n}",
+  "FSMID_for_test": 133,
+  "Code_level": "Class-level"
+}

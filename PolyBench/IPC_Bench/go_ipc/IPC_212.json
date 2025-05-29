@@ -1,0 +1,13 @@
+{
+    "Task_id": 212,
+    "Github_ID": "51149151",
+    "Github_Project_Name": "doorman",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Official-based gRPC client in Go",
+    "Instruction": "Task Description: Create a function that establishes a secure or insecure gRPC client connection to a server and returns a client instance for making RPC calls.\n\nFunction Description: The function `createGRPCClient` establishes a connection to a gRPC server using the provided server address and security options. It supports both TLS-secured connections (with optional certificate verification) and insecure connections. The function returns a client instance that can be used to make RPC calls to the server.\n\nInput:\n- `serverAddr` (string): The address of the gRPC server in \"host:port\" format\n- `useTLS` (bool): Flag indicating whether to use TLS for the connection\n- `caFile` (string, optional): Path to the CA certificate file for TLS verification (required if useTLS is true)\n- `serverHostOverride` (string, optional): Server name used for TLS hostname verification\n\nOutput:\n- `pb.RouteGuideClient`: A gRPC client instance for making RPC calls\n- `*grpc.ClientConn`: The established gRPC connection (should be closed by the caller when done)\n- `error`: Any error that occurred during connection establishment",
+    "Canonical_solution": "import (\n\t\"golang.org/x/net/context\"\n\t\"google.golang.org/grpc\"\n\t\"google.golang.org/grpc/credentials\"\n\tpb \"google.golang.org/grpc/examples/route_guide/routeguide\"\n\t\"google.golang.org/grpc/grpclog\"\n)\nfunc main() {\n\tflag.Parse()\n\tvar opts []grpc.DialOption\n\tif *tls {\n\t\tvar sn string\n\t\tif *serverHostOverride != \"\" {\n\t\t\tsn = *serverHostOverride\n\t\t}\n\t\tvar creds credentials.TransportAuthenticator\n\t\tif *caFile != \"\" {\n\t\t\tvar err error\n\t\t\tcreds, err = credentials.NewClientTLSFromFile(*caFile, sn)\n\t\t\tif err != nil {\n\t\t\t\tgrpclog.Fatalf(\"Failed to create TLS credentials %v\", err)\n\t\t\t}\n\t\t} else {\n\t\t\tcreds = credentials.NewClientTLSFromCert(nil, sn)\n\t\t}\n\t\topts = append(opts, grpc.WithTransportCredentials(creds))\n\t} else {\n\t\topts = append(opts, grpc.WithInsecure())\n\t}\n\tconn, err := grpc.Dial(*serverAddr, opts...)\n\tif err != nil {\n\t\tgrpclog.Fatalf(\"fail to dial: %v\", err)\n\t}\n\tdefer conn.Close()\n\tclient := pb.NewRouteGuideClient(conn)\n}",
+    "FSMID_for_test": 120,
+    "Code_level": "Function-level"
+}

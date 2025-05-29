@@ -1,0 +1,13 @@
+{
+    "Task_id": 169,
+    "Github_ID": "83145406",
+    "Github_Project_Name": "req",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Gin-based HTTP Server in Go",
+    "Instruction": "Task Description: Create a simple HTTP server in Go using the Gin framework that handles file uploads via POST requests.\n\nFunction Description: The function sets up a Gin HTTP server with a single POST endpoint (\"/upload\") that receives and discards uploaded file data, then responds with \"ok\". The server runs on port 8888.\n\nInput: None (The function takes no direct input parameters, but receives HTTP POST requests with file data in the request body)\n\nOutput: None (The function doesn't return any value, but sends HTTP responses with status code 200 and body \"ok\" for successful uploads)",
+    "Canonical_solution": "import (\n\t\"github.com/gin-gonic/gin\"\n\t\"io\"\n\t\"net/http\"\n)\nfunc main() {\n\trouter := gin.Default()\n\trouter.POST(\"/upload\", func(c *gin.Context) {\n\t\tbody := c.Request.Body\n\t\tio.Copy(io.Discard, body)\n\t\tc.String(http.StatusOK, \"ok\")\n\t})\n\trouter.Run(\":8888\")\n}",
+    "FSMID_for_test": 105,
+    "Code_level": "Function-level"
+}

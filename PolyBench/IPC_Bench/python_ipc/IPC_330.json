@@ -1,0 +1,13 @@
+{
+  "Task_id": 330,
+  "Github_ID": "114619595",
+  "Github_Project_Name": "byob",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "TCP Client - side by using socket in python",
+  "Instruction": "Task Description: Create a function that scans a target host and port for open connections and service information using TCP socket communication.\n\nFunction Description: The function attempts to establish a TCP connection with a specified host and port, retrieves service information if available, and records the results in a global dictionary. It handles connection timeouts and errors gracefully.\n\nInput:\n- target (tuple): A tuple containing (host, port) where:\n  - host (str/int): The target hostname or IP address\n  - port (int): The target port number to scan\n\nOutput:\n- None: The function doesn't return any value directly but updates the global 'results' dictionary with scan results in the format:\n  {\n    host: {\n      port: {\n        'protocol': str,    # Protocol from global ports dictionary\n        'service': str,    # Either received service data or default from ports dict\n        'state': str       # 'open' if connection succeeded\n      }\n    }\n  }",
+  "Canonical_solution": "import socket\nimport json\n\ndef _scan(target):\n    \"\"\"\n    Scan a target host and port for open connections and service information\n    \n    Args:\n        target (tuple): A tuple containing (host, port) to scan\n    \n    Returns:\n        None: Updates global results dictionary with scan results\n    \"\"\"\n    global ports\n    global results\n\n    try:\n        data = None\n        host, port = target\n        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\n        sock.settimeout(1.0)\n        sock.connect((str(host), int(port)))\n\n        try:\n            data = sock.recv(1024)\n        except (socket.error, socket.timeout):\n            pass\n\n        sock.close()\n\n        if data:\n            data = ''.join([i for i in data if i in ([chr(n) for n in range(32, 123)])\n            data = data.splitlines()[0] if '\\n' in data else str(data if len(str(data)) <= 80 else data[:77] + '...')\n            item = {str(port) : {'protocol': ports[str(port)]['protocol'], 'service': data, 'state': 'open'}}\n        else:\n            item = {str(port) : {'protocol': ports[str(port)]['protocol'], 'service': ports[str(port)]['service'], 'state': 'open'}}\n\n        results.get(host).update(item)\n\n    except (socket.error, socket.timeout):\n        pass\n    except Exception as e:\n        util.log(\"{} error: {}\".format(_scan.__name__, str(e)))",
+  "FSMID_for_test": 67,
+  "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+    "Task_id": 66,
+    "Github_ID": "68964263",
+    "Github_Project_Name": "prometheus-operator",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Basic HTTP server using net/http with HandleFunc and ListenAndServe",
+    "Instruction": "Task Description: Create a Go HTTP server that handles multiple routes with different authentication methods (Basic Auth and Bearer Token) and serves Prometheus metrics on authenticated endpoints.\n\nFunction Description: The main function sets up an HTTP server with three routes:\n1. Root (\"/\") route with a basic handler\n2. \"/metrics\" route protected by Basic Authentication\n3. \"/bearer-metrics\" route protected by Bearer Token authentication\nThe server listens on port 8080 and uses the net/http package for HTTP operations.\n\nInput: None (The function takes no direct input parameters)\n\nOutput: None (The function doesn't return any value but starts an HTTP server that continues running until interrupted)\n\nNote: The implementation assumes the existence of two helper functions:\n1. checkBasicAuth(w http.ResponseWriter, r *http.Request) bool\n2. checkBearerAuth(w http.ResponseWriter, r *http.Request) bool\nwhich handle the respective authentication methods.",
+    "Canonical_solution": "import (\n\t\"net/http\"\n\t\"time\"\n\t\"github.com/prometheus/client_golang/prometheus/promhttp\"\n)\nfunc main() {\n\thttp.HandleFunc(\"/\", handler)\n\thttp.HandleFunc(\"/metrics\", func(w http.ResponseWriter, r *http.Request) {\n\t\tif checkBasicAuth(w, r) {\n\t\t\tpromhttp.Handler().ServeHTTP(w, r)\n\t\t\treturn\n\t\t}\n\n\t\tw.Header().Set(\"WWW-Authenticate\", `Basic realm=\"MY REALM\"`)\n\t\tw.WriteHeader(401)\n\t\tw.Write([]byte(\"401 Unauthorized\\n\"))\n\t})\n\n\thttp.HandleFunc(\"/bearer-metrics\", func(w http.ResponseWriter, r *http.Request) {\n\t\tif checkBearerAuth(w, r) {\n\t\t\tpromhttp.Handler().ServeHTTP(w, r)\n\t\t\treturn\n\t\t}\n\n\t\tw.Header().Set(\"WWW-Authenticate\", `Bearer realm=\"MY REALM\"`)\n\t\tw.WriteHeader(401)\n\t\tw.Write([]byte(\"401 Unauthorized\\n\"))\n\t})\n\n\taddress := \":8080\"\n\n\t_ = http.ListenAndServe(address, nil)\n}",
+    "FSMID_for_test": 103,
+    "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 386,
+  "Github_ID": "75164823",
+  "Github_Project_Name": "rocketmq",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "RocketMQ Producer in Java",
+  "Instruction": "Task Description: Create a Java function that demonstrates how to use RocketMQ's producer to send messages to a specified topic with ACL authentication.\n\nFunction Description: This function creates and configures a RocketMQ producer with ACL authentication, sends multiple messages to a specified topic, and then shuts down the producer. It demonstrates the basic workflow of message production including producer initialization, message creation, message sending, and resource cleanup.\n\nInput: None (The function uses predefined constants for configuration)\n\nOutput: None (The function prints send results to console but doesn't return any value)\n\nMethods:\n\nproducer: producer() -> void - Main function that creates and configures the producer, sends messages, and handles shutdown\ngetAclRPCHook: getAclRPCHook() -> RPCHook - Helper function that creates and returns an ACL authentication hook using predefined credentials",
+  "Canonical_solution": "import org.apache.rocketmq.client.producer.DefaultMQProducer;\nimport org.apache.rocketmq.client.producer.SendResult;\nimport org.apache.rocketmq.common.message.Message;\nimport org.apache.rocketmq.remoting.common.RemotingHelper;\nimport org.apache.rocketmq.acl.common.AclClientRPCHook;\nimport org.apache.rocketmq.acl.common.SessionCredentials;\nimport org.apache.rocketmq.remoting.RPCHook;\n\nprivate static final String ACL_ACCESS_KEY = \"RocketMQ\";\nprivate static final String ACL_SECRET_KEY = \"1234567\";\n\npublic static void producer() throws MQClientException {\n    DefaultMQProducer producer = new DefaultMQProducer(\"ProducerGroupName\", getAclRPCHook());\n    producer.setNamesrvAddr(\"127.0.0.1:9876\");\n    producer.start();\n\n    for (int i = 0; i < 128; i++)\n        try {\n            {\n                Message msg = new Message(\"TopicTest\",\n                    \"TagA\",\n                    \"OrderID188\",\n                    \"Hello world\".getBytes(RemotingHelper.DEFAULT_CHARSET));\n                SendResult sendResult = producer.send(msg);\n                System.out.printf(\"%s%n\", sendResult);\n            }\n\n        } catch (Exception e) {\n            e.printStackTrace();\n        }\n\n    producer.shutdown();\n}\n\nstatic RPCHook getAclRPCHook() {\n    return new AclClientRPCHook(new SessionCredentials(ACL_ACCESS_KEY,ACL_SECRET_KEY));\n}",
+  "FSMID_for_test": 42,
+  "Code_level": "Function-level"
+}

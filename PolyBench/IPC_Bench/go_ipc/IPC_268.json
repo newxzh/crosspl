@@ -1,0 +1,13 @@
+{
+    "Task_id": 268,
+    "Github_ID": "273655853",
+    "Github_Project_Name": "wombat",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Official-based gRPC server in Go",
+    "Instruction": "Task Description: Create a function that sets up and starts a gRPC server with reflection capabilities, registering multiple services and handling incoming requests.\n\nFunction Description: The Serve function initializes a gRPC server on a specified TCP port, registers multiple service implementations (RouteGuide and Foobar), enables server reflection for debugging, and starts listening for incoming RPC requests. It also demonstrates protobuf JSON marshaling of a well-known type.\n\nInput: None (The function takes no parameters)\n\nOutput: None (The function doesn't return anything but runs indefinitely to serve requests)",
+    "Canonical_solution": "import (\n\t\"context\"\n\t\"fmt\"\n\t\"net\"\n\t\"os\"\n\n\t\"google.golang.org/grpc\"\n\t\"google.golang.org/grpc/reflection\"\n\t\"google.golang.org/protobuf/types/known/timestamppb\"\n)\nfunc Serve() {\n\tlis, err := net.Listen(\"tcp\", \":5001\")\n\tif err != nil {\n\t\tfmt.Fprintf(os.Stderr, \"server: failed to create listener: %v\", err)\n\t}\n\n\te, _ := protojson.Marshal(&WellKnownRequest{Timestamp: timestamppb.Now()})\n\tfmt.Printf(\"string(e) = %+v\\n\", string(e))\n\n\ts := newServer()\n\tgs := grpc.NewServer()\n\tRegisterRouteGuideServer(gs, s)\n\tRegisterFoobarServer(gs, s)\n\treflection.Register(gs)\n\tgs.Serve(lis)\n}",
+    "FSMID_for_test": 119,
+    "Code_level": "Function-level"
+}

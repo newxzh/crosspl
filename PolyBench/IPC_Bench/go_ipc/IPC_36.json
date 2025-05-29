@@ -1,0 +1,13 @@
+{
+    "Task_id": 36,
+    "Github_ID": "116938442",
+    "Github_Project_Name": "yaegi",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Basic HTTP server using net/http with HandleFunc and ListenAndServe",
+    "Instruction": "Task Description: Create a basic HTTP server in Go that handles requests on the root path (\"/\") and returns a welcome message.\n\nFunction Description: The main function sets up an HTTP server with a single route handler for the root path. When accessed, it responds with a welcome message. The server listens on port 8080.\n\nInput: None (The HTTP server handles incoming requests automatically)\n\nOutput: None (The function runs indefinitely, serving HTTP responses to incoming requests)\n\n---\n\nNote: Since the reference code is at the package level (with `main` function) rather than a struct/class level, I've provided the function-level instruction format. The code demonstrates a complete executable program rather than a reusable struct/class component.",
+    "Canonical_solution": "import (\n\t\"fmt\"\n\t\"net/http\"\n)\n\nvar v string = \"v1.0\"\n\nfunc main() {\n\tmyHandler := func(w http.ResponseWriter, r *http.Request) {\n\t\tfmt.Fprintln(w, \"Welcome to my website!\")\n\t}\n\n\thttp.HandleFunc(\"/\", myHandler)\n\thttp.ListenAndServe(\":8080\", nil)\n}",
+    "FSMID_for_test": 103,
+    "Code_level": "Function-level"
+}

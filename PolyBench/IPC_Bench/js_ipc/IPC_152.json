@@ -1,0 +1,13 @@
+{
+  "Task_id": 152,
+  "Github_ID": "173529836",
+  "Github_Project_Name": "javascript_playground",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "TCP Server - side based on node.js net",
+  "Instruction": "Task Description: Create a TCP server using Node.js's built-in 'net' module to handle client connections and data exchange.\n\nFunction Description: The function creates and starts a TCP server that listens on a specified port. When a client connects, the server sends a greeting message (\"Hello.\") and logs any incoming data from the client to the console.\n\nInput: \n- port: [number] - The port number on which the TCP server should listen for incoming connections.\n\nOutput: \n- None (The function creates and starts a server but does not return any value).",
+  "Canonical_solution": "const net = require(\"net\");\n\nfunction createTCPServer(port) {\n    const server = net.createServer(socket => {\n        socket.write(\"Hello.\");\n        socket.on(\"data\", data => {\n            console.log(data.toString());\n        });\n    });\n    server.listen(port);\n}",
+  "FSMID_for_test": 97,
+  "Code_level": "Function-level"
+}

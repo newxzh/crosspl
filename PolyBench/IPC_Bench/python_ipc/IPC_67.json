@@ -1,0 +1,13 @@
+{
+  "Task_id": 67,
+  "Github_ID": "528898425",
+  "Github_Project_Name": "hftbacktest",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Client-side by using requests in python",
+  "Instruction": "Task Description: Create a function to download financial market data from a specific API endpoint, handling authentication, progress tracking, and error checking during the download process.\n\nFunction Description: The function downloads compressed CSV data from a REST API endpoint for a given exchange, data type, symbol, and date. It streams the download to efficiently handle large files, shows progress using a progress bar, verifies the download completeness, and saves the data to a specified file path. The function includes proper error handling for failed requests or incomplete downloads.\n\nInput:\n- exchange: [str] - The financial exchange identifier (e.g., 'binance')\n- data_type: [str] - The type of market data to download (e.g., 'trades')\n- symbol: [str] - The trading symbol/pair (e.g., 'BTCUSDT')\n- yyyymmdd: [int/str] - The date in YYYYMMDD format\n- filepath: [str] - The local path where the downloaded file should be saved\n- key: [str] - The API authorization key (Bearer token)\n\nOutput:\n- None - The function doesn't return anything but saves the downloaded data to the specified file path\n- Raises RuntimeError if the download fails (either due to HTTP error or incomplete download)",
+  "Canonical_solution": "import json\nimport os.path\nimport requests\nfrom datetime import datetime, timedelta\nfrom tqdm import tqdm\n\ndef download(exchange, data_type, symbol, yyyymmdd, filepath, key):\n    yyyymmdd = str(yyyymmdd)\n    url = f'https://datasets.tardis.dev/v1/{exchange}/{data_type}/{yyyymmdd[:4]}/{yyyymmdd[4:6]}/{yyyymmdd[6:]}/{symbol}.csv.gz'\n\n    response = requests.get(url, stream=True, headers={'Authorization': f'Bearer {key}'})\n    if response.status_code != 200:\n        raise RuntimeError('Could not download file')\n\n    total_size = int(response.headers.get('content-length', 0))\n    block_size = 1024\n\n    with tqdm(total=total_size, unit='B', unit_scale=True) as progress_bar:\n        with open(filepath, 'wb') as file:\n            for data in response.iter_content(block_size):\n                progress_bar.update(len(data))\n                file.write(data)\n\n    if total_size != 0 and progress_bar.n != total_size:\n        raise RuntimeError('Could not download file')",
+  "FSMID_for_test": 57,
+  "Code_level": "Function-level"
+}

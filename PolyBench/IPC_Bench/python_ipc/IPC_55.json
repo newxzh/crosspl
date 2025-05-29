@@ -1,0 +1,13 @@
+{
+  "Task_id": 55,
+  "Github_ID": "632500708",
+  "Github_Project_Name": "RasaGPT",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Client-side by using httpx+asyncio in python",
+  "Instruction": "Task Description: Create an asynchronous function to check if the ngrok API is online and wait for it to become available if it's not.\n\nFunction Description: The function continuously attempts to connect to the ngrok API at a specified URL (constructed from environment variables) until it receives a successful response. It uses exponential backoff (fixed interval retries) between attempts and logs the connection status. The function is designed to be used in scenarios where you need to ensure the ngrok API is available before proceeding with operations that depend on it.\n\nInput: \n- None (uses environment variables NGROK_HOST and NGROK_PORT to construct the API URL)\n  \nOutput: \n- Returns True when the ngrok API is successfully reached\n- Does not return until a successful connection is established (infinite retry loop)",
+  "Canonical_solution": "import asyncio\nimport httpx\nimport logging\n\nlogger = logging.getLogger(__name__)\n\nasync def wait_for_ngrok_api():\n    NGROK_API_URL = f\"http://{os.getenv('NGROK_HOST', 'ngrok')}:{os.getenv('NGROK_PORT', 4040)}\"\n    RETRY_INTERVAL = 15\n\n    while True:\n        try:\n            async with httpx.AsyncClient() as client:\n                response = await client.get(f\"{NGROK_API_URL}/api/tunnels\")\n                response.raise_for_status()\n                logger.debug(\"ngrok API is online.\")\n                return True\n        except httpx.RequestError:\n            logger.debug(\"ngrok API is offline. Waiting...\")\n            await asyncio.sleep(RETRY_INTERVAL)",
+  "FSMID_for_test": 59,
+  "Code_level": "Function-level"
+}

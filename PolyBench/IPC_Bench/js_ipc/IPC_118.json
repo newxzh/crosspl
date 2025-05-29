@@ -1,0 +1,13 @@
+{
+  "Task_id": 118,
+  "Github_ID": "103567934",
+  "Github_Project_Name": "webpackmonitor",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP based on express in javascript",
+  "Instruction": "Task Description: Create a function that starts an HTTP server using Express to serve static files and provide JSON data, while also opening the default browser to the server's URL.\n\nFunction Description: The function `startServer` initializes an Express application, configures middleware for serving static files, sets up route handlers for the root path and a data endpoint, and starts the server on a specified port. It also opens the server URL in the default browser and logs status messages to the console.\n\nInput:\n- `data`: [Object] - The JSON data to be served at the '/getstats' endpoint\n- `port`: [Number] - The port number on which the server should listen\n- `update`: [Function] - (Optional) A callback function to be executed when the server starts\n\nOutput:\n- None (The function starts a server process and does not return a value)",
+  "Canonical_solution": "function startServer(data, port, update) {\n    const express = require('express');\n    const path = require('path');\n    const opener = require('opener');\n    const colors = require('colors');\n\n    const app = express();\n    const url = `http://localhost:${port}/`;\n    const options = {\n        root: path.join(__dirname, '..', 'build')\n    };\n\n    app.use(express.static(options.root));\n    app.use('/css', express.static(path.join(__dirname, '..', 'build', 'css')));\n\n    app.get('/', (req, res) => {\n        res.sendFile('index.html', options);\n    });\n\n    app.get('/getstats', (req, res) => {\n        res.json(data);\n    });\n\n    app.listen(port, () => {\n        opener(url);\n        console.log(\n            colors.bold('\\nWebpack-Monitor'),\n            `is running on port ${port}!`\n        );\n        console.log(colors.italic.red('Press ctrl C to exit'));\n    });\n}",
+  "FSMID_for_test": 96,
+  "Code_level": "Function-level"
+}

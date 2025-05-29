@@ -1,0 +1,13 @@
+{
+    "Task_id": 131,
+    "Github_ID": "105569787",
+    "Github_Project_Name": "golang-gin-realworld-example-app",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Gin-based HTTP Server in Go",
+    "Instruction": "Task Description: Create a Gin-based HTTP server in Go that handles multiple API routes with different authentication requirements and groups related endpoints together.\n\nFunction Description: The main function initializes a Gin HTTP server with default middleware (Logger and Recovery), organizes routes into logical groups with different authentication requirements, and starts the server. It demonstrates route grouping, middleware chaining, and modular route registration.\n\nInput: None (The function takes no direct input parameters)\n\nOutput: None (The function doesn't return anything but starts an HTTP server that listens for incoming requests)\n\nNote: The actual route handlers are expected to be implemented in separate packages (users, articles) and registered through their respective Register functions. The server runs indefinitely until interrupted.",
+    "Canonical_solution": "import (\n\t\"github.com/gin-gonic/gin\"\n)\n\nfunc main() {\n\tr := gin.Default()\n\n\tv1 := r.Group(\"/api\")\n\tusers.UsersRegister(v1.Group(\"/users\"))\n\tv1.Use(users.AuthMiddleware(false))\n\tarticles.ArticlesAnonymousRegister(v1.Group(\"/articles\"))\n\tarticles.TagsAnonymousRegister(v1.Group(\"/tags\"))\n\n\tv1.Use(users.AuthMiddleware(true))\n\tusers.UserRegister(v1.Group(\"/user\"))\n\tusers.ProfileRegister(v1.Group(\"/profiles\"))\n\n\tarticles.ArticlesRegister(v1.Group(\"/articles\"))\n\n\ttestAuth := r.Group(\"/api/ping\")\n\n\ttestAuth.GET(\"/\", func(c *gin.Context) {\n\t\tc.JSON(200, gin.H{\n\t\t\t\"message\": \"pong\",\n\t\t})\n\t})\n\n\tr.Run()\n}",
+    "FSMID_for_test": 105,
+    "Code_level": "Function-level"
+}

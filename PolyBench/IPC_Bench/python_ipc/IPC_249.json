@@ -1,0 +1,13 @@
+{
+  "Task_id": 249,
+  "Github_ID": "571186647",
+  "Github_Project_Name": "pathway",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "Kafka producer in python",
+  "Instruction": "Task Description: Create a Kafka producer wrapper class that simplifies message sending to Kafka topics, handles message formatting, and manages producer lifecycle.\n\nClass Description: KafkaProducerWrapper is a utility class that encapsulates Kafka producer functionality, providing methods to send messages (with optional keys), batch send messages, and properly manage producer resources. It automatically generates a unique topic name for message sending.\n\nAttributes:\n_producer: KafkaProducer - The underlying Kafka producer instance\n_topic: str - The Kafka topic name (automatically generated with UUID)\n\nMethods:\n__init__: () -> None - Initializes the Kafka producer with bootstrap servers and generates a unique topic name\nsend: (message: str | tuple[str, str]) -> None - Sends a single message to the Kafka topic (message can be either a plain string or a key-value tuple)\nfill: (messages: Iterable[str | tuple[str, str]]) -> None - Sends multiple messages to the Kafka topic and flushes the producer\nclose: () -> None - Properly closes the Kafka producer to release resources\ntopic: () -> str - Property that returns the generated topic name",
+  "Canonical_solution": "from kafka import KafkaProducer\nfrom uuid import uuid4\n\nkafka_settings = {\"bootstrap_servers\": \"kafka:9092\"}\n\nclass KafkaProducerWrapper:\n    def __init__(self) -> None:\n        self._producer = KafkaProducer(\n            bootstrap_servers=kafka_settings[\"bootstrap_servers\"]\n        )\n        self._topic = f\"integration-tests-{uuid4()}\"\n\n    def send(self, message: str | tuple[str, str]) -> None:\n        if isinstance(message, tuple):\n            (key, value) = message\n        else:\n            (key, value) = str(uuid4()), message\n        self._producer.send(self._topic, key=key.encode(), value=value.encode())\n\n    def fill(self, messages: Iterable[str | tuple[str, str]]) -> None:\n        for msg in messages:\n            self.send(msg)\n        self._producer.flush()\n\n    def close(self) -> None:\n        self._producer.close()\n\n    @property\n    def topic(self) -> str:\n        return self._topic",
+  "FSMID_for_test": 78,
+  "Code_level": "Class-level"
+}

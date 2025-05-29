@@ -1,0 +1,13 @@
+{
+  "Task_id": 66,
+  "Github_ID": "88298561",
+  "Github_Project_Name": "longhorn",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Client-side by using requests in python",
+  "Instruction": "Task Description: Retrieve information about a specific GitHub project using the GitHub GraphQL API.\n\nFunction Description: This function queries the GitHub GraphQL API to fetch project details (id, title, and number) for a given organization and project title. It authenticates using a GitHub token and returns the project information if found.\n\nInput:\n- github_token: [str] - GitHub personal access token for authentication\n- github_org: [str] - GitHub organization name\n- github_project: [str] - Title of the project to search for\n\nOutput:\n- [dict/None] - Returns a dictionary containing the project's id, title, and number if found, otherwise None. Raises an HTTPError if the request fails.",
+  "Canonical_solution": "import requests\nimport os\nimport sys\nfrom datetime import datetime, timedelta\n\n\nGITHUB_GRAPHQL_URL = \"https://api.github.com/graphql\"\n\n\ndef get_github_project_info(github_token, github_org, github_project):\n    headers = {\n        \"Authorization\": f\"Bearer {github_token}\",\n        \"Content-Type\": \"application/json\"\n    }\n    query = '''\n    {\n      organization(login: \"%s\") {\n        projectsV2(first: 20) {\n          nodes {\n            id\n            title\n            number\n          }\n        }\n      }\n    }\n    ''' % (github_org)\n    payload = {\n        \"query\": query\n    }\n\n    response = requests.post(GITHUB_GRAPHQL_URL, headers=headers, json=payload)\n    if response.status_code == 200:\n        # fine project by title\n        nodes = response.json().get(\"data\").get(\"organization\").get(\"projectsV2\").get(\"nodes\")\n        for node in nodes:\n            if node.get(\"title\") == github_project:\n                return node\n    else:\n        response.raise_for_status()",
+  "FSMID_for_test": 57,
+  "Code_level": "Function-level"
+}

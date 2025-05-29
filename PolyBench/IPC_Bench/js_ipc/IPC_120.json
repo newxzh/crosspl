@@ -1,0 +1,13 @@
+{
+  "Task_id": 120,
+  "Github_ID": "35572778",
+  "Github_Project_Name": "React-Dropzone-Component",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP based on express in javascript",
+  "Instruction": "Task Description: Create a function that sets up and starts an Express server with basic configuration, static file serving, and additional route handlers.\n\nFunction Description: The function `createExpressServer` initializes an Express application, configures it to serve static files from a parent directory, integrates additional route handlers from a separate module, and starts listening on a specified port (either from environment variables or defaulting to 3000).\n\nInput: None (The function takes no parameters but uses environment variables for configuration)\n\nOutput: Returns the HTTP server instance created by `app.listen()`, which is actively listening on the specified port. The function also logs server start information to the console.",
+  "Canonical_solution": "function createExpressServer() {\n    const express = require('express');\n    const app = express();\n\n    app.set('port', process.env.PORT || 3000);\n    app.use(express.static('../'));\n\n    require('./src-server/multerImpl')(app);\n\n    return app.listen(app.get('port'), () => {\n        console.log('Express server listening on port ' + app.get('port'));\n        console.log('Visit http://localhost:' + app.get('port') + '/example/ to check out the upload example');\n    });\n}",
+  "FSMID_for_test": 96,
+  "Code_level": "Function-level"
+}

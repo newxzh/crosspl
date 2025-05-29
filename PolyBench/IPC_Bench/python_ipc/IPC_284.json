@@ -1,0 +1,13 @@
+{
+  "Task_id": 284,
+  "Github_ID": "98052177",
+  "Github_Project_Name": "texar",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "Pipe based on subprocess in python",
+  "Instruction": "Task Description: Write a Python function that executes a Perl script (conlleval) via subprocess to evaluate model scores from a given file and returns the accuracy, precision, recall, and F1 score.\n\nFunction Description: The function uses subprocess.PIPE to create a pipe for inter-process communication with a Perl script. It starts the Perl process, feeds it input from a specified file, captures the output, and parses the results to extract evaluation metrics.\n\nInput:\n- path: str - The file path containing the input data to be evaluated by the Perl script\n\nOutput:\n- tuple[float, float, float, float] - A tuple containing four float values representing accuracy, precision, recall, and F1 score in that order",
+  "Canonical_solution": "import subprocess\n\ndef scores(path):\n    bashCommand = 'perl conlleval'\n    process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE,\n                               stdin=open(path))\n    output, error = process.communicate()\n    output = output.decode().split('\\n')[1].split('%; ')\n    output = [out.split(' ')[-1] for out in output]\n    acc, prec, recall, fb1 = tuple(output)\n    return float(acc), float(prec), float(recall), float(fb1)",
+  "FSMID_for_test": 76,
+  "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+    "Task_id": 153,
+    "Github_ID": "140654872",
+    "Github_Project_Name": "mosn",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Gin-based HTTP Server in Go",
+    "Instruction": "Task Description: Create a Go HTTP server using the Gin framework that handles POST requests to a specific endpoint, processes JSON input, and returns appropriate JSON responses.\n\nFunction Description: The function sets up a Gin HTTP server with a single POST endpoint \"/service-b/try\" that receives JSON account data, processes it, and returns success or error responses in JSON format.\n\nInput: \n- None (the function takes no direct input parameters, but receives HTTP requests with JSON payloads matching the Account struct format)\n\nOutput:\n- None (the function doesn't return any value directly, but sends HTTP responses with JSON bodies containing either success or error messages)\n\nNote: The Account struct (not shown in reference code) would typically contain at least an ID field to be properly processed by this endpoint.",
+    "Canonical_solution": "import (\n\t\"fmt\"\n\n\t\"github.com/gin-gonic/gin\"\n)\nfunc main() {\n\tr := gin.Default()\n\n\tr.POST(\"/service-b/try\", func(context *gin.Context) {\n\t\taccount := &Account{}\n\t\terr := context.BindJSON(account)\n\t\tif err == nil {\n\t\t\tfmt.Println(fmt.Sprintf(\"account %d tried!\", account.ID))\n\t\t\tcontext.JSON(200, gin.H{\n\t\t\t\t\"success\": true,\n\t\t\t\t\"message\": fmt.Sprintf(\"account %d tried!\", account.ID),\n\t\t\t})\n\t\t\treturn\n\t\t}\n\t\tcontext.JSON(400, gin.H{\n\t\t\t\"success\": false,\n\t\t\t\"message\": err.Error(),\n\t\t})\n\t})\n\n\tr.Run(\":8081\")\n}",
+    "FSMID_for_test": 105,
+    "Code_level": "Function-level"
+}

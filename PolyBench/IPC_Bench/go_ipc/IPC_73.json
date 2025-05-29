@@ -1,0 +1,13 @@
+{
+    "Task_id": 73,
+    "Github_ID": "40453691",
+    "Github_Project_Name": "GolangTraining",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Basic HTTP server using net/http with HandleFunc and ListenAndServe",
+    "Instruction": "Task Description: Create a Go HTTP server that handles requests on specified routes, supports HTTPS with TLS certificates, and redirects HTTP traffic to HTTPS.\n\nFunction Description: The code demonstrates setting up a basic HTTP server with HTTPS support. It includes a handler function to process requests, sets up an HTTP-to-HTTPS redirect, and starts both HTTP and HTTPS servers concurrently.\n\nInput:\n- Port numbers for HTTP (9999) and HTTPS (10443) servers\n- TLS certificate files (\"cert.pem\" and \"key.pem\")\n- HTTP request objects (*http.Request) for the handler function\n\nOutput:\n- HTTP responses (through http.ResponseWriter)\n- Server logs indicating server status and errors\n- Automatic HTTP-to-HTTPS redirection (301 Moved Permanently)\n\nMethods:\n1. handler(w http.ResponseWriter, req *http.Request) - Processes incoming requests and writes a plain text response\n2. main() - Configures and starts the HTTP and HTTPS servers, including the redirect handler",
+    "Canonical_solution": "import (\n\t\"log\"\n\t\"net/http\"\n)\nfunc handler(w http.ResponseWriter, req *http.Request) {\n\tw.Header().Set(\"Content-Type\", \"text/plain\")\n\tw.Write([]byte(\"This is an example server.\\n\"))\n}\nfunc main() {\n\thttp.HandleFunc(\"/\", handler)\n\tlog.Printf(\"About to listen on 10443. Go to https://127.0.0.1:10443/\")\n\tgo http.ListenAndServe(\":9999\", http.RedirectHandler(\"https://127.0.0.1:10443/\", 301))\n\terr := http.ListenAndServeTLS(\":10443\", \"cert.pem\", \"key.pem\", nil)\n\tif err != nil {\n\t\tlog.Fatal(err)\n\t}\n}",
+    "FSMID_for_test": 103,
+    "Code_level": "Function-level"
+}

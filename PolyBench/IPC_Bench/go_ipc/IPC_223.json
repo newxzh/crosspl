@@ -1,0 +1,13 @@
+{
+    "Task_id": 223,
+    "Github_ID": "27729907",
+    "Github_Project_Name": "grpc-go",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Official-based gRPC client in Go",
+    "Instruction": "Task Description: Create a function that establishes a gRPC client connection to a server, with optional TLS security, and returns a client instance for a specified service.\n\nFunction Description: The function `createGRPCClient` initializes a gRPC client connection to a specified server address. It supports both secure (TLS) and insecure connections based on input parameters. After establishing the connection, it creates and returns a client instance for the RouteGuide service.\n\nInput: \n- `serverAddr` (string): The address of the gRPC server to connect to\n- `useTLS` (bool): Flag indicating whether to use TLS for the connection\n- `caFile` (string): Path to the CA certificate file (required if useTLS is true)\n- `serverHostOverride` (string): Server name used for TLS host verification\n\nOutput:\n- `pb.RouteGuideClient`: The generated gRPC client instance for the RouteGuide service\n- `error`: Any error that occurred during connection establishment",
+    "Canonical_solution": "import (\n\t\"context\"\n\t\"flag\"\n\t\"log\"\n\n\t\"google.golang.org/grpc\"\n\t\"google.golang.org/grpc/credentials\"\n\t\"google.golang.org/grpc/credentials/insecure\"\n\t\"google.golang.org/grpc/examples/data\"\n\tpb \"google.golang.org/grpc/examples/route_guide/routeguide\"\n)\nfunc main() {\n\tflag.Parse()\n\tvar opts []grpc.DialOption\n\tif *tls {\n\t\tif *caFile == \"\" {\n\t\t\t*caFile = data.Path(\"x509/ca_cert.pem\")\n\t\t}\n\t\tcreds, err := credentials.NewClientTLSFromFile(*caFile, *serverHostOverride)\n\t\tif err != nil {\n\t\t\tlog.Fatalf(\"Failed to create TLS credentials: %v\", err)\n\t\t}\n\t\topts = append(opts, grpc.WithTransportCredentials(creds))\n\t} else {\n\t\topts = append(opts, grpc.WithTransportCredentials(insecure.NewCredentials()))\n\t}\n\n\tconn, err := grpc.NewClient(*serverAddr, opts...)\n\tif err != nil {\n\t\tlog.Fatalf(\"fail to dial: %v\", err)\n\t}\n\tdefer conn.Close()\n\tclient := pb.NewRouteGuideClient(conn)\n}",
+    "FSMID_for_test": 120,
+    "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 76,
+  "Github_ID": "59345600",
+  "Github_Project_Name": "vue-zhihu-daily",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP based on express in javascript",
+  "Instruction": "Task Description: Create a function that sets up an Express server with CORS support, static file serving, and specific route handlers.\n\nFunction Description: The function `createServer` initializes an Express application, configures middleware for CORS and static file serving, defines route handlers for specific endpoints, and starts the server on port 80. It enables cross-origin requests, serves static files from a 'public' directory, and provides fallback to 'index.html' for unmatched routes.\n\nInput: None (The function takes no parameters)\n\nOutput: None (The function does not return a value but starts an Express server listening on port 80)",
+  "Canonical_solution": "function createServer() {\n    const express = require('express');\n    const app = express();\n\n    app.use(function(req, res, next) {\n        res.set({\n            'Access-Control-Allow-Origin': '*'\n        });\n        next();\n    });\n    app.use(express.static(__dirname + '/public'));\n\n    app.get('/imagebox', imagebox.upload);\n    app.get('/readapi', api.requestApi);\n    app.get('*', (req, res) => {\n        res.sendFile(__dirname + '/public/index.html');\n    });\n\n    app.listen(80, () => {\n        console.log('app is listening at port:80');\n    });\n}",
+  "FSMID_for_test": 96,
+  "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 150,
+  "Github_ID": "272493701",
+  "Github_Project_Name": "learning-note",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "Java Netty TCP Client",
+  "Instruction": "Task Description: Create a Java class that implements a TCP client using Netty framework to establish a connection with a remote server and handle echo messages.\n\nClass Description: The EchoClient class is a Netty-based TCP client that connects to a specified host and port, and handles incoming and outgoing messages through a custom handler. It manages network resources and ensures proper cleanup.\n\nAttributes:\n- host: String - The hostname or IP address of the remote server to connect to\n- port: int - The port number of the remote server to connect to\n\nMethods:\n- EchoClient(String host, int port) -> None - Constructor that initializes the client with target host and port\n- start() -> void - Initializes and starts the Netty client, establishes connection to the remote server, and manages the connection lifecycle. Throws Exception if any error occurs during the process",
+  "Canonical_solution": "import io.netty.bootstrap.Bootstrap;\nimport io.netty.channel.ChannelFuture;\nimport io.netty.channel.ChannelInitializer;\nimport io.netty.channel.EventLoopGroup;\nimport io.netty.channel.nio.NioEventLoopGroup;\nimport io.netty.channel.socket.SocketChannel;\nimport io.netty.channel.socket.nio.NioSocketChannel;\nimport java.net.InetSocketAddress;\n\npublic class EchoClient {\n    private final String host;\n    private final int port;\n\n    public EchoClient(String host, int port) {\n        this.host = host;\n        this.port = port;\n    }\n\n    public void start() throws Exception {\n        EventLoopGroup group = new NioEventLoopGroup();\n        try {\n            Bootstrap b = new Bootstrap();\n            b.group(group)\n                .channel(NioSocketChannel.class)\n                .remoteAddress(new InetSocketAddress(host, port))\n                .handler(new ChannelInitializer<SocketChannel>() {\n                    @Override\n                    public void initChannel(SocketChannel ch) throws Exception {\n                        ch.pipeline().addLast(new EchoClientHandler());\n                    }\n                });\n            ChannelFuture f = b.connect().sync();\n            f.channel().closeFuture().sync();\n        } finally {\n            group.shutdownGracefully().sync();\n        }\n    }\n}",
+  "FSMID_for_test": 3,
+  "Code_level": "Class-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 453,
+  "Github_ID": "1911523",
+  "Github_Project_Name": "vert.x",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "Vert.x UDP sender in Java",
+  "Instruction": "Task Description: Implement a function that demonstrates UDP communication using Vert.x in Java, allowing sending of data packets to a specified target address and port, with success/failure notification.\n\nFunction Description: The function creates a UDP socket using Vert.x, configures it with default options, and demonstrates two ways to send data: using a Buffer object and directly using a String. It includes asynchronous result handling to report whether each send operation succeeded.\n\nInput:\n- vertx: Vertx - The Vert.x instance used to create the UDP socket\n\nOutput: None (The function's output is the side effect of sending UDP packets and printing success/failure messages to the console)",
+  "Canonical_solution": "import io.vertx.core.Vertx;\nimport io.vertx.core.buffer.Buffer;\nimport io.vertx.core.datagram.DatagramSocket;\nimport io.vertx.core.datagram.DatagramSocketOptions;\n\npublic void example2(Vertx vertx) {\n    DatagramSocket socket = vertx.createDatagramSocket(new DatagramSocketOptions());\n    Buffer buffer = Buffer.buffer(\"content\");\n    socket\n      .send(buffer, 1234, \"10.0.0.1\")\n      .onComplete(asyncResult -> System.out.println(\"Send succeeded? \" + asyncResult.succeeded()));\n    socket\n      .send(\"A string used as content\", 1234, \"10.0.0.1\")\n      .onComplete(asyncResult -> System.out.println(\"Send succeeded? \" + asyncResult.succeeded()));\n}",
+  "FSMID_for_test": 14,
+  "Code_level": "Function-level"
+}

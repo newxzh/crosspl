@@ -1,0 +1,13 @@
+{
+  "Task_id": 281,
+  "Github_ID": "318504110",
+  "Github_Project_Name": "Fastbot_Android",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "ProcessBuilder in java.io",
+  "Instruction": "Task Description: Create a function that executes an external process, captures its output (including error streams redirected to standard output), and returns the output as a string.\n\nFunction Description: The function uses Java's ProcessBuilder to start an external process specified by the given command. It redirects the error stream to the standard output stream to capture all output in one place. The function reads the process's output stream line by line, collects it into a string, and waits for the process to complete before returning the collected output.\n\nInput: \n- cmd: String[] - An array of strings representing the command to execute and its arguments.\n\nOutput: \n- String - The combined standard output and error output of the executed process, trimmed of any leading or trailing whitespace.",
+  "Canonical_solution": "import java.io.BufferedReader;\nimport java.io.IOException;\nimport java.io.InputStreamReader;\nimport java.util.concurrent.TimeUnit;\n\npublic static String getProcessOutput(String[] cmd) throws IOException, InterruptedException {\n    ProcessBuilder processBuilder = new ProcessBuilder(cmd);\n    processBuilder.redirectErrorStream(true);\n    Process process = processBuilder.start();\n    StringBuilder processOutput = new StringBuilder();\n    try (BufferedReader processOutputReader = new BufferedReader(\n            new InputStreamReader(process.getInputStream()));) {\n        String readLine;\n        while ((readLine = processOutputReader.readLine()) != null) {\n            processOutput.append(readLine + System.lineSeparator());\n        }\n        process.waitFor();\n    }\n    return processOutput.toString().trim();\n}",
+  "FSMID_for_test": 44,
+  "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 403,
+  "Github_ID": "212409034",
+  "Github_Project_Name": "constraintlayout",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "TCP Client-side Java.io",
+  "Instruction": "Task Description: Create a function that sends a string to a server using TCP socket communication.\n\nFunction Description: The function establishes a TCP connection to a specified server and port, sends a string message, then closes the connection. It handles potential IO exceptions by printing formatted error information.\n\nInput: \n- str: String - The message to be sent to the server\n\nOutput: None (The function has no return value but may print error information to stderr if the operation fails)",
+  "Canonical_solution": "import java.io.IOException;\nimport java.io.OutputStream;\nimport java.net.Socket;\nimport java.util.Arrays;\n\npublic static void socketSend(String str) {\n    try {\n        Socket socket = new Socket(\"127.0.0.1\", 5327);\n        OutputStream out = socket.getOutputStream();\n        out.write(str.getBytes());\n        out.close();\n    } catch (IOException e) {\n        System.err.println(e.toString()+\"\\n\"+ Arrays.toString(e.getStackTrace())\n                .replace(\"[\",\"   at \")\n                .replace(\",\",\"\\n   at\")\n                .replace(\"]\",\"\"));\n    }\n}",
+  "FSMID_for_test": 15,
+  "Code_level": "Function-level"
+}

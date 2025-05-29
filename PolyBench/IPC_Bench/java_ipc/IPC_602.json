@@ -1,0 +1,13 @@
+{
+  "Task_id": 602,
+  "Github_ID": "20171642",
+  "Github_Project_Name": "helios",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "java.net UDP Server or Client",
+  "Instruction": "Task Description: Create a UDP server class that listens for incoming packets on a specified port, processes the received data, and provides a method to retrieve the received message.\n\nClass Description: The UdpServer class implements a Runnable interface to handle UDP communication asynchronously. It creates a datagram socket bound to a specified port, receives incoming packets, stores the message content, and allows retrieval of the received message. The server operates with a timeout of 60 seconds.\n\nAttributes:\n- serverSocket: DatagramSocket - The UDP socket used for communication\n- message: String - Stores the received message from the client\n\nMethods:\n- UdpServer(int port) -> void - Constructor that initializes the UDP server on the specified port and starts the receiver thread\n- run() -> void - The thread's main execution method that receives incoming packets and processes the data\n- getMessage() -> String - Retrieves the received message after processing",
+  "Canonical_solution": "import java.net.DatagramPacket;\nimport java.net.DatagramSocket;\nimport java.net.SocketException;\nimport java.io.IOException;\n\npublic class UdpServer implements Runnable {\n\n    private final DatagramSocket serverSocket;\n    private String message;\n\n    public UdpServer(int port) throws SocketException, InterruptedException {\n        serverSocket = new DatagramSocket(port);\n        serverSocket.setSoTimeout(60000);\n        final Thread thread = new Thread(this);\n        thread.setDaemon(true);\n        thread.start();\n    }\n\n    @Override\n    public synchronized void run() {\n        final byte[] data = new byte[1024];\n        final DatagramPacket packet = new DatagramPacket(data, data.length);\n        try {\n            serverSocket.receive(packet);\n            message = new String(packet.getData()).trim();\n        } catch (IOException e) {\n            message = \"Exception while receiving sentry call. \" + e.getMessage();\n        }\n    }\n\n    public synchronized String getMessage() throws InterruptedException {\n        return message;\n    }\n}",
+  "FSMID_for_test": 2,
+  "Code_level": "Class-level"
+}

@@ -1,0 +1,13 @@
+{
+    "Task_id": 206,
+    "Github_ID": "115857954",
+    "Github_Project_Name": "advanced-go-programming-book",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Official-based gRPC client in Go",
+    "Instruction": "Task Description: Implement a gRPC client in Go that establishes a secure connection to a gRPC server with authentication, sends a request, and processes the response.\n\nFunction Description: The function `doClientWork` demonstrates how to create a gRPC client that connects to a server, authenticates using provided credentials, sends a \"Hello\" request, and logs the response. It handles connection setup, authentication, RPC call execution, and connection cleanup.\n\nInput: None (The function uses hardcoded values for demonstration purposes, but these could be parameterized in a real implementation)\n\nOutput: None (The function logs results to stdout but doesn't return any values)\n\n---\n\nTask Description: Implement an authentication struct for gRPC credentials in Go that provides request metadata and specifies transport security requirements.\n\nStruct Description: The `Authentication` struct implements gRPC's `credentials.PerRPCCredentials` interface to provide per-RPC credentials (login/password) for gRPC requests.\n\nFields:\nLogin: string - The username for authentication\nPassword: string - The password for authentication\n\nMethods:\nGetRequestMetadata: (context.Context, ...string) -> (map[string]string, error) - Returns the authentication metadata (login/password) to be included in RPC requests\nRequireTransportSecurity: () -> bool - Indicates whether transport security is required (returns false in this implementation)",
+    "Canonical_solution": "import (\n\t\"context\"\n\t\"log\"\n\n\t\"google.golang.org/grpc\"\n)\n\ntype Authentication struct {\n\tLogin    string\n\tPassword string\n}\n\nfunc (a *Authentication) GetRequestMetadata(context.Context, ...string) (map[string]string, error) {\n\treturn map[string]string{\"login\": a.Login, \"password\": a.Password}, nil\n}\nfunc (a *Authentication) RequireTransportSecurity() bool {\n\treturn false\n}\n\nfunc doClientWork() {\n\tauth := Authentication{\n\t\tLogin:    \"gopher\",\n\t\tPassword: \"password\",\n\t}\n\n\tconn, err := grpc.Dial(\"localhost\"+port, grpc.WithInsecure(), grpc.WithPerRPCCredentials(&auth))\n\tif err != nil {\n\t\tlog.Fatal(err)\n\t}\n\tdefer conn.Close()\n\n\tc := NewGreeterClient(conn)\n\n\tr, err := c.SayHello(context.Background(), &HelloRequest{Name: \"gopher\"})\n\tif err != nil {\n\t\tlog.Fatalf(\"could not greet: %v\", err)\n\t}\n\tlog.Printf(\"doClientWork: %s\", r.Message)\n}",
+    "FSMID_for_test": 120,
+    "Code_level": "Function-level"
+}

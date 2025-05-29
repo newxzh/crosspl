@@ -1,0 +1,13 @@
+{
+    "Task_id": 123,
+    "Github_ID": "173227087",
+    "Github_Project_Name": "examples",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Gin-based HTTP Server in Go",
+    "Instruction": "Task Description: Create a Go function that initializes and runs a Gin-based HTTP server with TLS support, serving HTML content and static assets, while also implementing HTTP/2 server push for static resources.\n\nFunction Description: The function initializes a Gin router with default middleware (Logger and Recovery), sets up static file serving, configures HTML templates, implements HTTP/2 server push for static assets, and starts the server with TLS encryption. It handles requests to the root path (\"/\") by returning HTML content and pushing a JavaScript file to the client.\n\nInput:\n- port (string): The port number to listen on (e.g., \":8080\")\n- certFile (string): Path to the TLS certificate file (e.g., \"./testdata/server.pem\")\n- keyFile (string): Path to the TLS private key file (e.g., \"./testdata/server.key\")\n- htmlTemplates (template.Template): HTML templates to be used for rendering\n- staticDir (string): Directory path for static assets (e.g., \"./assets\")\n\nOutput: None (the function runs indefinitely as a web server)",
+    "Canonical_solution": "import (\n\t\"html/template\"\n\t\"log\"\n\n\t\"github.com/gin-gonic/gin\"\n)\nfunc main() {\n\tr := gin.Default()\n\tr.Static(\"/assets\", \"./assets\")\n\tr.SetHTMLTemplate(html)\n\n\tr.GET(\"/\", func(c *gin.Context) {\n\t\tif pusher := c.Writer.Pusher(); pusher != nil {\n\t\t\tif err := pusher.Push(\"/assets/app.js\", nil); err != nil {\n\t\t\t\tlog.Printf(\"Failed to push: %v\", err)\n\t\t\t}\n\t\t}\n\t\tc.HTML(200, \"https\", gin.H{\n\t\t\t\"status\": \"success\",\n\t\t})\n\t})\n\n\tr.RunTLS(\":8080\", \"./testdata/server.pem\", \"./testdata/server.key\")\n}",
+    "FSMID_for_test": 105,
+    "Code_level": "Function-level"
+}

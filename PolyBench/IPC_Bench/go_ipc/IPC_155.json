@@ -1,0 +1,13 @@
+{
+    "Task_id": 155,
+    "Github_ID": "44634390",
+    "Github_Project_Name": "find",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Gin-based HTTP Server in Go",
+    "Instruction": "Task Description: Create a Go HTTP server using the Gin framework that implements JWT-based authentication with public and private routes. The server should generate tokens for public access and validate them for private routes.\n\nFunction Description: The main function sets up a Gin server with two route groups: public routes that generate JWT tokens, and private routes that require valid JWT tokens for access. The server runs on localhost:8080.\n\nInput: None (The function takes no direct input parameters as it's the main entry point)\n\nOutput: None (The function doesn't return anything but starts an HTTP server that listens for requests)\n\nMethods:\n\n1. Public route handler: Handles GET requests to \"/api/\" and generates a JWT token\n   - Input: Gin context object\n   - Output: JSON response containing either the token or an error message\n\n2. Private route handler: Handles GET requests to \"/api/private/\" and requires valid JWT\n   - Input: Gin context object (with validated JWT)\n   - Output: JSON response with a private message\n\n3. Server startup: Starts the Gin server on port 8080\n   - Input: Address string (\"localhost:8080\")\n   - Output: None (blocks and serves requests)",
+    "Canonical_solution": "import (\n\t\"time\"\n\n\tjwt_lib \"github.com/dgrijalva/jwt-go\"\n\t\"github.com/gin-gonic/gin\"\n)\n\nvar (\n\tmysupersecretpassword = \"unicornsAreAwesome\"\n)\n\nfunc main() {\n\tr := gin.Default()\n\n\tpublic := r.Group(\"/api\")\n\n\tpublic.GET(\"/\", func(c *gin.Context) {\n\t\ttoken := jwt_lib.New(jwt_lib.GetSigningMethod(\"HS256\"))\n\t\ttoken.Claims = jwt_lib.MapClaims{\n\t\t\t\"Id\":  \"Christopher\",\n\t\t\t\"exp\": time.Now().Add(time.Hour * 1).Unix(),\n\t\t}\n\t\ttokenString, err := token.SignedString([]byte(mysupersecretpassword))\n\t\tif err != nil {\n\t\t\tc.JSON(500, gin.H{\"message\": \"Could not generate token\"})\n\t\t}\n\t\tc.JSON(200, gin.H{\"token\": tokenString})\n\t})\n\n\tprivate := r.Group(\"/api/private\")\n\tprivate.Use(jwt.Auth(mysupersecretpassword))\n\n\tprivate.GET(\"/\", func(c *gin.Context) {\n\t\tc.JSON(200, gin.H{\"message\": \"Hello from private\"})\n\t})\n\n\tr.Run(\"localhost:8080\")\n}",
+    "FSMID_for_test": 105,
+    "Code_level": "Function-level"
+}

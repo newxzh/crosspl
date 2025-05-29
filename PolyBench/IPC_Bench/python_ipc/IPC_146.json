@@ -1,0 +1,13 @@
+{
+  "Task_id": 146,
+  "Github_ID": "292481892",
+  "Github_Project_Name": "All-Python-codes-of-ZTM-course-by-Andrei-Neagoie",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Server - side by using Flask in python",
+  "Instruction": "Task Description: Create a Flask web application that handles form submissions, stores the data in both text and CSV formats, and redirects to a thank you page upon successful submission.\n\nFunction Description: The function handles form submissions via POST and GET requests. For POST requests, it extracts form data, writes it to both a text file and CSV file, then redirects to a thank you page. For GET requests or errors, it returns an error message.\n\nInput: \n- HTTP request object (via Flask's request) containing form data with keys: \"email\", \"subject\", and \"message\"\n\nOutput:\n- For successful POST requests: HTTP redirect to './thank_you.html'\n- For GET requests or errors: String error message 'Something went wrong. Try again!'",
+  "Canonical_solution": "from flask import Flask, render_template, request, redirect\nimport csv\napp = Flask(__name__)\n\n@app.route('/submit_form', methods=['POST', 'GET'])\ndef submit_form():\n\tif request.method == \"POST\":\n\t\tdata = request.form.to_dict()\n\t\twrite_to_csv(data)\n\t\twrite_to_txt(data)\n\t\treturn redirect('./thank_you.html')\n\telse:\n\t\treturn 'Something went wrong. Try again!'\n\ndef write_to_txt(data):\n\temail = data[\"email\"]\n\tsubject = data[\"subject\"]\n\tmessage = data[\"message\"]\n\twith open(\"./database.txt\", mode = 'a') as database:\n\t\ttext = database.write(f\"\\n{email},{subject},{message}\")\n\ndef write_to_csv(data):\n\temail = data[\"email\"]\n\tsubject = data[\"subject\"]\n\tmessage = data[\"message\"]\n\twith open(\"./database.csv\", mode = 'a', newline='') as database2:\n\t\tcsv_writer = csv.writer(database2, delimiter=',', quotechar='\"', quoting=csv.QUOTE_MINIMAL)\n\t\tcsv_writer.writerow([email, subject, message])",
+  "FSMID_for_test": 60,
+  "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 34,
+  "Github_ID": "142127816",
+  "Github_Project_Name": "pikachu",
+  "Programming_Language": "PHP",
+  "suffix": ".php",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP client using cURL in PHP",
+  "Instruction": "Task Description: Create a PHP function that makes an HTTP request using cURL to fetch data from a specified URL.\n\nFunction Description: The function initializes a cURL session, configures it with basic options (disabling SSL verification for simplicity), executes the request, and returns the response. It handles the entire cURL lifecycle from initialization to cleanup.\n\nInput: \n- $url (string): The URL to which the HTTP request will be made.\n\nOutput: \n- Returns the response from the HTTP request as a string if successful, or false on failure.",
+  "Canonical_solution": "function make_curl_request($url)\n{\n    $ch = curl_init($url);\n    curl_setopt($ch, CURLOPT_HEADER, false);\n    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);\n    $res = curl_exec($ch);\n    curl_close($ch);\n    return $res;\n}",
+  "FSMID_for_test": 132,
+  "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 138,
+  "Github_ID": "256401220",
+  "Github_Project_Name": "machine-learning-zoomcamp",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Server - side by using Flask in python",
+  "Instruction": "Task Description: Create a Flask-based HTTP server endpoint that processes credit card application data and returns a prediction result indicating the probability of approval and a binary decision.\n\nFunction Description: The function implements a prediction endpoint for a credit card approval system. It receives client data in JSON format, processes it through a machine learning model (using pre-loaded `dv` for feature transformation and `model` for prediction), and returns the prediction results including the approval probability and a binary decision.\n\nInput: \n- JSON payload containing client data for credit card application (received via HTTP POST request)\n\nOutput: \n- JSON response containing:\n  - 'get_card_probability': float - Probability of getting the credit card (between 0 and 1)\n  - 'get_card': boolean - Binary decision indicating whether the card is approved (True if probability \u2265 0.5)",
+  "Canonical_solution": "from flask import Flask\nfrom flask import request\nfrom flask import jsonify\n\napp = Flask('credict-card')\n\n@app.route('/predict', methods=['POST'])\ndef predict():\n    client = request.get_json()\n\n    X = dv.transform([client])\n    y_pred = model.predict_proba(X)[0, 1]\n    get_card = y_pred >= 0.5\n\n    result = {\n        'get_card_probability': float(y_pred),\n        'get_card': bool(get_card)\n    }\n\n    return jsonify(result)\n\nif __name__ == \"__main__\":\n    app.run(debug=True, host='0.0.0.0', port=9696)",
+  "FSMID_for_test": 60,
+  "Code_level": "Function-level"
+}

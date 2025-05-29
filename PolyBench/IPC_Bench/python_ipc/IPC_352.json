@@ -1,0 +1,13 @@
+{
+  "Task_id": 352,
+  "Github_ID": "8904242",
+  "Github_Project_Name": "conpot",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "TCP Client - side by using socket in python",
+  "Instruction": "Task Description: Write a Python function that tests command responses from a Kamstrup management server by sending specific commands and verifying the responses against expected values.\n\nFunction Description: The function establishes a TCP connection to a Kamstrup management server, sends a help command and a specific packet command, then verifies if the responses match the expected values from a predefined response dictionary. The function returns True only if both responses match their expected values.\n\nInput:\n- packet_type: [str] - The key used to look up the expected response in the RESPONSES dictionary for the packet command.\n- help_msg_command: [bytes] - The byte string representing the help command to be sent to the server.\n- packet_msg_command: [bytes] - The byte string representing the packet command to be sent to the server.\n- kamstrup_management_server: [object] - An object containing the server's connection details, specifically the server port.\n\nOutput:\n- [bool] - Returns True if both the help command response and packet command response match their expected values in the RESPONSES dictionary, otherwise returns False.",
+  "Canonical_solution": "from gevent import socket\nfrom conpot.tests.data.kamstrup_management_data import RESPONSES\n\ndef check_command_resp_help_message(\n    packet_type, help_msg_command, packet_msg_command, kamstrup_management_server\n):\n    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\n    s.connect((\"127.0.0.1\", kamstrup_management_server.server.server_port))\n    _ = s.recv(1024)  # receive the banner\n    s.sendall(help_msg_command)  # test the help command\n    help_data = s.recv(1024)\n    help_response = help_data == RESPONSES[\"H\"][packet_type]\n    s.sendall(packet_msg_command)\n    pkt_data = s.recv(1024)\n    packet_resp = pkt_data == RESPONSES[packet_type]\n    s.close()\n    return help_response and packet_resp",
+  "FSMID_for_test": 67,
+  "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 122,
+  "Github_ID": "11168449",
+  "Github_Project_Name": "N-chat",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "Pipe Client-side based on fs+http in JavaScript",
+  "Instruction": "Task Description: Create a function that uploads a file to a server using HTTP POST request with streaming capability to efficiently handle large files.\n\nFunction Description: The function `uploadFileViaPipe` streams a file from the local filesystem to an HTTP server using Node.js's built-in `fs` and `http` modules. It utilizes the pipe mechanism to efficiently transfer data without loading the entire file into memory, making it suitable for large files. The function assumes a predefined server port and file path.\n\nInput: \n- None (The function uses hardcoded values for demonstration purposes. In a real implementation, these would typically be parameters.)\n\nOutput: \n- None (The function performs a side effect of uploading a file. Success or failure would typically be handled via callbacks or events in a production implementation.)",
+  "Canonical_solution": "function uploadFileViaPipe() {\n    var http = require('http');\n    var fs = require('fs');\n    var path = require('path');\n    \n    var testFilePath = path.join(__dirname, '../fixture/file/binaryfile.tar.gz');\n    var port = common.port;\n\n    var request = http.request({\n        port: port,\n        method: 'POST',\n        headers: {\n            'Content-Type': 'application/octet-stream'\n        }\n    });\n\n    fs.createReadStream(testFilePath).pipe(request);\n}",
+  "FSMID_for_test": 99,
+  "Code_level": "Function-level"
+}

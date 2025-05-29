@@ -1,0 +1,13 @@
+{
+  "Task_id": 242,
+  "Github_ID": "12414592",
+  "Github_Project_Name": "javaee7-samples",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "WebSocket Client-side based on browser native API in JavaScript",
+  "Instruction": "Task Description: Implement a WebSocket client in JavaScript that establishes a connection to a server, sends messages, and handles incoming messages, connection events, and errors.\n\nFunction Description: The WebSocket client connects to a specified URI using a custom protocol, provides functions to send messages, and includes event handlers for connection opening, message reception, and errors.\n\nInput:\n- `wsUri` (String): The WebSocket server URI to connect to (e.g., \"ws://example.com/socket\").\n- `myProtocol` (String): The subprotocol to use for the WebSocket connection (e.g., \"myProtocol\").\n- `myField.value` (String): The message to be sent to the server (provided via an input field in the UI).\n\nOutput:\n- Console/log output indicating connection status, sent messages, received messages, and errors.\n- No explicit return value; side effects include WebSocket communication and logging.\n\nMethods (implicit in the reference code):\n- `echoText()` -> undefined - Sends the value of `myField` to the WebSocket server and logs the sent message.\n- `onOpen(evt)` -> undefined - Logs when the WebSocket connection is successfully established.\n- `onMessage(evt)` -> undefined - Logs messages received from the WebSocket server.\n- `onError(evt)` -> undefined - Logs errors encountered during WebSocket communication.",
+  "Canonical_solution": "function echoText() {\n    websocket.send(myField.value);\n    writeToScreen(\"SENT: \" + myField.value);\n}\n\nfunction onOpen() {\n    writeToScreen(\"CONNECTED\");\n}\n\nfunction onMessage(evt) {\n    writeToScreen(\"RECEIVED: \" + evt.data);\n}\n\nfunction onError(evt) {\n    writeToScreen('<span style=\"color: red;\">ERROR:</span> ' + evt.data);\n}\n\nvar websocket = new WebSocket(wsUri, \"myProtocol\");\nwebsocket.onopen = function(evt) { onOpen(evt) };\nwebsocket.onmessage = function(evt) { onMessage(evt) };\nwebsocket.onerror = function(evt) { onError(evt) };",
+  "FSMID_for_test": 89,
+  "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 246,
+  "Github_ID": "31199458",
+  "Github_Project_Name": "StarterLearningPython",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Server-side based on Tornado in python",
+  "Instruction": "Task Description: Implement a Tornado-based HTTP server that handles GET requests and responds with a customizable greeting message.\n\nClass Description: The TornadoHTTPServer class encapsulates the functionality to create and run a Tornado web server that listens on a specified port and handles HTTP requests.\n\nAttributes:\n- port: int - The port number on which the HTTP server will listen (default: 8000)\n- app: tornado.web.Application - The Tornado web application instance that routes requests to handlers\n- http_server: tornado.httpserver.HTTPServer - The HTTP server instance that serves the application\n\nMethods:\n- __init__(port: int = 8000) -> None - Initializes the HTTP server with the specified port (default: 8000)\n- run() -> None - Starts the HTTP server on the specified port and begins the I/O loop\n\nAdditional Class (Request Handler):\n- IndexHandler: tornado.web.RequestHandler - Handles HTTP GET requests to the root URL (\"/\")\n  Methods:\n  - get() -> None - Processes GET requests, optionally takes a 'greeting' query parameter, and returns a response combining the greeting with a welcome message",
+  "Canonical_solution": "import tornado.httpserver\nimport tornado.ioloop\nimport tornado.options\nimport tornado.web\n\nclass IndexHandler(tornado.web.RequestHandler):\n    def get(self):\n        greeting = self.get_argument('greeting', 'Helloi World')\n        self.write(greeting + '\\nwelcome you to read: www.itdiffer.com')\n\nclass TornadoHTTPServer:\n    def __init__(self, port=8000):\n        self.port = port\n        self.app = tornado.web.Application(handlers=[(r\"/\", IndexHandler)])\n        self.http_server = tornado.httpserver.HTTPServer(self.app)\n\n    def run(self):\n        self.http_server.listen(self.port)\n        tornado.ioloop.IOLoop.instance().start()",
+  "FSMID_for_test": 64,
+  "Code_level": "Class-level"
+}

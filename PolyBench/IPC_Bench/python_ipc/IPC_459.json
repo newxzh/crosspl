@@ -1,0 +1,13 @@
+{
+  "Task_id": 459,
+  "Github_ID": "56251096",
+  "Github_Project_Name": "web3.py",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "WebSocket Server-side by using asyncio+websockets in python",
+  "Instruction": "Task Description: Create a function that sets up and runs a WebSocket server in a separate thread, allowing for asynchronous communication between clients and the server.\n\nFunction Description: The function `run_websocket_server` initializes and starts a WebSocket server on a specified port. The server runs in a separate thread to avoid blocking the main program. It handles incoming messages by echoing them back to the client. The function returns the event loop and the thread object for potential external control.\n\nInput:  \n- `port` [int] - The port number on which the WebSocket server will listen for incoming connections.\n\nOutput:  \n- `event_loop` [asyncio.AbstractEventLoop] - The event loop associated with the WebSocket server, which can be used to manage or stop the server.  \n- `thd` [threading.Thread] - The thread object running the WebSocket server, which can be used to join or terminate the thread.",
+  "Canonical_solution": "import asyncio\nimport websockets\nfrom threading import Thread\n\ndef run_websocket_server(port):\n    event_loop = asyncio.new_event_loop()\n\n    async def empty_server(websocket, path):\n        data = await websocket.recv()\n        await asyncio.sleep(0.02)\n        await websocket.send(data)\n\n    def run_server():\n        asyncio.set_event_loop(event_loop)\n        server = websockets.serve(empty_server, \"127.0.0.1\", port)\n        event_loop.run_until_complete(server)\n        event_loop.run_forever()\n\n    thd = Thread(target=run_server)\n    thd.start()\n    return event_loop, thd",
+  "FSMID_for_test": 45,
+  "Code_level": "Function-level"
+}

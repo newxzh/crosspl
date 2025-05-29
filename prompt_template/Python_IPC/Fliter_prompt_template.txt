@@ -1,0 +1,18 @@
+You are a senior software engineer with deep expertise in multi-language interoperability and inter-process communication (IPC) technologies.
+
+Your task is to analyze the provided "Source code", which is written in {PL}.
+
+Please determine whether the LLM can accurately extract either function-level code, or class-level code, which contains a  complete implementation of the {IPC_Name} technique.Judgment rules are as follows:
+1. According to the "Source code" and the key steps of the inter-process communication technology, if the key steps of using this inter-process communication technology can be completed in one function, extract the function-level code;
+2. According to the "Source code" and the key steps of the inter-process communication technology, if there are no functions or classes, and the key steps can be completed solely within the script-level code, please extract the code and encapsulate the code into a function-level code.
+3. According to the "Source code" and the key steps of the inter-process communication technology, if the inter-process communication technique requires multiple functions to work together and involves defined classes, directly extract the class-level code.
+4. According to the "Source code" and the key steps of the inter-process communication technology, if the inter-process communication technique requires multiple functions to work together, but the source code does not define any classes, please extract these functions and encapsulate these functions into class-level code.
+5. According to the "Source code" and the key steps of the inter-process communication technology, if you are absolutely sure that you cannot extract suitable class-level code or function-level code from the source code to accurately implement the key steps of the inter-process communication technology, nothing will be extracted and "null" will be returned.
+
+The key steps required for a valid {IPC_Name} implementation are:
+{Steps}
+
+Source code:
+{Original_code}
+
+Your judgment is: (Your answer can only contain one of the following: "Function-level" or "Class-level" or "null". Please don't include any other characters, and do not give me the reason for your judgment.)

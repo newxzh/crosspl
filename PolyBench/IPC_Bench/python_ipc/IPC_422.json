@@ -1,0 +1,13 @@
+{
+  "Task_id": 422,
+  "Github_ID": "122653723",
+  "Github_Project_Name": "crankshaft",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "UDP communication by using socket in python",
+  "Instruction": "Task Description: Implement a UDP server that listens for incoming messages on a specified IP address and port, processes the received data, and terminates when a specific exit command is received.\n\nFunction Description: The function `udp_server` creates a UDP socket, binds it to a local IP address and port, and continuously listens for incoming messages. It processes the received data by decoding it from bytes to a UTF-8 string and checks for an exit command to terminate the loop. The socket is closed once the loop exits.\n\nInput: None\n\nOutput: None",
+  "Canonical_solution": "import socket\n\ndef udp_server():\n    UDP_IP = \"127.0.0.1\"\n    UDP_PORT = 6000\n\n    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)  # UDP\n    sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)\n    sock.bind((UDP_IP, UDP_PORT))\n\n    while True:\n        dataudp, addr = sock.recvfrom(1024)  # buffer size is 1024 bytes\n        try:\n            data = str(dataudp.rstrip('\\x00').decode('utf-8'))\n        except:\n            data = str(dataudp.decode('utf-8'))\n        \n        # Process received data here\n        \n        if \"Exit\" in data:\n            break\n\n    sock.close()",
+  "FSMID_for_test": 71,
+  "Code_level": "Function-level"
+}

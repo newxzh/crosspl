@@ -1,0 +1,13 @@
+{
+  "Task_id": 309,
+  "Github_ID": "16354416",
+  "Github_Project_Name": "urlwatch",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "Pipe based on subprocess in python",
+  "Instruction": "Task Description: Convert HTML content to plain text using external command-line tools through subprocess communication.\n\nFunction Description: The function converts HTML data to plain text using either 'lynx' or 'html2text' command-line tools. It handles process creation, input/output communication via pipes, and result processing. The function supports additional options for the conversion tools and ensures proper character encoding.\n\nInput:\n- data: [str] - The HTML content to be converted\n- baseurl: [str] - Base URL for relative links (unused in current implementation)\n- method: [str] - Conversion method ('lynx' or 'html2text')\n- options: [dict] - Additional options to pass to the conversion tool (key-value pairs where value can be None for flag options)\n\nOutput:\n- [str] - The converted plain text content with formatting cleaned up",
+  "Canonical_solution": "import re\nimport os\nimport subprocess\nimport logging\n\nlogger = logging.getLogger(__name__)\n\ndef html2text(data, baseurl, method, options):\n    if method == 'lynx':\n        cmd = ['lynx', '-nonumbers', '-dump', '-stdin', '-assume_charset UTF-8', '-display_charset UTF-8']\n    elif method == 'html2text':\n        if '-utf8' in subprocess.check_output(['html2text', '-help'], encoding='utf-8'):\n            cmd = ['html2text', '-nobs', '-utf8']\n        else:\n            cmd = ['html2text', '-nobs']\n    else:\n        raise ValueError('Unknown html2text method: %r' % (method,))\n\n    stdout_encoding = 'utf-8'\n\n    for k, v in options.items():\n        if v is not None:\n            cmd.extend(['-{}'.format(k), '{}'.format(v)])\n        else:\n            cmd.append('-{}'.format(k))\n\n    logger.debug('Command: %r, stdout encoding: %s', cmd, stdout_encoding)\n\n    env = {}\n    env.update(os.environ)\n    env['LANG'] = 'en_US.utf-8'\n    env['LC_ALL'] = 'en_US.utf-8'\n\n    html2text = subprocess.Popen(cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE, env=env)\n    stdout, stderr = html2text.communicate(data.encode('utf-8'))\n    stdout = stdout.decode(stdout_encoding)\n\n    if method == 'lynx':\n        stdout = re.sub(r'file://%s/[^/]*/' % (os.environ.get('TMPDIR', '/tmp'),), '', stdout)\n        stdout = re.sub(r'file://localhost%s/[^/]*/' % (os.environ.get('TMPDIR', '/tmp'),), '', stdout)\n        stdout = re.sub(r'L\\d+-\\d+TMP.html', '', stdout)\n\n    return stdout.strip()",
+  "FSMID_for_test": 76,
+  "Code_level": "Function-level"
+}

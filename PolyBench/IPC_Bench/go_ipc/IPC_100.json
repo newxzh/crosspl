@@ -1,0 +1,13 @@
+{
+    "Task_id": 100,
+    "Github_ID": "37374972",
+    "Github_Project_Name": "go-starter-kit",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Echo-based HTTP Server in Go",
+    "Instruction": "Task Description: Create an HTTP server using the Echo framework in Go that handles JSONP requests, serving dynamic JSON data wrapped in a callback function.\n\nFunction Description: The main function initializes an Echo server, sets up middleware for logging and recovery, serves static files from a \"public\" directory, and defines a route (\"/jsonp\") that responds to GET requests with JSONP-formatted data containing a response message, current timestamp, and random number.\n\nInput: None (The function takes no direct input parameters, but the \"/jsonp\" endpoint accepts an optional query parameter \"callback\" specifying the JSONP callback function name)\n\nOutput: None (The function doesn't return any value but starts an HTTP server that listens on port 1323 and serves responses to incoming requests)",
+    "Canonical_solution": "import (\n\t\"net/http\"\n\t\"time\"\n\n\t\"github.com/labstack/echo\"\n)\n\nfunc main() {\n\te := echo.New()\n\te.Use(middleware.Logger())\n\te.Use(middleware.Recover())\n\n\te.Static(\"/\", \"public\")\n\n\te.GET(\"/jsonp\", func(c echo.Context) error {\n\t\tcallback := c.QueryParam(\"callback\")\n\t\tvar content struct {\n\t\t\tResponse  string    `json:\"response\"`\n\t\t\tTimestamp time.Time `json:\"timestamp\"`\n\t\t\tRandom    int       `json:\"random\"`\n\t\t}\n\t\tcontent.Response = \"Sent via JSONP\"\n\t\tcontent.Timestamp = time.Now().UTC()\n\t\tcontent.Random = rand.Intn(1000)\n\t\treturn c.JSONP(http.StatusOK, callback, &content)\n\t})\n\n\te.Logger.Fatal(e.Start(\":1323\"))\n}",
+    "FSMID_for_test": 106,
+    "Code_level": "Function-level"
+}

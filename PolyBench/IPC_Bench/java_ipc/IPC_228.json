@@ -1,0 +1,13 @@
+{
+  "Task_id": 228,
+  "Github_ID": "272493701",
+  "Github_Project_Name": "learning-note",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "Java Netty TCP Server",
+  "Instruction": "Task Description: Create a Java class that implements a TCP server using Netty framework to handle incoming client connections and echo back received messages.\n\nClass Description: The EchoServer class is a Netty-based TCP server that listens on a specified port, accepts client connections, and echoes back any received messages. It uses Netty's event-driven architecture for efficient network communication.\n\nAttributes:\n- port: int - The port number on which the server will listen for incoming connections\n\nMethods:\n- EchoServer(int port) -> Constructor - Initializes the server with the specified port number\n- start() -> void - Starts the server, binds to the specified port, and begins accepting connections. Handles server shutdown gracefully when stopped. Throws Exception if any error occurs during startup or operation",
+  "Canonical_solution": "import io.netty.bootstrap.ServerBootstrap;\nimport io.netty.channel.ChannelFuture;\nimport io.netty.channel.ChannelInitializer;\nimport io.netty.channel.EventLoopGroup;\nimport io.netty.channel.nio.NioEventLoopGroup;\nimport io.netty.channel.socket.SocketChannel;\nimport io.netty.channel.socket.nio.NioServerSocketChannel;\nimport java.net.InetSocketAddress;\n\npublic class EchoServer {\n    private final int port;\n\n    public EchoServer(int port) {\n        this.port = port;\n    }\n\n    public void start() throws Exception {\n        final EchoServerHandler serverHandler = new EchoServerHandler();\n        EventLoopGroup bossGroup = new NioEventLoopGroup(1);\n        EventLoopGroup workerGroup = new NioEventLoopGroup();\n        try {\n            ServerBootstrap b = new ServerBootstrap();\n            b = b.group(bossGroup, workerGroup)\n                    .channel(NioServerSocketChannel.class)\n                    .localAddress(new InetSocketAddress(port))\n                    .childHandler(new ChannelInitializer<SocketChannel>() {\n                        @Override\n                        public void initChannel(SocketChannel ch) throws Exception {\n                            ch.pipeline().addLast(serverHandler);\n                        }\n                    });\n            ChannelFuture f = b.bind().sync();\n            f.channel().closeFuture().sync();\n        } finally {\n            bossGroup.shutdownGracefully().sync();\n            workerGroup.shutdownGracefully();\n        }\n    }\n}",
+  "FSMID_for_test": 4,
+  "Code_level": "Class-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 329,
+  "Github_ID": "178120741",
+  "Github_Project_Name": "exploitation-course",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "TCP Client - side by using socket in python",
+  "Instruction": "Task Description: Implement a TCP client function in Python that connects to a server, receives initial data, sends a formatted message, and handles connection errors gracefully.\n\nFunction Description: The function establishes a TCP connection to a specified server, receives initial data from the server, sends a formatted message (prefixed with \"USV \" and suffixed with '\\r\\n\\r\\n'), and ensures proper connection closure. Error handling is included to manage connection issues.\n\nInput:\n- host: str - The IP address or hostname of the target server\n- port: int - The port number on which the server is listening\n- buffer: str - The message content to be sent to the server\n\nOutput:\n- None (prints received data and status messages to console)\n- Success: Prints \"Buffer Sent Successfully!\" upon completion\n- Failure: Prints \"Check your debugger\" if connection fails",
+  "Canonical_solution": "import socket\n\ndef tcp_client_interaction(host, port, buffer):\n    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\n    try:\n        s.connect((host, port))\n        data = s.recv(1024)\n        print(\"\\n\" + data)\n        s.send(\"USV \" + buffer + '\\r\\n\\r\\n')\n    except:\n        print(\"Check your debugger\")\n    finally:\n        s.close()\n        print(\"Buffer Sent Successfully!\")",
+  "FSMID_for_test": 67,
+  "Code_level": "Function-level"
+}

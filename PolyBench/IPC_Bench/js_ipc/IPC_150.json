@@ -1,0 +1,13 @@
+{
+  "Task_id": 150,
+  "Github_ID": "11649862",
+  "Github_Project_Name": "static-code-scan",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "Pipe Server-side based on fs+http in JavaScript",
+  "Instruction": "Task Description: Create a function that sets up an HTTP server to serve static files from a specified directory, handling different MIME types and responding with 404 errors for non-existent files.\n\nFunction Description: The function `createFileServer` initializes an HTTP server that serves static files (HTML, images, JavaScript, CSS) from a 'static' directory in the current working directory. It handles proper MIME types for different file extensions and responds with 404 errors when files are not found. The server listens on port 1338 by default.\n\nInput: None (The function takes no parameters; all configuration is internal)\n\nOutput: None (The function doesn't return anything; it creates and starts an HTTP server that continues running)",
+  "Canonical_solution": "function createFileServer() {\n    var http = require('http'),\n        url = require('url'),\n        path = require('path'),\n        fs = require('fs'),\n        port = 1338;\n    var mimeTypes = {\n        \"html\": \"text/html\",\n        \"jpeg\": \"image/jpeg\",\n        \"jpg\": \"image/jpeg\",\n        \"png\": \"image/png\",\n        \"js\": \"text/javascript\",\n        \"css\": \"text/css\"};\n\n    http.createServer(function(req, res) {\n        var uri = url.parse(req.url).pathname;\n        var filename = path.join(process.cwd(),'static', uri);\n        fs.exists(filename, function(exists) {\n            if(!exists) {\n                console.error(\"not exists: \" + filename);\n                res.writeHead(404, {'Content-Type': 'text/plain'});\n                res.write('404 Not Found\\n');\n                res.end();\n                return;\n            }\n            var mimeType = mimeTypes[path.extname(filename).split(\".\")[1]];\n            res.writeHead(200, {'Content-Type':mimeType});\n\n            var fileStream = fs.createReadStream(filename);\n            fileStream.pipe(res);\n        });\n    }).listen(port);\n}",
+  "FSMID_for_test": 100,
+  "Code_level": "Function-level"
+}

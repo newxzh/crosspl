@@ -1,0 +1,13 @@
+{
+  "Task_id": 233,
+  "Github_ID": "142542006",
+  "Github_Project_Name": "cloudpods",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Server - side by using http.server in python",
+  "Instruction": "Task Description: Create a Python HTTP server that handles POST requests, logs event headers and content, and responds with a JSON acknowledgment.\n\nClass Description: The implementation consists of two classes: MyServer (request handler) and HTTPServerWrapper (server management). MyServer processes incoming POST requests while HTTPServerWrapper manages server lifecycle.\n\nAttributes:\n\nhostName: str - The host address to bind the server to (default: '0.0.0.0')\nserverPort: int - The port number to listen on (default: 20888)\nwebServer: HTTPServer - The HTTP server instance\n\nMethods:\n\nMyServer.do_POST() -> None - Handles POST requests by:\n  1. Printing the 'X-Yunion-Event' header\n  2. Reading and printing the request body\n  3. Sending a 200 response with JSON {'result':'ok'}\n\nHTTPServerWrapper.__init__(hostName: str = '0.0.0.0', serverPort: int = 20888) -> None - Initializes the server with given host and port\nHTTPServerWrapper.serve() -> None - Starts the server and handles requests until keyboard interrupt, then cleans up",
+  "Canonical_solution": "from http.server import BaseHTTPRequestHandler, HTTPServer\n\nclass MyServer(BaseHTTPRequestHandler):\n    def do_POST(self):\n        print(\"event\", self.headers.get('X-Yunion-Event'))\n        contlenstr = self.headers.get('Content-Length')\n        contlen = 0\n        if contlenstr and len(contlenstr) > 0:\n            contlen = int(contlenstr)\n        print(self.rfile.read(contlen))\n        self.send_response(200)\n        self.send_header(\"Content-type\", \"application/json\")\n        self.end_headers()\n        self.wfile.write(bytes('{\"result\":\"ok\"}', encoding='utf-8'))\n\nclass HTTPServerWrapper:\n    def __init__(self, hostName='0.0.0.0', serverPort=20888):\n        self.hostName = hostName\n        self.serverPort = serverPort\n        self.webServer = HTTPServer((self.hostName, self.serverPort), MyServer)\n\n    def serve(self):\n        print(\"Server started http://%s:%s\" % (self.hostName, self.serverPort))\n        try:\n            self.webServer.serve_forever()\n        except KeyboardInterrupt:\n            pass\n        self.webServer.server_close()\n        print(\"Server stopped.\")",
+  "FSMID_for_test": 55,
+  "Code_level": "Class-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 170,
+  "Github_ID": "110669547",
+  "Github_Project_Name": "linux-tutorial",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Server - side by using Flask in python",
+  "Instruction": "Task Description: Create a simple web application using Flask that interacts with Redis to track and display the number of times the homepage has been accessed.\n\nFunction Description: The function `hello()` is a Flask route handler for the root URL ('/'). It increments a counter in Redis each time the route is accessed and returns a greeting message along with the current count of visits.\n\nInput: \n- None (The function handles HTTP GET requests to the root URL without requiring explicit input parameters)\n\nOutput: \n- A string response containing \"Hello World!\" followed by the current visit count in the format: \"Hello World! \u8be5\u9875\u9762\u5df2\u88ab\u8bbf\u95ee {count} \u6b21\u3002\\n\" where {count} is the number of times the page has been accessed.",
+  "Canonical_solution": "from flask import Flask\nfrom redis import Redis\n\napp = Flask(__name__)\nredis = Redis(host='redis', port=6379)\n\n@app.route('/')\ndef hello():\n    count = redis.incr('hits')\n    return 'Hello World! \u8be5\u9875\u9762\u5df2\u88ab\u8bbf\u95ee {} \u6b21\u3002\\n'.format(count)\n\nif __name__ == \"__main__\":\n    app.run(host=\"0.0.0.0\", debug=True)",
+  "FSMID_for_test": 60,
+  "Code_level": "Function-level"
+}

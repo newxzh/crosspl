@@ -1,0 +1,13 @@
+{
+    "Task_id": 158,
+    "Github_ID": "173227087",
+    "Github_Project_Name": "examples",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Gin-based HTTP Server in Go",
+    "Instruction": "Task Description: Create a Go HTTP server using the Gin framework that serves HTML templates, static files, and a favicon, with routes for the main page and a foo page.\n\nFunction Description: The main function initializes a Gin router, sets up HTML templates from embedded files, serves static files, defines route handlers for the root path (\"/\"), \"/foo\" path, and favicon, and starts the server on port 8080.\n\nInput: None (The function takes no direct input parameters, but relies on embedded filesystem content for templates and assets)\n\nOutput: None (The function doesn't return anything but starts an HTTP server that continues running)\n\nNote: The implementation assumes the existence of an embedded filesystem (variable 'f' of type embed.FS) containing template files in \"templates/\" and \"templates/foo/\" directories, and assets in an \"assets/\" directory.",
+    "Canonical_solution": "import (\n\t\"embed\"\n\t\"html/template\"\n\t\"net/http\"\n\n\t\"github.com/gin-gonic/gin\"\n)\nfunc main() {\n\trouter := gin.Default()\n\ttempl := template.Must(template.New(\"\").ParseFS(f, \"templates/*.tmpl\", \"templates/foo/*.tmpl\"))\n\trouter.SetHTMLTemplate(templ)\n\n\trouter.StaticFS(\"/public\", http.FS(f))\n\n\trouter.GET(\"/\", func(c *gin.Context) {\n\t\tc.HTML(http.StatusOK, \"index.tmpl\", gin.H{\n\t\t\t\"title\": \"Main website\",\n\t\t})\n\t})\n\n\trouter.GET(\"/foo\", func(c *gin.Context) {\n\t\tc.HTML(http.StatusOK, \"bar.tmpl\", gin.H{\n\t\t\t\"title\": \"Foo website\",\n\t\t})\n\t})\n\n\trouter.GET(\"favicon.ico\", func(c *gin.Context) {\n\t\tfile, _ := f.ReadFile(\"assets/favicon.ico\")\n\t\tc.Data(\n\t\t\thttp.StatusOK,\n\t\t\t\"image/x-icon\",\n\t\t\tfile,\n\t\t)\n\t})\n\n\trouter.Run(\":8080\")\n}",
+    "FSMID_for_test": 105,
+    "Code_level": "Function-level"
+}

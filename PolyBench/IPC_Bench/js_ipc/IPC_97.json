@@ -1,0 +1,13 @@
+{
+  "Task_id": 97,
+  "Github_ID": "18964487",
+  "Github_Project_Name": "es6tutorial",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP based on express in javascript",
+  "Instruction": "Task Description: Create a function that sets up an Express server with custom middleware for header manipulation, route handling for serving JavaScript files with dynamic content, and static file serving.\n\nFunction Description: The function `setupServer` initializes an Express application, configures middleware to filter certain HTTP headers, defines a route to serve a dynamically modified JavaScript file, sets up static file serving for specified directories, and starts the server on port 8080.\n\nInput: None (The function does not take any input parameters)\n\nOutput: None (The function does not return any value but starts an Express server listening on port 8080)",
+  "Canonical_solution": "function setupServer() {\n    var express = require('express');\n    var app = express();\n\n    app.use(function(req, res, next) {\n        var setHeader = res.setHeader;\n        res.setHeader = function(name) {\n            switch (name) {\n                case 'Cache-Control':\n                case 'Last-Modified':\n                case 'ETag':\n                    return;\n            }\n            return setHeader.apply(res, arguments);\n        };\n        next();\n    });\n\n    app.get('/test.js', function(req, res, next) {\n        var test = fs.readFileSync(__dirname + '/test.js', 'utf8');\n        var files = load();\n\n        test = test.replace('__TESTS__', JSON.stringify(files));\n        test = test.replace('__MAIN__', runTests + '');\n\n        res.contentType('.js');\n        res.send(test);\n    });\n\n    app.use(express.static(__dirname + '/../../lib'));\n    app.use(express.static(__dirname));\n\n    app.listen(8080);\n}",
+  "FSMID_for_test": 96,
+  "Code_level": "Function-level"
+}

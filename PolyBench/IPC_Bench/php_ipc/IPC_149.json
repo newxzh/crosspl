@@ -1,0 +1,13 @@
+{
+  "Task_id": 149,
+  "Github_ID": "155978483",
+  "Github_Project_Name": "SMProxy",
+  "Programming_Language": "PHP",
+  "suffix": ".php",
+  "Interface_class": "IPC",
+  "Interface_name": "pipe based on proc_open in PHP",
+  "Instruction": "Task Description: Create a PHP helper class for executing system commands and handling inter-process communication using pipes.\n\nClass Description: ProcessHelper is a utility class designed to execute system commands in a cross-platform manner (supporting both Windows and Unix-like systems). It provides a clean interface for running commands, capturing their output and errors, and properly managing process resources.\n\nMethods:\n\nMethod1: run(string $command, string $cwd = null) -> array - Executes a system command and returns the exit code, output, and error messages. The method uses proc_open to create pipes for inter-process communication, properly handles resource cleanup, and returns trimmed output strings.\n\nInput:\n- $command: [string] - The system command to be executed\n- $cwd: [string|null] - The working directory for the command (optional)\n\nOutput:\n- Returns [array] containing three elements:\n  1. [int] Exit code of the process (0 typically indicates success)\n  2. [string] Standard output from the command (trimmed)\n  3. [string] Error output from the command (trimmed)\n\nThrows:\n- RuntimeException if the process cannot be started",
+  "Canonical_solution": "namespace SMProxy\\Helper;\n\nclass ProcessHelper\n{\n    /**\n     * run a command. it is support windows\n     * @param string $command\n     * @param string|null $cwd\n     * @return array\n     * @throws \\RuntimeException\n     */\n    public static function run(string $command, string $cwd = null): array\n    {\n        $descriptors = [\n            0 => ['pipe', 'r'], // stdin - read channel\n            1 => ['pipe', 'w'], // stdout - write channel\n            2 => ['pipe', 'w'], // stdout - error channel\n            3 => ['pipe', 'r'], // stdin - This is the pipe we can feed the password into\n        ];\n\n        $process = proc_open($command, $descriptors, $pipes, $cwd);\n\n        if (!\\is_resource($process)) {\n            throw new \\RuntimeException('Can\\'t open resource with proc_open.');\n        }\n\n        // Nothing to push to input.\n        fclose($pipes[0]);\n\n        $output = stream_get_contents($pipes[1]);\n        fclose($pipes[1]);\n\n        $error = stream_get_contents($pipes[2]);\n        fclose($pipes[2]);\n\n        fclose($pipes[3]);\n\n        // Close all pipes before proc_close! $code === 0 is success.\n        $code = proc_close($process);\n\n        return [trim($code), trim($output), trim($error)];\n    }\n}",
+  "FSMID_for_test": 145,
+  "Code_level": "Class-level"
+}

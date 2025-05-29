@@ -1,0 +1,13 @@
+{
+  "Task_id": 307,
+  "Github_ID": "130725814",
+  "Github_Project_Name": "apex",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "Pipe based on subprocess in python",
+  "Instruction": "Task Description: The task involves creating a function that executes a command in a subprocess, captures its output, and extracts specific metrics from the output for analysis.\n\nFunction Description: The function `run_gpt` executes a given command as a subprocess, captures its standard output and error streams, and parses the output to extract metrics such as runtime, number of parameters, and success status. It then returns these metrics along with any error messages.\n\nInput: \n- `cmd` (str): A string representing the command to be executed in the subprocess.\n\nOutput: \n- A tuple containing:\n  - `runtime` (float): The average iteration time extracted from the output.\n  - `num_params` (float): The number of parameters in billions, rounded to 3 decimal places.\n  - `success` (bool): A boolean indicating whether the test was successful based on a predefined success message.\n  - `errs` (bytes): The error output from the subprocess.",
+  "Canonical_solution": "import subprocess\nfrom apex.transformer.testing.commons import TEST_SUCCESS_MESSAGE\n\ndef run_gpt(cmd):\n    args = list(cmd.split(\" \"))\n    p = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n    outs, errs = p.communicate()\n    outs = list(str((outs).decode(\"utf-8\")).splitlines())\n    success = False\n    runtime = 0\n    num_params = 0\n    for out in outs:\n        out = str(out)\n        if \"Average Iteration Time:\" in str(out):\n            slicey = out[out.find(\":\") + 2 :]\n            try:\n                runtime = float(slicey)\n            except:\n                print(slicey)\n                quit()\n        if \"Number of Parameters:\" in str(out):\n            slicey = out[out.find(\":\") + 2 :]\n            try:\n                num_params = int(slicey)\n            except:\n                print(slicey)\n                quit()\n        if str(out) == str(TEST_SUCCESS_MESSAGE):\n            success = True\n    return runtime, round(float(int(num_params)) / 10.0 ** 9, 3), success, errs",
+  "FSMID_for_test": 76,
+  "Code_level": "Function-level"
+}

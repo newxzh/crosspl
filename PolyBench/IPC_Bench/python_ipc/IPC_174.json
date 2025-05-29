@@ -1,0 +1,13 @@
+{
+  "Task_id": 174,
+  "Github_ID": "358458050",
+  "Github_Project_Name": "SimCSE",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Server - side by using Flask in python",
+  "Instruction": "Task Description: Create a Flask-based HTTP server that handles GET requests for semantic similarity search, processes the query parameters, performs the search operation, and returns JSON-formatted results with timing information.\n\nFunction Description: The function `run_simcse_demo` initializes and runs a Flask web server that provides an API endpoint for semantic similarity search. It configures CORS, sets up request handling, and launches the server using Tornado for production-ready serving. The API endpoint processes query parameters, performs a search operation using an embedder, and returns results with execution time.\n\nInput:\n- port: [int] - The port number on which the server will listen\n- args: [argparse.Namespace] - Command line arguments containing:\n  - ip: [str] - IP address to bind the server\n  - port: [str] - Port number (as string) to bind the server\n\nOutput: None (The function runs indefinitely as a web server)",
+  "Canonical_solution": "import json\nimport argparse\nimport os\nimport logging\nfrom flask import Flask, request, jsonify\nfrom flask_cors import CORS\nfrom tornado.wsgi import WSGIContainer\nfrom tornado.httpserver import HTTPServer\nfrom tornado.ioloop import IOLoop\n\nlogging.basicConfig(format='%(asctime)s - %(levelname)s - %(name)s -   %(message)s', datefmt='%m/%d/%Y %H:%M:%S',\n                    level=logging.INFO)\nlogger = logging.getLogger(__name__)\n\ndef run_simcse_demo(port, args):\n    app = Flask(__name__, static_folder='./static')\n    app.config['JSONIFY_PRETTYPRINT_REGULAR'] = False\n    CORS(app)\n\n    @app.route('/api', methods=['GET'])\n    def api():\n        query = request.args['query']\n        top_k = int(request.args['topk'])\n        threshold = float(request.args['threshold'])\n        start = time()\n        results = embedder.search(query, top_k=top_k, threshold=threshold)\n        ret = []\n        out = {}\n        for sentence, score in results:\n            ret.append({\"sentence\": sentence, \"score\": score})\n        span = time() - start\n        out['ret'] = ret\n        out['time'] = \"{:.4f}\".format(span)\n        return jsonify(out)\n\n    addr = args.ip + \":\" + args.port\n    logger.info(f'Starting Index server at {addr}')\n    http_server = HTTPServer(WSGIContainer(app))\n    http_server.listen(port)\n    IOLoop.instance().start()",
+  "FSMID_for_test": 60,
+  "Code_level": "Function-level"
+}

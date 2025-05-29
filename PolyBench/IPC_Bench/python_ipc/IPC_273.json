@@ -1,0 +1,13 @@
+{
+  "Task_id": 273,
+  "Github_ID": "48129918",
+  "Github_Project_Name": "paho.mqtt.python",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "Mosquitto Consumer based on mqtt in Python",
+  "Instruction": "Task Description: Implement an MQTT subscriber in Python that connects to a broker, subscribes to topics, and processes incoming messages with different callback functions for specific topic patterns.\n\nFunction Description: The function `mqtt_subscriber` establishes a connection to an MQTT broker, sets up message callbacks for specific topic patterns, subscribes to a wildcard topic, and continuously processes incoming messages. It uses the Paho MQTT client library to handle MQTT communication.\n\nInput: None (The broker address and port are hardcoded in the function)\n\nOutput: None (The function prints incoming messages to the console but does not return any value)\n\nMethods:\n\nMethod1: on_message_msgs(mosq, obj, msg) -> None - Callback function that handles messages matching the topic pattern \"$SYS/broker/messages/#\". Prints message details to the console.\nMethod2: on_message_bytes(mosq, obj, msg) -> None - Callback function that handles messages matching the topic pattern \"$SYS/broker/bytes/#\". Prints message details to the console.\nMethod3: on_message(mosq, obj, msg) -> None - Default callback function that handles all other messages not caught by specific callbacks. Prints message details to the console.\nMethod4: mqtt_subscriber() -> None - Main function that creates an MQTT client, sets up callbacks, connects to the broker, subscribes to topics, and starts the message processing loop.",
+  "Canonical_solution": "import paho.mqtt.client as mqtt\n\ndef on_message_msgs(mosq, obj, msg):\n    print(\"MESSAGES: \" + msg.topic + \" \" + str(msg.qos) + \" \" + str(msg.payload))\n\ndef on_message_bytes(mosq, obj, msg):\n    print(\"BYTES: \" + msg.topic + \" \" + str(msg.qos) + \" \" + str(msg.payload))\n\ndef on_message(mosq, obj, msg):\n    print(msg.topic + \" \" + str(msg.qos) + \" \" + str(msg.payload))\n\ndef mqtt_subscriber():\n    mqttc = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)\n    mqttc.message_callback_add(\"$SYS/broker/messages/#\", on_message_msgs)\n    mqttc.message_callback_add(\"$SYS/broker/bytes/#\", on_message_bytes)\n    mqttc.on_message = on_message\n    mqttc.connect(\"mqtt.eclipseprojects.io\", 1883, 60)\n    mqttc.subscribe(\"$SYS/#\", 0)\n    mqttc.loop_forever()",
+  "FSMID_for_test": 84,
+  "Code_level": "Function-level"
+}

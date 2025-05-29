@@ -1,0 +1,13 @@
+{
+  "Task_id": 455,
+  "Github_ID": "38764029",
+  "Github_Project_Name": "spring-cloud-stream",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "View Kafka AdminClient  Config in java",
+  "Instruction": "Task Description: Write a function that retrieves the configuration details of specified Kafka topics using the Kafka AdminClient API.\n\nFunction Description: The function connects to a Kafka cluster using the provided bootstrap servers, then fetches and returns the configuration details for each specified topic name. It utilizes Kafka's AdminClient to describe topic configurations and returns them as a map of ConfigResource to Config objects.\n\nInput: \n- bootstrapServers: [String] - Comma-separated list of host:port pairs for establishing the initial connection to the Kafka cluster\n- topicNames: [String[]] - Array of topic names whose configurations need to be retrieved\n\nOutput: \n- Returns [Map<ConfigResource, Config>] - A map where keys are ConfigResource objects representing the topics, and values are Config objects containing the configuration details for each topic\n- Throws [Exception] - If there's any error during the configuration retrieval process or if the operation times out",
+  "Canonical_solution": "import org.apache.kafka.clients.admin.AdminClient;\nimport org.apache.kafka.clients.admin.AdminClientConfig;\nimport org.apache.kafka.clients.admin.DescribeConfigsResult;\nimport org.apache.kafka.clients.admin.Config;\nimport org.apache.kafka.common.config.ConfigResource;\nimport java.util.Map;\nimport java.util.HashMap;\nimport java.util.Arrays;\nimport java.util.concurrent.TimeUnit;\n\npublic Map<ConfigResource, Config> getKafkaTopicConfigs(String bootstrapServers, String[] topicNames) throws Exception {\n    Map<String, Object> adminClientConfig = new HashMap<>();\n    adminClientConfig.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);\n    AdminClient adminClient = AdminClient.create(adminClientConfig);\n    \n    ConfigResource[] configResources = Arrays.stream(topicNames)\n        .map(topicName -> new ConfigResource(ConfigResource.Type.TOPIC, topicName))\n        .toArray(ConfigResource[]::new);\n        \n    DescribeConfigsResult describeConfigsResult = adminClient.describeConfigs(Arrays.asList(configResources));\n    return describeConfigsResult.all().get(3, TimeUnit.SECONDS);\n}",
+  "FSMID_for_test": 36,
+  "Code_level": "Function-level"
+}

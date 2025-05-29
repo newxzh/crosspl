@@ -1,0 +1,13 @@
+{
+  "Task_id": 590,
+  "Github_ID": "5103785",
+  "Github_Project_Name": "undertow",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "java.net Socket",
+  "Instruction": "Task Description: Write a Java function that tests the behavior of a servlet when the client closes the socket early during an HTTP POST request. The function should verify that the servlet properly handles the premature connection closure by detecting an exception and not completing normally.\n\nFunction Description: The function `testServletInputStreamEarlyClose` creates a TCP client socket, sends an HTTP POST request with a large body, and immediately closes the socket before the server can fully process the request. It then verifies that the servlet detected the premature closure through exception handling.\n\nInput: None (The function uses predefined constants and helper classes like `DefaultServer`, `TestHttpClient`, and `EarlyCloseClientServlet`)\n\nOutput: None (The function asserts expected behavior through JUnit assertions. Side effects include socket communication and servlet state changes)",
+  "Canonical_solution": "import java.net.Socket;\nimport java.io.OutputStream;\n\npublic void testServletInputStreamEarlyClose() throws Exception {\n    Assume.assumeFalse(DefaultServer.isH2());\n    TestHttpClient client = new TestHttpClient();\n    EarlyCloseClientServlet.reset();\n    try (Socket socket = new Socket()) {\n        socket.connect(DefaultServer.getDefaultServerAddress());\n        try {\n            StringBuilder sb = new StringBuilder();\n            for (int i = 0; i < 10000; ++i) {\n                sb.append(\"hello world\\r\\n\");\n            }\n            String request = \"POST /servletContext/\" + SERVLET + \" HTTP/1.1\\r\\nHost:localhost\\r\\nContent-Length:\" + sb.length() + 100 + \"\\r\\n\\r\\n\" + sb.toString();\n            OutputStream outputStream = socket.getOutputStream();\n\n            outputStream.write(request.getBytes(\"US-ASCII\"));\n            outputStream.flush();\n            socket.close();\n\n            Assert.assertTrue(EarlyCloseClientServlet.getLatch().await(10, TimeUnit.SECONDS));\n            Assert.assertFalse(EarlyCloseClientServlet.isCompletedNormally());\n            Assert.assertTrue(EarlyCloseClientServlet.isExceptionThrown());\n        } finally {\n            client.getConnectionManager().shutdown();\n        }\n    }\n}",
+  "FSMID_for_test": 1,
+  "Code_level": "Function-level"
+}

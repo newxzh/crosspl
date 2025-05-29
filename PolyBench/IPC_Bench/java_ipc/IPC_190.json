@@ -1,0 +1,13 @@
+{
+  "Task_id": 190,
+  "Github_ID": "30628859",
+  "Github_Project_Name": "netty-4-user-guide-demos",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "Java Netty TCP Server",
+  "Instruction": "Task Description: Create a Java class that implements a WebSocket chat server using Netty framework to handle TCP connections and manage client communications.\n\nClass Description: The WebSocketChatServer class is responsible for setting up and running a Netty-based TCP server that handles WebSocket connections for chat functionality. It manages server resources and gracefully shuts down when needed.\n\nAttributes:\nport: int - The port number on which the server will listen for incoming connections\n\nMethods:\nWebSocketChatServer(int port) -> None - Constructor that initializes the server with the specified port number\nrun() throws Exception -> None - Starts the server, binds it to the specified port, and keeps it running until shutdown is requested. Manages server resources and ensures proper cleanup.",
+  "Canonical_solution": "import io.netty.bootstrap.ServerBootstrap;\nimport io.netty.channel.ChannelFuture;\nimport io.netty.channel.ChannelOption;\nimport io.netty.channel.EventLoopGroup;\nimport io.netty.channel.nio.NioEventLoopGroup;\nimport io.netty.channel.socket.nio.NioServerSocketChannel;\n\npublic class WebSocketChatServer {\n\n    private int port;\n\n    public WebSocketChatServer(int port) {\n        this.port = port;\n    }\n\n    public void run() throws Exception {\n        EventLoopGroup bossGroup = new NioEventLoopGroup(1);\n        EventLoopGroup workerGroup = new NioEventLoopGroup();\n        try {\n            ServerBootstrap b = new ServerBootstrap();\n            b.group(bossGroup, workerGroup)\n             .channel(NioServerSocketChannel.class)\n             .childHandler(new WebSocketChatServerInitializer())\n             .option(ChannelOption.SO_BACKLOG, 128)\n             .childOption(ChannelOption.SO_KEEPALIVE, true);\n            \n            ChannelFuture f = b.bind(port).sync();\n            f.channel().closeFuture().sync();\n\n        } finally {\n            workerGroup.shutdownGracefully();\n            bossGroup.shutdownGracefully();\n        }\n    }\n}",
+  "FSMID_for_test": 4,
+  "Code_level": "Class-level"
+}

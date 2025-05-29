@@ -1,0 +1,13 @@
+{
+    "Task_id": 274,
+    "Github_ID": "170411418",
+    "Github_Project_Name": "keda",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Official-based gRPC server in Go",
+    "Instruction": "Task Description: Create a gRPC service struct in Go that manages a gRPC server for key management operations, including starting the server, graceful shutdown, and immediate termination capabilities.\n\nStruct Description: GRPCService represents a gRPC server wrapper that handles Unix domain socket communication for key management services. It manages server lifecycle and configuration.\n\nFields:\naddr: string - The Unix domain socket address the server will listen on\ntimeout: time.Duration - Connection timeout duration for gRPC connections\nserver: *grpc.Server - The underlying gRPC server instance\nkmsService: Service - The key management service implementation to be registered with gRPC\n\nMethods:\nNewGRPCService(address string, timeout time.Duration, kmsService Service) -> *GRPCService - Constructor that initializes a new GRPCService instance with the given address, timeout and service implementation\nListenAndServe() -> error - Starts the gRPC server on the configured Unix domain socket address and begins serving requests\nShutdown() -> void - Gracefully stops the gRPC server, allowing existing connections to complete\nClose() -> void - Immediately stops the gRPC server without waiting for connections to complete",
+    "Canonical_solution": "import (\n\t\"net\"\n\t\"time\"\n\n\t\"google.golang.org/grpc\"\n\n\tkmsapi \"k8s.io/kms/apis/v2\"\n)\n\ntype GRPCService struct {\n\taddr    string\n\ttimeout time.Duration\n\tserver  *grpc.Server\n\n\tkmsService Service\n}\n\nfunc NewGRPCService(\n\taddress string,\n\ttimeout time.Duration,\n\tkmsService Service,\n) *GRPCService {\n\treturn &GRPCService{\n\t\taddr:       address,\n\t\ttimeout:    timeout,\n\t\tkmsService: kmsService,\n\t}\n}\n\nfunc (s *GRPCService) ListenAndServe() error {\n\tln, err := net.Listen(\"unix\", s.addr)\n\tif err != nil {\n\t\treturn err\n\t}\n\tdefer ln.Close()\n\n\tgs := grpc.NewServer(\n\t\tgrpc.ConnectionTimeout(s.timeout),\n\t)\n\ts.server = gs\n\n\tkmsapi.RegisterKeyManagementServiceServer(gs, s)\n\n\treturn gs.Serve(ln)\n}\n\nfunc (s *GRPCService) Shutdown() {\n\tif s.server != nil {\n\t\ts.server.GracefulStop()\n\t}\n}\n\nfunc (s *GRPCService) Close() {\n\tif s.server != nil {\n\t\ts.server.Stop()\n\t}\n}",
+    "FSMID_for_test": 119,
+    "Code_level": "Class-level"
+}

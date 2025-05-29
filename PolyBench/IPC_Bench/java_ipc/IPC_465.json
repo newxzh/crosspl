@@ -1,0 +1,13 @@
+{
+  "Task_id": 465,
+  "Github_ID": "481412",
+  "Github_Project_Name": "Java-WebSocket",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "WebSocket Client Implementation using org.java_websocket",
+  "Instruction": "Task Description: Create a WebSocket client class in Java using the org.java_websocket library to establish a connection to a WebSocket server, handle incoming messages, and manage connection events.\n\nClass Description: The TestWebSocket class extends WebSocketClient to create a WebSocket client that connects to a specified localhost port. It overrides key WebSocket event-handling methods to manage connection lifecycle events, message reception, and errors.\n\nAttributes:\n- None (The class inherits all necessary attributes from WebSocketClient)\n\nMethods:\n- Constructor: TestWebSocket(int port) throws URISyntaxException - Initializes the WebSocket client with the specified port, constructing the WebSocket URI as \"ws://localhost:[port]\".\n- onOpen: onOpen(ServerHandshake handshakedata) -> void - Called when the WebSocket connection is successfully established.\n- onMessage: onMessage(String message) -> void - Called when a text message is received from the server.\n- onMessage: onMessage(ByteBuffer message) -> void - Called when a binary message is received from the server.\n- onClose: onClose(int code, String reason, boolean remote) -> void - Called when the WebSocket connection is closed.\n- onError: onError(Exception ex) -> void - Called when an error occurs on the WebSocket connection.",
+  "Canonical_solution": "import java.net.URI;\nimport java.net.URISyntaxException;\nimport java.nio.ByteBuffer;\nimport org.java_websocket.client.WebSocketClient;\nimport org.java_websocket.handshake.ServerHandshake;\n\npublic class TestWebSocket extends WebSocketClient {\n\n    public TestWebSocket(int port) throws URISyntaxException {\n        super(new URI(\"ws://localhost:\" + port));\n    }\n\n    @Override\n    public void onOpen(ServerHandshake handshakedata) {\n    }\n\n    @Override\n    public void onMessage(String message) {\n    }\n\n    @Override\n    public void onMessage(ByteBuffer message) {\n    }\n\n    @Override\n    public void onClose(int code, String reason, boolean remote) {\n    }\n\n    @Override\n    public void onError(Exception ex) {\n    }\n}",
+  "FSMID_for_test": 27,
+  "Code_level": "Class-level"
+}

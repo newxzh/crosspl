@@ -1,0 +1,13 @@
+{
+    "Task_id": 168,
+    "Github_ID": "44634390",
+    "Github_Project_Name": "find",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Gin-based HTTP Server in Go",
+    "Instruction": "Task Description: Create a Gin-based HTTP server in Go that handles various routes including a ping endpoint, user lookup, and authenticated admin updates.\n\nFunction Description: The main function initializes a Gin web server with default middleware (Logger and Recovery), sets up route handlers for different HTTP methods, and starts the server on port 8080. It includes:\n1. A simple ping/pong endpoint\n2. A user lookup endpoint with path parameters\n3. An authenticated admin endpoint for updating values\n4. Basic authentication middleware for protected routes\n\nInput: None (The function takes no direct input parameters, but handles incoming HTTP requests)\n\nOutput: None (The function doesn't return anything, but sends HTTP responses to clients)\n\nNote: The code assumes the existence of a global DB map variable (not shown in the reference) for storing user values. The actual implementation would need to include this or an alternative storage mechanism.",
+    "Canonical_solution": "import (\n\t\"github.com/gin-gonic/gin\"\n)\nfunc main() {\n\tr := gin.Default()\n\n\tr.GET(\"/ping\", func(c *gin.Context) {\n\t\tc.String(200, \"pong\")\n\t})\n\n\tr.GET(\"/user/:name\", func(c *gin.Context) {\n\t\tuser := c.Params.ByName(\"name\")\n\t\tvalue, ok := DB[user]\n\t\tif ok {\n\t\t\tc.JSON(200, gin.H{\"user\": user, \"value\": value})\n\t\t} else {\n\t\t\tc.JSON(200, gin.H{\"user\": user, \"status\": \"no value\"})\n\t\t}\n\t})\n\n\tauthorized := r.Group(\"/\", gin.BasicAuth(gin.Accounts{\n\t\t\"foo\":  \"bar\",\n\t\t\"manu\": \"123\",\n\t}))\n\n\tauthorized.POST(\"admin\", func(c *gin.Context) {\n\t\tuser := c.MustGet(gin.AuthUserKey).(string)\n\n\t\tvar json struct {\n\t\t\tValue string `json:\"value\" binding:\"required\"`\n\t\t}\n\n\t\tif c.Bind(&json) == nil {\n\t\t\tDB[user] = json.Value\n\t\t\tc.JSON(200, gin.H{\"status\": \"ok\"})\n\t\t}\n\t})\n\n\tr.Run(\":8080\")\n}",
+    "FSMID_for_test": 105,
+    "Code_level": "Function-level"
+}

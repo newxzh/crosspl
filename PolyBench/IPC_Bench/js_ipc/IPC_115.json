@@ -1,0 +1,13 @@
+{
+  "Task_id": 115,
+  "Github_ID": "206067456",
+  "Github_Project_Name": "jsonbox",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP based on express in javascript",
+  "Instruction": "Task Description: Create a function that sets up an Express server with middleware configuration, route handling, and server initialization.\n\nFunction Description: The function `setupExpressServer` initializes an Express.js web server with essential middleware (CORS, static file serving, JSON body parsing), configures route handlers, and starts listening on a specified port. It handles both API routes and serves static HTML files.\n\nInput: None (The function uses imported modules and configuration from './src/config' and './src/routes')\n\nOutput: None (The function's side effect is starting an HTTP server that listens on the configured port)",
+  "Canonical_solution": "function setupExpressServer() {\n    const bodyParser = require('body-parser');\n    const express = require('express');\n    const path = require('path');\n    const cors = require('cors');\n    const config = require('./src/config');\n    const routes = require('./src/routes');\n\n    const app = express();\n\n    app.enable('trust proxy');\n    app.use(cors());\n    app.use(express.static(path.join(__dirname, 'www')));\n    app.use(bodyParser.json());\n\n    app.get('/v2', (req, res) => res.sendFile(path.join(__dirname, 'www/index.html')));\n    app.use(routes);\n\n    app.listen(config.PORT, err => {\n        if (err) console.error(err);\n        console.log('Server started on ' + config.PORT);\n    });\n}",
+  "FSMID_for_test": 96,
+  "Code_level": "Function-level"
+}

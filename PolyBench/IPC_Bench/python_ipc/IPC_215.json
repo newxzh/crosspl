@@ -1,0 +1,13 @@
+{
+  "Task_id": 215,
+  "Github_ID": "171410703",
+  "Github_Project_Name": "reactpy",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Server - side by using Sanic in python",
+  "Instruction": "Task Description: Create a Sanic web application that serves as a backend for a ReactPy application, including a root route redirection and ReactPy configuration.\n\nFunction Description: The function `make_app` creates and configures a Sanic web application instance. It sets up a root route that redirects to a documentation page and configures the ReactPy backend with a specified URL prefix.\n\nInput:\n- name: str - The name to give the Sanic application instance\n\nOutput:\n- Sanic - Returns a configured Sanic application instance with:\n  - A root route (\"/\") that redirects to \"/docs/index.html\"\n  - ReactPy backend configured with the specified URL prefix (\"/_reactpy\")",
+  "Canonical_solution": "from sanic import Sanic, response\nfrom reactpy.backend.sanic import Options, configure\n\nREACTPY_MODEL_SERVER_URL_PREFIX = \"/_reactpy\"\n\ndef make_app(name: str):\n    app = Sanic(name)\n\n    @app.route(\"/\")\n    async def forward_to_index(_):\n        return response.redirect(\"/docs/index.html\")\n\n    configure(\n        app,\n        Example,\n        Options(url_prefix=REACTPY_MODEL_SERVER_URL_PREFIX),\n    )\n\n    return app",
+  "FSMID_for_test": 62,
+  "Code_level": "Function-level"
+}

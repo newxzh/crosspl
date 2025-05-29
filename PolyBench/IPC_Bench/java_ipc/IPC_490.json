@@ -1,0 +1,13 @@
+{
+  "Task_id": 490,
+  "Github_ID": "12414592",
+  "Github_Project_Name": "javaee7-samples",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "WebSocket Server based on Java EE",
+  "Instruction": "Task Description: Implement a WebSocket server endpoint in Java that handles binary data streams from clients and echoes them back.\n\nClass Description: The MyEndpointInputStream class is a WebSocket server endpoint that receives binary data streams from clients and sends back the same data. It uses Java EE's WebSocket API to manage client connections and data exchange.\n\nAttributes: None\n\nMethods:\n1. echoStream(InputStream stream, Session session) -> void - Handles incoming binary data streams from clients. Reads the first 12 bytes from the input stream and sends them back to the client as binary data.\n   - Input Parameters:\n     - stream: InputStream - The binary data stream received from the client\n     - session: Session - The WebSocket session representing the client connection\n   - Return Type: void\n   - Description: This method is triggered when a binary message is received. It reads 12 bytes from the input stream and echoes them back to the client using the session's basic remote interface. The method may throw IOException if there are issues with reading the stream or sending the response.",
+  "Canonical_solution": "import java.io.IOException;\nimport java.io.InputStream;\nimport java.nio.ByteBuffer;\nimport javax.websocket.OnMessage;\nimport javax.websocket.Session;\nimport javax.websocket.server.ServerEndpoint;\n\n@ServerEndpoint(\"/inputstream\")\npublic class MyEndpointInputStream {\n\n    @OnMessage\n    public void echoStream(InputStream stream, Session session) throws IOException {\n        System.out.println(\"echoStream: \" + stream);\n        byte[] b = new byte[12];\n        stream.read(b);\n        session.getBasicRemote().sendBinary(ByteBuffer.wrap(b));\n    }\n}",
+  "FSMID_for_test": 26,
+  "Code_level": "Class-level"
+}

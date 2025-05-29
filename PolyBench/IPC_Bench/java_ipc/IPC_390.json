@@ -1,0 +1,13 @@
+{
+  "Task_id": 390,
+  "Github_ID": "55224431",
+  "Github_Project_Name": "whatsmars",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "RocketMQ Producer in Java",
+  "Instruction": "Task Description: Create a Java class that implements a RocketMQ producer capable of sending messages to a specified topic with a given tag. The class should handle producer initialization, message sending, and resource cleanup.\n\nClass Description: The Producer class encapsulates the functionality of a RocketMQ message producer. It manages the producer lifecycle (startup and shutdown) and provides a method to send messages to a RocketMQ broker.\n\nAttributes:\n- producer: DefaultMQProducer - The underlying RocketMQ producer instance that handles message sending operations\n\nMethods:\n- Constructor: Producer(String producerGroup, String namesrvAddr) -> void - Initializes a new producer instance with the specified producer group and NameServer address\n- start: start() -> void - Starts the producer instance to begin sending messages\n- sendMessage: sendMessage(String topic, String tag, String messageBody) -> SendResult - Creates and sends a message to the specified topic with the given tag and body\n- shutdown: shutdown() -> void - Shuts down the producer instance and releases resources",
+  "Canonical_solution": "import org.apache.rocketmq.client.exception.MQClientException;\nimport org.apache.rocketmq.client.producer.DefaultMQProducer;\nimport org.apache.rocketmq.client.producer.SendResult;\nimport org.apache.rocketmq.common.message.Message;\nimport org.apache.rocketmq.remoting.common.RemotingHelper;\n\npublic class Producer {\n\n    private DefaultMQProducer producer;\n\n    public Producer(String producerGroup, String namesrvAddr) throws MQClientException {\n        this.producer = new DefaultMQProducer(producerGroup);\n        this.producer.setNamesrvAddr(namesrvAddr);\n    }\n\n    public void start() throws MQClientException {\n        producer.start();\n    }\n\n    public SendResult sendMessage(String topic, String tag, String messageBody) throws Exception {\n        Message msg = new Message(topic, \n                                tag,\n                                messageBody.getBytes(RemotingHelper.DEFAULT_CHARSET));\n        return producer.send(msg);\n    }\n\n    public void shutdown() {\n        producer.shutdown();\n    }\n}",
+  "FSMID_for_test": 42,
+  "Code_level": "Class-level"
+}

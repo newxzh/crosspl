@@ -1,0 +1,13 @@
+{
+    "Task_id": 200,
+    "Github_ID": "37374972",
+    "Github_Project_Name": "go-starter-kit",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Net-based TCP Server in Go",
+    "Instruction": "Task Description: Create a TCP server in Go that listens for incoming connections, sets IP TOS (Type of Service) and TTL (Time To Live) values for IPv4 connections, and sends a greeting message to the client.\n\nFunction Description: The function sets up a TCP server on port 1024 that accepts incoming connections. For each IPv4 connection, it configures the TOS and TTL values using the ipv4 package. It then sends a greeting message (\"HELLO-R-U-THERE-ACK\") to the client before closing the connection. The server runs indefinitely, handling each connection in a separate goroutine.\n\nInput: None (The function takes no explicit parameters; it binds to \"0.0.0.0:1024\" by default)\n\nOutput: None (The function doesn't return any value; it runs indefinitely serving connections)",
+    "Canonical_solution": "import (\n\t\"fmt\"\n\t\"log\"\n\t\"net\"\n\t\"os\"\n\n\t\"golang.org/x/net/ipv4\"\n)\nfunc ExampleConn_markingTCP() {\n\tln, err := net.Listen(\"tcp\", \"0.0.0.0:1024\")\n\tif err != nil {\n\t\tlog.Fatal(err)\n\t}\n\tdefer ln.Close()\n\n\tfor {\n\t\tc, err := ln.Accept()\n\t\tif err != nil {\n\t\t\tlog.Fatal(err)\n\t\t}\n\t\tgo func(c net.Conn) {\n\t\t\tdefer c.Close()\n\t\t\tif c.RemoteAddr().(*net.TCPAddr).IP.To4() != nil {\n\t\t\t\tp := ipv4.NewConn(c)\n\t\t\t\tif err := p.SetTOS(0x28); err != nil {\n\t\t\t\t\tlog.Fatal(err)\n\t\t\t\t}\n\t\t\t\tif err := p.SetTTL(128); err != nil {\n\t\t\t\t\tlog.Fatal(err)\n\t\t\t\t}\n\t\t\t}\n\t\t\tif _, err := c.Write([]byte(\"HELLO-R-U-THERE-ACK\")); err != nil {\n\t\t\t\tlog.Fatal(err)\n\t\t\t}\n\t\t}(c)\n\t}\n}",
+    "FSMID_for_test": 109,
+    "Code_level": "Function-level"
+}

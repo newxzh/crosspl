@@ -1,0 +1,13 @@
+{
+  "Task_id": 50,
+  "Github_ID": "44434384",
+  "Github_Project_Name": "learn-to-send-email-via-google-script-html-no-server",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Server - side based on XMLHttpRequest in JavaScript",
+  "Instruction": "Task Description: Implement a function to handle form submission asynchronously using XMLHttpRequest in JavaScript. The function should prevent default form submission, process form data, send it to a server via POST request, and handle the server's response to display a thank-you message upon successful submission.\n\nFunction Description: The function `handleFormSubmit` intercepts form submission events, validates the form data (checking for honeypot fields), disables all buttons during submission, sends the form data to a specified URL via POST request, and processes the server's response to update the UI accordingly.\n\nInput: \n- `event`: [Event Object] - The form submission event that triggers this function. The event object contains the target form element and allows prevention of default submission behavior.\n\nOutput: \n- None (void) - The function does not return any value but performs side effects including:\n  - Preventing default form submission\n  - Disabling form buttons during submission\n  - Sending form data to the server\n  - Updating the UI based on server response (resetting form and showing thank-you message)",
+  "Canonical_solution": "function handleFormSubmit(event) {\n    event.preventDefault();\n    var form = event.target;\n    var formData = getFormData(form);\n    var data = formData.data;\n\n    if (formData.honeypot) {\n        return false;\n    }\n\n    disableAllButtons(form);\n    var url = form.action;\n    var xhr = new XMLHttpRequest();\n    xhr.open('POST', url);\n    xhr.setRequestHeader(\"Content-Type\", \"application/x-www-form-urlencoded\");\n    xhr.onreadystatechange = function() {\n        if (xhr.readyState === 4 && xhr.status === 200) {\n            form.reset();\n            var formElements = form.querySelector(\".form-elements\")\n            if (formElements) {\n                formElements.style.display = \"none\";\n            }\n            var thankYouMessage = form.querySelector(\".thankyou_message\");\n            if (thankYouMessage) {\n                thankYouMessage.style.display = \"block\";\n            }\n        }\n    };\n    var encoded = Object.keys(data).map(function(k) {\n        return encodeURIComponent(k) + \"=\" + encodeURIComponent(data[k]);\n    }).join('&');\n    xhr.send(encoded);\n}",
+  "FSMID_for_test": 93,
+  "Code_level": "Function-level"
+}

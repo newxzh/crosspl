@@ -1,0 +1,13 @@
+{
+    "Task_id": 53,
+    "Github_ID": "81497153",
+    "Github_Project_Name": "external-dns",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Basic HTTP server using net/http with HandleFunc and ListenAndServe",
+    "Instruction": "Task Description: Create a function that sets up and starts an HTTP server with health check and metrics endpoints using Go's net/http package.\n\nFunction Description: The function `serveMetrics` initializes an HTTP server with two endpoints: `/healthz` for health checks (returns \"OK\" with 200 status) and `/metrics` for Prometheus metrics (handled by promhttp). The server listens on the specified address and runs until terminated.\n\nInput: \n- `address` (string): The network address (including port) on which the HTTP server should listen (e.g., \":8080\")\n\nOutput: \n- None (function runs indefinitely until server termination)\n- Logs fatal errors if server fails to start",
+    "Canonical_solution": "import (\n\t\"net/http\"\n\n\t\"github.com/prometheus/client_golang/prometheus/promhttp\"\n)\n\nfunc serveMetrics(address string) {\n\thttp.HandleFunc(\"/healthz\", func(w http.ResponseWriter, _ *http.Request) {\n\t\tw.WriteHeader(http.StatusOK)\n\t\tw.Write([]byte(\"OK\"))\n\t})\n\n\thttp.Handle(\"/metrics\", promhttp.Handler())\n\n\tlog.Fatal(http.ListenAndServe(address, nil))\n}",
+    "FSMID_for_test": 103,
+    "Code_level": "Function-level"
+}

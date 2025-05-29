@@ -1,0 +1,13 @@
+{
+  "Task_id": 287,
+  "Github_ID": "2359761",
+  "Github_Project_Name": "pyrasite",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "Pipe based on subprocess in python",
+  "Instruction": "Task Description: Create a function that inspects the value of a Python object in a running process by its memory address using GDB debugger through subprocess communication.\n\nFunction Description: The function uses GDB to attach to a running Python process and inspect the value of a Python object at a specified memory address. It establishes inter-process communication using subprocess.PIPE to capture GDB's output and parse the result.\n\nInput:\n- pid: [int] - Process ID of the target Python process\n- address: [str/int] - Memory address of the Python object to inspect (can be hex string or integer)\n\nOutput:\n- [str] - The string representation of the inspected Python object as returned by GDB, or None if the address couldn't be resolved",
+  "Canonical_solution": "import sys\nimport subprocess\n\nencoding = sys.getdefaultencoding()\n\ndef inspect(pid, address):\n    \"Return the value of an object in a given process at the specified address\"\n    cmd = ' '.join([\n        'gdb --quiet -p %s -batch' % pid,\n        '-eval-command=\"print (PyObject *)%s\"' % address,\n    ])\n    p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)\n    for line in p.communicate()[0].decode(encoding).split('\\n'):\n        if line.startswith('$1 = '):\n            return line[5:]",
+  "FSMID_for_test": 76,
+  "Code_level": "Function-level"
+}

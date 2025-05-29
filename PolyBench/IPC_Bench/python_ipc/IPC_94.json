@@ -1,0 +1,13 @@
+{
+  "Task_id": 94,
+  "Github_ID": "738356406",
+  "Github_Project_Name": "QAnything",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Client-side by using requests in python",
+  "Instruction": "Task Description: Create a function that sends an HTTP POST request to a specified URL with given headers and data, and returns the response status code and content.\n\nFunction Description: The function uses the Python `requests` library to send an HTTP POST request to the provided URL. It includes custom headers and sends the data in JSON format. The function then returns the HTTP status code and the response body as text.\n\nInput:  \n- `url` (str): The target URL to which the POST request will be sent.  \n- `headers` (dict): A dictionary containing HTTP headers to be included in the request.  \n- `data` (dict): A dictionary containing the data to be sent in the request body, which will be converted to JSON format.  \n\nOutput:  \n- Returns a tuple containing:  \n  - `status_code` (int): The HTTP status code of the response (e.g., 200, 404, 500).  \n  - `response_text` (str): The response body as plain text.",
+  "Canonical_solution": "import requests\nimport json\n\ndef send_http_request(url, headers, data):\n    response = requests.post(url, headers=headers, data=json.dumps(data))\n    return response.status_code, response.text",
+  "FSMID_for_test": 57,
+  "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+    "Task_id": 352,
+    "Github_ID": "118828329",
+    "Github_Project_Name": "serving",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "gorilla-based websocket server in Go",
+    "Instruction": "Task Description: Create a test WebSocket server that echoes received messages back to the client while notifying a channel for each received message.\n\nFunction Description: The function creates an HTTP test server with WebSocket support. It upgrades incoming HTTP connections to WebSocket, reads incoming messages, notifies a channel when a message is received, and echoes the message back to the client. The server runs until the connection is closed.\n\nInput:\n- t *testing.T: Testing context for error reporting\n- received chan struct{}: Channel to notify when a message is received\n\nOutput:\n- *httptest.Server: Pointer to the created HTTP test server instance",
+    "Canonical_solution": "import (\n\t\"net/http\"\n\t\"net/http/httptest\"\n\n\tgorillawebsocket \"github.com/gorilla/websocket\"\n)\n\nfunc testService(t *testing.T, received chan struct{}) *httptest.Server {\n\tvar httpHandler http.HandlerFunc = func(w http.ResponseWriter, r *http.Request) {\n\t\tvar upgrader gorillawebsocket.Upgrader\n\n\t\tconn, err := upgrader.Upgrade(w, r, nil)\n\t\tif err != nil {\n\t\t\tt.Fatal(\"error upgrading websocket:\", err)\n\t\t}\n\n\t\tdefer conn.Close()\n\t\tfor {\n\t\t\tt, b, err := conn.ReadMessage()\n\t\t\tif err != nil {\n\t\t\t\treturn\n\t\t\t}\n\t\t\treceived <- struct{}{}\n\n\t\t\tconn.WriteMessage(t, b)\n\t\t}\n\t}\n\n\treturn httptest.NewServer(httpHandler)\n}",
+    "FSMID_for_test": 114,
+    "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 202,
+  "Github_ID": "267440221",
+  "Github_Project_Name": "_hyperscript",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Server - side by using Flask in python",
+  "Instruction": "Task Description: Create a Flask-based HTTP server with multiple endpoints to handle different types of requests and responses, including delayed responses, request type identification, and JSON responses.\n\nFunction Description: The code implements three Flask route handlers that demonstrate different HTTP server functionalities:\n1. `/respond` - Simulates a delayed response based on an input parameter\n2. `/request_type` - Returns the HTTP method used in the request\n3. `/json` - Returns a simple JSON response\n\nInput:\n- For `/respond` endpoint: \n  - `time` (query parameter): Integer - Time in milliseconds to delay the response\n- For `/request_type` endpoint: None\n- For `/json` endpoint: None\n\nOutput:\n- For `/respond` endpoint: \n  - Returns: HTTP response with text \"Response from Flask\" after specified delay\n  - Headers: Sets 'Access-Control-Allow-Origin' to '*'\n- For `/request_type` endpoint:\n  - Returns: HTTP response with text indicating the request method\n  - Headers: Sets 'Access-Control-Allow-Origin' to '*'\n- For `/json` endpoint:\n  - Returns: JSON response with {\"resp\": \"Hello JSON!\"}",
+  "Canonical_solution": "from flask import Flask, request, make_response\nfrom time import sleep\n\napp = Flask(__name__)\n\n@app.route('/respond')\ndef respond():\n    time_to_sleep = int(request.args.get('time')) / 1000\n    sleep(time_to_sleep)\n    resp = make_response('Response from Flask')\n    resp.headers['Access-Control-Allow-Origin'] = '*'\n    return resp\n\n@app.route('/request_type')\ndef request_type():\n    resp = make_response('Request Type: ' + request.method)\n    resp.headers['Access-Control-Allow-Origin'] = '*'\n    return resp\n\n@app.route('/json')\ndef json():\n    return {resp:'Hello JSON!'}",
+  "FSMID_for_test": 60,
+  "Code_level": "Function-level"
+}

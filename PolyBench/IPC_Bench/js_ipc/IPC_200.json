@@ -1,0 +1,13 @@
+{
+  "Task_id": 200,
+  "Github_ID": "9305769",
+  "Github_Project_Name": "hook.io",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "WebSocket Client-side based on Node.js",
+  "Instruction": "Task Description: Create a function that establishes a WebSocket connection to a server, sends and receives messages in JSON format, and handles connection events including opening, closing, and errors.\n\nFunction Description: The function `testWebSocketConnection` initiates a WebSocket client connection to a specified server URL. It sends initial messages upon successful connection, listens for incoming messages, and handles connection lifecycle events. The function demonstrates a basic WebSocket interaction pattern including sending/receiving JSON data and proper connection cleanup.\n\nInput: \n- wssUrl: [String] - The WebSocket server URL (without protocol) to connect to (e.g., \"example.com:8080\")\n\nOutput: \n- None (void) - The function doesn't return any value but logs connection status and received messages to the console. All operations are performed through side effects (event handlers and WebSocket operations).",
+  "Canonical_solution": "function testWebSocketConnection() {\n  var WebSocket = require('ws');\n  var echoWs = new WebSocket('wss://' + wssUrl + '/examples/echo');\n  \n  echoWs.on('open', function open() {\n    console.log('WebSocket connection established');\n    \n    echoWs.send('hello');\n    echoWs.once('message', function(data, flags) {\n      data = JSON.parse(data);\n      console.log('Received:', data);\n      \n      echoWs.send('{\"foo\": \"bar\"}');\n      echoWs.once('message', function(data, flags) {\n        data = JSON.parse(data);\n        console.log('Received:', data);\n        \n        echoWs.close();\n      });\n    });\n  });\n  \n  echoWs.on('close', function() {\n    console.log('WebSocket connection closed');\n  });\n  \n  echoWs.on('error', function(err) {\n    console.error('WebSocket error:', err);\n  });\n}",
+  "FSMID_for_test": 91,
+  "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 267,
+  "Github_ID": "1569980",
+  "Github_Project_Name": "MQTT.js",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "WebSocket Server-side based on Node.js",
+  "Instruction": "Task Description: Create a WebSocket server that handles MQTT protocol messages using the Aedes broker, with event listeners for various client interactions and message handling.\n\nFunction Description: The function `createWebSocketServer` initializes and starts a WebSocket server that integrates with the Aedes MQTT broker. It sets up event handlers for client connections, errors, message publishing, subscriptions, and client disconnections. The server listens on a specified port for WebSocket connections and routes MQTT messages through the Aedes broker.\n\nInput: None (The function does not take any input parameters; port and configuration are hardcoded within the function.)\n\nOutput: None (The function does not return any value; it creates and maintains a running WebSocket server with event listeners.)",
+  "Canonical_solution": "function createWebSocketServer() {\n    const aedes = require('aedes')();\n    const httpServer = require('http').createServer();\n    const WebSocket = require('ws');\n    const wsPort = 8080;\n\n    const wss = new WebSocket.Server({ server: httpServer });\n    wss.on('connection', function connection(ws) {\n        const duplex = WebSocket.createWebSocketStream(ws);\n        aedes.handle(duplex);\n    });\n\n    httpServer.listen(wsPort, () => {\n        console.log('websocket server listening on port', wsPort);\n    });\n\n    aedes.on('clientError', (client, err) => {\n        console.log('client error', client.id, err.message, err.stack);\n    });\n\n    aedes.on('connectionError', (client, err) => {\n        console.log('client error', client, err.message, err.stack);\n    });\n\n    aedes.on('publish', (packet, client) => {\n        if (packet && packet.payload) {\n            console.log('publish packet:', packet.payload.toString());\n        }\n        if (client) {\n            console.log('message from client', client.id);\n        }\n    });\n\n    aedes.on('subscribe', (subscriptions, client) => {\n        if (client) {\n            console.log('subscribe from client', subscriptions, client.id);\n        }\n    });\n\n    aedes.on('client', (client) => {\n        console.log('new client', client.id);\n    });\n}",
+  "FSMID_for_test": 90,
+  "Code_level": "Function-level"
+}

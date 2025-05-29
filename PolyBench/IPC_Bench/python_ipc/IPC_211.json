@@ -1,0 +1,13 @@
+{
+  "Task_id": 211,
+  "Github_ID": "738356406",
+  "Github_Project_Name": "QAnything",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Server - side by using Sanic in python",
+  "Instruction": "Task Description: Create a Sanic-based HTTP server for handling text embedding requests using an ONNX backend, with configurable GPU usage and worker processes.\n\nFunction Description: The function `setup_embedding_server` initializes and runs a Sanic web server that provides an embedding service. It sets up a single POST endpoint `/embedding` that processes text inputs and returns their embeddings using an ONNX-based backend. The server can be configured to use GPU acceleration and multiple worker processes.\n\nInput:\n- `use_gpu`: [Boolean] - Optional flag indicating whether to use GPU acceleration (default: False)\n- `workers`: [Integer] - Optional number of worker processes to spawn (default: 1)\n\nOutput:\n- None (The function runs indefinitely as a web server)\n- The server responds to POST requests at `/embedding` with JSON-formatted embedding results",
+  "Canonical_solution": "import sys\nimport os\nfrom sanic import Sanic\nfrom sanic.response import json\nfrom qanything_kernel.dependent_server.embedding_server.embedding_onnx_backend import EmbeddingOnnxBackend\nimport argparse\n\ndef setup_embedding_server(use_gpu=False, workers=1):\n    app = Sanic(\"embedding_server\")\n\n    @app.route(\"/embedding\", methods=[\"POST\"])\n    async def embedding(request):\n        data = request.json\n        texts = data.get('texts')\n        onnx_backend: EmbeddingOnnxBackend = request.app.ctx.onnx_backend\n        result_data = onnx_backend.predict(texts)\n        return json(result_data)\n\n    @app.listener('before_server_start')\n    async def setup_onnx_backend(app, loop):\n        app.ctx.onnx_backend = EmbeddingOnnxBackend(use_cpu=not use_gpu)\n\n    app.run(host=\"0.0.0.0\", port=9001, workers=workers)\n\nif __name__ == \"__main__\":\n    parser = argparse.ArgumentParser()\n    parser.add_argument('--use_gpu', action=\"store_true\", help='use gpu or not')\n    parser.add_argument('--workers', type=int, default=1, help='workers')\n    args = parser.parse_args()\n    setup_embedding_server(use_gpu=args.use_gpu, workers=args.workers)",
+  "FSMID_for_test": 62,
+  "Code_level": "Function-level"
+}

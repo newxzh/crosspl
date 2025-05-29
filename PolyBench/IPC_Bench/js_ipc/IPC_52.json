@@ -1,0 +1,13 @@
+{
+  "Task_id": 52,
+  "Github_ID": "370396971",
+  "Github_Project_Name": "noisecraft",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Server - side based on XMLHttpRequest in JavaScript",
+  "Instruction": "Task Description: Create a function that toggles the featured status of a project by sending an asynchronous HTTP POST request to a server and updates the UI accordingly.\n\nFunction Description: The function `setFeatured` sends a POST request to a server endpoint to toggle the featured status of a specified project. It handles the response asynchronously and updates the UI to reflect the new featured status. The function uses XMLHttpRequest for the HTTP communication and expects a JSON response from the server.\n\nInput: \n- `projectId` [String/Number] - The unique identifier of the project whose featured status is to be toggled.\n- `featured` [Boolean] - The current featured status of the project (true if featured, false otherwise).\n\nOutput: \n- None (void) - The function does not return a value but updates the UI element (div) to display a star (\u2605) if the project is featured or an empty star (\u2606) if it is not. The actual toggling is handled by the server response.",
+  "Canonical_solution": "function setFeatured(projectId, featured) {\n    let session = getSessionInfo();\n    var xhr = new XMLHttpRequest()\n    xhr.open(\"POST\", 'featured/' + projectId, true);\n    xhr.setRequestHeader(\"Content-Type\", \"application/json\");\n\n    xhr.onreadystatechange = function() {\n        if (this.readyState == 4 && this.status == 200) {\n            featured = JSON.parse(this.responseText);\n            div.innerHTML = featured? '\u2605':'\u2606';\n        }\n    };\n\n    let request = {\n        userId: session.userId,\n        sessionId: session.sessionId,\n        featured: !featured\n    };\n    xhr.send(JSON.stringify(request));\n}",
+  "FSMID_for_test": 93,
+  "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 166,
+  "Github_ID": "5880912",
+  "Github_Project_Name": "pomelo",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "TCP Server - side based on node.js net",
+  "Instruction": "Task Description: Create a TCP server connector class in JavaScript using Node.js's 'net' module that handles server creation, connection events, and lifecycle management.\n\nClass Description: The Connector class is an EventEmitter that creates and manages a TCP server. It handles server connections, errors, and provides methods to start and stop the server.\n\nAttributes:\n- opts: [Object] - Optional configuration options for the server\n- host: [String] - The host address the server will bind to\n- port: [Number] - The port number the server will listen on\n- tcpServer: [Object] - The underlying TCP server instance\n\nMethods:\n- constructor: [Connector](port, host, opts) -> [Connector] - Initializes a new Connector instance with specified port, host, and options\n- start: [start](cb) -> [undefined] - Starts the TCP server and sets up connection and error event handlers. Calls the callback when server is ready\n- stop: [stop](force, cb) -> [undefined] - Stops the TCP server and calls the callback when complete. The force parameter determines whether to force close connections",
+  "Canonical_solution": "var net = require('net');\nvar util = require('util');\nvar EventEmitter = require('events').EventEmitter;\n\nvar Connector = function(port, host, opts) {\n  if (!(this instanceof Connector)) {\n    return new Connector(port, host, opts);\n  }\n\n  EventEmitter.call(this);\n  this.opts = opts || {};\n  this.host = host;\n  this.port = port;\n};\n\nutil.inherits(Connector, EventEmitter);\n\nConnector.prototype.start = function(cb) {\n  var self = this;\n  this.tcpServer = net.createServer();\n  \n  this.tcpServer.on('connection', function(socket) {\n    self.emit('connection', socket);\n  });\n\n  this.tcpServer.on('error', function(err) {\n    self.emit('error', err);\n  });\n\n  this.tcpServer.listen(this.port, this.host);\n  process.nextTick(cb);\n};\n\nConnector.prototype.stop = function(force, cb) {\n  this.tcpServer.close();\n  process.nextTick(cb);\n};",
+  "FSMID_for_test": 97,
+  "Code_level": "Class-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 63,
+  "Github_ID": "768612800",
+  "Github_Project_Name": "lmms-eval",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Client-side by using requests in python",
+  "Instruction": "Task Description: Create a function to download a file from a given URL and save it to a specified local folder.\n\nFunction Description: The function downloads a file from the provided URL using HTTP GET request and saves it to the specified folder. It handles folder creation if it doesn't exist and provides feedback on the download status.\n\nInput:\n- url: str - The URL of the file to download\n- folder_path: str - The local directory path where the file should be saved\n\nOutput:\n- None - The function doesn't return any value but saves the file to disk and prints status messages",
+  "Canonical_solution": "import os\nimport requests\n\ndef download_file(url: str, folder_path: str) -> None:\n    # Create the folder if it doesn't exist\n    if not os.path.exists(folder_path):\n        os.makedirs(folder_path)\n\n    # Extract filename from URL\n    filename = url.split(\"/\")[-1]\n\n    # Define path to save the file\n    file_path = os.path.join(folder_path, filename)\n\n    # Send a GET request to the URL\n    response = requests.get(url)\n\n    # Check if request was successful (status code 200)\n    if response.status_code == 200:\n        # Save the file to the specified folder\n        with open(file_path, \"wb\") as f:\n            f.write(response.content)\n        print(f\"File downloaded successfully to {file_path}\")\n    else:\n        print(f\"Failed to download file. Status code: {response.status_code}\")",
+  "FSMID_for_test": 57,
+  "Code_level": "Function-level"
+}

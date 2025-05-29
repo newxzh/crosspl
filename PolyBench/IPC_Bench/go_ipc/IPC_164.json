@@ -1,0 +1,13 @@
+{
+    "Task_id": 164,
+    "Github_ID": "173227087",
+    "Github_Project_Name": "examples",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Gin-based HTTP Server in Go",
+    "Instruction": "Task Description: Create a Go function that initializes and configures a Gin HTTP server with New Relic monitoring middleware, and defines a simple route handler.\n\nFunction Description: The function sets up a basic Gin web server with default middleware (Logger and Recovery), configures New Relic monitoring if environment variables are present, and registers a root route handler that returns \"Hello World!\". The server runs on the default port (8080).\n\nInput: None (uses environment variables APP_NAME and NEW_RELIC_API_KEY for optional New Relic configuration)\n\nOutput: None (starts an HTTP server that runs indefinitely)",
+    "Canonical_solution": "import (\n\t\"log\"\n\t\"net/http\"\n\t\"os\"\n\n\t\"github.com/gin-gonic/gin\"\n\t\"github.com/newrelic/go-agent\"\n)\nfunc main() {\n\trouter := gin.Default()\n\n\tcfg := newrelic.NewConfig(os.Getenv(\"APP_NAME\"), os.Getenv(\"NEW_RELIC_API_KEY\"))\n\tapp, err := newrelic.NewApplication(cfg)\n\tif err != nil {\n\t\tlog.Printf(\"failed to make new_relic app: %v\", err)\n\t} else {\n\t\trouter.Use(NewRelicMonitoring(app))\n\t}\n\n\trouter.GET(\"/\", func(c *gin.Context) {\n\t\tc.String(http.StatusOK, \"Hello World!\\n\")\n\t})\n\trouter.Run()\n}",
+    "FSMID_for_test": 105,
+    "Code_level": "Function-level"
+}

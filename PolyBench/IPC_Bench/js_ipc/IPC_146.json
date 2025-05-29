@@ -1,0 +1,13 @@
+{
+  "Task_id": 146,
+  "Github_ID": "11899155",
+  "Github_Project_Name": "learnyounode",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "Pipe Server-side based on fs+http in JavaScript",
+  "Instruction": "Task Description: Create a function that sets up a simple HTTP server to handle POST requests, piping the incoming request data to a response after converting it to a string.\n\nFunction Description: The function `createPipeServer` initializes an HTTP server that listens for POST requests. When a POST request is received, it pipes the request data through a transformation stream (converting chunks to strings) and then pipes the result back to the response. Non-POST requests are rejected with a message.\n\nInput:  \n- `port` (Number, optional): The port number on which the server will listen. If not provided or 0, the OS will assign an available port.\n\nOutput:  \n- None (The function starts an HTTP server that runs indefinitely, handling incoming requests.)",
+  "Canonical_solution": "function createPipeServer(port) {\n  require('http').createServer(function (req, res) {\n    if (req.method !== 'POST') {\n      return res.end('POST only!\\n')\n    }\n    req.pipe(require('through2-map')(function (chunk) {\n      return chunk.toString()\n    })).pipe(res)\n  }).listen(port | 0)\n}",
+  "FSMID_for_test": 100,
+  "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+    "Task_id": 365,
+    "Github_ID": "84575398",
+    "Github_Project_Name": "plugins",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "net-based UDP Client with DialUDP in Go",
+    "Instruction": "Task Description: Create a function that establishes a UDP connection to a target server, sends a payload, and reads the server's response.\n\nFunction Description: The function `connectUDP` initiates a UDP connection to a specified target address, sends a given payload, and reads the response from the server. It handles local and remote address resolution, connection establishment, and error handling for network operations.\n\nInput: \n- `target` [string] - The target server address in the format \"host:port\" (e.g., \"127.0.0.1:8080\").\n- `payload` [string] - The data to be sent to the server.\n\nOutput: \n- None (prints the server's response to stdout). The function panics on errors during connection setup, sending, or receiving.",
+    "Canonical_solution": "import (\n\t\"fmt\"\n\t\"net\"\n)\n\nfunc connectUDP(target, payload string) {\n\tLocalAddr, err := net.ResolveUDPAddr(\"udp\", \":54321\")\n\tif err != nil {\n\t\tpanic(fmt.Sprintf(\"Failed to resolve UDP local address on port 54321 %v\", err))\n\t}\n\tRemoteAddr, err := net.ResolveUDPAddr(\"udp\", target)\n\tif err != nil {\n\t\tpanic(fmt.Sprintf(\"Failed to resolve UDP remote address [%s] %v\", target, err))\n\t}\n\tconn, err := net.DialUDP(\"udp\", LocalAddr, RemoteAddr)\n\tif err != nil {\n\t\tpanic(fmt.Sprintf(\"Failed to open connection to [%s] %v\", target, err))\n\t}\n\tdefer conn.Close()\n\n\t_, err = conn.Write([]byte(payload))\n\tif err != nil {\n\t\tpanic(\"Failed to send payload\")\n\t}\n\t_, err = conn.Write([]byte(\"\\n\"))\n\tif err != nil {\n\t\tpanic(\"Failed to send payload\")\n\t}\n\n\tbuf := make([]byte, 1024)\n\tn, err := conn.Read(buf)\n\tif err != nil {\n\t\tpanic(\"Failed to read from socket\")\n\t}\n\tfmt.Print(string(buf[:n]))\n}",
+    "FSMID_for_test": 113,
+    "Code_level": "Function-level"
+}

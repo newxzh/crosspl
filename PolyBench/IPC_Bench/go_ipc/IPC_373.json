@@ -1,0 +1,13 @@
+{
+    "Task_id": 373,
+    "Github_ID": "410179004",
+    "Github_Project_Name": "mieru",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "net-based UDP Server with listenUDP in Go",
+    "Instruction": "Task Description: Create a UDP server in Go that listens on a specified port, processes incoming messages using ROT13 cipher, and sends the transformed messages back to the client.\n\nFunction Description: The function initializes a UDP server that continuously listens for incoming datagrams on a specified port. For each received message, it applies the ROT13 cipher transformation and sends the result back to the originating client. The server handles network errors and cleans up resources properly on exit.\n\nInput:\n- port: int - The UDP port number to listen on (passed as a pointer in the original code)\n\nOutput: None (the function runs indefinitely until terminated or an unrecoverable error occurs)\n\nNote: The function uses external packages for logging (github.com/enfein/mieru/v3/pkg/log) and ROT13 transformation (github.com/enfein/mieru/v3/pkg/testtool). The main processing loop includes error handling for network operations and message processing.",
+    "Canonical_solution": "import (\n\t\"net\"\n\t\"os\"\n\n\t\"github.com/enfein/mieru/v3/pkg/log\"\n\t\"github.com/enfein/mieru/v3/pkg/testtool\"\n)\nfunc main() {\n\taddr, err := net.ResolveUDPAddr(\"udp\", \":\"+strconv.Itoa(*port))\n\tif err != nil {\n\t\tlog.Fatalf(\"net.ResolveUDPAddr() failed: %v\", err)\n\t}\n\tconn, err := net.ListenUDP(\"udp\", addr)\n\tif err != nil {\n\t\tlog.Fatalf(\"net.ListenUDP() failed: %v\", err)\n\t}\n\tlog.Infof(\"UDP server is initialized, listening to %s\", addr.String())\n\tdefer conn.Close()\n\tbuf := make([]byte, 1500)\n\tfor {\n\t\tn, addr, err := conn.ReadFromUDP(buf)\n\t\tif err != nil {\n\t\t\tlog.Errorf(\"Read() failed: %v\", err)\n\t\t\tos.Exit(1)\n\t\t}\n\t\tif n == 0 {\n\t\t\tcontinue\n\t\t}\n\t\tout, err := testtool.TestHelperRot13(buf[:n])\n\t\tif err != nil {\n\t\t\tlog.Errorf(\"rot13() failed: %v\", err)\n\t\t\tcontinue\n\t\t}\n\t\tif _, err = conn.WriteToUDP(out, addr); err != nil {\n\t\t\tlog.Errorf(\"Write() failed: %v\", err)\n\t\t\tos.Exit(1)\n\t\t}\n\t}\n}",
+    "FSMID_for_test": 112,
+    "Code_level": "Function-level"
+}

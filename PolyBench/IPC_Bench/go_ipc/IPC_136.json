@@ -1,0 +1,13 @@
+{
+    "Task_id": 136,
+    "Github_ID": "173227087",
+    "Github_Project_Name": "examples",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Gin-based HTTP Server in Go",
+    "Instruction": "Task Description: Create a Gin-based HTTP server in Go that handles user management with versioned API endpoints and authentication middleware.\n\nFunction Description: The main function initializes a Gin router with versioned API endpoints (/v1 and /v2) for user management. Each version has public GET endpoints and protected POST endpoints that require authentication through middleware.\n\nInput: None (The function takes no direct input parameters, but handles incoming HTTP requests)\n\nOutput: None (The function doesn't return anything but starts an HTTP server listening on port 8081)\n\nMethods:\n\nAuthMiddleWare: () -> gin.HandlerFunc - Returns a Gin middleware function that handles authentication for protected routes\nAddV1User: (*gin.Context) -> None - Handles POST requests to add users for API version 1\nAddV2User: (*gin.Context) -> None - Handles POST requests to add users for API version 2",
+    "Canonical_solution": "import (\n\t\"net/http\"\n\n\t\"github.com/gin-gonic/gin\"\n)\nfunc main() {\n\trouter := gin.Default()\n\n\tapiV1 := router.Group(\"/v1\")\n\n\tapiV1.GET(\"users\", func(c *gin.Context) {\n\t\tc.JSON(http.StatusOK, \"List Of V1 Users\")\n\t})\n\n\tauthV1 := apiV1.Group(\"/\", AuthMiddleWare())\n\n\tauthV1.POST(\"users/add\", AddV1User)\n\n\tapiV2 := router.Group(\"/v2\")\n\n\tapiV2.GET(\"users\", func(c *gin.Context) {\n\t\tc.JSON(http.StatusOK, \"List Of V2 Users\")\n\t})\n\n\tauthV2 := apiV2.Group(\"/\", AuthMiddleWare())\n\n\tauthV2.POST(\"users/add\", AddV2User)\n\n\t_ = router.Run(\":8081\")\n}",
+    "FSMID_for_test": 105,
+    "Code_level": "Function-level"
+}

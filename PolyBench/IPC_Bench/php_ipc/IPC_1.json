@@ -1,0 +1,13 @@
+{
+  "Task_id": 1,
+  "Github_ID": "148129143",
+  "Github_Project_Name": "bagisto",
+  "Programming_Language": "PHP",
+  "suffix": ".php",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP client using Guzzle in PHP",
+  "Instruction": "Task Description: Create a PHP class that interacts with an Ollama API to generate responses using HTTP requests through the Guzzle HTTP client.\n\nClass Description: The Ollama class is designed to communicate with an Ollama API endpoint to generate responses based on provided prompts. It handles the configuration of the API request and processes the response.\n\nAttributes:\n- model: string - The name of the AI model to be used for generating responses.\n- prompt: string - The input text prompt to be sent to the AI model.\n- temperature: float - Controls the randomness of the output (higher values make output more random).\n- stream: bool - Determines whether the response should be streamed.\n- raw: bool - Specifies whether to use raw mode for the prompt processing.\n\nMethods:\n- __construct(string $model, string $prompt, float $temperature, bool $stream, bool $raw) -> void - Initializes the Ollama instance with the specified parameters for model interaction.\n- ask() -> string - Sends a POST request to the Ollama API with the configured parameters and returns the generated response from the AI model.",
+  "Canonical_solution": "use GuzzleHttp\\Client;\n\nclass Ollama\n{\n    /**\n     * New service instance.\n     */\n    public function __construct(\n        protected string $model,\n        protected string $prompt,\n        protected float $temperature,\n        protected bool $stream,\n        protected bool $raw,\n    ) {}\n\n    /**\n     * Set LLM prompt text.\n     */\n    public function ask(): string\n    {\n        $httpClient = new Client;\n\n        $endpoint = core()->getConfigData('general.magic_ai.settings.api_domain').'/api/generate';\n\n        $result = $httpClient->request('POST', $endpoint, [\n            'headers' => [\n                'Accept' => 'application/json',\n            ],\n            'json'    => [\n                'model'  => $this->model,\n                'prompt' => $this->prompt,\n                'raw'    => $this->raw,\n                'stream' => $this->stream,\n            ],\n        ]);\n\n        $result = json_decode($result->getBody()->getContents(), true);\n\n        return $result['response'];\n    }\n}",
+  "FSMID_for_test": 133,
+  "Code_level": "Class-level"
+}

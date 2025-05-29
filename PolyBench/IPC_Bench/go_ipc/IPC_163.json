@@ -1,0 +1,13 @@
+{
+    "Task_id": 163,
+    "Github_ID": "25347290",
+    "Github_Project_Name": "tunasync",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Gin-based HTTP Server in Go",
+    "Instruction": "Task Description: Create a Go function that initializes and runs a secure HTTPS server using the Gin web framework, which responds to GET requests at the root path with a JSON message.\n\nFunction Description: The function initializes a Gin web server with default middleware (Logger and Recovery), sets up a GET route handler for the root path (\"/\") that returns a JSON response, and starts the HTTPS server using the provided TLS certificate and key files.\n\nInput: \n- port (string): The port number on which the server should listen, prefixed with \":\" (e.g., \":5002\")\n- certFile (string): Path to the TLS certificate file (e.g., \"manager.crt\")\n- keyFile (string): Path to the TLS private key file (e.g., \"manager.key\")\n\nOutput: None (The function runs an infinite loop to serve HTTP requests)",
+    "Canonical_solution": "import (\n\t\"net/http\"\n\n\t\"github.com/gin-gonic/gin\"\n)\nfunc main() {\n\ts := gin.Default()\n\ts.GET(\"/\", func(c *gin.Context) {\n\t\tc.JSON(http.StatusOK, gin.H{\"msg\": \"passed\"})\n\t})\n\ts.RunTLS(\":5002\", \"manager.crt\", \"manager.key\")\n}",
+    "FSMID_for_test": 105,
+    "Code_level": "Function-level"
+}

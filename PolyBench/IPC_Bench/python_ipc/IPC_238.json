@@ -1,0 +1,13 @@
+{
+  "Task_id": 238,
+  "Github_ID": "39233228",
+  "Github_Project_Name": "hug",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Server-side based on Tornado in python",
+  "Instruction": "Task Description: Create a Tornado-based HTTP server that can handle GET requests and respond with a simple text message.\n\nClass Description: The TornadoServer class encapsulates the functionality to create and run a Tornado web server with a single endpoint that responds to GET requests.\n\nAttributes:\n- port: int - The port number on which the server will listen (default: 8000)\n- application: tornado.web.Application - The Tornado web application instance that manages request routing\n\nMethods:\n- __init__(port: int = 8000) -> None - Initializes the server with the specified port and sets up the application routes\n- start() -> None - Starts the server by binding it to the specified port and beginning the I/O loop",
+  "Canonical_solution": "import tornado.ioloop\nimport tornado.web\n\nclass TextHandler(tornado.web.RequestHandler):\n    def get(self):\n        self.write(\"Hello, world!\")\n\nclass TornadoServer:\n    def __init__(self, port: int = 8000):\n        self.port = port\n        self.application = tornado.web.Application([(r\"/text\", TextHandler)])\n\n    def start(self):\n        self.application.listen(self.port)\n        tornado.ioloop.IOLoop.current().start()",
+  "FSMID_for_test": 64,
+  "Code_level": "Class-level"
+}

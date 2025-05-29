@@ -1,0 +1,13 @@
+{
+  "Task_id": 93,
+  "Github_ID": "112898455",
+  "Github_Project_Name": "builderbook",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP based on express in javascript",
+  "Instruction": "Task Description: Create a function to set up an Express server with session management using MongoDB as the session store, and integrate it with Next.js for server-side rendering.\n\nFunction Description: The function `setupServer` initializes an Express server with session management configured to use MongoDB for session storage. It integrates with Next.js for handling server-side rendering and routes all requests to the Next.js request handler. The server listens on a specified port and logs the root URL when ready.\n\nInput: None (The function uses environment variables for configuration:\n- `process.env.NODE_ENV`: Determines if the environment is production or development\n- `process.env.MONGO_URL_TEST`: MongoDB connection URL\n- `process.env.PORT`: Port number to listen on (defaults to 8000)\n- `process.env.SESSION_NAME`: Name for the session cookie\n- `process.env.SESSION_SECRET`: Secret key for session encryption)\n\nOutput: None (The function starts an Express server that listens on the specified port and handles requests. It logs the root URL to the console when the server is ready.)",
+  "Canonical_solution": "function setupServer() {\n    const express = require('express');\n    const session = require('express-session');\n    const mongoSessionStore = require('connect-mongo');\n    const next = require('next');\n    const mongoose = require('mongoose');\n\n    const dev = process.env.NODE_ENV !== 'production';\n    const MONGO_URL = process.env.MONGO_URL_TEST;\n    const port = process.env.PORT || 8000;\n    const ROOT_URL = `http://localhost:${port}`;\n\n    const app = next({ dev });\n    const handle = app.getRequestHandler();\n\n    const server = express();\n\n    const sessionOptions = {\n        name: process.env.SESSION_NAME,\n        secret: process.env.SESSION_SECRET,\n        store: mongoSessionStore.create({\n            mongoUrl: MONGO_URL,\n            ttl: 14 * 24 * 60 * 60,\n        }),\n        resave: false,\n        saveUninitialized: false,\n        cookie: {\n            httpOnly: true,\n            maxAge: 14 * 24 * 60 * 60 * 1000,\n            domain: 'localhost',\n        },\n    };\n\n    const sessionMiddleware = session(sessionOptions);\n    server.use(sessionMiddleware);\n\n    server.get('*', (req, res) => handle(req, res));\n\n    server.listen(port, (err) => {\n        if (err) throw err;\n        console.log(`> Ready on ${ROOT_URL}`);\n    });\n}",
+  "FSMID_for_test": 96,
+  "Code_level": "Function-level"
+}

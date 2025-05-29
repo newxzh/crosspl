@@ -1,0 +1,13 @@
+{
+  "Task_id": 68,
+  "Github_ID": "273839530",
+  "Github_Project_Name": "python-mini-projects",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Client-side by using requests in python",
+  "Instruction": "Task Description: Download a comic image from the xkcd website given a specific issue number.\n\nFunction Description: The function downloads an image from the xkcd comic website by first fetching the webpage of the specified issue number, parsing the HTML to extract the image URL, and then downloading the image to the local filesystem. It handles HTTP requests and responses, checks for success status codes, and saves the image using streaming to avoid memory issues with large files.\n\nInput: \n- issue_number: [str] - The issue number of the comic to download (e.g., \"1234\"). This is appended to the base xkcd URL to form the full webpage URL.\n\nOutput: \n- [str] - A success message indicating the downloaded image filename if successful, or an error message if the request fails or the issue number is invalid.",
+  "Canonical_solution": "import requests\nfrom bs4 import BeautifulSoup as bs\nimport shutil\n\ndef download_comic_image(issue_number):\n    url = \"https://xkcd.com/\"+ issue_number\n    response = requests.get(url)\n\n    if response.status_code == 200:\n        soup = bs(response.content, 'html.parser')\n        image_link = soup.find_all('img')[2]['src']\n        image_name = image_link.split('/')[-1]\n        image_url = \"https:\" + image_link\n        r = requests.get(image_url, stream=True)\n        \n        if r.status_code == 200:\n            r.raw.decode_content = True\n            with open(image_name, 'wb') as f:\n                shutil.copyfileobj(r.raw, f)\n            return f'Image successfully Downloaded: {image_name}'\n        else:\n            return 'Image Couldn\\'t be retrieved'\n    else:\n        return \"Issue number is invalid\"",
+  "FSMID_for_test": 57,
+  "Code_level": "Function-level"
+}

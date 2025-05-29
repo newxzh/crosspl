@@ -1,0 +1,13 @@
+{
+  "Task_id": 475,
+  "Github_ID": "159941158",
+  "Github_Project_Name": "py4fi2nd",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "ZeroMQ Consumer in Python(PUB/SUB)",
+  "Instruction": "Task Description: Implement a ZeroMQ subscriber in Python that connects to a publisher and continuously receives messages.\n\nFunction Description: The function `setup_zmq_subscriber` initializes a ZeroMQ subscriber socket, connects it to a specified publisher endpoint, and configures it to subscribe to all messages. The function `receive_messages` continuously listens for and prints messages received through the socket.\n\nInput: \n- `remote_ip` (str, optional): The endpoint address of the ZeroMQ publisher in the format 'tcp://IP_ADDRESS:PORT'. Defaults to 'tcp://REMOTE_IP_ADDRESS:5555'.\n\nOutput: \n- `socket` (zmq.Socket): A configured ZeroMQ SUB socket ready to receive messages.\n- None (for `receive_messages`): The function runs indefinitely, printing received messages.",
+  "Canonical_solution": "import zmq\n\ndef setup_zmq_subscriber(remote_ip='tcp://REMOTE_IP_ADDRESS:5555'):\n    context = zmq.Context()\n    socket = context.socket(zmq.SUB)\n    socket.connect(remote_ip)\n    socket.setsockopt_string(zmq.SUBSCRIBE, '')\n    return socket\n\ndef receive_messages(socket):\n    while True:\n        msg = socket.recv_string()\n        print(msg)",
+  "FSMID_for_test": 85,
+  "Code_level": "Function-level"
+}

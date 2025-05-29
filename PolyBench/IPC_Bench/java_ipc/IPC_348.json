@@ -1,0 +1,13 @@
+{
+  "Task_id": 348,
+  "Github_ID": "715605",
+  "Github_Project_Name": "jedis",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "Redis in Java",
+  "Instruction": "Task Description: Create a Redis connection manager class in Java that handles connection pooling, resource management, and basic Redis operations.\n\nClass Description: RedisConnectionManager is a utility class that manages Redis connections using Jedis connection pooling. It provides methods to get connections, execute commands, and properly close connections to ensure resource efficiency.\n\nAttributes:\n- jedisPool: JedisPool - The connection pool instance that manages Redis connections\n\nMethods:\n- RedisConnectionManager(String host, int port, int timeout, String password) -> void - Constructor that initializes the connection pool with specified parameters\n- getConnection() -> Jedis - Retrieves a Redis connection from the pool\n- closeConnection(Jedis jedis) -> void - Returns a connection to the pool\n- closePool() -> void - Closes the entire connection pool\n- executeCommand(String key, String value) -> void - Executes a basic Redis SET/GET operation and prints the result",
+  "Canonical_solution": "import redis.clients.jedis.Jedis;\nimport redis.clients.jedis.JedisPool;\nimport redis.clients.jedis.JedisPoolConfig;\n\npublic class RedisConnectionManager {\n\n    private JedisPool jedisPool;\n\n    public RedisConnectionManager(String host, int port, int timeout, String password) {\n        JedisPoolConfig poolConfig = new JedisPoolConfig();\n        this.jedisPool = new JedisPool(poolConfig, host, port, timeout, password);\n    }\n\n    public Jedis getConnection() {\n        return jedisPool.getResource();\n    }\n\n    public void closeConnection(Jedis jedis) {\n        if (jedis != null) {\n            jedis.close();\n        }\n    }\n\n    public void closePool() {\n        if (jedisPool != null && !jedisPool.isClosed()) {\n            jedisPool.close();\n        }\n    }\n\n    public void executeCommand(String key, String value) {\n        try (Jedis jedis = getConnection()) {\n            jedis.set(key, value);\n            String result = jedis.get(key);\n            System.out.println(\"Redis operation result: \" + result);\n        }\n    }\n}",
+  "FSMID_for_test": 37,
+  "Code_level": "Class-level"
+}

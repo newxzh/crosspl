@@ -1,0 +1,37 @@
+#include <Python.h>
+#include <string.h>
+#include "http_parser.h"
+
+typedef struct {
+    PyObject* headers;
+    PyObject* body;
+    http_parser parser;
+    struct {
+        unsigned headers_complete : 1;
+        unsigned complete : 1;
+        unsigned head : 1;
+        unsigned upgrade : 1;
+    } state;
+    void* field;
+} Request;
+
+static int on_body(http_parser* parser, const char* at, size_t length)
+{
+    Request* request = (Request*)parser->data;
+
+    if (request->body) {
+        PyObject* new_body = PyBytes_FromStringAndSize(NULL,
+            PyBytes_GET_SIZE(request->body) + length);
+        if (!new_body) return -1;
+        memcpy(PyBytes_AS_STRING(new_body), PyBytes_AS_STRING(request->body),
+            PyBytes_GET_SIZE(request->body));
+        memcpy(PyBytes_AS_STRING(new_body) + PyBytes_GET_SIZE(request->body),
+            at, length);
+        Py_DECREF(request->body);
+        request->body = new_body;
+    } else {
+        request->body = PyBytes_FromStringAndSize(at, length);
+    }
+
+    return request->body ? 0 : -1;
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 5,
+  "Github_ID": "100402355",
+  "Github_Project_Name": "cruise-control",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "Create Kafka topic instance in AdminClient in java",
+  "Instruction": "Task Description: Create a Kafka topic using the AdminClient API in Java.\n\nFunction Description: This function creates a new topic in a Kafka cluster using the AdminClient API. It establishes a connection to the Kafka broker, defines the topic configuration (name, partition count, and replication factor), and creates the topic. The function ensures proper resource cleanup by closing the AdminClient after topic creation.\n\nInput:\n- brokerAddress: String - The address of the Kafka broker to connect to (e.g., \"localhost:9092\")\n- topicName: String - The name of the topic to be created\n- partitionCount: int - The number of partitions for the topic\n- replicationFactor: short - The replication factor for the topic\n\nOutput: void - The function does not return any value but creates the specified topic in the Kafka cluster. Any exceptions during topic creation will be thrown to the caller.\n\nNote: The function handles resource cleanup by closing the AdminClient in a finally block to prevent resource leaks.",
+  "Canonical_solution": "import java.util.Collections;\nimport java.util.Map;\nimport org.apache.kafka.clients.admin.AdminClient;\nimport org.apache.kafka.clients.admin.AdminClientConfig;\nimport org.apache.kafka.clients.admin.NewTopic;\n\npublic void testDiskFailure() throws IOException {\n    AdminClient adminClient = KafkaCruiseControlUtils.createAdminClient(Collections\n        .singletonMap(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, broker(0).plaintextAddr()));\n    try {\n        adminClient.createTopics(Collections.singleton(new NewTopic(TOPIC0, PARTITION_COUNT, TOPIC0_REPLICATION_FACTOR)));\n    } finally {\n        KafkaCruiseControlUtils.closeAdminClientWithTimeout(adminClient);\n    }\n}",
+  "FSMID_for_test": 34,
+  "Code_level": "Function-level"
+}

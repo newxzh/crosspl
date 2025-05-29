@@ -1,0 +1,13 @@
+{
+  "Task_id": 145,
+  "Github_ID": "10733929",
+  "Github_Project_Name": "stream-adventure",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "Pipe Server-side based on fs+http in JavaScript",
+  "Instruction": "Task Description: Create a function that sets up an HTTP server to handle POST requests, transforming the incoming data to uppercase and sending it back as the response.\n\nFunction Description: The function `createServer` initializes an HTTP server that listens for POST requests on a specified port. When a POST request is received, it pipes the request data through a transformation stream that converts the data to uppercase, then pipes the result back to the response. For non-POST requests, it responds with a message prompting a POST request.\n\nInput:  \n- `port` [Number] - The port number on which the HTTP server should listen.\n\nOutput:  \n- None (The function sets up a server that runs indefinitely, handling incoming requests.)",
+  "Canonical_solution": "const http = require('http');\nconst through = require('through2');\n\nfunction createServer(port) {\n  const server = http.createServer(function (req, res) {\n    if (req.method === 'POST') {\n      req.pipe(through(function (buf, _, next) {\n        this.push(buf.toString().toUpperCase());\n        next();\n      })).pipe(res);\n    } else {\n      res.end('send me a POST\\n');\n    }\n  });\n  server.listen(parseInt(port));\n}",
+  "FSMID_for_test": 100,
+  "Code_level": "Function-level"
+}

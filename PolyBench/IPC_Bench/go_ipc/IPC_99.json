@@ -1,0 +1,13 @@
+{
+    "Task_id": 99,
+    "Github_ID": "37374972",
+    "Github_Project_Name": "go-starter-kit",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Echo-based HTTP Server in Go",
+    "Instruction": "Task Description: Create an HTTP server using the Echo framework in Go that handles GET requests and serves HTML content with automatic TLS certificate management from Let's Encrypt.\n\nFunction Description: The main function initializes an Echo server, configures middleware for recovery and logging, sets up a route handler for the root path (\"/\") that returns HTML content, and starts the server with automatic TLS on port 443.\n\nInput: None (The function takes no explicit input parameters)\n\nOutput: None (The function doesn't return any value but starts an HTTP server that runs indefinitely until terminated)",
+    "Canonical_solution": "import (\n\t\"net/http\"\n\n\t\"github.com/labstack/echo\"\n\t\"github.com/labstack/echo/middleware\"\n)\nfunc main() {\n\te := echo.New()\n\te.Use(middleware.Recover())\n\te.Use(middleware.Logger())\n\te.GET(\"/\", func(c echo.Context) error {\n\t\treturn c.HTML(http.StatusOK, `\n\t\t\t<h1>Welcome to Echo!</h1>\n\t\t\t<h3>TLS certificates automatically installed from Let's Encrypt :)</h3>\n\t\t`)\n\t})\n\te.Logger.Fatal(e.StartAutoTLS(\":443\"))\n}",
+    "FSMID_for_test": 106,
+    "Code_level": "Function-level"
+}

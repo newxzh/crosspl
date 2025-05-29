@@ -1,0 +1,13 @@
+{
+  "Task_id": 231,
+  "Github_ID": "83878269",
+  "Github_Project_Name": "dvc",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Server - side by using http.server in python",
+  "Instruction": "Task Description: Implement a Python HTTP server using the http.server module to handle GET and POST requests, track request counts, and manage server lifecycle.\n\nClass Description: The implementation consists of two classes: RequestHandler (for handling HTTP requests) and HTTPServerManager (for server management).\n\nAttributes:\n\nhits: ClassVar[dict[str, int]] - Class-level dictionary to track counts of different HTTP methods received\nport: int - The port number on which the server will listen (in HTTPServerManager)\nserver: HTTPServer - The HTTP server instance (in HTTPServerManager)\n\nMethods:\n\nRequestHandler:\nlog_message: (format: str, *args: Any) -> None - Overrides default logging to also output request body data when present\ndo_POST: () -> None - Handles POST requests, increments POST counter, and sends 200 response\ndo_GET: () -> None - Handles GET requests, increments GET counter, sends 200 response with JSON content type\n\nHTTPServerManager:\n__init__: (port: int = 0) -> None - Initializes the server with specified port (0 for random port)\nserve_forever: () -> None - Starts the server to handle requests indefinitely\nshutdown: () -> None - Shuts down the server gracefully",
+  "Canonical_solution": "from http.server import BaseHTTPRequestHandler, HTTPServer\nfrom collections import defaultdict\nfrom typing import ClassVar\nimport json\n\nclass RequestHandler(BaseHTTPRequestHandler):\n    hits: ClassVar[dict[str, int]] = defaultdict(int)\n\n    def log_message(self, format, *args) -> None:  # noqa: A002\n        super().log_message(format, *args)\n        if length := self.headers.get(\"Content-Length\"):\n            data = self.rfile.read(int(length)).decode(\"utf8\")\n            sys.stderr.write(f\"{data}\\n\")\n\n    def do_POST(self):  # noqa: N802\n        self.hits[\"POST\"] += 1\n        self.send_response(200)\n        super().end_headers()\n\n    def do_GET(self):  # noqa: N802\n        self.hits[\"GET\"] += 1\n        self.send_response(200)\n        self.send_header(\"Content-type\", \"application/json\")\n        self.end_headers()\n        self.wfile.write(UPDATER_INFO_STR)\n\nclass HTTPServerManager:\n    def __init__(self, port: int = 0):\n        self.port = port\n        self.server = HTTPServer((\"localhost\", port), RequestHandler)\n\n    def serve_forever(self):\n        self.server.serve_forever()\n\n    def shutdown(self):\n        self.server.shutdown()",
+  "FSMID_for_test": 55,
+  "Code_level": "Class-level"
+}

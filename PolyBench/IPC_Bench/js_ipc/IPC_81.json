@@ -1,0 +1,13 @@
+{
+  "Task_id": 81,
+  "Github_ID": "63043024",
+  "Github_Project_Name": "vue-demo",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP based on express in javascript",
+  "Instruction": "Task Description: Create a function that sets up an Express server with various middleware configurations for static file serving, API proxying, HTML5 history API fallback, and webpack development tools.\n\nFunction Description: The function `setupExpressServer` initializes an Express application and configures it with multiple middleware layers. It serves static files from a specified directory, proxies API requests to a mock server, enables HTML5 History API fallback for single-page applications, and integrates Webpack's development and hot-reload middleware. Finally, it starts the server on a specified port.\n\nInput: \n- None (The function relies on external constants/variables: PATHS.STATIC, PORTS.MOCK_SERVER, PORTS.DEV_SERVER, compiler, and config)\n\nOutput: \n- None (The function's side effect is starting an Express server that listens on PORTS.DEV_SERVER)",
+  "Canonical_solution": "function setupExpressServer() {\n  var express = require('express');\n  var proxy = require('http-proxy-middleware');\n  var app = express();\n\n  // Provide static resources\n  app.use('/static', express.static(PATHS.STATIC));\n\n  // Mock server proxy\n  app.use('/api', proxy({\n    target: 'http://127.0.0.1:' + PORTS.MOCK_SERVER,\n    changeOrigin: true,\n    pathRewrite: {\n      '^/api': '/'\n    }\n  }));\n\n  // HTML5 History API fallback\n  app.use(require('connect-history-api-fallback')());\n\n  // Webpack middleware\n  app.use(require('webpack-dev-middleware')(compiler, {\n    noInfo: true,\n    publicPath: config.output.publicPath\n  }));\n\n  // Hot reload middleware\n  app.use(require('webpack-hot-middleware')(compiler));\n\n  // Start server\n  app.listen(PORTS.DEV_SERVER);\n}",
+  "FSMID_for_test": 96,
+  "Code_level": "Function-level"
+}

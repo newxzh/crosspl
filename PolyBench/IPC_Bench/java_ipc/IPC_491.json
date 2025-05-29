@@ -1,0 +1,13 @@
+{
+  "Task_id": 491,
+  "Github_ID": "12414592",
+  "Github_Project_Name": "javaee7-samples",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "WebSocket Server based on Java EE",
+  "Instruction": "Task Description: Create a WebSocket server endpoint class in Java that handles client connections, text messages, and binary messages. The class should manage WebSocket sessions and echo received messages back to clients.\n\nClass Description: The MyEndpoint class is a WebSocket server endpoint that listens for client connections on the \"/websocket\" path. It handles text and binary messages, providing echo functionality while logging connection and message details.\n\nAttributes:\n- None (All required session information is passed through method parameters)\n\nMethods:\n- onOpen: [onOpen](Session session) -> void - Handles new WebSocket connections and logs the client's request URI.\n- echoText: [echoText](String data, boolean part) -> String - Handles incoming text messages, logs message details, and returns the same message (echo). The boolean parameter indicates if the message is complete or partial.\n- echoBinary: [echoBinary](ByteBuffer data, Session session) -> void - Handles incoming binary messages, logs message details, and sends the same binary data back to the client (echo). Throws IOException if sending fails.",
+  "Canonical_solution": "import java.io.IOException;\nimport java.nio.ByteBuffer;\nimport javax.websocket.OnMessage;\nimport javax.websocket.OnOpen;\nimport javax.websocket.Session;\nimport javax.websocket.server.ServerEndpoint;\n\n@ServerEndpoint(value = \"/websocket\")\npublic class MyEndpoint {\n\n    @OnOpen\n    public void onOpen(Session session) {\n        System.out.println(\"Connected from: \" + session.getRequestURI());\n    }\n\n    @OnMessage\n    public String echoText(String data, boolean part) {\n        System.out.println(\"boolean(text) \" + data);\n        System.out.println(\"text length \" + data.length());\n        if (part) {\n            System.out.println(\"whole message received\");\n        } else {\n            System.out.println(\"partial message received\");\n        }\n        return data;\n    }\n\n    @OnMessage\n    public void echoBinary(ByteBuffer data, Session session) throws IOException {\n        System.out.println(\"boolean(binary) \" + data);\n        System.out.println(\"binary length \" + data.array().length);\n        session.getBasicRemote().sendBinary(data);\n    }\n}",
+  "FSMID_for_test": 26,
+  "Code_level": "Class-level"
+}

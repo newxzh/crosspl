@@ -1,0 +1,13 @@
+{
+  "Task_id": 56,
+  "Github_ID": "14101953",
+  "Github_Project_Name": "plugins",
+  "Programming_Language": "PHP",
+  "suffix": ".php",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP client using cURL in PHP",
+  "Instruction": "Task Description: Create a PHP function that performs an HTTP GET request using cURL with secure SSL verification and returns the response.\n\nFunction Description: The function should initialize a cURL session, configure it with appropriate security settings (including SSL verification with a custom CA certificate), set a timeout, execute the request, handle errors, and return the response. The function should properly clean up resources after execution.\n\nInput: \n- $url (string): The URL to which the GET request will be sent\n\nOutput: \n- Returns the response from the server as a string if successful\n- Returns false if the request fails (though error handling should be implemented separately)",
+  "Canonical_solution": "function curlGet($url)\n{\n    $curl = curl_init();\n\n    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);\n    curl_setopt($curl, CURLOPT_HEADER, 0);\n    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 1);\n    curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);\n    curl_setopt($curl, CURLOPT_CAINFO, 'usr/plugins/TeStore/data/cacert.pem');\n    curl_setopt($curl, CURLOPT_TIMEOUT, 30);\n    curl_setopt($curl, CURLOPT_URL, $url);\n\n    $result = curl_exec($curl);\n    curl_close($curl);\n\n    return $result;\n}",
+  "FSMID_for_test": 132,
+  "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 196,
+  "Github_ID": "70553423",
+  "Github_Project_Name": "line-bot-sdk-python",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Server - side by using Flask in python",
+  "Instruction": "Task Description: Create a Flask webhook callback handler that processes incoming POST requests, verifies signatures, and logs request data.\n\nFunction Description: The callback function handles incoming POST requests to the '/callback' endpoint. It extracts the signature from headers, logs the request body, attempts to process the webhook data, and returns a response. It handles API exceptions and invalid signatures appropriately.\n\nInput: \n- HTTP POST request containing:\n  - Headers: 'X-Line-Signature' (string) - The signature for request verification\n  - Body: (string) - The payload data sent with the request\n\nOutput: \n- Returns 'OK' (string) if successful\n- Returns HTTP 400 error if signature is invalid\n- Logs request information and any exceptions that occur",
+  "Canonical_solution": "import os\nimport logging\nfrom flask import Flask, request, abort\nfrom werkzeug.middleware.proxy_fix import ProxyFix\n\napp = Flask(__name__)\napp.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_host=1, x_proto=1)\nlogging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')\napp.logger.setLevel(logging.INFO)\n\n@app.route(\"/callback\", methods=['POST'])\ndef callback():\n    # get X-Line-Signature header value\n    signature = request.headers['X-Line-Signature']\n\n    # get request body as text\n    body = request.get_data(as_text=True)\n    app.logger.info(\"Request body: \" + body)\n\n    # handle webhook body\n    try:\n        handler.handle(body, signature)\n    except ApiException as e:\n        app.logger.warn(\"Got exception from LINE Messaging API: %s\\n\" % e.body)\n    except InvalidSignatureError:\n        abort(400)\n\n    return 'OK'",
+  "FSMID_for_test": 60,
+  "Code_level": "Function-level"
+}

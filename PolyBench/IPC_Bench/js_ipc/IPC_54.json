@@ -1,0 +1,13 @@
+{
+  "Task_id": 54,
+  "Github_ID": "133092972",
+  "Github_Project_Name": "undici",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Server - side based on XMLHttpRequest in JavaScript",
+  "Instruction": "Task Description: Implement a function that handles different types of HTTP requests and script imports, then communicates the results back to a sender.\n\nFunction Description: The function `run_test` processes incoming data to determine which type of request or script import to execute. It supports XMLHttpRequest (XHR), Fetch API, and `importScripts` methods. Based on the input data, it initiates the corresponding operation and sends the result or error message back to the sender via the `postMessage` method.\n\nInput:  \n- `data` [String] - A string indicating the type of operation to perform. Valid values are 'xhr', 'fetch', or 'importScripts'.  \n- `sender` [Object] - An object with a `postMessage` method used to send the response or error message back to the caller.\n\nOutput:  \n- No direct return value. The function communicates results asynchronously via `sender.postMessage()`, sending either the response data (for successful operations) or an error message (for failures).  \n\nThe function handles the following cases:  \n1. If `data` is 'xhr', it performs an XMLHttpRequest GET operation and sends the response text or an error message.  \n2. If `data` is 'fetch', it uses the Fetch API to retrieve data and sends the response text or an error message.  \n3. If `data` is 'importScripts', it imports a script and sends a predefined message from the imported script.  \n4. For any other `data` value, it sends an \"Unexpected message\" response.",
+  "Canonical_solution": "function run_test(data, sender) {\n  if (data === 'xhr') {\n    const xhr = new XMLHttpRequest();\n    xhr.open('GET', 'synthesized-response.txt', true);\n    xhr.responseType = 'text';\n    xhr.send();\n    xhr.onload = evt => sender.postMessage(xhr.responseText);\n    xhr.onerror = () => sender.postMessage('XHR failed!');\n  } else if (data === 'fetch') {\n    fetch('synthesized-response.txt')\n        .then(response => response.text())\n        .then(data => sender.postMessage(data))\n        .catch(error => sender.postMessage('Fetch failed!'));\n  } else if (data === 'importScripts') {\n    importScripts('synthesized-response.js');\n    sender.postMessage(message);\n  } else {\n    sender.postMessage('Unexpected message! ' + data);\n  }\n}",
+  "FSMID_for_test": 93,
+  "Code_level": "Function-level"
+}

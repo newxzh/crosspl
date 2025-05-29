@@ -1,0 +1,13 @@
+{
+  "Task_id": 426,
+  "Github_ID": "460598783",
+  "Github_Project_Name": "tuya-cloudcutter",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "UDP communication by using socket in python",
+  "Instruction": "Task Description: Implement a function to receive a multicast token via UDP communication, handling potential timeouts and interruptions gracefully.\n\nFunction Description: The function continuously listens for incoming UDP packets on a specified port, attempting to extract and decode a token from valid JSON messages. It runs in a loop until either a valid token is received or a cancellation flag is set. The function handles socket timeouts and other exceptions silently, only processing valid messages that match the expected format.\n\nInput: None (uses global variables for control flow)\n\nOutput: None (modifies global variable 'multicast_token' when successful)",
+  "Canonical_solution": "import socket\nimport struct\nimport json\nimport threading\n\nglobal multicast_token, cancel_thread\nmulticast_token = None\ncancel_thread = False\n\ndef receive_token():\n    global multicast_token, cancel_thread\n    received_token = False\n    while received_token == False and cancel_thread == False:\n        s = socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM)\n        s.bind(('0.0.0.0', 6669))\n        s.settimeout(2)\n        try:\n            # despite suggestions of being unused, addr must remain present, or this will fail\n            msg, addr = s.recvfrom(255)\n            (msglen,) = struct.unpack(\">I\", msg[12:16])\n            msg = msg[16: msglen + 8].decode()\n            msg = json.loads(msg)\n            token = msg[\"token\"]\n            received_token = True\n            s.close()\n            multicast_token = token\n        except KeyboardInterrupt:\n            return\n        except:\n            pass",
+  "FSMID_for_test": 71,
+  "Code_level": "Function-level"
+}

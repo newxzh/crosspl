@@ -1,0 +1,13 @@
+{
+  "Task_id": 184,
+  "Github_ID": "299250695",
+  "Github_Project_Name": "big_screen",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Server - side by using Flask in python",
+  "Instruction": "Task Description: Create a Flask web application that serves different data views through specific routes, rendering them using a template.\n\nFunction Description: The application defines multiple route handlers that fetch different types of data and render them using a common template ('index.html'). Each route corresponds to a different data view (main, corporate, and job data).\n\nInput:\n- Route paths ('/', '/corp', '/job') as HTTP endpoints\n- HTTP GET requests to these endpoints\n\nOutput:\n- Rendered HTML responses using the 'index.html' template with respective data and title\n- HTTP responses with status code 200 for successful renders\n\nMethods:\n- index() -> HTML - Handles root route ('/') and renders main data view\n- corp() -> HTML - Handles '/corp' route and renders corporate data view\n- job() -> HTML - Handles '/job' route and renders job data view\n\nNote: The actual data fetching is delegated to external functions (SourceData(), CorpData(), JobData()) which return objects containing the required data and title. The template 'index.html' should be prepared to handle the 'form' and 'title' variables passed from these route handlers.",
+  "Canonical_solution": "from flask import Flask, render_template\nfrom data import *\n\napp = Flask(__name__)\n\n@app.route('/')\ndef index():\n    data = SourceData()\n    return render_template('index.html', form=data, title=data.title)\n\n@app.route('/corp')\ndef corp():\n    data = CorpData()\n    return render_template('index.html', form=data, title=data.title)\n\n@app.route('/job')\ndef job():\n    data = JobData()\n    return render_template('index.html', form=data, title=data.title)\n\nif __name__ == \"__main__\":\n    app.run(host='127.0.0.1', debug=False)",
+  "FSMID_for_test": 60,
+  "Code_level": "Function-level"
+}

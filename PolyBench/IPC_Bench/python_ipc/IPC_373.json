@@ -1,0 +1,13 @@
+{
+  "Task_id": 373,
+  "Github_ID": "542089",
+  "Github_Project_Name": "bjoern",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "TCP Client - side by using socket in python",
+  "Instruction": "Task Description: Implement a TCP client in Python that can handle multiple types of HTTP requests concurrently using threading and locking mechanisms to manage shared resources.\n\nFunction Description: The code consists of two main functions that perform HTTP GET requests to a server. `long_request` handles a request with a large response, processing it in chunks with delays, while `time_request` handles a quicker request. A threading lock is used to synchronize access to shared resources between these concurrent requests.\n\nInput:\n- `hostname` (str): The target server's hostname or IP address\n- `port` (int): The target server's port number\n- `headers` (str): Additional HTTP headers to include in the request\n\nOutput:\n- Both functions print status messages ('acquire' and 'release') to indicate lock status\n- No explicit return value, but data is received from the server and processed\n- Network connections are properly closed when complete\n\nMethods:\n- `long_request(hostname, port, headers) -> None`: \n  Performs a long-running HTTP GET request, receiving data in chunks with delays between receives. Releases a lock after initial processing and continues receiving more data.\n\n- `time_request(hostname, port, headers) -> None`: \n  Performs a quicker HTTP GET request, acquires a lock before execution, receives all data at once, and closes the connection.\n\nShared Resource:\n- `lock` (threading.Lock): A threading lock used to synchronize access between the two request functions",
+  "Canonical_solution": "import sys\nimport socket\nimport time\nimport threading\n\ndef long_request(hostname, port, headers):\n    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\n    s.connect((hostname, port))\n    s.send('GET /huge HTTP/1.0' + headers)\n    for i in range(1):\n        s.recv(80)\n        time.sleep(0.1)\n    lock.release()\n    print('release')\n    for i in range(10):\n        s.recv(80)\n        time.sleep(0.1)\n    s.close()\n\ndef time_request(hostname, port, headers):\n    lock.acquire()\n    print('acquire')\n    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\n    s.connect((hostname, port))\n    s.send('GET /tuple HTTP/1.0' + headers)\n    s.recv(900)\n    s.close()\n\nlock = threading.Lock()",
+  "FSMID_for_test": 67,
+  "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 319,
+  "Github_ID": "19641638",
+  "Github_Project_Name": "lettuce",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "Redis in Java",
+  "Instruction": "Task Description: Create a singleton Redis client class that manages a single Redis connection instance throughout the application lifecycle, with automatic shutdown handling.\n\nClass Description: DefaultRedisClient is a singleton class that provides centralized Redis client management. It creates and maintains a single RedisClient instance, configures default timeout settings, and ensures proper resource cleanup during JVM shutdown.\n\nAttributes:\n- instance: DefaultRedisClient - The singleton instance of the class\n- redisClient: RedisClient - The underlying Redis client connection instance\n\nMethods:\n- get() -> RedisClient - Returns the singleton RedisClient instance after setting a default timeout of 60 seconds\n- DefaultRedisClient() (constructor) - Private constructor that initializes the RedisClient with connection settings and registers a shutdown hook\n- run() (in anonymous Thread class) - Shutdown hook method that cleans up Redis client resources during JVM shutdown",
+  "Canonical_solution": "import io.lettuce.core.RedisClient;\nimport io.lettuce.core.RedisURI;\nimport io.lettuce.test.settings.TestSettings;\nimport java.util.concurrent.TimeUnit;\n\npublic class DefaultRedisClient {\n\n    private static final DefaultRedisClient instance = new DefaultRedisClient();\n\n    private RedisClient redisClient;\n\n    private DefaultRedisClient() {\n        redisClient = RedisClient.create(RedisURI.Builder.redis(TestSettings.host(), TestSettings.port()).build());\n        Runtime.getRuntime().addShutdownHook(new Thread() {\n            @Override\n            public void run() {\n                FastShutdown.shutdown(redisClient);\n            }\n        });\n    }\n\n    public static RedisClient get() {\n        instance.redisClient.setDefaultTimeout(60, TimeUnit.SECONDS);\n        return instance.redisClient;\n    }\n\n}",
+  "FSMID_for_test": 37,
+  "Code_level": "Class-level"
+}

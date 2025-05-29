@@ -1,0 +1,13 @@
+{
+  "Task_id": 57,
+  "Github_ID": "173534948",
+  "Github_Project_Name": "iqiqiya-API",
+  "Programming_Language": "PHP",
+  "suffix": ".php",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP client using cURL in PHP",
+  "Instruction": "Task Description: Create a PHP function that uses cURL to make an HTTP request to a URL shortening service and return the shortened URL.\n\nFunction Description: The function `curl_sg` initializes a cURL session, configures it with appropriate options (including timeout settings, headers, and SSL verification), makes a GET request to the Sogou URL shortening service, and returns the response. The function handles the entire cURL lifecycle from initialization to cleanup.\n\nInput: \n- `$url` (string): The original URL to be shortened.\n\nOutput: \n- (string): The shortened URL returned by the Sogou service, or false if the request fails.",
+  "Canonical_solution": "function curl_sg($url)\n{\n    $ch = curl_init();\n    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5000);\n    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);\n    curl_setopt($ch, CURLOPT_HTTPHEADER, array(\n        'User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 8_0 like Mac OS X) AppleWebKit/600.1.3 (KHTML, like Gecko) Version/8.0 Mobile/12A4345d Safari/600.1.4'\n    ));\n    curl_setopt($ch, CURLOPT_URL, \"https://sa.sogou.com/gettiny?url=\".$url);\n    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);\n    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);\n    curl_setopt($ch, CURLOPT_REDIR_PROTOCOLS, -1);\n    $contents = curl_exec($ch);\n    curl_close($ch);\n    return $contents;\n}",
+  "FSMID_for_test": 132,
+  "Code_level": "Function-level"
+}

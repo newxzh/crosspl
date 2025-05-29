@@ -1,0 +1,13 @@
+{
+  "Task_id": 350,
+  "Github_ID": "101975420",
+  "Github_Project_Name": "Anonymous",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "TCP Client - side by using socket in python",
+  "Instruction": "Task Description: Create a Python function that establishes a TCP connection to a specified host and port, sends a message multiple times, and handles potential connection errors.\n\nFunction Description: The function establishes a TCP connection to a target server using IPv4, sends a specified message multiple times (including one sendto operation), and properly closes the connection. It includes error handling for connection failures and provides status messages about the operation.\n\nInput:\n- host: str - The target server's IP address or hostname\n- port: int - The target port number to connect to\n- message: bytes - The message to be sent to the server (should be in bytes format)\n\nOutput:\n- None (prints status messages to console)\n- Returns None implicitly\n- Side effect: Sends network packets to the specified host and port",
+  "Canonical_solution": "import socket\n\ndef dos(host, port, message):\n    ddos = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\n    try:\n        ddos.connect((host, port))\n        ddos.send(message)\n        ddos.sendto(message, (host, port))\n        ddos.send(message)\n    except socket.error as msg:\n        print(\"|[Connection Failed]         |\")\n    print(\"|[DDoS Attack Engaged]       |\")\n    ddos.close()",
+  "FSMID_for_test": 67,
+  "Code_level": "Function-level"
+}

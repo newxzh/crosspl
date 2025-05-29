@@ -1,0 +1,13 @@
+{
+  "Task_id": 342,
+  "Github_ID": "4038949",
+  "Github_Project_Name": "traccar",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "TCP Client - side by using socket in python",
+  "Instruction": "Task Description: Create a Python function that establishes a TCP client connection to a server, sends a message, and continuously receives responses from the server.\n\nFunction Description: The function `tcp_client_communication` creates a TCP socket, connects to a specified server, sends a predefined or custom message, and enters a loop to continuously receive and print responses from the server until manually interrupted. The connection is closed after the loop exits (though in practice, the loop is infinite and `s.close()` may not be reached).\n\nInput:\n- `host` (str, optional): The IP address or hostname of the target server. Defaults to \"localhost\".\n- `port` (int, optional): The port number of the target server. Defaults to 5001.\n- `message` (bytes, optional): The message to send to the server. Defaults to a predefined GPS tracker message in bytes format.\n\nOutput: None (The function prints received data to the console but does not return any value).",
+  "Canonical_solution": "import socket\nimport binascii\n\ndef tcp_client_communication(host=\"localhost\", port=5001, message=b\"imei:123456789012345,tracker,151030080103,,F,000101.000,A,5443.3834,N,02512.9071,E,0.00,0;\"):\n    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\n    s.connect((host, port))\n    s.send(message)\n    \n    while True:\n        print(s.recv(1024))\n    \n    s.close()",
+  "FSMID_for_test": 67,
+  "Code_level": "Function-level"
+}

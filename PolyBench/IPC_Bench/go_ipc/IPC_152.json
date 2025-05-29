@@ -1,0 +1,13 @@
+{
+    "Task_id": 152,
+    "Github_ID": "173227087",
+    "Github_Project_Name": "examples",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Gin-based HTTP Server in Go",
+    "Instruction": "Task Description: Create a Go function that initializes and runs a secure HTTPS web server using the Gin framework, serving a welcome page at the \"/welcome\" endpoint.\n\nFunction Description: The function initializes a Gin router with default middleware (Logger and Recovery), sets up HTML templates, registers a GET handler for the \"/welcome\" endpoint that returns an HTML response, and starts the HTTPS server using the provided TLS certificate and key files.\n\nInput:\n- port (string): The port number to listen on, e.g., \":8080\"\n- certFile (string): Path to the TLS certificate file, e.g., \"./testdata/server.pem\"\n- keyFile (string): Path to the TLS private key file, e.g., \"./testdata/server.key\"\n- html (template.Template): HTML template to be used for responses\n\nOutput: None (the function runs indefinitely as a web server)\n\nNote: The function includes a warning about not using embedded certificates in production environments.",
+    "Canonical_solution": "import (\n\t\"html/template\"\n\t\"log\"\n\t\"net/http\"\n\t\"os\"\n\n\t\"github.com/gin-gonic/gin\"\n)\nfunc main() {\n\tlogger := log.New(os.Stderr, \"\", 0)\n\tlogger.Println(\"[WARNING] DON'T USE THE EMBED CERTS FROM THIS EXAMPLE IN PRODUCTION ENVIRONMENT, GENERATE YOUR OWN!\")\n\n\tr := gin.Default()\n\tr.SetHTMLTemplate(html)\n\n\tr.GET(\"/welcome\", func(c *gin.Context) {\n\t\tc.HTML(http.StatusOK, \"https\", gin.H{\n\t\t\t\"status\": \"success\",\n\t\t})\n\t})\n\n\tr.RunTLS(\":8080\", \"./testdata/server.pem\", \"./testdata/server.key\")\n}",
+    "FSMID_for_test": 105,
+    "Code_level": "Function-level"
+}

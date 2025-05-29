@@ -1,0 +1,13 @@
+{
+  "Task_id": 103,
+  "Github_ID": "108992863",
+  "Github_Project_Name": "deepvoice3_pytorch",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Client-side by using requests in python",
+  "Instruction": "Task Description: Create a function that sends audio and transcript files to a server for processing using HTTP POST request and handles the response.\n\nFunction Description: The function `gentle_request` sends a WAV audio file and its corresponding transcript text file to a specified server using an HTTP POST request. It checks if the filenames match, reads the transcript content, and sends both files to the server. The function handles the server response, checks for errors, and optionally prints debug information.\n\nInput:\n- `wav_path` [str] - Path to the WAV audio file to be sent.\n- `txt_path` [str] - Path to the transcript text file corresponding to the audio.\n- `server_addr` [str] - IP address or hostname of the server.\n- `port` [int] - Port number on which the server is listening.\n- `debug` [bool, optional] - If True, prints the server response in JSON format. Default is False.\n\nOutput:\n- `response` [requests.Response or None] - The server's HTTP response object if the request is successful, otherwise None. The response can be parsed for status code, headers, and content.",
+  "Canonical_solution": "from docopt import docopt\nfrom glob import glob\nfrom tqdm import tqdm\nimport os.path\nimport requests\nimport numpy as np\n\ndef gentle_request(wav_path,txt_path, server_addr, port, debug=False):\n    print('\\n')\n    response = None\n    wav_name = os.path.basename(wav_path)\n    txt_name = os.path.basename(txt_path)\n    if os.path.splitext(wav_name)[0] != os.path.splitext(txt_name)[0]:\n        print(' [!] wav name and transcript name does not match - exiting...')\n        return response\n    with open(txt_path, 'r', encoding='utf-8-sig') as txt_file:\n        print('Transcript - '+''.join(txt_file.readlines()))\n    with open(wav_path,'rb') as wav_file, open(txt_path, 'rb') as txt_file:\n        params = (('async','false'),)\n        files={'audio':(wav_name,wav_file),\n               'transcript':(txt_name,txt_file),\n               }\n        server_path = 'http://'+server_addr+':'+str(port)+'/transcriptions'\n        response = requests.post(server_path, params=params,files=files)\n        if response.status_code != 200:\n            print(' [!] External server({}) returned bad response({})'.format(server_path, response.status_code))\n    if debug:\n        print('Response')\n        print(response.json())\n    return response",
+  "FSMID_for_test": 57,
+  "Code_level": "Function-level"
+}

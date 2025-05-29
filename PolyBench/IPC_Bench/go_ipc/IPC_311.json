@@ -1,0 +1,13 @@
+{
+    "Task_id": 311,
+    "Github_ID": "158560458",
+    "Github_Project_Name": "compose-on-kubernetes",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Simple HTTP GET client using net/http",
+    "Instruction": "Task Description: Implement a file fetcher with caching capability that retrieves files from a given URL using HTTP GET requests and caches the results to avoid redundant network calls.\n\nFunction Description: The FetchFile function checks a cache for the requested file URL. If not found in cache, it makes an HTTP GET request to fetch the file, stores the result in cache, and returns the file content. It handles errors during the fetch operation and returns appropriate status codes.\n\nInput: \n- fileurl [string]: The URL of the file to fetch\n\nOutput:\n- []byte: The content of the fetched file\n- error: Any error encountered during the fetch operation (network error, non-200 status code, or read error)",
+    "Canonical_solution": "import (\n\t\"errors\"\n\t\"fmt\"\n\t\"io/ioutil\"\n\t\"log\"\n\t\"net/http\"\n)\n\nvar fileCache map[string][]byte\n\nfunc initializeFileCache() {\n\tif fileCache == nil {\n\t\tfileCache = make(map[string][]byte, 0)\n\t}\n}\n\nfunc FetchFile(fileurl string) ([]byte, error) {\n\tinitializeFileCache()\n\tbytes, ok := fileCache[fileurl]\n\tif ok {\n\t\tif verboseReader {\n\t\t\tlog.Printf(\"Cache hit %s\", fileurl)\n\t\t}\n\t\treturn bytes, nil\n\t}\n\tif verboseReader {\n\t\tlog.Printf(\"Fetching %s\", fileurl)\n\t}\n\tresponse, err := http.Get(fileurl)\n\tif err != nil {\n\t\treturn nil, err\n\t}\n\tif response.StatusCode != 200 {\n\t\treturn nil, errors.New(fmt.Sprintf(\"Error downloading %s: %s\", fileurl, response.Status))\n\t}\n\tdefer response.Body.Close()\n\tbytes, err = ioutil.ReadAll(response.Body)\n\tif err == nil {\n\t\tfileCache[fileurl] = bytes\n\t}\n\treturn bytes, err\n}",
+    "FSMID_for_test": 101,
+    "Code_level": "Function-level"
+}

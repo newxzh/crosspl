@@ -1,0 +1,13 @@
+{
+  "Task_id": 472,
+  "Github_ID": "473378688",
+  "Github_Project_Name": "DeepSpeed-MII",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "ZeroMQ Consumer in Python(PUB/SUB)",
+  "Instruction": "Task Description: Implement a ZeroMQ consumer class in Python that subscribes to messages from a publisher using the PUB/SUB pattern, with timeout handling for message reception.\n\nClass Description: The ZeroMQConsumer class establishes a connection to a ZeroMQ publisher, subscribes to all messages, and provides methods to receive messages and clean up resources.\n\nAttributes:\n- _zmq_context: zmq.Context - The ZeroMQ context for managing sockets\n- socket: zmq.Socket - The SUB socket for receiving messages from the publisher\n\nMethods:\n- __init__(zmq_port: int) -> None - Initializes the consumer with a connection to the specified port\n  - Input: zmq_port (int) - The port number to connect to the publisher\n  - Output: None\n- receive_message() -> Dict[str, Any] - Receives and parses a message from the publisher\n  - Input: None\n  - Output: Dict[str, Any] - The parsed message content or empty dict if timeout occurs\n- close() -> None - Closes the socket and terminates the context\n  - Input: None\n  - Output: None",
+  "Canonical_solution": "import zmq\nfrom typing import Dict, Any\nimport ujson\n\nclass ZeroMQConsumer:\n    def __init__(self, zmq_port: int):\n        self._zmq_context = zmq.Context()\n        self.socket = self._zmq_context.socket(zmq.SUB)\n        self.socket.connect(f\"tcp://localhost:{zmq_port}\")\n        self.socket.setsockopt_string(zmq.SUBSCRIBE, \"\")\n        self.socket.setsockopt(zmq.RCVTIMEO, 100)  # ZMQ_RECV_TIMEOUT\n\n    def receive_message(self) -> Dict[str, Any]:\n        try:\n            json_data = self.socket.recv_string()\n            return ujson.loads(json_data)\n        except zmq.Again:\n            return {}\n\n    def close(self):\n        self.socket.close()\n        self._zmq_context.term()",
+  "FSMID_for_test": 85,
+  "Code_level": "Class-level"
+}

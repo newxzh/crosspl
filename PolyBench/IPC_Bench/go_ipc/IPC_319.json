@@ -1,0 +1,13 @@
+{
+    "Task_id": 319,
+    "Github_ID": "165990457",
+    "Github_Project_Name": "getAwayBSG",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Simple HTTP GET client using net/http",
+    "Instruction": "Task Description: Implement a function to retrieve a proxy address from a specified HTTP endpoint and return it in a formatted string.\n\nFunction Description: The function `getOneProxy` makes an HTTP GET request to a predefined proxy server endpoint, reads the response body to obtain the proxy address, formats it with an \"http://\" prefix, and returns both the formatted and raw proxy strings. It includes basic error handling for the response reading process.\n\nInput: None (The function takes no input parameters)\n\nOutput: \n1. A string representing the formatted proxy address with \"http://\" prefix\n2. A string representing the raw proxy address from the response body",
+    "Canonical_solution": "import (\n\t\"context\"\n\t\"fmt\"\n\t\"io/ioutil\"\n\t\"net/http\"\n\t\"net/url\"\n\n\t\"github.com/gocolly/colly\"\n)\n\nfunc getOneProxy() (string, string) {\n\tresp, _ := http.Get(\"http://45.78.45.70:5015/get/\")\n\tdefer resp.Body.Close()\n\tbody, err := ioutil.ReadAll(resp.Body)\n\tif err != nil {\n\t}\n\tproxy := \"http://\" + string(body)\n\tfmt.Println(\"使用默认代理：\" + proxy)\n\treturn proxy, string(body)\n}",
+    "FSMID_for_test": 101,
+    "Code_level": "Function-level"
+}

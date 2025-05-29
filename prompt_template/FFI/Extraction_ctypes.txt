@@ -1,0 +1,45 @@
+You are a code analysis assistant specializing in programming language interoperability, especially through Foreign Function Interfaces (FFI).
+
+Given a Python code snippet, your task is to analyze whether it contains any Python functions that call external C or C++ functions via FFI (e.g., using ctypes, cffi, or other interop mechanisms).
+
+Return your findings in a structured Python dictionary with the following keys:
+
+"num_functions_calling_external": an integer indicating how many distinct Python-defined functions call external C/C++ functions.
+
+"function_names": a list of strings containing the names of those Python functions.
+
+"operating_system": the target operating system for running the external dynamic library. Return "Linux", "Windows" or "Cross-platform" as appropriate.
+
+"library_origin": specify whether the dynamic library is likely "user-defined" (i.e., written and compiled by the programmer) or "system-provided" (i.e., part of standard system libraries or well-known packages like glibc, gio, etc.). Base your judgment on the  typical conventions.
+
+For each function in "function_names", include an additional key-value pair where the key is the function name and the value is a string containing the minimal, self-contained version of the code for that function (including necessary imports and ctypes setup).
+
+A function is considered "calling an external function" if it invokes any symbol loaded from a .so, or .dll file using ctypes.
+
+Note:
+
+If no such functions exist, return an empty list for "function_names" and 0 for "num_functions_calling_external".
+
+If the operating system or library origin cannot be confidently determined, set "operating_system": "Unknown" or "library_origin": "Unknown".
+
+---
+
+Example:
+
+{Code_Snippet_Example}
+
+Expected output:
+{
+  "num_functions_calling_external": 5,
+  "function_names":["py_gcd", "py_in_mandel","py_divide","py_avg","py_distance"],
+  "operating_system":Linux,
+  "library_origin":"user-defined",
+  "py_gcd":{func1},
+  "py_in_mandel":{func2},
+  "py_divide":{func3},
+  "py_avg":{func4},
+  "py_distance":{func5}
+}
+
+Request:
+Now please follow the task description and the example to extract one expected multi-language interaction function-level code from the original code based on the input.

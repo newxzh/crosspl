@@ -1,0 +1,13 @@
+{
+  "Task_id": 200,
+  "Github_ID": "51702566",
+  "Github_Project_Name": "uwsgi-nginx-flask-docker",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Server - side by using Flask in python",
+  "Instruction": "Task Description: Create a Flask-based HTTP server with multiple endpoints that return different responses, including a main API endpoint, a root endpoint, and a static file endpoint that will be overridden by Nginx.\n\nFunction Description: The code creates a Flask application with three routes:\n1. An API endpoint (\"/api\") that returns a greeting message with Python version information\n2. A root endpoint (\"/\") that returns a basic message\n3. A static file endpoint (\"/content/test.txt\") that returns a message which will be overridden by Nginx\n\nInput: None (Flask automatically handles incoming HTTP requests)\n\nOutput: \n- For \"/api\" endpoint: A string containing a greeting message with Python version\n- For \"/\" endpoint: A string \"API response overriden by Nginx\"\n- For \"/content/test.txt\" endpoint: A string \"Not run, Nginx overrides to serve static file\"",
+  "Canonical_solution": "from flask import Flask\ncustom_app = Flask(__name__)\n\n@custom_app.route(\"/api\")\ndef hello():\n    version = \"{}.{}\".format(sys.version_info.major, sys.version_info.minor)\n    message = \"Hello World from Flask in a uWSGI Nginx Docker container with Python {} - testing\".format(\n        version\n    )\n    return message\n\n@custom_app.route(\"/\")\ndef main():\n    return \"API response overriden by Nginx\"\n\n@custom_app.route(\"/content/test.txt\")\ndef static_test():\n    return \"Not run, Nginx overrides to serve static file\"\n\nif __name__ == \"__main__\":\n    custom_app.run(host=\"0.0.0.0\", debug=True, port=80)",
+  "FSMID_for_test": 60,
+  "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 325,
+  "Github_ID": "715605",
+  "Github_Project_Name": "jedis",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "Redis in Java",
+  "Instruction": "Task Description: Create a Java class that implements a Redis client using connection pooling to perform high-throughput operations in a multi-threaded environment.\n\nClass Description: The RedisPooledClient class provides a thread-safe interface to interact with Redis using a pooled connection. It supports basic CRUD operations and is designed to handle concurrent requests efficiently.\n\nAttributes:\n- jedisPool: JedisPooled - The pooled Redis connection instance that manages connections to the Redis server\n\nMethods:\n- RedisPooledClient(String host, int port, String password) -> void - Constructor that initializes the Redis connection pool with the specified host, port, and password\n- performOperations(int totalOperations) -> void - Executes a specified number of set/get operations across multiple threads to demonstrate concurrent Redis access\n- close() -> void - Properly closes the Redis connection pool to release resources",
+  "Canonical_solution": "import redis.clients.jedis.*;\nimport java.util.ArrayList;\nimport java.util.List;\nimport java.util.concurrent.atomic.AtomicInteger;\n\npublic class RedisPooledClient {\n\n    private JedisPooled jedisPool;\n\n    public RedisPooledClient(String host, int port, String password) {\n        this.jedisPool = new JedisPooled(host, port, null, password);\n    }\n\n    public void performOperations(int totalOperations) {\n        List<Thread> threads = new ArrayList<>();\n        AtomicInteger counter = new AtomicInteger();\n\n        for (int i = 0; i < 50; i++) {\n            Thread thread = new Thread(() -> {\n                for (int j = 0; (j = counter.getAndIncrement()) < totalOperations;) {\n                    try {\n                        String key = \"foo\" + j;\n                        jedisPool.set(key, key);\n                        jedisPool.get(key);\n                    } catch (Exception e) {\n                        e.printStackTrace();\n                    }\n                }\n            });\n            threads.add(thread);\n            thread.start();\n        }\n\n        for (Thread t : threads) {\n            try {\n                t.join();\n            } catch (InterruptedException e) {\n                e.printStackTrace();\n            }\n        }\n    }\n\n    public void close() {\n        jedisPool.close();\n    }\n}",
+  "FSMID_for_test": 37,
+  "Code_level": "Class-level"
+}

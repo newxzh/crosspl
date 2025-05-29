@@ -1,0 +1,13 @@
+{
+  "Task_id": 79,
+  "Github_ID": "18394992",
+  "Github_Project_Name": "web-development-with-node-and-express",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP based on express in javascript",
+  "Instruction": "Task Description: Create a function that initializes and starts an Express.js HTTP server with REST API capabilities, static file serving, and error handling.\n\nFunction Description: The function `startServer` creates and configures an Express.js application, sets up middleware for static file serving and request body parsing, configures REST API routes with error handling, and starts the HTTP server on a specified port. The server handles both regular web traffic and API requests through virtual hosting.\n\nInput: None (uses environment variable PORT if available)\n\nOutput: Returns the HTTP server instance that was created and started.\n\nTask Description: ...\n\nFunction Description: ...\n\nInput: ...\n\nOutput: ...",
+  "Canonical_solution": "function startServer() {\n    var http = require('http'),\n        express = require('express'),\n        app = express();\n\n    app.set('port', process.env.PORT || 3000);\n\n    app.use(express.static(__dirname + '/public'));\n    app.use(require('body-parser')());\n\n    var rest = require('connect-rest');\n    var apiOptions = {\n        context: '/',\n        domain: require('domain').create(),\n    };\n\n    apiOptions.domain.on('error', function(err){\n        console.log('API domain error.\\n', err.stack);\n        setTimeout(function(){\n            console.log('Server shutting down after API domain error.');\n            process.exit(1);\n        }, 5000);\n        server.close();\n        var worker = require('cluster').worker;\n        if(worker) worker.disconnect();\n    });\n\n    app.use(vhost('api.*', rest.rester(apiOptions)));\n\n    var server = http.createServer(app).listen(app.get('port'), function(){\n        console.log('Express started in ' + app.get('env') +\n            ' mode on http://localhost:' + app.get('port') +\n            '; press Ctrl-C to terminate.');\n    });\n\n    return server;\n}",
+  "FSMID_for_test": 96,
+  "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 13,
+  "Github_ID": "28468993",
+  "Github_Project_Name": "curlconverter",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Client - side based on request in javascript",
+  "Instruction": "Task Description: Create a function that makes an HTTP POST request to a specified URL with custom headers and data, then handles the response.\n\nFunction Description: The function `makeHttpRequest` sends an HTTP POST request to a given URL with specified headers and a data payload. It uses the `request` module to perform the HTTP request and includes a callback function to handle the response or errors. The function is designed to be reusable for making HTTP POST requests with minimal configuration.\n\nInput: \n- None (The URL, headers, and data are hardcoded within the function for simplicity. In a real-world scenario, these could be passed as parameters.)\n\nOutput: \n- None (The function logs the response body to the console if the request is successful. In a real-world scenario, the response could be returned or processed further.)\n\nNote: The function assumes the `request` module is available in the environment. If not, it must be installed via npm or another package manager.",
+  "Canonical_solution": "function makeHttpRequest() {\n    var request = require('request');\n    \n    var headers = {\n        'Content-Type': 'application/json',\n        'Accept': 'application/json'\n    };\n\n    var dataString = '18233982904';\n\n    var options = {\n        url: 'http://localhost:28139/CurlToNode',\n        method: 'POST',\n        headers: headers,\n        body: dataString\n    };\n\n    function callback(error, response, body) {\n        if (!error && response.statusCode == 200) {\n            console.log(body);\n        }\n    }\n\n    request(options, callback);\n}",
+  "FSMID_for_test": 95,
+  "Code_level": "Function-level"
+}

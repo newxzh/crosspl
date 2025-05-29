@@ -1,0 +1,13 @@
+{
+  "Task_id": 62,
+  "Github_ID": "819554665",
+  "Github_Project_Name": "exo",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Client-side by using requests in python",
+  "Instruction": "Task Description: Create a function to download a file from a given URL and save it to a specified local path.\n\nFunction Description: The function uses the Python requests library to make an HTTP GET request to download a file from a provided URL. It checks the response status code to ensure the request was successful, creates necessary directories for the local path if they don't exist, and saves the file content to the specified location.\n\nInput:\n- url: str - The URL of the file to download\n- local_path: str - The local file path where the downloaded content should be saved\n\nOutput:\n- None - The function doesn't return any value but prints status messages indicating success or failure of the download operation",
+  "Canonical_solution": "import os\nimport requests\nfrom urllib.parse import urljoin\n\ndef download_file(url, local_path):\n    response = requests.get(url)\n    if response.status_code == 200:\n        os.makedirs(os.path.dirname(local_path), exist_ok=True)\n        with open(local_path, 'wb') as f:\n            f.write(response.content)\n        print(f\"Downloaded: {local_path}\")\n    else:\n        print(response.status_code)\n        print(f\"Failed to download: {url}\")",
+  "FSMID_for_test": 57,
+  "Code_level": "Function-level"
+}

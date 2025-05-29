@@ -1,0 +1,13 @@
+{
+    "Task_id": 11,
+    "Github_ID": "27494663",
+    "Github_Project_Name": "machine",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Advanced HTTP client with custom http.Client and request headers",
+    "Instruction": "Task Description: Create a function to retrieve metadata and ETag from Google Compute Engine (GCE) metadata server using a custom HTTP client with specific timeout configurations.\n\nFunction Description: The function `getETag` makes an HTTP GET request to the GCE metadata server to fetch metadata value and its associated ETag. It uses a pre-configured HTTP client with custom timeout settings and adds required headers to the request. The function handles various response scenarios including not found errors and non-200 status codes.\n\nInput:\n- suffix [string]: The metadata path suffix to append to the base metadata URL\n\nOutput:\n- value [string]: The retrieved metadata value\n- etag [string]: The ETag header value from the response\n- err [error]: Error object if any error occurs during the request or processing",
+    "Canonical_solution": "import (\n\t\"fmt\"\n\t\"io/ioutil\"\n\t\"net\"\n\t\"net/http\"\n\t\"os\"\n\n\t\"google.golang.org/cloud/internal\"\n)\n\nvar metaClient = &http.Client{\n\tTransport: &internal.Transport{\n\t\tBase: &http.Transport{\n\t\t\tDial: (&net.Dialer{\n\t\t\t\tTimeout:   750 * time.Millisecond,\n\t\t\t\tKeepAlive: 30 * time.Second,\n\t\t\t}).Dial,\n\t\t\tResponseHeaderTimeout: 750 * time.Millisecond,\n\t\t},\n\t},\n}\n\nfunc getETag(suffix string) (value, etag string, err error) {\n\thost := os.Getenv(\"GCE_METADATA_HOST\")\n\tif host == \"\" {\n\t\thost = \"169.254.169.254\"\n\t}\n\turl := \"http://\" + host + \"/computeMetadata/v1/\" + suffix\n\treq, _ := http.NewRequest(\"GET\", url, nil)\n\treq.Header.Set(\"Metadata-Flavor\", \"Google\")\n\tres, err := metaClient.Do(req)\n\tif err != nil {\n\t\treturn \"\", \"\", err\n\t}\n\tdefer res.Body.Close()\n\tif res.StatusCode == http.StatusNotFound {\n\t\treturn \"\", \"\", NotDefinedError(suffix)\n\t}\n\tif res.StatusCode != 200 {\n\t\treturn \"\", \"\", fmt.Errorf(\"status code %d trying to fetch %s\", res.StatusCode, url)\n\t}\n\tall, err := ioutil.ReadAll(res.Body)\n\tif err != nil {\n\t\treturn \"\", \"\", err\n\t}\n\treturn string(all), res.Header.Get(\"Etag\"), nil\n}",
+    "FSMID_for_test": 102,
+    "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 414,
+  "Github_ID": "12173486",
+  "Github_Project_Name": "pupil",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "TCP Server - side by using socketserver in python",
+  "Instruction": "Task Description: Implement a TCP server for clock synchronization that responds to client requests with the current time provided by a time function.\n\nClass Description: The system consists of three classes working together to create a threaded TCP server that handles time synchronization requests. The server responds to \"sync\" messages with the current timestamp.\n\nAttributes:\n\nserver: [Time_Echo_Server] - The TCP server instance handling client connections\nthread: [threading.Thread] - The thread running the server's serve_forever loop\n\nMethods:\n\n__init__: [Name](time_fn: callable) -> [None] - Initializes the clock synchronization server with a time-providing function\nstop: [Name]() -> [None] - Shuts down the server and joins the server thread\nport: [property]() -> [int] - Returns the port number the server is bound to (read-only)\nhost: [property]() -> [str] - Returns the host address the server is bound to (read-only)",
+  "Canonical_solution": "import socket\nimport socketserver\nimport struct\nimport threading\nfrom functools import partial\n\nclass Time_Echo(socketserver.BaseRequestHandler):\n    def __init__(self, *args, time_fn, **kwargs):\n        self.time_fn = time_fn\n        super().__init__(*args, **kwargs)\n\n    def handle(self):\n        while True:\n            data = self.request.recv(4)\n            if not data:\n                break\n            if data.decode(\"utf-8\") == \"sync\":\n                self.request.send(struct.pack(\"<d\", self.time_fn()))\n\nclass Time_Echo_Server(socketserver.ThreadingTCPServer):\n    def __init__(self, *, time_fn, host=\"\", **kwargs):\n        handler_class = partial(Time_Echo, time_fn=time_fn)\n        super().__init__((host, 0), handler_class, **kwargs)\n        self.allow_reuse_address = True\n\n    @property\n    def host(self) -> str:\n        return self.server_address[0]\n\n    @property\n    def port(self) -> int:\n        return self.server_address[1]\n\nclass Clock_Sync_Server:\n    def __init__(self, time_fn):\n        self.server = Time_Echo_Server(time_fn=time_fn)\n        self.thread = threading.Thread(target=self.server.serve_forever)\n        self.thread.start()\n\n    def stop(self):\n        self.server.shutdown()\n        self.thread.join()\n\n    @property\n    def port(self):\n        return self.server.port\n\n    @property\n    def host(self):\n        return self.server.host",
+  "FSMID_for_test": 70,
+  "Code_level": "Class-level"
+}

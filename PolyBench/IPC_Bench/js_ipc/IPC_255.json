@@ -1,0 +1,13 @@
+{
+  "Task_id": 255,
+  "Github_ID": "306484159",
+  "Github_Project_Name": "extension.js",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "WebSocket Client-side based on browser native API in JavaScript",
+  "Instruction": "Task Description: Implement a WebSocket client function in JavaScript that establishes a connection to a server, handles various connection events, and processes incoming messages for a reload service.\n\nFunction Description: The `connect` function initializes and manages a WebSocket connection to a specified server. It handles connection events (open, error, message, close) and processes incoming messages to trigger appropriate actions, such as requesting initial load data or reloading extensions when file changes are detected. The function ensures only one active connection exists at a time.\n\nInput: None (The WebSocket URL is hardcoded as 'ws://localhost:__RELOAD_PORT__')\n\nOutput: None (The function primarily manages side effects: establishing connections, logging events, and triggering other functions based on received messages)",
+  "Canonical_solution": "function connect() {\n  if (webSocket) {\n    return;\n  }\n\n  webSocket = new WebSocket('ws://localhost:__RELOAD_PORT__');\n\n  webSocket.onerror = (event) => {\n    console.error(`[Reload Service] Connection error: ${JSON.stringify(event)}`);\n    webSocket.close();\n  };\n\n  webSocket.onopen = () => {\n    console.info(`[Reload Service] Connection opened.`);\n  };\n\n  webSocket.onmessage = async (event) => {\n    const message = JSON.parse(event.data);\n\n    if (message.status === 'serverReady') {\n      console.info('[Reload Service] Connection ready.');\n      await requestInitialLoadData();\n    }\n\n    if (message.changedFile) {\n      console.info(\n        `[Reload Service] Changes detected on ${message.changedFile}. Reloading extension...`\n      );\n      await messageAllExtensions(message.changedFile);\n    }\n  };\n\n  webSocket.onclose = () => {\n    console.info('[Reload Service] Connection closed.');\n    webSocket = null;\n  };\n}",
+  "FSMID_for_test": 89,
+  "Code_level": "Function-level"
+}

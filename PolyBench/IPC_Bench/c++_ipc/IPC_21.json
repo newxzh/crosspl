@@ -1,0 +1,13 @@
+{
+  "Task_id": 21,
+  "Github_ID": "433303514",
+  "Github_Project_Name": "30dayMakeCppServer",
+  "Programming_Language": "C++",
+  "suffix": ".cpp",
+  "Interface_class": "IPC",
+  "Interface_name": "TCP Client based on socket+inet in C++",
+  "Instruction": "Task Description: Implement a TCP client function in C++ that establishes a connection to a server, sends user input messages, and receives responses from the server until the connection is terminated.\n\nFunction Description: The function `tcp_client_communication` creates a TCP socket, connects to a specified server (localhost on port 8888 in this case), and enters a loop where it reads user input from stdin, sends it to the server, and prints the server's response. The communication continues until an error occurs or the connection is closed by either side.\n\nInput: None (The server IP and port are hardcoded as 127.0.0.1 and 8888 respectively in the function. User input is collected interactively during execution.)\n\nOutput: None (The function prints server responses to stdout but doesn't return any value. All communication results are handled via side effects.)\n\nNote: The function handles its own socket cleanup by closing the connection before exiting.",
+  "Canonical_solution": "#include <sys/socket.h>\n#include <arpa/inet.h>\n#include <string.h>\n#include <unistd.h>\n\n#define BUFFER_SIZE 1024\n\nvoid tcp_client_communication() {\n    int sockfd = socket(AF_INET, SOCK_STREAM, 0);\n    \n    struct sockaddr_in serv_addr;\n    bzero(&serv_addr, sizeof(serv_addr));\n    serv_addr.sin_family = AF_INET;\n    serv_addr.sin_addr.s_addr = inet_addr(\"127.0.0.1\");\n    serv_addr.sin_port = htons(8888);\n\n    connect(sockfd, (sockaddr*)&serv_addr, sizeof(serv_addr));\n    \n    while(true){\n        char buf[BUFFER_SIZE];\n        bzero(&buf, sizeof(buf));\n        scanf(\"%s\", buf);\n        ssize_t write_bytes = write(sockfd, buf, sizeof(buf));\n        if(write_bytes == -1){\n            break;\n        }\n        bzero(&buf, sizeof(buf));\n        ssize_t read_bytes = read(sockfd, buf, sizeof(buf));\n        if(read_bytes > 0){\n            printf(\"message from server: %s\\n\", buf);\n        }else if(read_bytes == 0){\n            break;\n        }else if(read_bytes == -1){\n            close(sockfd);\n            break;\n        }\n    }\n    close(sockfd);\n}",
+  "FSMID_for_test": 149,
+  "Code_level": "Function-level"
+}

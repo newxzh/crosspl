@@ -1,0 +1,40 @@
+#include <Python.h>
+#include "http_parser.h"
+
+#define _wsgi_input(request)   ((void)0)  // 示例宏，可替换为真实逻辑
+#define _write(request)        ((void)0)
+#define _start_response(request) ((void)0)
+
+typedef struct {
+    PyObject* headers;
+    PyObject* body;
+    http_parser parser;
+    struct {
+        unsigned headers_complete : 1;
+        unsigned complete : 1;
+        unsigned head : 1;
+        unsigned upgrade : 1;
+    } state;
+    void* field;
+} Request;
+
+static int on_message_complete(http_parser* parser)
+{
+    Request* request = (Request*)parser->data;
+
+    request->state.complete = 1;
+
+    if (request->parser.method == HTTP_HEAD)
+        request->state.head = 1;
+
+    if (request->parser.upgrade) {
+        request->state.upgrade = 1;
+        request->state.complete = 0;
+    }
+
+    _wsgi_input(request);
+    _write(request);
+    _start_response(request);
+
+    return 0;
+}

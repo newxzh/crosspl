@@ -1,0 +1,13 @@
+{
+  "Task_id": 261,
+  "Github_ID": "37834277",
+  "Github_Project_Name": "stf",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "WebSocket Server-side based on Node.js",
+  "Instruction": "Task Description: Create a WebSocket server class in Node.js that handles WebSocket connections, manages events, and provides methods for server lifecycle management.\n\nClass Description: The WebSocketServer class encapsulates the functionality to create and manage a WebSocket server instance. It handles server creation, connection events, and provides cleanup methods. The class uses promises for asynchronous server initialization and UUID generation for client identification.\n\nAttributes:\n- options: [Object] - Configuration options for the WebSocket server, including the port number.\n- wss: [WebSocket.Server|null] - The WebSocket server instance, initialized as null until created.\n\nMethods:\n- createServer(): [Promise<WebSocket.Server>] - Creates and starts the WebSocket server instance. Returns a promise that resolves with the server instance when listening or rejects on error.\n- onConnection(callback: [Function]): [void] - Sets up a connection event handler. The callback receives the WebSocket connection object and a generated UUID for the client.\n- close(): [void] - Closes the WebSocket server instance.",
+  "Canonical_solution": "var WebSocket = require('ws');\nvar EventEmitter = require('eventemitter3');\nvar uuid = require('uuid');\n\nclass WebSocketServer {\n  constructor(options) {\n    this.options = options;\n    this.wss = null;\n  }\n\n  createServer() {\n    this.wss = new WebSocket.Server({\n      port: this.options.publicPort,\n      perMessageDeflate: false\n    });\n\n    var listeningListener, errorListener;\n    return new Promise((resolve, reject) => {\n      listeningListener = () => resolve(this.wss);\n      errorListener = (err) => reject(err);\n\n      this.wss.on('listening', listeningListener);\n      this.wss.on('error', errorListener);\n    })\n    .finally(() => {\n      this.wss.removeListener('listening', listeningListener);\n      this.wss.removeListener('error', errorListener);\n    });\n  }\n\n  onConnection(callback) {\n    this.wss.on('connection', (ws) => {\n      var id = uuid.v4();\n      callback(ws, id);\n    });\n  }\n\n  close() {\n    this.wss.close();\n  }\n}",
+  "FSMID_for_test": 90,
+  "Code_level": "Class-level"
+}

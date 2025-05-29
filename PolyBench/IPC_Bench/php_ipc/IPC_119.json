@@ -1,0 +1,13 @@
+{
+  "Task_id": 119,
+  "Github_ID": "2784293",
+  "Github_Project_Name": "php-amqplib",
+  "Programming_Language": "PHP",
+  "suffix": ".php",
+  "Interface_class": "IPC",
+  "Interface_name": "RabbitMQ producer in PHP",
+  "Instruction": "Task Description: Create a function that sends multiple messages to a RabbitMQ queue using PHP and measures the execution time for the operation.\n\nFunction Description: The function establishes a connection to a RabbitMQ server, creates a temporary queue, sends a specified number of messages with the given content, and returns the total time taken to complete the operation. Each message is sent through a newly created channel, and the temporary queue is automatically deleted after use.\n\nInput:\n- $max_messages: [int] - The number of messages to send.\n- $host: [string] - The hostname or IP address of the RabbitMQ server.\n- $port: [int] - The port number of the RabbitMQ server.\n- $user: [string] - The username for RabbitMQ authentication.\n- $pass: [string] - The password for RabbitMQ authentication.\n- $vhost: [string] - The virtual host to connect to on the RabbitMQ server.\n- $message_body: [string] - The content of the message to be sent.\n\nOutput:\n- [float] - The total execution time in seconds for sending all messages, or false if the connection fails.",
+  "Canonical_solution": "function send_rabbitmq_messages($max_messages, $host, $port, $user, $pass, $vhost, $message_body)\n{\n    use PhpAmqpLib\\Connection\\AMQPStreamConnection;\n    use PhpAmqpLib\\Message\\AMQPMessage;\n\n    $conn = new AMQPStreamConnection($host, $port, $user, $pass, $vhost);\n    if (!$conn) {\n        return false;\n    }\n\n    $time = microtime(true);\n\n    for ($i = 0; $i < $max_messages; $i++) {\n        $ch = $conn->channel();\n        list($queue,) = $ch->queue_declare('', false, false, true, true);\n        $msg = new AMQPMessage($message_body);\n        $ch->basic_publish($msg, '', $queue);\n        $ch->close();\n    }\n\n    $execution_time = microtime(true) - $time;\n    $conn->close();\n\n    return $execution_time;\n}",
+  "FSMID_for_test": 142,
+  "Code_level": "Function-level"
+}

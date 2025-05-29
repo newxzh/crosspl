@@ -1,0 +1,13 @@
+{
+  "Task_id": 183,
+  "Github_ID": "30628859",
+  "Github_Project_Name": "netty-4-user-guide-demos",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "Java Netty TCP Server",
+  "Instruction": "Task Description: Create a Java class that implements a secure TCP chat server using Netty framework, supporting SSL/TLS encryption for secure communication between clients and the server.\n\nClass Description: SecureChatServer is a Netty-based TCP server that listens for incoming client connections on a specified port, establishes secure SSL/TLS encrypted channels, and handles chat communication. The server uses a boss-worker thread model for efficient connection handling.\n\nAttributes:\nPORT: [static final int] - The port number on which the server listens for incoming connections, defaulting to 8992 if not specified via system property.\n\nMethods:\nstart: [start]() -> [void] - Initializes and starts the secure chat server. Creates a self-signed SSL certificate, configures Netty's event loop groups, sets up server bootstrap with SSL context and channel handlers, binds to the specified port, and maintains server operation until shutdown. Handles resource cleanup during shutdown.\n- Throws: Exception if any error occurs during server startup or operation",
+  "Canonical_solution": "import io.netty.bootstrap.ServerBootstrap;\nimport io.netty.channel.EventLoopGroup;\nimport io.netty.channel.nio.NioEventLoopGroup;\nimport io.netty.channel.socket.nio.NioServerSocketChannel;\nimport io.netty.handler.logging.LogLevel;\nimport io.netty.handler.logging.LoggingHandler;\nimport io.netty.handler.ssl.SslContext;\nimport io.netty.handler.ssl.util.SelfSignedCertificate;\n\npublic final class SecureChatServer {\n\n    static final int PORT = Integer.parseInt(System.getProperty(\"port\", \"8992\"));\n\n    public void start() throws Exception {\n        SelfSignedCertificate ssc = new SelfSignedCertificate();\n        SslContext sslCtx = SslContext.newServerContext(ssc.certificate(), ssc.privateKey());\n\n        EventLoopGroup bossGroup = new NioEventLoopGroup(1);\n        EventLoopGroup workerGroup = new NioEventLoopGroup();\n        try {\n            ServerBootstrap b = new ServerBootstrap();\n            b.group(bossGroup, workerGroup)\n             .channel(NioServerSocketChannel.class)\n             .handler(new LoggingHandler(LogLevel.INFO))\n             .childHandler(new SecureChatServerInitializer(sslCtx));\n\n            b.bind(PORT).sync().channel().closeFuture().sync();\n        } finally {\n            bossGroup.shutdownGracefully();\n            workerGroup.shutdownGracefully();\n        }\n    }\n}",
+  "FSMID_for_test": 4,
+  "Code_level": "Class-level"
+}

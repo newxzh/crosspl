@@ -1,0 +1,13 @@
+{
+  "Task_id": 52,
+  "Github_ID": "46527481",
+  "Github_Project_Name": "keystore-explorer",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "Http client-side based on Java.io & HttpURLConnection",
+  "Instruction": "Task Description: Create a function that sends an OCSP (Online Certificate Status Protocol) request to a specified URL and processes the response.\n\nFunction Description: The function establishes an HTTP connection to the provided URL, sends an OCSP request, reads the response, and constructs an OCSPResp object from the received data. It handles the connection lifecycle and ensures proper resource cleanup.\n\nInput:\n- url: [String] - The URL to which the OCSP request will be sent\n- ocspReq: [OCSPReq] - The OCSP request object containing the encoded request data\n\nOutput:\n- [OCSPResp] - The OCSP response object constructed from the server's response data\n- Throws [IOException] - If any I/O error occurs during the request/response process",
+  "Canonical_solution": "import java.io.IOException;\nimport java.io.OutputStream;\nimport java.net.HttpURLConnection;\nimport java.net.URL;\nimport org.apache.commons.io.IOUtils;\n\nprivate OCSPResp requestOCSPResponse(String url, OCSPReq ocspReq) throws IOException {\n    byte[] ocspReqData = ocspReq.getEncoded();\n\n    HttpURLConnection con = (HttpURLConnection) new URL(url).openConnection();\n    try {\n        con.setRequestProperty(\"Content-Type\", \"application/ocsp-request\");\n        con.setRequestProperty(\"Accept\", \"application/ocsp-response\");\n        con.setDoInput(true);\n        con.setDoOutput(true);\n        con.setUseCaches(false);\n        try (OutputStream out = con.getOutputStream()) {\n            IOUtils.write(ocspReqData, out);\n            out.flush();\n        }\n        byte[] responseBytes = IOUtils.toByteArray(con.getInputStream());\n        OCSPResp ocspResp = new OCSPResp(responseBytes);\n        return ocspResp;\n    } finally {\n        if (con != null) {\n            con.disconnect();\n        }\n    }\n}",
+  "FSMID_for_test": 16,
+  "Code_level": "Function-level"
+}

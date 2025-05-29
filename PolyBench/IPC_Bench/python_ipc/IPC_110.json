@@ -1,0 +1,13 @@
+{
+  "Task_id": 110,
+  "Github_ID": "810431023",
+  "Github_Project_Name": "MoA",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Client-side by using requests in python",
+  "Instruction": "Task Description: Create a function that retrieves word embeddings from either a local API or OpenAI's API based on the specified model.\n\nFunction Description: The function `get_embedding_from_api` fetches a word embedding vector by making an HTTP POST request to a local API endpoint or using OpenAI's API, depending on the model specified. It handles the response, checks for errors, and returns the embedding as a NumPy array if successful.\n\nInput:\n- `word` (str): The input word or text for which to generate an embedding.\n- `model` (str, optional): The name of the model to use for generating embeddings. Defaults to \"vicuna-7b-v1.1\". If the model name contains \"ada\", it uses OpenAI's API.\n\nOutput:\n- Returns a NumPy array containing the word embedding if the request is successful.\n- Returns None if an error occurs (prints the error details to the console).",
+  "Canonical_solution": "import json\nimport requests\nimport numpy as np\n\ndef get_embedding_from_api(word, model=\"vicuna-7b-v1.1\"):\n    if \"ada\" in model:\n        resp = openai.Embedding.create(\n            model=model,\n            input=word,\n        )\n        embedding = np.array(resp[\"data\"][0][\"embedding\"])\n        return embedding\n\n    url = \"http://localhost:8000/v1/embeddings\"\n    headers = {\"Content-Type\": \"application/json\"}\n    data = json.dumps({\"model\": model, \"input\": word})\n\n    response = requests.post(url, headers=headers, data=data)\n    if response.status_code == 200:\n        embedding = np.array(response.json()[\"data\"][0][\"embedding\"])\n        return embedding\n    else:\n        print(f\"Error: {response.status_code} - {response.text}\")\n        return None",
+  "FSMID_for_test": 57,
+  "Code_level": "Function-level"
+}

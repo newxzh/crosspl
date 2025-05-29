@@ -1,0 +1,13 @@
+{
+  "Task_id": 125,
+  "Github_ID": "8995733",
+  "Github_Project_Name": "jennifer_dewalt",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "Pipe Client-side based on fs+http in JavaScript",
+  "Instruction": "Task Description: Create a function that sends a file over HTTP using a readable stream and pipes it to an HTTP request.\n\nFunction Description: The function `sendFileViaHTTP` is designed to stream a file from the local filesystem and send it as binary data via an HTTP POST request. It uses Node.js's `fs` module to create a readable stream from the file and pipes this stream directly to an HTTP request created with the `http` module. This approach is efficient for handling large files as it avoids loading the entire file into memory.\n\nInput: \n- `testFilePath` (string): The path to the file to be sent. Defaults to a predefined path in the fixture directory.\n- `port` (number): The port number on which the HTTP server is listening. Defaults to a common port defined elsewhere in the code.\n\nOutput: None. The function sends the file via HTTP but does not return any value. The result of the HTTP request (success or failure) would typically be handled via event listeners on the request object, which are not shown in this basic example.",
+  "Canonical_solution": "function sendFileViaHTTP() {\n    var fs = require('fs');\n    var http = require('http');\n    var path = require('path');\n    \n    var testFilePath = path.join(__dirname, '../fixture/file/binaryfile.tar.gz');\n    var port = common.port;\n\n    var request = http.request({\n        port: port,\n        method: 'POST',\n        headers: {\n            'Content-Type': 'application/octet-stream'\n        }\n    });\n\n    fs.createReadStream(testFilePath).pipe(request);\n}",
+  "FSMID_for_test": 99,
+  "Code_level": "Function-level"
+}

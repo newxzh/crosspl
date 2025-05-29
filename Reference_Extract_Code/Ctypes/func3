@@ -1,0 +1,16 @@
+import ctypes
+import os
+import timeit
+import array
+import numpy as np
+import random
+from typing import Tuple
+_path = '../libsample.so'
+_mod = ctypes.cdll.LoadLibrary(_path)
+_divide = _mod.divide
+_divide.argtypes = (ctypes.c_int, ctypes.c_int, ctypes.POINTER(ctypes.c_int))
+_divide.restype = ctypes.c_int
+def py_divide(x: int, y: int) -> Tuple[int, int]:
+    rem = ctypes.c_int()
+    quot = _divide(x, y, rem)
+    return quot, rem.value

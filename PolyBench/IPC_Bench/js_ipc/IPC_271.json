@@ -1,0 +1,13 @@
+{
+  "Task_id": 271,
+  "Github_ID": "2367681",
+  "Github_Project_Name": "deployd",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "WebSocket Server-side based on socket.io in JavaScript",
+  "Instruction": "Task Description: Create a WebSocket server using socket.io in JavaScript that handles real-time communication between clients and integrates with an Express application and Deployd backend.\n\nFunction Description: The function `setupWebSocketServer` initializes and configures a WebSocket server using socket.io, integrates it with an Express application, and attaches a Deployd backend. It sets up event listeners for server operations and handles custom Express routes.\n\nInput: None (The function uses environment variables for configuration: `process.env.NODE_ENV` for environment setting and `process.env.PORT` for port number)\n\nOutput: None (The function starts a server that listens on the specified port and logs server status to the console)\n\nNote: The function internally uses:\n- Express for HTTP server functionality\n- Socket.io for WebSocket communication\n- Deployd for backend services\n- MongoDB (configured to connect to localhost:27017 with database name 'test-app')",
+  "Canonical_solution": "function setupWebSocketServer() {\n    var express = require('express');\n    var app = express();\n    var server = require('http').createServer(app);\n    var io = require('socket.io').listen(server, {'log level': 0});\n\n    require('deployd').attach(server, {\n        socketIo: io,\n        env: process.env.NODE_ENV || 'development',\n        db: {host:'localhost', port:27017, name:'test-app'}\n    });\n    app.use(server.handleRequest);\n\n    app.get('/express-custom-handler', function(req, res) {\n        res.send('Ok');\n    });\n\n    server.listen(process.env.PORT || 2403, function() {\n        console.log({ ENV: process.env.NODE_ENV || 'development', PORT: process.env.PORT || 2403 });\n    });\n    server.on('error', function(err) {\n        console.log(err.stack);\n        process.nextTick(function() {\n            process.exit();\n        });\n    });\n}",
+  "FSMID_for_test": 92,
+  "Code_level": "Function-level"
+}

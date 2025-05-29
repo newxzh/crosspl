@@ -1,0 +1,13 @@
+{
+    "Task_id": 293,
+    "Github_ID": "27729907",
+    "Github_Project_Name": "grpc-go",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Official-based gRPC server in Go",
+    "Instruction": "Task Description: Create a gRPC server in Go that implements an echo service and health checking functionality. The server should listen on a specified port, handle incoming gRPC requests, and periodically toggle its health status between SERVING and NOT_SERVING states.\n\nFunction Description: The main function sets up a gRPC server with echo service and health check capabilities. It creates a TCP listener, initializes the gRPC server, registers services, and starts serving requests. A background goroutine periodically changes the health status for demonstration purposes.\n\nInput:\n- port (int): The TCP port number on which the server should listen\n- sleep (time.Duration): The interval at which health status should toggle\n\nOutput:\n- None (the function runs indefinitely until interrupted or encounters an error)\n- Errors are logged if they occur during server setup or operation\n\nNote: The function uses package-level variables for port and sleep duration (typically set via command-line flags) and assumes the existence of an echoServer struct that implements the Echo service interface.",
+    "Canonical_solution": "import (\n\t\"context\"\n\t\"fmt\"\n\t\"net\"\n\t\"time\"\n\n\t\"google.golang.org/grpc\"\n\tpb \"google.golang.org/grpc/examples/features/proto/echo\"\n\t\"google.golang.org/grpc/health\"\n\thealthgrpc \"google.golang.org/grpc/health/grpc_health_v1\"\n\thealthpb \"google.golang.org/grpc/health/grpc_health_v1\"\n)\nfunc main() {\n\tflag.Parse()\n\n\tlis, err := net.Listen(\"tcp\", fmt.Sprintf(\":%d\", *port))\n\tif err != nil {\n\t\tlog.Fatalf(\"failed to listen: %v\", err)\n\t}\n\n\ts := grpc.NewServer()\n\thealthcheck := health.NewServer()\n\thealthgrpc.RegisterHealthServer(s, healthcheck)\n\tpb.RegisterEchoServer(s, &echoServer{})\n\n\tgo func() {\n\t\tnext := healthpb.HealthCheckResponse_SERVING\n\n\t\tfor {\n\t\t\thealthcheck.SetServingStatus(system, next)\n\n\t\t\tif next == healthpb.HealthCheckResponse_SERVING {\n\t\t\t\tnext = healthpb.HealthCheckResponse_NOT_SERVING\n\t\t\t} else {\n\t\t\t\tnext = healthpb.HealthCheckResponse_SERVING\n\t\t\t}\n\n\t\t\ttime.Sleep(*sleep)\n\t\t}\n\t}()\n\n\tif err := s.Serve(lis); err != nil {\n\t\tlog.Fatalf(\"failed to serve: %v\", err)\n\t}\n}",
+    "FSMID_for_test": 119,
+    "Code_level": "Function-level"
+}

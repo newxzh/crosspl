@@ -1,0 +1,13 @@
+{
+  "Task_id": 51,
+  "Github_ID": "5244445",
+  "Github_Project_Name": "AntennaPod",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "Http client-side based on Java.io & HttpURLConnection",
+  "Instruction": "Task Description: Create a function to test if a given URL is reachable by making an HTTP GET request and verifying the response code.\n\nFunction Description: The function attempts to connect to a specified URL using an HTTP GET request. It checks if the response code is HTTP_OK (200) to determine if the URL is reachable. The connection is properly closed after the check.\n\nInput: \n- strUrl: String - The URL to be tested for reachability\n\nOutput: \n- None (The function throws an exception if the URL is unreachable or if the response code is not HTTP_OK)",
+  "Canonical_solution": "import java.net.HttpURLConnection;\nimport java.net.URL;\n\npublic void testUrlReachable(String strUtl) throws Exception {\n    URL url = new URL(strUtl);\n    HttpURLConnection conn = (HttpURLConnection) url.openConnection();\n    conn.setRequestMethod(\"GET\");\n    conn.connect();\n    int rc = conn.getResponseCode();\n    assertEquals(HttpURLConnection.HTTP_OK, rc);\n    conn.disconnect();\n}",
+  "FSMID_for_test": 16,
+  "Code_level": "Function-level"
+}

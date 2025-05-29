@@ -1,0 +1,13 @@
+{
+    "Task_id": 120,
+    "Github_ID": "21525599",
+    "Github_Project_Name": "contrib",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Gin-based HTTP Server in Go",
+    "Instruction": "Task Description: Create a Go function that sets up a Gin HTTP server with caching capabilities for specific routes using in-memory storage.\n\nFunction Description: The function initializes a Gin web server with default middleware (Logger and Recovery), configures an in-memory cache store, and sets up a GET route (\"/cache_ping\") that returns a cached response. The cached response includes a \"pong\" message with the current Unix timestamp, and the cache is set to expire after one minute.\n\nInput: None (The function takes no parameters as it sets up the server configuration internally)\n\nOutput: None (The function doesn't return anything but starts an HTTP server listening on port 8080)",
+    "Canonical_solution": "import (\n\t\"fmt\"\n\t\"github.com/gin-gonic/gin\"\n\t\"github.com/gin-gonic/contrib/cache\"\n\t\"time\"\n)\n\nfunc main() {\n\tr := gin.Default()\n\n\tstore := cache.NewInMemoryStore(time.Second)\n\tr.GET(\"/cache_ping\", cache.CachePage(store, time.Minute, func(c *gin.Context) {\n\t\tc.String(200, \"pong \"+fmt.Sprint(time.Now().Unix()))\n\t}))\n\n\tr.Run(\":8080\")\n}",
+    "FSMID_for_test": 105,
+    "Code_level": "Function-level"
+}

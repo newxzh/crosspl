@@ -1,0 +1,13 @@
+{
+  "Task_id": 180,
+  "Github_ID": "739401585",
+  "Github_Project_Name": "xiaoya-alist",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Server - side by using Flask in python",
+  "Instruction": "Task Description: Create a Flask-based HTTP server endpoint that handles OAuth token requests for Aliyun Drive by processing refresh tokens, making external API calls, and returning decrypted token data.\n\nFunction Description: The function `oauth_token()` is a Flask route handler that processes POST requests to '/oauth/alipan/token'. It validates the input, makes authenticated requests to an external API, handles the response, and returns either the decrypted token data or an error response.\n\nInput:\n- HTTP POST request with JSON body containing:\n  - refresh_token: [String] - Required refresh token for OAuth authentication\n\nOutput:\n- HTTP Response with:\n  - Status Code: 200 (success) or error code (4xx/5xx)\n  - Body: JSON containing either:\n    - Success: Decrypted token data\n    - Error: Error message describing the failure",
+  "Canonical_solution": "import json\nimport requests\nfrom flask import Flask, request, Response\n\napp = Flask(__name__)\nheaders = {\n    \"token\": \"6733b42e28cdba32\",\n    'User-Agent': 'Mozilla/5.0 (Linux; U; Android 9; zh-cn; SM-S908E Build/TP1A.220624.014) AppleWebKit/533.1 (KHTML, like Gecko) Mobile Safari/533.1',\n    'Host': 'api.extscreen.com'\n}\n\n@app.route('/oauth/alipan/token', methods=['POST'])\ndef oauth_token():\n    data = request.get_json()\n    refresh_token = data.get('refresh_token', None)\n    if not refresh_token:\n        return Response(json.dumps({\"error\": \"No refresh_token provided\"}), status=400, mimetype='application/json')\n\n    req_body = {\n        \"refresh_token\": refresh_token\n    }\n\n    timestamp = str(requests.get('http://api.extscreen.com/timestamp', timeout=10).json()['data']['timestamp'])\n    unique_id = uuid.uuid4().hex\n    wifimac = str(random.randint(10**11, 10**12 - 1))\n\n    resp = requests.post(\"http://api.extscreen.com/aliyundrive/v3/token\", data=req_body, headers={**get_params(timestamp, unique_id, wifimac), **headers}, timeout=10)\n    if resp.status_code == 200:\n        resp_data = resp.json()\n        ciphertext = resp_data[\"data\"][\"ciphertext\"]\n        iv = resp_data[\"data\"][\"iv\"]\n\n        token_data = decrypt(ciphertext, iv, timestamp, unique_id, wifimac)\n        token = json.loads(token_data)\n        return Response(json.dumps(token), status=200, mimetype='application/json')\n    else:\n        return Response(resp.content, status=resp.status_code, mimetype='application/json')",
+  "FSMID_for_test": 60,
+  "Code_level": "Function-level"
+}

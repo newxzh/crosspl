@@ -1,0 +1,13 @@
+{
+  "Task_id": 201,
+  "Github_ID": "267440221",
+  "Github_Project_Name": "_hyperscript",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Server - side by using Flask in python",
+  "Instruction": "Task Description: Create a Flask-based HTTP server endpoint that introduces a configurable delay before responding, with CORS headers enabled for cross-origin requests.\n\nFunction Description: The function creates a Flask route '/respond' that accepts a 'time' query parameter (in milliseconds), sleeps for the specified duration, then returns a simple text response with CORS headers.\n\nInput:\n- time (query parameter): int - The delay time in milliseconds before responding\n\nOutput:\n- Flask Response object containing:\n  - Body: \"Response from Flask\" (string)\n  - Headers: Access-Control-Allow-Origin set to '*' for CORS\n  - Status code: 200 (implicit)",
+  "Canonical_solution": "from flask import Flask, request, make_response\nfrom time import sleep\n\napp = Flask(__name__)\n\n@app.route('/respond')\ndef hello_world():\n    time_to_sleep = int(request.args.get('time')) / 1000\n    sleep(time_to_sleep)\n    resp = make_response('Response from Flask')\n    resp.headers['Access-Control-Allow-Origin'] = '*'\n    return resp\n\nif __name__ == '__main__':\n    app.run()",
+  "FSMID_for_test": 60,
+  "Code_level": "Function-level"
+}

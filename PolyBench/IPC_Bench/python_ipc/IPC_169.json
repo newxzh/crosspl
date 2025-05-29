@@ -1,0 +1,13 @@
+{
+  "Task_id": 169,
+  "Github_ID": "739401585",
+  "Github_Project_Name": "xiaoya-alist",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Server - side by using Flask in python",
+  "Instruction": "Task Description: Create a Flask-based HTTP server that handles QR code generation, status checking, and token retrieval for an authentication system.\n\nFunction Description: The server provides three main endpoints: one to display a main page with QR code, one to generate QR code URLs, one to check QR code status, and one to retrieve authentication tokens.\n\nInput:\n- For '/get_qrcode' endpoint: GET request with no parameters\n- For '/check_qrcode/<sid>' endpoint: GET request with sid (session ID) as URL parameter\n- For '/get_tokens' endpoint: POST request with JSON body containing auth_code\n\nOutput:\n- '/get_qrcode': Returns JSON with QR code URL data\n- '/check_qrcode/<sid>': Returns JSON with QR code status\n- '/get_tokens': Returns JSON with status confirmation after processing auth_code",
+  "Canonical_solution": "import time\nimport logging\nimport json\nimport uuid\nimport hashlib\nimport base64\nimport random\nimport sys\nimport requests\nfrom flask import Flask, jsonify, render_template, request\nfrom Crypto.Cipher import AES\nfrom Crypto.Util.Padding import unpad\n\napp = Flask(__name__)\ntimestamp = str(requests.get('http://api.extscreen.com/timestamp', timeout=10).json()['data']['timestamp'])\nunique_id = uuid.uuid4().hex\nwifimac = str(random.randint(10**11, 10**12 - 1))\nheaders = {\n    \"token\": \"6733b42e28cdba32\",\n    'User-Agent': 'Mozilla/5.0 (Linux; U; Android 9; zh-cn; SM-S908E Build/TP1A.220624.014) AppleWebKit/533.1 (KHTML, like Gecko) Mobile Safari/533.1',\n    'Host': 'api.extscreen.com'\n}\n\n@app.route('/')\ndef main_page():\n    return render_template('qrcode.html')\n\n@app.route('/get_qrcode', methods=['GET'])\ndef get_qrcode():\n    return jsonify(get_qrcode_url())\n\n@app.route('/check_qrcode/<sid>', methods=['GET'])\ndef check_qrcode(sid):\n    return jsonify(check_qrcode_status(sid))\n\n@app.route('/get_tokens', methods=['POST'])\ndef get_tokens():\n    _auth_code = request.json.get('auth_code')\n    get_token(_auth_code)\n    return jsonify({'status': 'completed'})",
+  "FSMID_for_test": 60,
+  "Code_level": "Function-level"
+}

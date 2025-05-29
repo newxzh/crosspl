@@ -1,0 +1,13 @@
+{
+    "Task_id": 376,
+    "Github_ID": "163927392",
+    "Github_Project_Name": "golang-for-nodejs-developers",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "net-based UDP Server with listenUDP in Go",
+    "Instruction": "Task Description: Create a UDP server in Go that listens for incoming messages on a specified port and prints received messages along with the sender's address.\n\nFunction Description: The function sets up a UDP server that continuously listens for incoming datagrams on a specified port. For each received message, it trims whitespace, prints the message content and the sender's address, and continues listening for new messages.\n\nInput: None (The port and IP address are hardcoded in the function)\n\nOutput: None (The function prints output to stdout but doesn't return any values)",
+    "Canonical_solution": "import (\n\t\"fmt\"\n\t\"net\"\n\t\"strings\"\n)\nfunc main() {\n\tconn, err := net.ListenUDP(\"udp\", &net.UDPAddr{\n\t\tPort: 3000,\n\t\tIP:   net.ParseIP(\"0.0.0.0\"),\n\t})\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tdefer conn.Close()\n\tfmt.Printf(\"server listening %s\\n\", conn.LocalAddr().String())\n\n\tfor {\n\t\tmessage := make([]byte, 20)\n\t\trlen, remote, err := conn.ReadFromUDP(message[:])\n\t\tif err != nil {\n\t\t\tpanic(err)\n\t\t}\n\n\t\tdata := strings.TrimSpace(string(message[:rlen]))\n\t\tfmt.Printf(\"received: %s from %s\\n\", data, remote)\n\t}\n}",
+    "FSMID_for_test": 112,
+    "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 185,
+  "Github_ID": "25791650",
+  "Github_Project_Name": "rtail",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "UDP based on node.js dgram",
+  "Instruction": "Task Description: Create a UDP server that listens for incoming messages, processes them, and emits events to connected clients via WebSocket. The server should handle JSON-formatted messages, manage streams of data, and maintain a history of recent messages for each stream.\n\nFunction Description: The function `setupUDPServer` initializes a UDP server using Node.js's `dgram` module. It listens for incoming messages, parses them as JSON, and manages a collection of data streams. Each message is stored in its respective stream, with a limit of 100 messages per stream. The server also emits WebSocket events to notify clients of new messages and updates to the available streams.\n\nInput: \n- `argv.udpPort` [Number] - The port number on which the UDP server should listen.\n- `argv.udpHost` [String] - The host address on which the UDP server should bind (optional, defaults to all interfaces if not specified).\n- `io` [Object] - A WebSocket server instance (e.g., from `socket.io`) used to emit events to connected clients.\n- `debug` [Function] - A logging function used to output debug information.\n\nOutput: None (The function sets up the UDP server and binds it to the specified port and host, but does not return any value.)",
+  "Canonical_solution": "function setupUDPServer() {\n    const dgram = require('dgram');\n    let streams = {};\n    let socket = dgram.createSocket('udp4');\n\n    socket.on('message', function (data, remote) {\n        try { data = JSON.parse(data); }\n        catch (err) { return debug('invalid data sent'); }\n\n        if (!streams[data.id]) {\n            streams[data.id] = [];\n            io.sockets.emit('streams', Object.keys(streams));\n        }\n\n        let message = {\n            timestamp: data.timestamp,\n            streamid: data.id,\n            host: remote.address,\n            port: remote.port,\n            content: data.content,\n            type: typeof data.content\n        };\n\n        streams[data.id].length >= 100 && streams[data.id].shift();\n        streams[data.id].push(message);\n\n        debug(JSON.stringify(message));\n        io.sockets.to(data.id).emit('line', message);\n    });\n\n    socket.bind(argv.udpPort, argv.udpHost);\n}",
+  "FSMID_for_test": 98,
+  "Code_level": "Function-level"
+}

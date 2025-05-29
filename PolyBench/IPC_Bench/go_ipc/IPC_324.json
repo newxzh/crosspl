@@ -1,0 +1,13 @@
+{
+    "Task_id": 324,
+    "Github_ID": "179063508",
+    "Github_Project_Name": "k3d",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Simple HTTP GET client using net/http",
+    "Instruction": "Task Description: Create a function that fetches properties from a given URL, handles HTTP responses appropriately, and processes the content based on its encoding type.\n\nFunction Description: The function LoadURL makes an HTTP GET request to the specified URL, checks the response status code, reads the response body, and determines the content encoding based on the Content-Type header. It then processes the content and returns the parsed properties or an error if any step fails.\n\nInput: \n- url (string): The URL from which to fetch the properties.\n\nOutput: \n- (*Properties, error): A pointer to a Properties struct containing the parsed data and nil error on success, or nil and an error describing the failure.\n\nNote: The function handles special cases like 404 errors (when IgnoreMissing is true) and validates the Content-Type header before processing. It also ensures proper resource cleanup by deferring the closing of the response body.",
+    "Canonical_solution": "import (\n\t\"fmt\"\n\t\"io/ioutil\"\n\t\"net/http\"\n\t\"strings\"\n)\n\nfunc (l *Loader) LoadURL(url string) (*Properties, error) {\n\tresp, err := http.Get(url)\n\tif err != nil {\n\t\treturn nil, fmt.Errorf(\"properties: error fetching %q. %s\", url, err)\n\t}\n\tdefer resp.Body.Close()\n\n\tif resp.StatusCode == 404 && l.IgnoreMissing {\n\t\tLogPrintf(\"properties: %s returned %d. skipping\", url, resp.StatusCode)\n\t\treturn NewProperties(), nil\n\t}\n\n\tif resp.StatusCode != 200 {\n\t\treturn nil, fmt.Errorf(\"properties: %s returned %d\", url, resp.StatusCode)\n\t}\n\n\tbody, err := ioutil.ReadAll(resp.Body)\n\tif err != nil {\n\t\treturn nil, fmt.Errorf(\"properties: %s error reading response. %s\", url, err)\n\t}\n\n\tct := resp.Header.Get(\"Content-Type\")\n\tct = strings.Join(strings.Fields(ct), \"\")\n\tvar enc Encoding\n\tswitch strings.ToLower(ct) {\n\tcase \"text/plain\", \"text/plain;charset=iso-8859-1\", \"text/plain;charset=latin1\":\n\t\tenc = ISO_8859_1\n\tcase \"\", \"text/plain;charset=utf-8\":\n\t\tenc = UTF8\n\tdefault:\n\t\treturn nil, fmt.Errorf(\"properties: invalid content type %s\", ct)\n\t}\n\n\treturn l.loadBytes(body, enc)\n}",
+    "FSMID_for_test": 101,
+    "Code_level": "Function-level"
+}

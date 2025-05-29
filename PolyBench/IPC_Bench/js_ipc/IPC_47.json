@@ -1,0 +1,13 @@
+{
+  "Task_id": 47,
+  "Github_ID": "133092972",
+  "Github_Project_Name": "undici",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Server - side based on XMLHttpRequest in JavaScript",
+  "Instruction": "Task Description: Create a function that makes a cross-origin XMLHttpRequest (XHR) to a specified URL, sets custom headers, and handles the response or error appropriately.\n\nFunction Description: The function `makeXHRRequest` initiates an asynchronous GET request to a cross-origin URL, sets a custom header, and defines callbacks for handling successful responses and errors. The URL is processed by the `corsURL` helper function to ensure proper cross-origin request handling.\n\nInput: None (The URL and headers are hardcoded within the function.)\n\nOutput: None (The function handles the response or error internally via callbacks.)\n\n---\n\nTask Description: Create a helper function that constructs a cross-origin URL from a given path.\n\nFunction Description: The function `corsURL` takes a relative path and constructs a full URL by combining it with the current location's hostname, replacing the hostname with a remote hostname obtained from `get_host_info()`.\n\nInput: \n- `path` [String] - The relative path to the resource.\n\nOutput: \n- [String] - The fully constructed cross-origin URL.",
+  "Canonical_solution": "function corsURL(path) {\n    const url = new URL(path, location.href);\n    url.hostname = get_host_info().REMOTE_HOST;\n    return url.href;\n}\n\nfunction makeXHRRequest() {\n    const xhr = new XMLHttpRequest();\n    xhr.open(\"GET\", corsURL(\"resources/access-control-preflight-request-allow-headers-returns-star.py\"));\n    xhr.setRequestHeader(\"X-Test\", \"foobar\");\n    xhr.onerror = t.unreached_func(\"Error occurred.\");\n    xhr.onload = t.step_func_done(() => {\n        assert_equals(xhr.status, 200);\n        assert_equals(xhr.responseText, \"PASS\");\n    });\n    xhr.send();\n}",
+  "FSMID_for_test": 93,
+  "Code_level": "Function-level"
+}

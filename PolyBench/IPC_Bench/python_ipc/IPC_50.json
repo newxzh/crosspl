@@ -1,0 +1,13 @@
+{
+  "Task_id": 50,
+  "Github_ID": "469377939",
+  "Github_Project_Name": "LittlePaimon",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Client-side by using httpx+asyncio in python",
+  "Instruction": "Task Description: Implement asynchronous HTTP client functions to interact with a gacha information API, retrieving lists of available gacha and their detailed information.\n\nFunction Description: The code consists of two asynchronous functions that use httpx library to make HTTP requests to a gacha information API. The first function retrieves a list of available gacha, while the second fetches detailed information for a specific gacha using its ID.\n\nInput: \n- For `gacha_info_list()`: None\n- For `gacha_info(gacha_id)`: \n  - gacha_id: [str] - The unique identifier of the gacha to fetch details for\n\nOutput: \n- For `gacha_info_list()`: [list] - A list of available gacha items\n- For `gacha_info(gacha_id)`: [dict] - A dictionary containing detailed information about the specified gacha",
+  "Canonical_solution": "import httpx\n\nBASE_URL = 'https://operation-webstatic.mihoyo.com/gacha_info/hk4e/cn_gf01/%s'\n\nasync def gacha_info_list():\n    async with httpx.AsyncClient() as client:\n        res = await client.get(url=BASE_URL % 'gacha/list.json')\n        json_data = res.json()\n        return json_data['data']['list']\n\nasync def gacha_info(gacha_id):\n    async with httpx.AsyncClient() as client:\n        res = await client.get(url=BASE_URL % gacha_id + '/zh-cn.json')\n        return res.json()",
+  "FSMID_for_test": 59,
+  "Code_level": "Function-level"
+}

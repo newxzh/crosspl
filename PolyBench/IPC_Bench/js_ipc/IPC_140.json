@@ -1,0 +1,13 @@
+{
+  "Task_id": 140,
+  "Github_ID": "35658863",
+  "Github_Project_Name": "gentelella",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "Pipe Server-side based on fs+http in JavaScript",
+  "Instruction": "Task Description: Create a function that sets up an HTTP server to serve static files, using Node.js's built-in `http` and `fs` modules. The server should handle different MIME types and pipe file contents to the response stream.\n\nFunction Description: The `createServer` function initializes an HTTP server that listens on port 5000. It serves static files from the local file system, automatically determining the appropriate MIME type based on the file extension. If a requested file doesn't exist, it logs a warning. The function uses streaming to efficiently pipe file contents to the HTTP response.\n\nInput: None (The function takes no parameters)\n\nOutput: None (The function doesn't return anything but creates a running HTTP server)",
+  "Canonical_solution": "function createServer() {\n  var http = require('http'), fs = require('fs'), mimeTypes = {\n    'html': 'text/html',\n    'css': 'text/css',\n    'js': 'text/javascript',\n    'json': 'application/json',\n    'png': 'image/png',\n    'jpg': 'image/jpg'\n  };\n\n  http.createServer(function (req, res) {\n    var file = (req.url === '/') ? 'index.html' : \".\" + req.url;\n    var ext = require('path').extname(file),\n      type = (mimeTypes[ext] ? mimeTypes[ext] : '');\n\n    fs.exists(file, function (exists) {\n      if (exists) {\n        res.writeHead(200, {'Content-Type': type});\n        fs.createReadStream(file).pipe(res);\n      } else {\n        console.warn(file, ' does not exit');\n      }\n    });\n  }).listen(5000);\n}",
+  "FSMID_for_test": 100,
+  "Code_level": "Function-level"
+}

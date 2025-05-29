@@ -1,0 +1,13 @@
+{
+  "Task_id": 135,
+  "Github_ID": "267440221",
+  "Github_Project_Name": "_hyperscript",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Server - side by using Flask in python",
+  "Instruction": "Task Description: Create a Flask-based HTTP server with multiple endpoints to handle different types of requests, including delayed responses, request type identification, and JSON responses.\n\nFunction Description: The code sets up a Flask web server with three routes:\n1. '/respond' - Simulates a delayed response based on an input parameter\n2. '/request_type' - Returns the HTTP method used in the request\n3. '/json' - Returns a simple JSON response\n\nInput:\n- For '/respond' route: Query parameter 'time' (in milliseconds)\n- For other routes: No specific input parameters required\n\nOutput:\n- For '/respond': A text response after specified delay with CORS headers\n- For '/request_type': A text response indicating the request method with CORS headers\n- For '/json': A JSON response with a greeting message",
+  "Canonical_solution": "from flask import Flask, request, make_response\nfrom time import sleep\n\napp = Flask(__name__)\n\n@app.route('/respond')\ndef respond():\n    time_to_sleep = int(request.args.get('time')) / 1000\n    sleep(time_to_sleep)\n    resp = make_response('Response from Flask')\n    resp.headers['Access-Control-Allow-Origin'] = '*'\n    return resp\n\n@app.route('/request_type')\ndef request_type():\n    resp = make_response('Request Type: ' + request.method)\n    resp.headers['Access-Control-Allow-Origin'] = '*'\n    return resp\n\n@app.route('/json')\ndef json():\n    return {resp:'Hello JSON!'}\n\nif __name__ == '__main__':\n    app.run()",
+  "FSMID_for_test": 60,
+  "Code_level": "Function-level"
+}

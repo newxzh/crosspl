@@ -1,0 +1,13 @@
+{
+    "Task_id": 275,
+    "Github_ID": "27729907",
+    "Github_Project_Name": "grpc-go",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Official-based gRPC server in Go",
+    "Instruction": "Task Description: Create a gRPC server in Go that listens for incoming requests using ALTS (Application Layer Transport Security) for authentication.\n\nFunction Description: The main function sets up a gRPC server with ALTS credentials, registers an Echo service implementation, and starts listening on a specified TCP port.\n\nInput:\n- port (int): The TCP port number on which the server should listen (passed via command-line flag)\n\nOutput:\n- None (the function runs indefinitely to serve requests or exits on error)\n\nMethods:\n- None (this is a function-level implementation, not a struct)",
+    "Canonical_solution": "import (\n\t\"context\"\n\t\"fmt\"\n\t\"log\"\n\t\"net\"\n\n\t\"google.golang.org/grpc\"\n\t\"google.golang.org/grpc/credentials/alts\"\n\n\tpb \"google.golang.org/grpc/examples/features/proto/echo\"\n)\nfunc main() {\n\tflag.Parse()\n\n\tlis, err := net.Listen(\"tcp\", fmt.Sprintf(\":%d\", *port))\n\tif err != nil {\n\t\tlog.Fatalf(\"failed to listen: %v\", err)\n\t}\n\taltsTC := alts.NewServerCreds(alts.DefaultServerOptions())\n\n\ts := grpc.NewServer(grpc.Creds(altsTC))\n\n\tpb.RegisterEchoServer(s, &ecServer{})\n\n\tif err := s.Serve(lis); err != nil {\n\t\tlog.Fatalf(\"failed to serve: %v\", err)\n\t}\n}",
+    "FSMID_for_test": 119,
+    "Code_level": "Function-level"
+}

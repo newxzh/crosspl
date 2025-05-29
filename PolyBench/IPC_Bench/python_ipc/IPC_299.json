@@ -1,0 +1,13 @@
+{
+  "Task_id": 299,
+  "Github_ID": "5739134",
+  "Github_Project_Name": "powerline-shell",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "Pipe based on subprocess in python",
+  "Instruction": "Task Description: Create a Python class that checks the installed version of npm (Node Package Manager) on the system using subprocess communication.\n\nClass Description: The Segment class is designed to retrieve and store the version of npm installed on the system. It uses subprocess.PIPE to communicate with the system process that runs the npm version command.\n\nAttributes:\nversion: [str] - Stores the version of npm retrieved from the system process. Initialized as None and updated after running the version check.\n\nMethods:\nrun: [run]() -> [None] - Executes the npm --version command using subprocess.Popen, captures the output, decodes it, and stores the result in the version attribute. Handles OSError exceptions if the command fails.\nget_version: [get_version]() -> [str] - Returns the stored npm version. Returns None if the version check was not successful or not run.",
+  "Canonical_solution": "import subprocess\n\nclass Segment:\n    def __init__(self):\n        self.version = None\n\n    def run(self):\n        try:\n            p1 = subprocess.Popen([\"npm\", \"--version\"], stdout=subprocess.PIPE)\n            self.version = p1.communicate()[0].decode(\"utf-8\").rstrip()\n        except OSError:\n            self.version = None\n\n    def get_version(self):\n        return self.version",
+  "FSMID_for_test": 76,
+  "Code_level": "Class-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 215,
+  "Github_ID": "12414592",
+  "Github_Project_Name": "javaee7-samples",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "WebSocket Client-side based on browser native API in JavaScript",
+  "Instruction": "Task Description: Implement a WebSocket client in JavaScript that establishes a connection to a server, handles incoming messages, errors, and sends messages to the server.\n\nFunction Description: The WebSocket client will initialize a connection to a specified WebSocket server URI, define event handlers for connection opening, incoming messages, and errors, and provide a function to send messages to the server.\n\nInput:\n- wsUri: [String] - The WebSocket server URI to connect to.\n- username: [String] - The username of the client sending messages.\n- textField: [HTMLInputElement] - The input field containing the message to send.\n- userField: [HTMLElement] - The HTML element to display the list of connected users.\n- chatlogField: [HTMLElement] - The HTML element to display the chat log.\n\nOutput:\n- None (The functions handle events and update the DOM directly).\n\nMethods:\n- send_message(): [Function]() -> [void] - Sends a message to the WebSocket server in the format \"username: message\".\n- onMessage(): [Function](evt: [MessageEvent]) -> [void] - Handles incoming messages, updating the user list or chat log based on the message content.\n- onError(): [Function](evt: [ErrorEvent]) -> [void] - Logs errors to the console and displays them in the DOM.\n- onOpen(): [Function](evt: [Event]) -> [void] - Handles the WebSocket connection opening event (implementation not shown in reference code).",
+  "Canonical_solution": "function send_message() {\n    websocket.send(username + \": \" + textField.value);\n}\n\nfunction onMessage(evt) {\n    console.log(\"onMessage: \" + evt.data);\n    if (evt.data.indexOf(\"joined\") != -1) {\n        userField.innerHTML += evt.data.substring(0, evt.data.indexOf(\" joined\")) + \"\\n\";\n    } else {\n        chatlogField.innerHTML += evt.data + \"\\n\";\n    }\n}\n\nfunction onError(evt) {\n    writeToScreen('<span style=\"color: red;\">ERROR:</span> ' + evt.data);\n}\n\nvar websocket = new WebSocket(wsUri);\nwebsocket.onopen = function(evt) { onOpen(evt) };\nwebsocket.onmessage = function(evt) { onMessage(evt) };\nwebsocket.onerror = function(evt) { onError(evt) };",
+  "FSMID_for_test": 89,
+  "Code_level": "Function-level"
+}

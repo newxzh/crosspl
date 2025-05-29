@@ -1,0 +1,13 @@
+{
+  "Task_id": 214,
+  "Github_ID": "86138605",
+  "Github_Project_Name": "yi-hack-v3",
+  "Programming_Language": "JavaScript",
+  "suffix": ".html",
+  "Interface_class": "IPC",
+  "Interface_name": "WebSocket Client-side based on browser native API in JavaScript",
+  "Instruction": "Task Description: Implement a WebSocket client in JavaScript to establish a connection with a server, send a command, and handle connection events.\n\nFunction Description: The code establishes a WebSocket connection to a specified URL with a custom protocol. It sends a \"REBOOT\" command upon successful connection and provides empty handlers for incoming messages and connection closure. Error handling is included for connection issues.\n\nInput: None (The WebSocket URL is obtained internally via get_appropriate_ws_url() function)\n\nOutput: None (The function establishes a WebSocket connection and sends a command, but doesn't return any value)\n\nKey Steps:\n1. Initialize WebSocket connection with appropriate browser API (MozWebSocket or standard WebSocket)\n2. Set up event handlers for connection opening, message reception, and connection closing\n3. Implement error handling for connection attempts\n4. Send \"REBOOT\" command upon successful connection\n5. Provide empty handlers for message reception and connection closing events",
+  "Canonical_solution": "function init_command() {\n    socket_command.send(\"REBOOT\\n\");\n}\n\nvar socket_command;\n\nif (typeof MozWebSocket != \"undefined\") {\n    socket_command = new MozWebSocket(get_appropriate_ws_url(), \"yi-hack-v3_command\");\n} else {\n    socket_command = new WebSocket(get_appropriate_ws_url(), \"yi-hack-v3_command\");\n}\n\ntry {\n    socket_command.onopen = function() {\n        init_command();\n    }\n\n    socket_command.onmessage = function got_packet(msg) {\n    }\n\n    socket_command.onclose = function(){\n    }\n} catch(exception) {\n    alert('<p>Error' + exception);\n}",
+  "FSMID_for_test": 89,
+  "Code_level": "Function-level"
+}

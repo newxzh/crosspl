@@ -1,0 +1,13 @@
+{
+    "Task_id": 392,
+    "Github_ID": "179326472",
+    "Github_Project_Name": "ignite",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "os.pipe-based pipe in Go",
+    "Instruction": "Task Description: Create a Go struct that implements a log retrieval mechanism using pipes for inter-process communication, allowing for reading logs from a file and writing them to a pipe for consumption by another process.\n\nStruct Description: The `logRetriever` struct provides a way to read logs from a file and write them to a pipe, implementing `io.ReadCloser` for standard read and close operations. It also includes methods to manage the pipe's writer and output.\n\nFields:\n- reader: *os.File - The read end of the pipe used to consume log data.\n- writer: *os.File - The write end of the pipe used to send log data.\n- output: *fileCloner - A helper component that clones the writer's output to a log file.\n\nMethods:\n- newlogRetriever: (logFile string) -> (*logRetriever, error) - Initializes a new logRetriever instance, creates a pipe, and sets up file cloning. If the log file exists, copies its contents to the pipe.\n- Read: (p []byte) -> (int, error) - Implements io.Reader to read data from the pipe's reader.\n- CloseWriter: () -> error - Closes the pipe's writer to signal the end of data transmission.\n- Close: () -> error - Implements io.Closer to close the pipe's reader and release resources.\n- Opt: () -> cio.Opt - Returns an option for configuring IO streams, using a null reader and the output cloner.",
+    "Canonical_solution": "import (\n\t\"io\"\n\t\"os\"\n)\n\ntype logRetriever struct {\n\treader *os.File\n\twriter *os.File\n\toutput *fileCloner\n}\n\nfunc newlogRetriever(logFile string) (l *logRetriever, err error) {\n\tl = &logRetriever{}\n\tif l.reader, l.writer, err = os.Pipe(); err != nil {\n\t\treturn\n\t}\n\n\tif l.output, err = newFileCloner(l.writer, logFile); err != nil {\n\t\treturn\n\t}\n\n\tif util.FileExists(logFile) {\n\t\tvar reader io.ReadCloser\n\t\tif reader, err = os.Open(logFile); err != nil {\n\t\t\treturn\n\t\t}\n\t\tdefer util.DeferErr(&err, reader.Close)\n\n\t\tif _, err = io.Copy(l.writer, reader); err != nil {\n\t\t\treturn\n\t\t}\n\t}\n\n\treturn\n}\n\nvar _ io.ReadCloser = &logRetriever{}\n\nfunc (l *logRetriever) Opt() cio.Opt {\n\treturn cio.WithStreams(&nullReader{}, l.output, l.output)\n}\n\nfunc (l *logRetriever) Read(p []byte) (n int, err error) {\n\treturn l.reader.Read(p)\n}\n\nfunc (l *logRetriever) CloseWriter() (err error) {\n\treturn l.writer.Close()\n}\n\nfunc (l *logRetriever) Close() error {\n\treturn l.reader.Close()\n}",
+    "FSMID_for_test": 118,
+    "Code_level": "Class-level"
+}

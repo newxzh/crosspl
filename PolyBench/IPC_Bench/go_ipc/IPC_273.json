@@ -1,0 +1,13 @@
+{
+    "Task_id": 273,
+    "Github_ID": "452240290",
+    "Github_Project_Name": "vanus",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Official-based gRPC server in Go",
+    "Instruction": "Task Description: Implement a gRPC server in Go that handles incoming requests with custom stream preprocessing and graceful shutdown capabilities.\n\nStruct Description: The `server` struct represents a gRPC server instance with additional control for graceful shutdown and stream preprocessing.\n\nFields:\n- grpcSrv: *grpc.Server - The underlying gRPC server instance\n- closeC: chan struct{} - Channel used to signal server shutdown\n\nMethods:\n- Serve: (lis net.Listener) -> error - Starts the gRPC server on the provided listener, initializing it with custom stream preprocessing\n- preGrpcStream: (ctx context.Context, info *tap.Info) -> (context.Context, error) - Intercepts incoming gRPC streams before processing, with special handling for the \"/vanus.core.raft.RaftServer/SendMessage\" method",
+    "Canonical_solution": "import (\n\t\"context\"\n\t\"net\"\n\t\"google.golang.org/grpc\"\n\t\"google.golang.org/grpc/credentials\"\n\t\"google.golang.org/grpc/tap\"\n)\n\ntype server struct {\n\tgrpcSrv *grpc.Server\n\tcloseC  chan struct{}\n}\n\nfunc (s *server) Serve(lis net.Listener) error {\n\tsrv := grpc.NewServer(\n\t\tgrpc.InTapHandle(s.preGrpcStream),\n\t)\n\ts.grpcSrv = srv\n\n\treturn srv.Serve(lis)\n}\n\nfunc (s *server) preGrpcStream(ctx context.Context, info *tap.Info) (context.Context, error) {\n\tif info.FullMethodName == \"/vanus.core.raft.RaftServer/SendMessage\" {\n\t\tcCtx, cancel := context.WithCancel(ctx)\n\t\tgo func() {\n\t\t\tselect {\n\t\t\tcase <-cCtx.Done():\n\t\t\tcase <-s.closeC:\n\t\t\t\tcancel()\n\t\t\t}\n\t\t}()\n\t\treturn cCtx, nil\n\t}\n\treturn ctx, nil\n}",
+    "FSMID_for_test": 119,
+    "Code_level": "Class-level"
+}

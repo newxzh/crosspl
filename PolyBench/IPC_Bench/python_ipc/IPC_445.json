@@ -1,0 +1,13 @@
+{
+  "Task_id": 445,
+  "Github_ID": "584714008",
+  "Github_Project_Name": "ucall",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "WebSocket Server - side by using FastAPI in python",
+  "Instruction": "Task Description: Implement a WebSocket server using FastAPI that validates user sessions by performing a bitwise operation on received user and session IDs.\n\nFunction Description: The function `websocket_endpoint` establishes a WebSocket connection, receives binary data containing user and session IDs, validates them using a specific bitwise operation, and sends back the validation result as binary data.\n\nInput: \n- websocket: WebSocket - The WebSocket connection object provided by FastAPI\n- data: bytes - Binary data received from the client containing packed user_id and session_id (two unsigned 32-bit integers in little-endian format)\n\nOutput: \n- None (The function sends binary data back through the WebSocket connection but doesn't return anything)\n- The sent data contains a packed unsigned 32-bit integer (little-endian) representing the validation result (1 for valid, 0 for invalid)",
+  "Canonical_solution": "from fastapi import FastAPI, WebSocket\nimport struct\n\napp = FastAPI()\n\n@app.websocket('/validate_session_ws')\nasync def websocket_endpoint(websocket: WebSocket):\n    await websocket.accept()\n    while True:\n        data = await websocket.receive_bytes()\n        user_id, session_id = struct.unpack('<II', data)\n        result = (user_id ^ session_id) % 23 == 0\n        await websocket.send_bytes(struct.pack('<I', result))",
+  "FSMID_for_test": 48,
+  "Code_level": "Function-level"
+}

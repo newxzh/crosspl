@@ -1,0 +1,13 @@
+{
+  "Task_id": 397,
+  "Github_ID": "137050338",
+  "Github_Project_Name": "Python-100-Days",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "TCP Server - side by using socket in python",
+  "Instruction": "Task Description: Create a Python function that implements a TCP server which listens for client connections and sends the current server time upon connection.\n\nFunction Description: The function sets up a TCP server socket using IPv4, binds it to a specified IP address and port, listens for incoming connections, and sends the current datetime to each connected client before closing the connection. The server runs indefinitely until manually stopped.\n\nInput: None\n\nOutput: None (The function runs indefinitely, printing connection messages to console and sending datetime to clients)",
+  "Canonical_solution": "from socket import socket, SOCK_STREAM, AF_INET\nfrom datetime import datetime\n\ndef main():\n    server = socket(family=AF_INET, type=SOCK_STREAM)\n    server.bind(('192.168.1.2', 6789))\n    server.listen(512)\n    print('\u670d\u52a1\u5668\u542f\u52a8\u5f00\u59cb\u76d1\u542c...')\n    while True:\n        client, addr = server.accept()\n        print(str(addr) + '\u8fde\u63a5\u5230\u4e86\u670d\u52a1\u5668.')\n        client.send(str(datetime.now()).encode('utf-8'))\n        client.close()",
+  "FSMID_for_test": 66,
+  "Code_level": "Function-level"
+}

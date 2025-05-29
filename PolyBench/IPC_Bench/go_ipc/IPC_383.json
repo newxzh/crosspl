@@ -1,0 +1,13 @@
+{
+    "Task_id": 383,
+    "Github_ID": "273871859",
+    "Github_Project_Name": "headscale",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "nhooyr.io-based websocket server in Go",
+    "Instruction": "Task Description: Implement a WebSocket server handler for a DERP (Distributed Encrypted Relay for Packets) server using the nhooyr.io/websocket library in Go. The handler should upgrade HTTP connections to WebSocket, enforce protocol requirements, and establish the connection for DERP communication.\n\nStruct Description: The DERPServer struct represents a DERP server instance that handles WebSocket connections for relaying encrypted packets between Tailscale nodes.\n\nFields:\nkey: [key.NodePrivate] - The private key used for node authentication\ntailscaleDERP: [*derp.Server] - The underlying DERP server instance that manages relay connections\n\nMethods:\nserveWebsocket: [Name](writer http.ResponseWriter, req *http.Request) -> [void] - Handles incoming HTTP requests by upgrading them to WebSocket connections. Validates the subprotocol, creates a network connection wrapper around the WebSocket, and passes it to the DERP server for handling.\n\nInput:\n- writer: [http.ResponseWriter] - The HTTP response writer\n- req: [*http.Request] - The incoming HTTP request\n\nOutput:\n- None (handles connection directly, may write error responses to writer)",
+    "Canonical_solution": "import (\n\t\"net/http\"\n\n\t\"github.com/coder/websocket\"\n\t\"tailscale.com/derp\"\n\t\"tailscale.com/net/wsconn\"\n)\n\ntype DERPServer struct {\n\tkey           key.NodePrivate\n\ttailscaleDERP *derp.Server\n}\n\nfunc (d *DERPServer) serveWebsocket(writer http.ResponseWriter, req *http.Request) {\n\twebsocketConn, err := websocket.Accept(writer, req, &websocket.AcceptOptions{\n\t\tSubprotocols:   []string{\"derp\"},\n\t\tOriginPatterns: []string{\"*\"},\n\t\tCompressionMode: websocket.CompressionDisabled,\n\t})\n\tif err != nil {\n\t\twriter.Header().Set(\"Content-Type\", \"text/plain\")\n\t\twriter.WriteHeader(http.StatusInternalServerError)\n\t\t_, err = writer.Write([]byte(\"Failed to upgrade websocket request\"))\n\t\treturn\n\t}\n\tdefer websocketConn.Close(websocket.StatusInternalError, \"closing\")\n\tif websocketConn.Subprotocol() != \"derp\" {\n\t\twebsocketConn.Close(websocket.StatusPolicyViolation, \"client must speak the derp subprotocol\")\n\t\treturn\n\t}\n\n\twc := wsconn.NetConn(req.Context(), websocketConn, websocket.MessageBinary, req.RemoteAddr)\n\tbrw := bufio.NewReadWriter(bufio.NewReader(wc), bufio.NewWriter(wc))\n\td.tailscaleDERP.Accept(req.Context(), wc, brw, req.RemoteAddr)\n}",
+    "FSMID_for_test": 116,
+    "Code_level": "Class-level"
+}

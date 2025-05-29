@@ -1,0 +1,13 @@
+{
+  "Task_id": 7,
+  "Github_ID": "14101953",
+  "Github_Project_Name": "plugins",
+  "Programming_Language": "PHP",
+  "suffix": ".php",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP client using Guzzle in PHP",
+  "Instruction": "Task Description: Create a PHP class that utilizes the Guzzle HTTP client to synchronize video processing tasks with a remote API endpoint, handling request signing and response parsing.\n\nClass Description: The SyncVideo class provides functionality to send video processing requests to a remote API endpoint using HTTP POST requests. It handles request signing, timeout configuration, and response parsing.\n\nAttributes:\n- config: [Upyun\\Config] - Configuration object containing service credentials, timeout settings, and endpoint information\n\nMethods:\n- __construct(Config $config) -> [void] - Initializes the class with the provided configuration object\n- process(array $params, string $path) -> [array] - Sends a synchronized video processing request to the specified path with the given parameters, returns the parsed JSON response",
+  "Canonical_solution": "use GuzzleHttp\\Client;\nuse Upyun\\Config;\nuse Upyun\\Signature;\n\nclass SyncVideo {\n    protected $config;\n\n    public function __construct(Config $config)\n    {\n        $this->config = $config;\n    }\n\n    public function process($params, $path) {\n        $client = new Client([\n            'timeout' => $this->config->timeout,\n        ]);\n\n        $path = '/' . $this->config->serviceName . $path;\n        $method = 'POST';\n        $signedHeaders = Signature::getHeaderSign($this->config, $method, $path);\n\n        $url = $this->config->getSyncVideoEndPoint() . $path;\n        $response = $client->request($method, $url, [\n            'headers' => $signedHeaders,\n            'json' => $params\n        ]);\n\n        $body = $response->getBody()->getContents();\n        return json_decode($body, true);\n    }\n}",
+  "FSMID_for_test": 133,
+  "Code_level": "Class-level"
+}

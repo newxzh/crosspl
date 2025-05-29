@@ -1,0 +1,13 @@
+{
+  "Task_id": 292,
+  "Github_ID": "186765948",
+  "Github_Project_Name": "jmh",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "ProcessBuilder in java.io",
+  "Instruction": "Task Description: Implement a utility class for executing external processes synchronously and asynchronously in Java, handling input/output streams properly to prevent deadlocks, and collecting process output.\n\nClass Description: A ProcessExecutor utility class that provides methods to run external processes either synchronously (blocking until completion) or asynchronously (returning immediately), while properly managing process streams and errors.\n\nMethods:\n\nMethod1: runWith(List<String> cmd) -> Collection<String> - Executes a command synchronously and returns its output as a collection of strings. Handles both stdout and stderr streams by draining them concurrently to prevent deadlocks. The method blocks until the process completes.\n\nMethod2: runAsync(String... cmd) -> Process - Executes a command asynchronously and returns the Process object immediately without waiting for completion. The caller is responsible for handling the process streams and termination.\n\nMethod3: InputStreamDrainer(InputStream, OutputStream) -> void - [Internal helper class] A thread class that continuously reads from an input stream and writes to an output stream until EOF is reached. Used internally by runWith() to drain process streams.",
+  "Canonical_solution": "import java.io.*;\nimport java.util.*;\nimport java.util.concurrent.*;\n\npublic static Collection<String> runWith(List<String> cmd) {\n    Collection<String> messages = new ArrayList<>();\n    try {\n        Process p = new ProcessBuilder(cmd).start();\n\n        ByteArrayOutputStream baos = new ByteArrayOutputStream();\n\n        // drain streams, else we might lock up\n        InputStreamDrainer errDrainer = new InputStreamDrainer(p.getErrorStream(), baos);\n        InputStreamDrainer outDrainer = new InputStreamDrainer(p.getInputStream(), baos);\n\n        errDrainer.start();\n        outDrainer.start();\n\n        int err = p.waitFor();\n\n        errDrainer.join();\n        outDrainer.join();\n\n        messages.add(baos.toString());\n    } catch (IOException ex) {\n        return Collections.singleton(ex.getMessage());\n    } catch (InterruptedException ex) {\n        throw new IllegalStateException(ex);\n    }\n    return messages;\n}\n\npublic static Process runAsync(String... cmd) {\n    try {\n        return new ProcessBuilder(cmd).start();\n    } catch (IOException ex) {\n        throw new IllegalStateException(ex);\n    }\n}",
+  "FSMID_for_test": 44,
+  "Code_level": "Function-level"
+}

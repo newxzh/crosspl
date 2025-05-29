@@ -1,0 +1,13 @@
+{
+    "Task_id": 182,
+    "Github_ID": "211206547",
+    "Github_Project_Name": "nextdns",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Net-based TCP Client in Go",
+    "Instruction": "Task Description: Implement a Go struct that handles DNS queries over UDP with context support and deadline management.\n\nStruct Description: DNSEndpoint represents a DNS server endpoint capable of performing DNS queries with context support, deadline management, and transaction ID matching.\n\nFields:\nAddr: string - The address of the DNS server in \"host:port\" format\n\nMethods:\nExchange: (ctx context.Context, payload, buf []byte) -> (n int, err error) - Performs a DNS query exchange:\n  - Establishes a UDP connection to the server\n  - Sets deadline from context if available\n  - Generates random transaction ID\n  - Sends DNS query payload\n  - Reads response and validates transaction ID\n  - Returns number of bytes read or any error\n  - Automatically closes connection when done",
+    "Canonical_solution": "import (\n\t\"context\"\n\t\"fmt\"\n\t\"net\"\n)\n\ntype DNSEndpoint struct {\n\tAddr string\n}\n\nfunc (e *DNSEndpoint) Exchange(ctx context.Context, payload, buf []byte) (n int, err error) {\n\td := &net.Dialer{}\n\tc, err := d.DialContext(ctx, \"udp\", e.Addr)\n\tif err != nil {\n\t\treturn 0, fmt.Errorf(\"dial: %v\", err)\n\t}\n\tdefer c.Close()\n\tif t, ok := ctx.Deadline(); ok {\n\t\t_ = c.SetDeadline(t)\n\t}\n\tif _, err := rand.Read(payload[:2]); err != nil {\n\t\treturn 0, err\n\t}\n\t_, err = c.Write(payload)\n\tif err != nil {\n\t\treturn 0, fmt.Errorf(\"write: %v\", err)\n\t}\n\tid := uint16(payload[0])<<8 | uint16(buf[1])\n\tfor {\n\t\tif n, err = c.Read(buf[:514]); err != nil {\n\t\t\treturn n, fmt.Errorf(\"read: %v\", err)\n\t\t}\n\t\tif n < 2 {\n\t\t\tcontinue\n\t\t}\n\t\tif id != uint16(buf[0])<<8|uint16(buf[1]) {\n\t\t\tcontinue\n\t\t}\n\t\tbreak\n\t}\n\treturn\n}",
+    "FSMID_for_test": 110,
+    "Code_level": "Class-level"
+}

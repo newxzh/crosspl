@@ -1,0 +1,13 @@
+{
+    "Task_id": 330,
+    "Github_ID": "36588302",
+    "Github_Project_Name": "cloud-torrent",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Simple HTTP GET client using net/http",
+    "Instruction": "Task Description: Implement a function to fetch and update search configuration from a remote URL, comparing it with the current configuration and updating if different.\n\nFunction Description: The function fetchSearchConfig retrieves search configuration from a predefined URL, normalizes it, compares it with the current configuration, and updates the system state if the new configuration is different. It handles HTTP requests, response reading, and configuration normalization.\n\nInput: None (uses predefined searchConfigURL and relies on the Server's state)\n\nOutput: error - Returns an error if any step fails (HTTP request, reading response, normalization, or configuration loading), or nil if successful (whether updated or no change needed)",
+    "Canonical_solution": "import (\n\t\"bytes\"\n\t\"encoding/json\"\n\t\"io/ioutil\"\n\t\"net/http\"\n)\n\nvar currentConfig, _ = normalize(defaultSearchConfig)\n\nfunc (s *Server) fetchSearchConfig() error {\n\tresp, err := http.Get(searchConfigURL)\n\tif err != nil {\n\t\treturn err\n\t}\n\tdefer resp.Body.Close()\n\tnewConfig, err := ioutil.ReadAll(resp.Body)\n\tif err != nil {\n\t\treturn err\n\t}\n\tnewConfig, err = normalize(newConfig)\n\tif err != nil {\n\t\treturn err\n\t}\n\tif bytes.Equal(currentConfig, newConfig) {\n\t\treturn nil\n\t}\n\tif err := s.scraper.LoadConfig(newConfig); err != nil {\n\t\treturn err\n\t}\n\ts.state.SearchProviders = s.scraper.Config\n\ts.state.Push()\n\tcurrentConfig = newConfig\n\treturn nil\n}",
+    "FSMID_for_test": 101,
+    "Code_level": "Function-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 44,
+  "Github_ID": "368008334",
+  "Github_Project_Name": "zhenxun_bot",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Client-side by using httpx+asyncio in python",
+  "Instruction": "Task Description: Create asynchronous HTTP client functions to retrieve user and group avatars from specified URLs using the httpx library with retry logic for error handling.\n\nFunction Description: The functions make HTTP GET requests to fetch avatar images (in bytes) from predefined URL patterns. Each function implements retry logic (3 attempts) and error logging if the request fails.\n\nInput:\n- For get_user_avatar: uid (int | str) - User ID to construct the avatar URL\n- For get_group_avatar: gid (int | str) - Group ID to construct the avatar URL\n\nOutput:\n- bytes | None: Returns the avatar image content as bytes if successful, or None if all attempts fail after retries",
+  "Canonical_solution": "import httpx\nfrom zhenxun.services.log import logger\n\nasync def get_user_avatar(uid: int | str) -> bytes | None:\n    \"\"\"\u5feb\u6377\u83b7\u53d6\u7528\u6237\u5934\u50cf\n\n    \u53c2\u6570:\n        uid: \u7528\u6237id\n    \"\"\"\n    url = f\"http://q1.qlogo.cn/g?b=qq&nk={uid}&s=160\"\n    async with httpx.AsyncClient() as client:\n        for _ in range(3):\n            try:\n                return (await client.get(url)).content\n            except Exception:\n                logger.error(\"\u83b7\u53d6\u7528\u6237\u5934\u50cf\u9519\u8bef\", \"Util\", target=uid)\n    return None\n\nasync def get_group_avatar(gid: int | str) -> bytes | None:\n    \"\"\"\u5feb\u6377\u83b7\u53d6\u7528\u7fa4\u5934\u50cf\n\n    \u53c2\u6570:\n        gid: \u7fa4\u53f7\n    \"\"\"\n    url = f\"http://p.qlogo.cn/gh/{gid}/{gid}/640/\"\n    async with httpx.AsyncClient() as client:\n        for _ in range(3):\n            try:\n                return (await client.get(url)).content\n            except Exception:\n                logger.error(\"\u83b7\u53d6\u7fa4\u5934\u50cf\u9519\u8bef\", \"Util\", target=gid)\n    return None",
+  "FSMID_for_test": 59,
+  "Code_level": "Function-level"
+}

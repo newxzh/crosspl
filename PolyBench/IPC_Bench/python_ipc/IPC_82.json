@@ -1,0 +1,13 @@
+{
+  "Task_id": 82,
+  "Github_ID": "5244445",
+  "Github_Project_Name": "AntennaPod",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Client-side by using requests in python",
+  "Instruction": "Task Description: Implement a set of functions to interact with the GitHub API for retrieving release, comparison, pull request, and search information.\n\nFunction Description: The functions provide HTTP client functionality to query GitHub's REST API for specific repository information using authentication tokens.\n\nInput:\n- token: str - GitHub personal access token for authentication\n- repo: str - Repository name in format 'owner/repo'\n- base: str - Base commit/tag for comparison (only for get_github_compare)\n- head: str - Head commit/tag for comparison (only for get_github_compare)\n- pr_number: int - Pull request number (only for get_github_pull_request)\n- sha: str - Commit SHA hash (only for search_github_prs)\n\nOutput:\n- get_github_release: str - Returns the latest release tag name\n- get_github_compare: dict - Returns comparison data between two commits/tags\n- get_github_pull_request: dict - Returns pull request details\n- search_github_prs: dict - Returns search results for merged PRs containing the commit SHA",
+  "Canonical_solution": "import requests\n\ndef get_github_release(token, repo):\n    response = requests.get(f\"https://api.github.com/repos/{repo}/releases/latest\", \n                          headers={'Authorization': f'token {token}'})\n    while response.status_code == 401:\n        print(\"Error: Invalid GitHub API token.\")\n        token = input('Token: ').strip()\n        response = requests.get(f\"https://api.github.com/repos/{repo}/releases/latest\", \n                              headers={'Authorization': f'token {token}'})\n    release = response.json()\n    return release[\"tag_name\"]\n\ndef get_github_compare(token, repo, base, head):\n    commits = requests.get(f\"https://api.github.com/repos/{repo}/compare/{base}...{head}\", \n                          headers={'Authorization': f'token {token}'}).json()\n    return commits\n\ndef get_github_pull_request(token, repo, pr_number):\n    pr_details = requests.get(f\"https://api.github.com/repos/{repo}/pulls/{pr_number}\", \n                            headers={'Authorization': f'token {token}'}).json()\n    return pr_details\n\ndef search_github_prs(token, repo, sha):\n    prs = requests.get(f\"https://api.github.com/search/issues?q=repo:{repo}+type:pr+is:merged+{sha}\", \n                      headers={'Authorization': f'token {token}'}).json()\n    return prs",
+  "FSMID_for_test": 57,
+  "Code_level": "Function-level"
+}

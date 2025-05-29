@@ -1,0 +1,13 @@
+{
+  "Task_id": 33,
+  "Github_ID": "245077032",
+  "Github_Project_Name": "API",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Client-side based on Axios",
+  "Instruction": "Task Description: Create a function that fetches COVID-19 related data from the Israeli government's health dashboard API using HTTP POST request and processes the response.\n\nFunction Description: The function makes a batch request to the Israeli health ministry's API endpoint to retrieve multiple COVID-19 related datasets including updates, patient statistics, test results, and demographic breakdowns. It handles the HTTP communication, error cases, and returns the parsed data or null if the request fails.\n\nInput: None (The function takes no parameters as all request configuration is internally defined)\n\nOutput: \n- On success: Returns parsed data from the API response (type depends on parseData implementation)\n- On failure: Returns null and logs the error",
+  "Canonical_solution": "function israelData() {\n    const axios = require('axios');\n    const logger = require('../../../utils/logger');\n    const params = {\n        requests: [\n            { queryName: 'lastUpdate', single: true },\n            { queryName: 'patientsPerDate' },\n            { queryName: 'deadPatientsPerDate' },\n            { queryName: 'recoveredPerDay' },\n            { queryName: 'testResultsPerDate' },\n            { queryName: 'infectedByPeriodAndAgeAndGender' },\n            { queryName: 'deadByPeriodAndAgeAndGender' },\n            { queryName: 'breatheByPeriodAndAgeAndGender' },\n            { queryName: 'severeByPeriodAndAgeAndGender' },\n            { queryName: 'spotlightPublic' },\n            { queryName: 'spotlightLastupdate' }\n        ]\n    };\n    return axios.post('https://datadashboardapi.health.gov.il/api/queries/_batch', params, {\n        headers: { 'Content-Type': 'application/json' }\n    }).then(data => {\n        return parseData(data.data);\n    }).catch(err => {\n        logger.err('Error: Requesting Israel Gov Data failed!', err);\n        return null;\n    });\n}",
+  "FSMID_for_test": 94,
+  "Code_level": "Function-level"
+}

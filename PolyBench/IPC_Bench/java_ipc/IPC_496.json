@@ -1,0 +1,13 @@
+{
+  "Task_id": 496,
+  "Github_ID": "77675033",
+  "Github_Project_Name": "grpc-spring",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "gRPC Client in java",
+  "Instruction": "Task Description: Create a gRPC client class in Java that checks the health of a gRPC server using the gRPC Health Checking Protocol.\n\nClass Description: The GrpcHealthClient class establishes a connection to a gRPC server and provides functionality to check the server's health status. It manages the gRPC channel and stub for communication with the server.\n\nAttributes:\n- channel: [ManagedChannel] - The gRPC communication channel to the server\n- stub: [HealthStub] - The asynchronous gRPC stub for health check operations\n\nMethods:\n- GrpcHealthClient(String host, int port) -> [void] - Constructor that initializes the gRPC channel and stub with the specified server host and port\n- checkHealth() -> [HealthCheckResponse] - Sends a health check request to the server and returns the response\n- shutdown() -> [void] - Shuts down the gRPC channel gracefully",
+  "Canonical_solution": "import io.grpc.ManagedChannel;\nimport io.grpc.ManagedChannelBuilder;\nimport io.grpc.health.v1.HealthCheckRequest;\nimport io.grpc.health.v1.HealthCheckResponse;\nimport io.grpc.health.v1.HealthGrpc;\nimport io.grpc.health.v1.HealthGrpc.HealthStub;\n\npublic class GrpcHealthClient {\n\n    private final ManagedChannel channel;\n    private final HealthStub stub;\n\n    public GrpcHealthClient(String host, int port) {\n        this.channel = ManagedChannelBuilder.forAddress(host, port)\n                .usePlaintext()\n                .build();\n        this.stub = HealthGrpc.newStub(channel);\n    }\n\n    public HealthCheckResponse checkHealth() {\n        HealthCheckRequest request = HealthCheckRequest.getDefaultInstance();\n        AwaitableStreamObserver<HealthCheckResponse> responseObserver = new AwaitableStreamObserver<>();\n        stub.check(request, responseObserver);\n        return responseObserver.getSingle();\n    }\n\n    public void shutdown() {\n        channel.shutdown();\n    }\n}",
+  "FSMID_for_test": 23,
+  "Code_level": "Class-level"
+}

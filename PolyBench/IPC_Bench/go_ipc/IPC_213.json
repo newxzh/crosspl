@@ -1,0 +1,13 @@
+{
+    "Task_id": 213,
+    "Github_ID": "110539997",
+    "Github_Project_Name": "runtime",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Official-based gRPC client in Go",
+    "Instruction": "Task Description: Implement a gRPC client in Go that connects to a gRPC server over a Unix domain socket, retrieves configuration information, and manages base virtual machine instances.\n\nStruct Description: The grpccache struct represents a gRPC client cache that maintains a connection to a gRPC server and stores VM configuration information.\n\nFields:\nconn: *grpc.ClientConn - Maintains the active connection to the gRPC server\nconfig: *vc.VMConfig - Stores the virtual machine configuration obtained from the server\n\nMethods:\nNew: [Name](ctx context.Context, endpoint string) -> (base.FactoryBase, error) - Creates a new grpccache instance by establishing a connection to the gRPC server at the specified endpoint and retrieving the VM configuration.\nGetBaseVM: [Name](ctx context.Context, config vc.VMConfig) -> (*vc.VM, error) - Retrieves a base VM instance from the cache server and closes the connection when done. The method converts the gRPC response to a local VM object.",
+    "Canonical_solution": "import (\n\t\"context\"\n\t\"fmt\"\n\n\ttypes \"github.com/gogo/protobuf/types\"\n\tpb \"github.com/kata-containers/runtime/protocols/cache\"\n\tvc \"github.com/kata-containers/runtime/virtcontainers\"\n\t\"github.com/pkg/errors\"\n\t\"google.golang.org/grpc\"\n)\n\ntype grpccache struct {\n\tconn   *grpc.ClientConn\n\tconfig *vc.VMConfig\n}\n\nfunc New(ctx context.Context, endpoint string) (base.FactoryBase, error) {\n\tconn, err := grpc.Dial(fmt.Sprintf(\"unix://%s\", endpoint), grpc.WithInsecure())\n\tif err != nil {\n\t\treturn nil, errors.Wrapf(err, \"failed to connect %q\", endpoint)\n\t}\n\n\tjConfig, err := pb.NewCacheServiceClient(conn).Config(ctx, &types.Empty{})\n\tif err != nil {\n\t\treturn nil, errors.Wrapf(err, \"failed to Config\")\n\t}\n\n\tconfig, err := vc.GrpcToVMConfig(jConfig)\n\tif err != nil {\n\t\treturn nil, errors.Wrapf(err, \"failed to convert JSON to VMConfig\")\n\t}\n\n\treturn &grpccache{conn: conn, config: config}, nil\n}\n\nfunc (g *grpccache) GetBaseVM(ctx context.Context, config vc.VMConfig) (*vc.VM, error) {\n\tdefer g.conn.Close()\n\tgVM, err := pb.NewCacheServiceClient(g.conn).GetBaseVM(ctx, &types.Empty{})\n\tif err != nil {\n\t\treturn nil, errors.Wrapf(err, \"failed to GetBaseVM\")\n\t}\n\treturn vc.NewVMFromGrpc(ctx, gVM, *g.config)\n}",
+    "FSMID_for_test": 120,
+    "Code_level": "Class-level"
+}

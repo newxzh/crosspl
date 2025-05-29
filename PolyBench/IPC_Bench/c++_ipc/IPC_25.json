@@ -1,0 +1,13 @@
+{
+  "Task_id": 25,
+  "Github_ID": "54698436",
+  "Github_Project_Name": "CS_Offer",
+  "Programming_Language": "C++",
+  "suffix": ".cpp",
+  "Interface_class": "IPC",
+  "Interface_name": "TCP Server based on socket+inet in C++",
+  "Instruction": "Task Description: Implement a TCP server in C++ that listens for incoming connections, handles client requests in separate child processes, and responds to clients after processing their data.\n\nFunction Description: The function `tcp_server_communication` creates a TCP server that binds to a specified port, listens for incoming connections, and forks child processes to handle each client connection. Each child process reads a character from the client, increments it after a delay, and sends it back before terminating.\n\nInput: None (The function uses predefined constants: port number 9736 and INADDR_ANY for binding to all available network interfaces)\n\nOutput: None (The function runs indefinitely, servicing client requests and doesn't return any value)\n\nNote: The function includes signal handling to prevent zombie processes from terminated child processes. Each client connection is handled in a separate child process while the parent process continues to accept new connections.",
+  "Canonical_solution": "#include <unistd.h>\n#include <sys/types.h>\n#include <sys/socket.h>\n#include <netinet/in.h>\n#include <signal.h>\n\nvoid tcp_server_communication()\n{\n    int server_sockfd = -1;\n    int client_sockfd = -1;\n    int client_len = 0;\n    struct sockaddr_in server_addr;\n    struct sockaddr_in client_addr;\n    \n    server_sockfd = socket(AF_INET, SOCK_STREAM, 0);\n    \n    server_addr.sin_family = AF_INET;\n    server_addr.sin_addr.s_addr = htonl(INADDR_ANY);\n    server_addr.sin_port = htons(9736);\n    \n    bind(server_sockfd, (struct sockaddr*)&server_addr, sizeof(server_addr));\n    listen(server_sockfd, 5);\n    signal(SIGCHLD, SIG_IGN);\n\n    while(1)\n    {\n        char ch = '\\0';\n        client_len = sizeof(client_addr);\n        client_sockfd = accept(server_sockfd, (struct sockaddr*)&client_addr,\n                               (socklen_t *)&client_len);\n\n        if(fork() == 0)\n        {\n            read(client_sockfd, &ch, 1);\n            sleep(5);\n            ch++;\n            write(client_sockfd, &ch, 1);\n            close(client_sockfd);\n            exit(0);\n        }\n        else\n        {\n            close(client_sockfd);\n        }\n    }\n}",
+  "FSMID_for_test": 148,
+  "Code_level": "Function-level"
+}

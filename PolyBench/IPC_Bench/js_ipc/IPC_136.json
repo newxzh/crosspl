@@ -1,0 +1,13 @@
+{
+  "Task_id": 136,
+  "Github_ID": "10932532",
+  "Github_Project_Name": "primus",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "Pipe Server-side based on fs+http in JavaScript",
+  "Instruction": "Task Description: Create a JavaScript function that sets up an HTTP server to serve an HTML file using Node.js's built-in modules (http and fs). The function should handle incoming requests by piping the file content directly to the response.\n\nFunction Description: The function creates an HTTP server that listens for incoming requests. When a request is received, it reads an HTML file from the specified path and pipes its content to the response object, setting the appropriate content-type header.\n\nInput: \n- __dirname (string): The directory path where the HTML file is located.\n- '/index.html' (string): The path to the HTML file to be served, relative to __dirname.\n\nOutput: \n- An HTTP server instance that serves the specified HTML file for all incoming requests. The server does not explicitly return a value but starts listening on a default port (typically 80 or a specified port).",
+  "Canonical_solution": "var server = require('http').createServer(function incoming(req, res) {\n  res.setHeader('Content-Type', 'text/html');\n  require('fs').createReadStream(__dirname + '/index.html').pipe(res);\n});",
+  "FSMID_for_test": 100,
+  "Code_level": "Function-level"
+}

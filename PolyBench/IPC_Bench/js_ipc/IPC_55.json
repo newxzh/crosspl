@@ -1,0 +1,13 @@
+{
+  "Task_id": 55,
+  "Github_ID": "28468993",
+  "Github_Project_Name": "curlconverter",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Server - side based on XMLHttpRequest in JavaScript",
+  "Instruction": "Task Description: Create a function that makes an HTTP GET request to a specified URL with custom headers and query parameters, then handles the response asynchronously.\n\nFunction Description: The function `makeHttpRequest` initiates an HTTP GET request to a given endpoint with query parameters and an API key in the header. It uses XMLHttpRequest to handle the request and response asynchronously. The response is logged to the console upon successful completion.\n\nInput: None (The URL, query parameters, and headers are hardcoded in this example, but could be parameterized in a more flexible implementation.)\n\nOutput: None (The function logs the response to the console but does not return any value.)",
+  "Canonical_solution": "function makeHttpRequest() {\n    let xhr = new XMLHttpRequest();\n    xhr.withCredentials = true;\n    xhr.open('GET', 'http://localhost:28139/synthetics/api/v3/monitors?test=2&limit=100&w=4');\n    xhr.setRequestHeader('X-Api-Key', '123456789');\n\n    xhr.onload = function() {\n        console.log(xhr.response);\n    };\n\n    xhr.send();\n}",
+  "FSMID_for_test": 93,
+  "Code_level": "Function-level"
+}

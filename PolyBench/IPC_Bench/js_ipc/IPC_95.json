@@ -1,0 +1,13 @@
+{
+  "Task_id": 95,
+  "Github_ID": "41759865",
+  "Github_Project_Name": "be-mean",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP based on express in javascript",
+  "Instruction": "Task Description: Create a function to set up an Express server that serves static files for a specific route.\n\nFunction Description: The function `setupServer` initializes an Express application, configures a route to serve a static HTML file, and starts the server on port 3000. It is designed to handle GET requests for the '/users' path by sending the corresponding HTML file.\n\nInput: None\n\nOutput: None (The function starts the server and logs a message to the console when the server is running.)",
+  "Canonical_solution": "const express = require('express');\nconst path = require('path');\n\nfunction setupServer() {\n    const app = express();\n    \n    app.get('/users', function (req, res) {\n        res.sendFile(path.join(__dirname, 'modules/users/views/list.html'));\n    });\n\n    app.listen(3000, function () {\n        console.log('Servidor rodando em localhost:3000');\n    });\n}",
+  "FSMID_for_test": 96,
+  "Code_level": "Function-level"
+}

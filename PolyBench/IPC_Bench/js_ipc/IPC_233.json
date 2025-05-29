@@ -1,0 +1,13 @@
+{
+  "Task_id": 233,
+  "Github_ID": "176145143",
+  "Github_Project_Name": "trading-vue-js",
+  "Programming_Language": "JavaScript",
+  "suffix": ".js",
+  "Interface_class": "IPC",
+  "Interface_name": "WebSocket Client-side based on browser native API in JavaScript",
+  "Instruction": "Task Description: Create a WebSocket client function that establishes a connection to a specified URL, handles incoming messages, and provides methods to set a callback for received data and close the connection.\n\nFunction Description: The `Stream` function initializes a WebSocket connection to the given URL. It sets up event handlers for the connection opening and incoming messages. The incoming messages are parsed as JSON and passed to a callback function. The function returns an object with methods to set the callback for received data (`ontrades`) and to close the WebSocket connection (`off`).\n\nInput: \n- `url` [String] - The WebSocket server URL to connect to.\n\nOutput: \n- Returns an object with the following methods:\n  - `ontrades` [Function] - Setter for the callback function that handles incoming data.\n  - `off` [Function] - Closes the WebSocket connection with code 1000 (normal closure).",
+  "Canonical_solution": "function Stream(url) {\n    var ws = new WebSocket(url);\n    var cb = () => {};\n\n    ws.onopen = function() {\n        console.log('Websocket is opened');\n    };\n\n    ws.onmessage = function(data) {\n        try {\n            data = JSON.parse(data.data);\n            cb(data);\n        } catch(e) {\n            console.log(e);\n        }\n    };\n\n    return {\n        set ontrades(val) { cb = val; },\n        off() { ws.close(1000); }\n    };\n}",
+  "FSMID_for_test": 89,
+  "Code_level": "Function-level"
+}

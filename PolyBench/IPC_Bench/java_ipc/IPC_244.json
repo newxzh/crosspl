@@ -1,0 +1,13 @@
+{
+  "Task_id": 244,
+  "Github_ID": "61399845",
+  "Github_Project_Name": "synthea",
+  "Programming_Language": "Java",
+  "suffix": ".java",
+  "Interface_class": "IPC",
+  "Interface_name": "Java RESTful API HTTP Client",
+  "Instruction": "Task Description: Create a Java class that implements a RESTful API client for expanding medical terminology value sets using the OkHttp library.\n\nClass Description: The TerminologyServiceClient class provides functionality to interact with a FHIR terminology service to expand value sets. It handles HTTP requests and responses, URL validation, and error handling.\n\nAttributes:\n- client: OkHttpClient - A shared HTTP client instance for making requests\n- urlValidator: UrlValidator - A validator for checking URL formats with support for double slashes\n- expandBaseUrl: String - The base URL for the value set expansion endpoint\n\nMethods:\n- setBaseUrl(String url) -> void - Sets the base URL for the terminology service by appending the value set expansion endpoint path\n- expandValueSet(String valueSetUri) -> Response - Makes a GET request to expand a value set, validates the input URI, and returns the HTTP response",
+  "Canonical_solution": "import okhttp3.OkHttpClient;\nimport okhttp3.Request;\nimport okhttp3.Response;\nimport okhttp3.ResponseBody;\nimport org.apache.commons.validator.routines.UrlValidator;\n\npublic class TerminologyServiceClient {\n    private static OkHttpClient client = new OkHttpClient();\n    private static UrlValidator urlValidator = new UrlValidator(UrlValidator.ALLOW_2_SLASHES);\n    private static String expandBaseUrl;\n\n    public static void setBaseUrl(String url) {\n        expandBaseUrl = url + \"/ValueSet/$expand?url=\";\n    }\n\n    public static Response expandValueSet(String valueSetUri) {\n        if (!urlValidator.isValid(valueSetUri)) {\n            throw new IllegalArgumentException(\"Invalid ValueSet URI\");\n        }\n\n        Request request = new Request.Builder()\n                .url(expandBaseUrl + valueSetUri)\n                .header(\"Accept\", \"application/json\")\n                .build();\n\n        try {\n            Response response = client.newCall(request).execute();\n            ResponseBody body = response.body();\n            if (body == null) {\n                throw new RuntimeException(\"Value Set Expansion contained no body\");\n            }\n            return response;\n        } catch (IOException e) {\n            throw new RuntimeException(\"Issue when expanding the value set\", e);\n        }\n    }\n}",
+  "FSMID_for_test": 22,
+  "Code_level": "Class-level"
+}

@@ -1,0 +1,13 @@
+{
+  "Task_id": 229,
+  "Github_ID": "550775432",
+  "Github_Project_Name": "WAAS",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Server - side by using http.server in python",
+  "Instruction": "Task Description: Create a simple HTTP server in Python that can handle GET, HEAD, and POST requests, with customizable port configuration.\n\nClass Description: SimpleHTTPServer is a class that implements a basic HTTP server capable of processing GET, HEAD, and POST requests. It includes an inner RequestHandler class that manages the actual request processing and response generation.\n\nAttributes:\n- port: int - The port number on which the server will listen (default: 8080)\n- server_address: tuple - A tuple containing the server address and port (default: ('', port))\n- handler_class: class - The request handler class that processes HTTP requests\n\nMethods:\n- __init__(port: int = 8080) -> None - Initializes the server with the specified port\n- run() -> None - Starts the HTTP server and begins serving requests indefinitely\n- RequestHandler._set_headers() -> None - Sets basic HTTP response headers (200 status and text/html content type)\n- RequestHandler.do_GET() -> None - Handles HTTP GET requests\n- RequestHandler.do_HEAD() -> None - Handles HTTP HEAD requests\n- RequestHandler.do_POST() -> None - Handles HTTP POST requests, reading and printing the posted data",
+  "Canonical_solution": "from http.server import BaseHTTPRequestHandler, HTTPServer\n\nclass SimpleHTTPServer:\n    def __init__(self, port=8080):\n        self.port = port\n        self.server_address = ('', self.port)\n        self.handler_class = self.RequestHandler\n\n    class RequestHandler(BaseHTTPRequestHandler):\n        def _set_headers(self):\n            self.send_response(200)\n            self.send_header('Content-type', 'text/html')\n            self.end_headers()\n\n        def do_GET(self):\n            self._set_headers()\n\n        def do_HEAD(self):\n            self._set_headers()\n\n        def do_POST(self):\n            content_length = int(self.headers['Content-Length'])\n            post_data = self.rfile.read(content_length)\n            self._set_headers()\n            print(post_data)\n\n    def run(self):\n        httpd = HTTPServer(self.server_address, self.handler_class)\n        print('Starting httpd...')\n        httpd.serve_forever()",
+  "FSMID_for_test": 55,
+  "Code_level": "Class-level"
+}

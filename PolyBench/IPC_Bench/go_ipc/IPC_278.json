@@ -1,0 +1,13 @@
+{
+    "Task_id": 278,
+    "Github_ID": "13512328",
+    "Github_Project_Name": "fleet",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Official-based gRPC server in Go",
+    "Instruction": "Task Description: Create a gRPC server in Go that listens for incoming requests, optionally with TLS security, and registers a test service for handling RPC calls.\n\nFunction Description: The main function sets up a gRPC server that listens on a specified port, configures TLS if enabled, creates a new gRPC server instance, registers a test service, and starts serving incoming requests.\n\nInput:\n- port (int): The port number on which the server should listen\n- useTLS (bool): Flag indicating whether to use TLS security\n- certFile (string): Path to the TLS certificate file (required if useTLS is true)\n- keyFile (string): Path to the TLS private key file (required if useTLS is true)\n\nOutput:\n- None (the function runs indefinitely to serve requests or exits on error)",
+    "Canonical_solution": "import (\n\t\"flag\"\n\t\"net\"\n\t\"strconv\"\n\n\t\"google.golang.org/grpc\"\n\t\"google.golang.org/grpc/credentials\"\n\t\"google.golang.org/grpc/grpclog\"\n\t\"google.golang.org/grpc/interop\"\n\ttestpb \"google.golang.org/grpc/interop/grpc_testing\"\n)\nfunc main() {\n\tflag.Parse()\n\tp := strconv.Itoa(*port)\n\tlis, err := net.Listen(\"tcp\", \":\"+p)\n\tif err != nil {\n\t\tgrpclog.Fatalf(\"failed to listen: %v\", err)\n\t}\n\tvar opts []grpc.ServerOption\n\tif *useTLS {\n\t\tcreds, err := credentials.NewServerTLSFromFile(*certFile, *keyFile)\n\t\tif err != nil {\n\t\t\tgrpclog.Fatalf(\"Failed to generate credentials %v\", err)\n\t\t}\n\t\topts = []grpc.ServerOption{grpc.Creds(creds)}\n\t}\n\tserver := grpc.NewServer(opts...)\n\ttestpb.RegisterTestServiceServer(server, interop.NewTestServer())\n\tserver.Serve(lis)\n}",
+    "FSMID_for_test": 119,
+    "Code_level": "Function-level"
+}

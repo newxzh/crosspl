@@ -1,0 +1,13 @@
+{
+    "Task_id": 67,
+    "Github_ID": "366764229",
+    "Github_Project_Name": "zadig",
+    "Programming_Language": "Go",
+    "suffix": ".go",
+    "Interface_class": "IPC",
+    "Interface_name": "Basic HTTP server using net/http with HandleFunc and ListenAndServe",
+    "Instruction": "Task Description: Create a simple HTTP server in Go that handles multiple routes with different functionalities, including a root route, a route to display request headers, and a route to show build information.\n\nFunction Description: The HTTP server will respond to different endpoints with specific behaviors:\n1. Root endpoint (\"/\") returns a greeting message\n2. \"/headers\" endpoint returns all request headers\n3. \"/api/buildstamp\" endpoint returns build information\n\nInput: \n- HTTP requests to specified endpoints (/, /headers, /api/buildstamp)\n- BuildStamp string variable containing build information\n\nOutput: \n- For \"/\": Plain text response \"hello, my name is Go~~\"\n- For \"/headers\": List of all request headers in \"name: value\" format\n- For \"/api/buildstamp\": Current value of BuildStamp variable\n- HTTP responses through the http.ResponseWriter interface",
+    "Canonical_solution": "import (\n\t\"fmt\"\n\t\"net/http\"\n)\n\nvar BuildStamp = \"No Build Stamp Provided\"\n\nfunc hello(w http.ResponseWriter, req *http.Request) {\n\tfmt.Fprintf(w, \"hello, my name is Go~~\\n\")\n}\n\nfunc headers(w http.ResponseWriter, req *http.Request) {\n\tfor name, headers := range req.Header {\n\t\tfor _, h := range headers {\n\t\t\tfmt.Fprintf(w, \"%v: %v\\n\", name, h)\n\t\t}\n\t}\n}\n\nfunc buildStamp(w http.ResponseWriter, req *http.Request) {\n\tfmt.Fprintf(w, \"%s\", BuildStamp)\n}\n\nfunc main() {\n\thttp.HandleFunc(\"/\", hello)\n\thttp.HandleFunc(\"/api/buildstamp\", buildStamp)\n\thttp.HandleFunc(\"/headers\", headers)\n\n\thttp.ListenAndServe(\":20219\", nil)\n}",
+    "FSMID_for_test": 103,
+    "Code_level": "Function-level"
+}

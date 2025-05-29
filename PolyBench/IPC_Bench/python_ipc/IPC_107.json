@@ -1,0 +1,13 @@
+{
+  "Task_id": 107,
+  "Github_ID": "398717902",
+  "Github_Project_Name": "checkinpanel",
+  "Programming_Language": "Python",
+  "suffix": ".py",
+  "Interface_class": "IPC",
+  "Interface_name": "HTTP Client-side by using requests in python",
+  "Instruction": "Task Description: Create a Python class that retrieves and formats a daily motto from an external API using HTTP requests.\n\nClass Description: The `Motto` class provides functionality to fetch a daily motto from the open.iciba.com API and format it for display. It encapsulates the HTTP request logic and response handling.\n\nAttributes: None\n\nMethods:\n\nMethod1: main() -> str - A static method that performs the following operations:\n1. Sends a GET request to \"http://open.iciba.com/dsapi\"\n2. Checks if the response status code is 200 (success)\n3. Parses the JSON response\n4. Returns a formatted string containing the motto content and note\n5. Returns an empty string if the request fails\n\nThe method takes no input parameters and returns either:\n- A formatted string combining the \"content\" and \"note\" fields from the API response, separated by a newline\n- An empty string if the HTTP request fails (non-200 status code)",
+  "Canonical_solution": "import requests\n\nclass Motto:\n    @staticmethod\n    def main():\n        response = requests.get(\"http://open.iciba.com/dsapi\")\n        if response.status_code != 200:\n            return \"\"\n        res = response.json()\n        return f'{res[\"content\"]}\\n{res[\"note\"]}\\n'",
+  "FSMID_for_test": 57,
+  "Code_level": "Class-level"
+}
