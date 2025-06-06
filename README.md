@@ -14,16 +14,21 @@
 ## Why CrossPL?(Motivation)
 
 Modern software systems often consist of components written in multiple proframming languages (MPL). The follow figure illustrates an example of cross-language interaction between Python and C++ by an IPC protocol (*Socket*). Such examples are widely found in MPL projects involving Python and C++ for data science, robotics, and embedded systems.
-
-![demo_ipc](https://github.com/user-attachments/assets/e3515723-bf37-4837-82eb-7449b0ef8192)
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/e3515723-bf37-4837-82eb-7449b0ef8192" alt="ipc demo" width="500"/>
+</p>
 
 However, existing code generation benchmarks predominantly focus on a single programming language. Although a few benchmarks for multi-language code generation have been developed, they cannot assess an LLM’s ability to generate code for CPL interaction and thus cannot answer the crucial question: “Can LLMs produce correct cross-programming-language interoperating code?”. **CrossPL addresses this gap** by:
 
 - Covering **6 programming languages**: Java, Python, JavaScript, Go, PHP, and C++
 - Including **7 IPC technologies**: **HTTP**, **TCP**, **UDP**, **WebSocket**, **Pipe**, **gRPC**, and **Message Queue**
 - Featuring **1982 high-quality CPL interaction tasks**, extracted from **19169** GitHub MPL repositories using **156** FSMs (Finite State Machines)
-![benchmark_bar_page_1](https://github.com/user-attachments/assets/30ab2885-f595-4f94-b9cc-89b70dae32d4)
-![benchmark_distribution_page_1](https://github.com/user-attachments/assets/cc457ed7-8e00-4c36-a022-758546217a96)
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/30ab2885-f595-4f94-b9cc-89b70dae32d4" alt="fan chart" width="500"/>
+</p>
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/cc457ed7-8e00-4c36-a022-758546217a96" alt="bar chart" width="500"/>
+</p>
 
 ---
 
