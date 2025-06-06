@@ -15,8 +15,7 @@ Modern software systems often consist of components written in multiple language
 ---
 
 ## 🛠️ Benchmark Construction Workflow
-
-<img src="" alt="https://github.com/newxzh/crosspl/blob/main/show_results/Framework_page_1.png" width="750"/>
+![Framework_page_1](https://github.com/user-attachments/assets/eb510bd1-365e-46e4-a56c-bd401e4249f6)
 
 CrossPL is constructed using an LLM-driven workflow:
 1. **FSM-based detection** of real-world IPC patterns
