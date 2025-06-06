@@ -33,7 +33,7 @@ class LangCrawler(Crawler):
                 if 'items' not in Result:
                     break
 
-                RepoList = Result['items']#满足Star数量的项目
+                RepoList = Result['items']
                 RepoSize = len (RepoList)       
                 if RepoSize == 0:
                     print ("RepoList is Null")
@@ -42,10 +42,7 @@ class LangCrawler(Crawler):
                 print ("RepoSize: %u" %RepoSize)
                 
                 for Repo in RepoList:
-                    #RepoList的格式为列表；Repo的格式为字典
-                    #Repo['languages_url']是项目的涉及的编程语言及其代码行数
                     LangsDict = self.GetRepoLangs (Repo['languages_url'])
-                    #获取主语言
                     MainLang  = self.GetMainLang (LangsDict)
                     
                     LangsDict = self.LangValidate (LangsDict)
@@ -56,7 +53,6 @@ class LangCrawler(Crawler):
                     # if len (Langs) == 0:
 
                     len_Langs = len(Langs)
-                    # 过滤编程语言数量不满足要求的项目
                     if len_Langs< self.MinLangs or len_Langs > self.MaxLangs:
                         continue
 
