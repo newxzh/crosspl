@@ -6,6 +6,7 @@
 ## Table of Contents
 
 - [Why CrossPL? (Motivation)](#why-crosspl-motivation)
+- [Statistics of *CrossPL*](#statistics)
 - [Our Contributions](#our-contributions)
 - [Benchmark Construction Workflow](#benchmark-construction-workflow)
 - [Key Findings](#key-findings)
@@ -24,8 +25,6 @@ However, existing code generation benchmarks predominantly focus on a single pro
 ---
 
 ## Statistics of *CrossPL*
-
-**CrossPL addresses this gap** by:
 
 - Covering **6 programming languages**: Java, Python, JavaScript, Go, PHP, and C++
 - Including **7 IPC technologies**: **HTTP**, **TCP**, **UDP**, **WebSocket**, **Pipe**, **gRPC**, and **Message Queue**
