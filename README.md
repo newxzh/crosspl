@@ -4,15 +4,9 @@
 
 ---
 
-## 🧠 Motivation
+## 🔍 Why CrossPL?(🧠 Motivation)
 
-LLMs have demonstrated impressive performance in general code generation, but their ability to **accurately generate IPC-based cross-language code remains largely underexplored**. CrossPL fills this gap by offering a large-scale, systematically constructed benchmark.
-
----
-
-## 🔍 Why CrossPL?
-
-Modern software systems often consist of components written in multiple languages (e.g., Python + C++). However, existing benchmarks only assess single-language code generation. **CrossPL addresses this gap** by:
+Modern software systems often consist of components written in multiple languages (e.g., Python + C++). However, existing code generation benchmarks predominantly focus on a single programming language. Although a few benchmarks for multi-language code generation have been developed, they cannot assess an LLM’s ability to generate code for cross-language interaction and thus cannot answer the crucial question: “Can LLMs produce correct cross-programming-language interoperating code?”. **CrossPL addresses this gap** by:
 
 - Covering **6 programming languages**: Java, Python, JavaScript, Go, PHP, and C++
 - Including **7 IPC technologies**: **HTTP**, **TCP**, **UDP**, **WebSocket**, **Pipe**, **gRPC**, and **Message Queue**
@@ -20,10 +14,11 @@ Modern software systems often consist of components written in multiple language
 
 ---
 
-## 🧪 Key Features
-- ✅ **Automated LLM-based extraction pipeline**
-- ✅ **FSM-based validation framework**
-- ✅ **Evaluation across 20 state-of-the-art LLMs**
+## 🧪 Our contribution
+- ✅ **CrossPL benchmark**:We propose **CrossPL**, to our knowledge the first benchmark aimed at evaluating the ability of LLMs to generate CPL interoperating code involving IPC. It comprises 1982 instances, encompassing six programming languages and seven major IPC technologies.
+- ✅ **Comprehensive FSM-based interface characterization**: We carefully constructed 156 FSMs based on the official CPL interface specifications to formally characterize the IPC-based interaction interfaces. Such FSM-based characterization can not only facilitate us to detect IPC code snippets in real-world GitHub repositories, but also used to evaluate the capability of LLMs to generate CPL code under specific IPC scenarios. Each state in these FSMs is annotated with semantic information, which helps guide LLMs in extracting relevant IPC code snippets. 
+- ✅ **LLM-based automatic analysis workflow**:  Based on the FSM-based interaction characterization, we further develop a LLM-based workflow that automatically extract relevant CPL code snippets, generate natural-language prompts and construct evaluation tasks for constructing the benchmark.
+- ✅ **Large-scale empirical study**: We evaluate 20 representative LLMs to answer the key question: **whether LLMs can accurately generate cross-language interoperating code**. The findings highlight the need for more dedicated effort in this critical yet underexplored area.
   
 ---
 
