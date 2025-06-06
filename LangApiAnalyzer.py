@@ -26,7 +26,7 @@ class State ():
         else:
             return False,self.signature,self.description
 
-#定义了一系列Api分类器
+#Define a series of classifiers/validators
 class ApiClassifier ():
     def __init__(self, name, clstype, fileType, interface_name):
         self.name     = name
@@ -74,8 +74,8 @@ class ApiClassifier ():
                         continue
                     if File not in MatchList_file:
                         MatchList_file.append(File)
-                    if len (state.next) == 0: # 确保满足状态转移的要求
-                        # MatchList_file => 返回与状态机匹配的文件
+                    if len (state.next) == 0: 
+                        # MatchList_file => files matched by FSMs
                         return True,MatchList_file,sig_list,state_desc_list
                     for next in state.next:
                         if next not in StateStack:
@@ -207,14 +207,13 @@ class LangApiAnalyzer (Analyzer):
             else:
                 Types += "_" + type
         return Types
-    # 将处理完的结果进行保存
     def SaveData (self,FileName=None):
         if (len(self.AnalyzStats) == 0):
             return
-        SfFile = self.FilePath + self.FileName + '.csv' # 数据保存的路径
+        SfFile = self.FilePath + self.FileName + '.csv' 
         with open(SfFile, 'a', encoding='utf-8', newline='') as CsvFile:
             writer = csv.writer(CsvFile)
-            # self.AnalyzStats.items() -> 获取self.AnalyzStats的所有key-value对,此处的Id值得是Key，ClfList指的是value
+            # self.AnalyzStats.items() -> 
             for Id, ClfList in self.AnalyzStats.items():
                 Names = []
                 Types = []
