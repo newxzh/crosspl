@@ -7,7 +7,7 @@ import pandas as pd
 from openai import OpenAI
 from code_preprocess import skip_note
 from LangApiAnalyzer import LangApiAnalyzer
-api_key = "sk-280eaf055fe246e88f3a7f3ecad3a449"
+api_key = "your_apikey"
 base_url = "https://api.deepseek.com"
 
 def Match_state (signature,String):
