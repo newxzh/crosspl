@@ -15,7 +15,7 @@ LLMs have demonstrated impressive performance in general code generation, but th
 Modern software systems often consist of components written in multiple languages (e.g., Python + C++). However, existing benchmarks only assess single-language code generation. **CrossPL addresses this gap** by:
 
 - Covering **6 programming languages**: Java, Python, JavaScript, Go, PHP, and C++
-- Including **7 IPC technologies**: HTTP, TCP, UDP, WebSocket, Pipe, gRPC, and Message Queue
+- Including **7 IPC technologies**: **HTTP**, **TCP**, **UDP**, **WebSocket**, **Pipe**, **gRPC**, and **Message Queue**
 - Featuring **1982 high-quality CPL interaction tasks**, extracted from 19,169 GitHub repositories using 156 FSMs (Finite State Machines)
 
 ---
