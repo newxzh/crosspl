@@ -59,10 +59,8 @@ class Crawler():
 
     def GetRepoLangs (self, LangUrl):
         Langs = self.HttpCall(LangUrl)
-        #根据字典的值进行降序排序
         Langs = dict(sorted(Langs.items(), key=lambda item:item[1], reverse=True))
         lowerLangs = {}
-        #将字典中的key全部统一为小写
         for lang, size in Langs.items():
             lowerLangs [lang.lower()] = size
         #Langs = [lang.lower() for lang in Langs.keys()]
@@ -109,13 +107,11 @@ class Crawler():
         return MainLang
             
     def LangValidate (self, LangsDict):
-        #如果没有指定编程语言，则返回LangsDict自身
         if len (self.LangList) == 0:
             return LangsDict
 
         Langs = list(LangsDict.keys ())[0:self.MaxLangs]
 
-        # compute all language size（计算项目总体的代码行数）
         Size = 0
         for lg in Langs:
             Size += LangsDict[lg]
