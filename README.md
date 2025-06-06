@@ -3,6 +3,13 @@
 **CrossPL** is the first benchmark specifically designed to evaluate the ability of large language models (LLMs) to generate **cross-programming language (CPL)** interoperating code. It focuses on **Inter-Process Communication (IPC)**, a foundational technique that supports interaction between components written in different programming languages.
 
 ---
+## Table of Contents
+
+- [Motivation](#🔍 Why CrossPL?(🧠 Motivation))
+- [Contributions](# 🧪 Our contributions)
+- [Workflow](#🛠️ Benchmark Construction Workflow)
+- [Key Findings](#🔎 Key Findings)
+
 
 ## 🔍 Why CrossPL?(🧠 Motivation)
 
@@ -17,7 +24,7 @@ However, existing code generation benchmarks predominantly focus on a single pro
 - Featuring **1982 high-quality CPL interaction tasks**, extracted from **19169** GitHub MPL repositories using **156** FSMs (Finite State Machines)
 ---
 
-## 🧪 Our contribution
+## 🧪 Our contributions
 - ✅ **CrossPL benchmark**:We propose **CrossPL**, to our knowledge the first benchmark aimed at evaluating the ability of LLMs to generate CPL interoperating code involving IPC. It comprises 1982 instances, encompassing six programming languages and seven major IPC technologies.
 - ✅ **Comprehensive FSM-based interface characterization**: We carefully constructed 156 FSMs based on the official CPL interface specifications to formally characterize the IPC-based interaction interfaces. Such FSM-based characterization can not only facilitate us to detect IPC code snippets in real-world GitHub repositories, but also used to evaluate the capability of LLMs to generate CPL code under specific IPC scenarios. Each state in these FSMs is annotated with semantic information, which helps guide LLMs in extracting relevant IPC code snippets. 
 - ✅ **LLM-based automatic analysis workflow**:  Based on the FSM-based interaction characterization, we further develop a LLM-based workflow that automatically extract relevant CPL code snippets, generate natural-language prompts and construct evaluation tasks for constructing the benchmark.
