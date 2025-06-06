@@ -5,10 +5,10 @@
 ---
 ## Table of Contents
 
-- [Motivation](#🔍 Why CrossPL?(🧠 Motivation))
-- [Contributions](# 🧪 Our contributions)
-- [Workflow](#🛠️ Benchmark Construction Workflow)
-- [Key Findings](#🔎 Key Findings)
+- [Why CrossPL? (Motivation)](#motivation)
+- [Our Contributions](#contributions)
+- [Benchmark Construction Workflow](#workflow)
+- [Key Findings](#key-findings)
 
 
 ## 🔍 Why CrossPL?(🧠 Motivation)
