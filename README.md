@@ -5,9 +5,9 @@
 ---
 ## Table of Contents
 
-- [Why CrossPL? (Motivation)](#motivation)
-- [Our Contributions](#contributions)
-- [Benchmark Construction Workflow](#workflow)
+- [Why CrossPL? (Motivation)](#why-crosspl-motivation)
+- [Our Contributions](#our-contributions)
+- [Benchmark Construction Workflow](#benchmark-construction-workflow)
 - [Key Findings](#key-findings)
 
 
