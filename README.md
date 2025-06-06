@@ -6,7 +6,7 @@
 ## Table of Contents
 
 - [Why CrossPL? (Motivation)](#why-crosspl-motivation)
-- [Statistics of *CrossPL*](#statistics)
+- [Statistics of *CrossPL*](#statistics-of-crosspl)
 - [Our Contributions](#our-contributions)
 - [Benchmark Construction Workflow](#benchmark-construction-workflow)
 - [Key Findings](#key-findings)
