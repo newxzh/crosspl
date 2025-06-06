@@ -22,6 +22,9 @@ However, existing code generation benchmarks predominantly focus on a single pro
 - Covering **6 programming languages**: Java, Python, JavaScript, Go, PHP, and C++
 - Including **7 IPC technologies**: **HTTP**, **TCP**, **UDP**, **WebSocket**, **Pipe**, **gRPC**, and **Message Queue**
 - Featuring **1982 high-quality CPL interaction tasks**, extracted from **19169** GitHub MPL repositories using **156** FSMs (Finite State Machines)
+![benchmark_bar_page_1](https://github.com/user-attachments/assets/30ab2885-f595-4f94-b9cc-89b70dae32d4)
+![benchmark_distribution_page_1](https://github.com/user-attachments/assets/cc457ed7-8e00-4c36-a022-758546217a96)
+
 ---
 
 ## Our contributions
