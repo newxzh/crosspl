@@ -1,6 +1,6 @@
 # CrossPL: A Benchmark for Cross-Programming Language Code Generation
 
-**CrossPL** is the first benchmark specifically designed to evaluate the ability of large language models (LLMs) to generate *cross-programming language (CPL)* interoperating code. It focuses on **Inter-Process Communication (IPC)**, a foundational technique that supports interaction between components written in different programming languages.
+**CrossPL** is the first benchmark specifically designed to evaluate the ability of large language models (LLMs) to generate **cross-programming language (CPL)** interoperating code. It focuses on **Inter-Process Communication (IPC)**, a foundational technique that supports interaction between components written in different programming languages.
 
 ---
 
