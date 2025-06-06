@@ -4,6 +4,12 @@
 
 ---
 
+## 🧠 Motivation
+
+LLMs have demonstrated impressive performance in general code generation, but their ability to **accurately generate IPC-based cross-language code remains largely underexplored**. CrossPL fills this gap by offering a large-scale, systematically constructed benchmark.
+
+---
+
 ## 🔍 Why CrossPL?
 
 Modern software systems often consist of components written in multiple languages (e.g., Python + C++). However, existing benchmarks only assess single-language code generation. **CrossPL addresses this gap** by:
@@ -14,14 +20,18 @@ Modern software systems often consist of components written in multiple language
 
 ---
 
+## 🧪 Key Features
+- ✅ **Automated LLM-based extraction pipeline**
+- ✅ **FSM-based validation framework**
+- ✅ **Evaluation across 20 state-of-the-art LLMs**
+  
+---
+
 ## 🛠️ Benchmark Construction Workflow
 ![Framework_page_1](https://github.com/user-attachments/assets/eb510bd1-365e-46e4-a56c-bd401e4249f6)
 
 CrossPL is constructed using an LLM-driven workflow:
-1. **FSM-based detection** of real-world IPC patterns
-2. **Automated extraction** of function/class-level interoperating code
-3. **Instruction generation** via LLMs
-4. **Validation** with FSMs to ensure correctness
+
 ---
 
 ## 🔎 Key Findings
