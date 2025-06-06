@@ -15,7 +15,7 @@ class Clone_Repo:
 
 
 if __name__ == "__main__":
-    user_name = "newxzh"
-    user_token = "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"
+    user_name = "your_username"
+    user_token = "your_token"
     CL = Clone_Repo(user_name,user_token)
-    CL.clone("https://github.com/FFmpeg/FFmpeg.git","D:\CAE\Repository\FFmpeg_1614410")
+    CL.clone("https://github.com/FFmpeg/FFmpeg.git","your_path")
