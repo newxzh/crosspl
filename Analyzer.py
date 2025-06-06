@@ -16,7 +16,6 @@ class Analyzer(metaclass=abc.ABCMeta):
         self.FilePath = Config.BaseDir
         self.AnalyzStats = {}
         self.RepoList = []
-        #在初始化Analyzer的时候，LoadRepoList()就会被执行
         self.LoadRepoList ()
         
     @abc.abstractmethod
@@ -30,7 +29,6 @@ class Analyzer(metaclass=abc.ABCMeta):
             RepoData = Repository_Info (row['Id'], row['Star'], row['Langs'], row['ApiUrl'], row['CloneUrl'], row['Topics'],
                                    row['Descripe'], row['Created'], row['Pushed'])
             RepoData.SetName(row['Name'])
-            # 向self.RepoList中添加Repository的实例化对象RepoData，这样就可以通过实例化对象直接调用对应的值或者函数
             self.RepoList.append (RepoData)
 
     @abc.abstractmethod
