@@ -8,7 +8,7 @@
 
 Modern software systems often consist of components written in multiple languages (e.g., Python + C++). The follow figure illustrates an example of cross-language interaction between Python and C++ by an IPC protocol (*Socket*). Such examples are widely found in MPL projects involving Python and C++ for data science, robotics, and embedded systems.
 
-                                                                                                      ![demo_ipc](https://github.com/user-attachments/assets/e3515723-bf37-4837-82eb-7449b0ef8192)
+![demo_ipc](https://github.com/user-attachments/assets/e3515723-bf37-4837-82eb-7449b0ef8192)
 
 However, existing code generation benchmarks predominantly focus on a single programming language. Although a few benchmarks for multi-language code generation have been developed, they cannot assess an LLM’s ability to generate code for cross-language interaction and thus cannot answer the crucial question: “Can LLMs produce correct cross-programming-language interoperating code?”. **CrossPL addresses this gap** by:
 
