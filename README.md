@@ -1,2 +1,2 @@
 # Framework 
-![Framework](https://github.com/newxzh/crosspl/blob/main/show_results/Framework.pdf)
+[Framework.pdf](https://github.com/user-attachments/files/20630474/Framework.pdf)
