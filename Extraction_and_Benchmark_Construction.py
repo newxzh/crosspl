@@ -5,8 +5,8 @@ import json
 import pandas as pd
 from openai import OpenAI
 from Evaluation import IRI_Extract_validation
-api_key = "f2wyi26eXKuSihllrIK1wIBEGIzMVwH2ehp7Wi99EbNMeWRU"
-base_url = "https://api.f2gpt.com"
+api_key = "your_apikey"
+base_url = "base_url"
 
 Example_func_path = "D:\CAE\Splited_Repository\\1\BookReader_64817102\\app\src\main\java\com\justwayward\\reader\wifitransfer\\NanoHTTPD.java"
 
@@ -32,11 +32,11 @@ with open("D:\CAE\prompt_template\Java_IPC\Instruction_Generation_prompt_templat
 class Extract_IRI_Snippets():
     def __init__(self):
         # The data in each column read in is stored in the form of a list.
-        self.iri_path = pd.read_csv("D:\CAE\Repo_Info\Info_IRI_java_filtered.csv")["File_path"][882:].tolist()
-        self.main_lang = pd.read_csv("D:\CAE\Repo_Info\Info_IRI_java_filtered.csv")["Interface_class"][882:].tolist()
-        self.interface_name = pd.read_csv("D:\CAE\Repo_Info\Info_IRI_java_filtered.csv")["Interface_name"][882:].tolist()
-        self.steps =  pd.read_csv("D:\CAE\Repo_Info\Info_IRI_java_filtered.csv")["Status_description"][882:].tolist()
-        self.fsm_id = pd.read_csv("D:\CAE\Repo_Info\Info_IRI_java_filtered.csv")["Classfier_ID"][882:].tolist()
+        self.iri_path = pd.read_csv("D:\CAE\Repo_Info\Info_IRI_java_filtered.csv")["File_path"].tolist()
+        self.main_lang = pd.read_csv("D:\CAE\Repo_Info\Info_IRI_java_filtered.csv")["Interface_class"].tolist()
+        self.interface_name = pd.read_csv("D:\CAE\Repo_Info\Info_IRI_java_filtered.csv")["Interface_name"].tolist()
+        self.steps =  pd.read_csv("D:\CAE\Repo_Info\Info_IRI_java_filtered.csv")["Status_description"].tolist()
+        self.fsm_id = pd.read_csv("D:\CAE\Repo_Info\Info_IRI_java_filtered.csv")["Classfier_ID"].tolist()
 
     def read_code_file(self,code_file_path):
         with open(code_file_path,"r",encoding="utf-8") as file:
@@ -148,7 +148,7 @@ class Extract_IRI_Snippets():
                 Canonical_solution = extraction_response.choices[0].message.content
 
                 if not IRI_Extract_validation(Canonical_solution,FSM_ID).validation(suffix):
-                    print("第{0}次尝试失败".format(k+1))
+                    print("{0}-th Failure".format(k+1))
                     continue
                 else:
                     instruction_generation_variables = {
