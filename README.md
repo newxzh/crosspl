@@ -30,8 +30,22 @@ However, existing code generation benchmarks predominantly focus on a single pro
 
 CrossPL is constructed using an LLM-driven workflow:
 - **FSMs for detect CPL interface among MPL repositories**: using the 156 FSMs to identify CPL interoperating instances among 19169 GitHub MPL repositories and record their metadata.
+  
 - **Judger**: Determine whether a given code file contains any CPL interaction code snippets. If such a snippet is found and corresponds to a function-level implementation, return "Function-level"; if it corresponds to a class-level implementation, return "Class-level"; if no CPL interaction code is present, return "null".The prompt template used by this LLM tool is as follows:
 ![judger](https://github.com/user-attachments/assets/0c3b5aac-8c64-47de-a6d4-ad5bf213d59a)
+
+- **Function Extractor**: Used for extract "function-level" CPL interaction code snippets. .The prompt template used by this LLM tool is as follows:
+  ![Func](https://github.com/user-attachments/assets/2594c291-b14f-49de-85d2-07663fc08d72)
+
+- **Class Extractor**: Used for extract "function-level" CPL interaction code snippets. .The prompt template used by this LLM tool is as follows:
+![Class](https://github.com/user-attachments/assets/45513055-b585-4d79-841c-5231e0ca03c3)
+
+- **FSM-based validator**: The correctness of the interaction snippets extracted by LLMs is verified using FSMs corresponding to the specific CPL techniques.
+
+- **Instructor**: If the verification is successful, the interaction snippet extracted by the LLM is passed to the "Instructor" to generate the corresponding instruction. The prompt template used by the Instructor is as follows:
+![instruction](https://github.com/user-attachments/assets/97d5dc1a-1819-48a2-9a57-3c79d1e569a2)
+
+- **Evaluation**:  The correctness of the interaction snippets generate by LLMs is verified using FSMs corresponding to the specific CPL techniques.
 
 ---
 
