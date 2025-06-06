@@ -7,6 +7,7 @@
 ## 🔍 Why CrossPL?(🧠 Motivation)
 
 Modern software systems often consist of components written in multiple languages (e.g., Python + C++). However, existing code generation benchmarks predominantly focus on a single programming language. Although a few benchmarks for multi-language code generation have been developed, they cannot assess an LLM’s ability to generate code for cross-language interaction and thus cannot answer the crucial question: “Can LLMs produce correct cross-programming-language interoperating code?”. **CrossPL addresses this gap** by:
+[demo_ipc.pdf](https://github.com/user-attachments/files/20631329/demo_ipc.pdf)
 
 - Covering **6 programming languages**: Java, Python, JavaScript, Go, PHP, and C++
 - Including **7 IPC technologies**: **HTTP**, **TCP**, **UDP**, **WebSocket**, **Pipe**, **gRPC**, and **Message Queue**
