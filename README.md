@@ -55,5 +55,6 @@ CrossPL is constructed using an LLM-driven workflow:
 - High-level protocols like **gRPC** yield better performance due to structured semantics.
 - Performance on **Go** is generally weaker, likely due to mismatch with class-based training data.
 - Larger model size doesn’t guarantee better performance; **“thinking mode” is not always helpful**.
+![ridar_pass5_page_1](https://github.com/user-attachments/assets/a485ca3d-7cc9-476e-8453-a69e1419f336) ![ridar_pass1_page_1](https://github.com/user-attachments/assets/0a681988-10e7-4366-b207-b69bab714489)
 
 ---
