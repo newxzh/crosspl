@@ -33,9 +33,8 @@ However, existing code generation benchmarks predominantly focus on a single pro
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/30ab2885-f595-4f94-b9cc-89b70dae32d4" alt="fan chart" width="500"/>
-  <figcaption><b>Figure 2:</b> Distribution of \bench dataset from different view.</figcaption>
   <img src="https://github.com/user-attachments/assets/cc457ed7-8e00-4c36-a022-758546217a96" alt="bar chart" width="500"/>
-  <figcaption><b>Figure 3:</b> Distribution of different IPC technologies across different programming languages.</figcaption>
+  <figcaption><b>Figure 2:</b> Distribution of CrossPL benchmark.</figcaption>
 </p>
 
 ---
