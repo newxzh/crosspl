@@ -16,10 +16,10 @@
 ## Why CrossPL?(Motivation)
 
 Modern software systems often consist of components written in multiple proframming languages (MPL). The follow figure illustrates an example of CPL interaction between Python and C++ by an IPC protocol (*Socket*). Such examples are widely found in MPL projects involving Python and C++ for data science, robotics, and embedded systems.
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/e3515723-bf37-4837-82eb-7449b0ef8192" alt="ipc demo" width="500"/>
-  <figcaption align="center"><b>Figure 1:</b> CPL interaction between Python and C++ by an IPC protocol (*Socket*).</figcaption>
-</p>
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/e3515723-bf37-4837-82eb-7449b0ef8192" alt="ipc demo" width="500"/><br>
+  <sub><b>Figure 1:</b> CPL interaction between Python and C++ by an IPC protocol (<i>Socket</i>).</sub>
+</div>
 
 However, existing code generation benchmarks predominantly focus on a single programming language. Although a few benchmarks for multi-language code generation have been developed, they cannot assess an LLM’s ability to generate code for CPL interaction and thus cannot answer the crucial question: “Can LLMs produce correct cross-programming-language interoperating code?”. 
 
