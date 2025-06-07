@@ -51,7 +51,7 @@ However, existing code generation benchmarks predominantly focus on a single pro
 
 CrossPL is constructed using an LLM-driven workflow:
 
-<font color=red>Note:The following prompt templates for Judger, Function Extractor, and Class Extractor are exemplified using Java. Prompt templates for other programming languages can be found in the "prompt_template" directory of the project</font><br>
+⚠️ **Note:** The following prompt templates for **Judger**, **Function Extractor**, and **Class Extractor** are exemplified using Java. Prompt templates for other programming languages can be found in the `prompt_template` directory of the project.
 
 - **FSMs for detect CPL interface among MPL repositories**: using the 156 FSMs to identify CPL interoperating instances among 19169 GitHub MPL repositories and record their metadata.
   
