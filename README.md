@@ -52,9 +52,10 @@ However, existing code generation benchmarks predominantly focus on a single pro
 
 ## Benchmark Construction Workflow
 
-<p align="center">
+<div align="center">
   <img width="900" alt="judger" src="https://github.com/user-attachments/assets/eb510bd1-365e-46e4-a56c-bd401e4249f6" />
-</p>
+  <h3><b>Figure 3:</b> Framework for CPL Interoperating Code Analysis, Extraction, Generation and Evaluation.</h3>
+</div>
 
 CrossPL is constructed using an LLM-driven workflow:
 
