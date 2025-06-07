@@ -61,34 +61,34 @@ CrossPL is constructed using an LLM-driven workflow:
 
 ⚠️ **Note:** The following prompt templates for **Judger**, **Function Extractor**, and **Class Extractor** are exemplified using Java. Prompt templates for other programming languages can be found in the `prompt_template` directory of the project.
 
-- **FSMs for detect CPL interface among MPL repositories**: using the 156 FSMs to identify CPL interoperating instances among 19169 GitHub MPL repositories and record their metadata.
+- 🤖 **FSMs for detect CPL interface among MPL repositories**: using the 156 FSMs to identify CPL interoperating instances among 19169 GitHub MPL repositories and record their metadata.
   
-- **Judger**: Determine whether a given code file contains any CPL interaction code snippets. If such a snippet is found and corresponds to a function-level implementation, return "Function-level"; if it corresponds to a class-level implementation, return "Class-level"; if no CPL interaction code is present, return "null".The prompt template used by this LLM tool is as follows:
+- 🤖 **Judger**: Determine whether a given code file contains any CPL interaction code snippets. If such a snippet is found and corresponds to a function-level implementation, return "Function-level"; if it corresponds to a class-level implementation, return "Class-level"; if no CPL interaction code is present, return "null".The prompt template used by this LLM tool is as follows:
 
 <p align="center">
 <img width="900" alt="judger" src="https://github.com/user-attachments/assets/3de3f582-8148-491d-8967-7961e6d9ea6e" />
 </p>
 
-- **Function Extractor**: Used for extract "function-level" CPL interaction code snippets.The prompt template used by this LLM tool is as follows:
+- 🤖 **Function Extractor**: Used for extract "function-level" CPL interaction code snippets.The prompt template used by this LLM tool is as follows:
 <p align="center">
 <img width="900" alt="Func" src="https://github.com/user-attachments/assets/1a8430da-2711-4fdf-962e-b5daddfc7276"/>
 </p>
 
-- **Class Extractor**: Used for extract "function-level" CPL interaction code snippets. .The prompt template used by this LLM tool is as follows:
+- 🤖 **Class Extractor**: Used for extract "function-level" CPL interaction code snippets. .The prompt template used by this LLM tool is as follows:
 
 <p align="center">
 <img width="900" alt="Class" src="https://github.com/user-attachments/assets/71be9695-36af-402f-85cf-57a495223473" />
 </p>
 
-- **FSM-based validator**: The correctness of the interaction snippets extracted by LLMs is verified using FSMs corresponding to the specific CPL techniques.
+- 🤖 **FSM-based validator**: The correctness of the interaction snippets extracted by LLMs is verified using FSMs corresponding to the specific CPL techniques.
 
-- **Instructor**: If the verification is successful, the interaction snippet extracted by the LLM is passed to the "Instructor" to generate the corresponding instruction. The prompt template used by the Instructor is as follows:
+- 🤖 **Instructor**: If the verification is successful, the interaction snippet extracted by the LLM is passed to the "Instructor" to generate the corresponding instruction. The prompt template used by the Instructor is as follows:
 
 <p align="center">
 <img width="900" alt="instruction" src="https://github.com/user-attachments/assets/51d0ec7f-f363-4f5f-a2d5-7eace8155f33" />
 </p>
 
-- **Evaluation**:  The correctness of the interaction snippets generate by LLMs is verified using FSMs corresponding to the specific CPL techniques.
+- 🔍 **Evaluation**:  The correctness of the interaction snippets generate by LLMs is verified using FSMs corresponding to the specific CPL techniques.
 
 ---
 
