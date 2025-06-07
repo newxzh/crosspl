@@ -19,7 +19,7 @@ Modern software systems often consist of components written in multiple proframm
 
 <div align="center">
   <img src="https://github.com/user-attachments/assets/e3515723-bf37-4837-82eb-7449b0ef8192" alt="ipc demo" width="500"/><br>
-  <sub><b>Figure 1:</b> CPL interaction between Python and C++ by an IPC protocol (<i>Socket</i>).</sub>
+  <h4><b>Figure 1:</b> CPL interaction between Python and C++ by an IPC protocol (<i>Socket</i>).</h4>
 </div>
 
 However, existing code generation benchmarks predominantly focus on a single programming language. Although a few benchmarks for multi-language code generation have been developed, they cannot assess an LLM’s ability to generate code for CPL interaction and thus cannot answer the crucial question: “Can LLMs produce correct cross-programming-language interoperating code?”. 
@@ -36,7 +36,7 @@ However, existing code generation benchmarks predominantly focus on a single pro
   <img src="https://github.com/user-attachments/assets/30ab2885-f595-4f94-b9cc-89b70dae32d4" alt="fan chart" width="400"/>
   <img src="https://github.com/user-attachments/assets/cc457ed7-8e00-4c36-a022-758546217a96" alt="bar chart" width="400"/>
   <br>
-  <sub><b>Figure 2:</b> Distribution of CrossPL benchmark.</sub>
+  <h4><b>Figure 2:</b> Distribution of CrossPL benchmark.</h4>
 </div>
 
 
@@ -53,7 +53,7 @@ However, existing code generation benchmarks predominantly focus on a single pro
 ## Benchmark Construction Workflow
 
 <p align="center">
-<img width="900" alt="judger" src="https://github.com/user-attachments/assets/eb510bd1-365e-46e4-a56c-bd401e4249f6" />
+  <img width="900" alt="judger" src="https://github.com/user-attachments/assets/eb510bd1-365e-46e4-a56c-bd401e4249f6" />
 </p>
 
 CrossPL is constructed using an LLM-driven workflow:
