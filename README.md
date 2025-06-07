@@ -39,6 +39,7 @@ However, existing code generation benchmarks predominantly focus on a single pro
   <h4><b>Figure 2:</b> Distribution of CrossPL benchmark.</h4>
 </div>
 
+⚠️ **Note:** The benchmark is stored in the `PolyBench/IPC_Bench directory`.
 
 ---
 
@@ -120,13 +121,13 @@ The following figure illustrates an example of FSM-modeled CPL interoperating.
 - Performance on **Go** is generally weaker, likely due to mismatch with class-based training data.
 - Larger model size doesn’t guarantee better performance; **“thinking mode” is not always helpful**.
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/a485ca3d-7cc9-476e-8453-a69e1419f336" width="45%" style="margin-right: 10px;"/>
-  <img src="https://github.com/user-attachments/assets/0a681988-10e7-4366-b207-b69bab714489" width="45%"/>
+  <img src="https://github.com/user-attachments/assets/a485ca3d-7cc9-476e-8453-a69e1419f336" width="450" style="margin-right: 10px;"/>
+  <img src="https://github.com/user-attachments/assets/0a681988-10e7-4366-b207-b69bab714489" width="450"/>
 </p>
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/7483b2dc-4ac0-48d5-a758-08cf2256ab71" width="45%" style="margin-right: 10px;"/>
-  <img src="https://github.com/user-attachments/assets/cb3461b5-1b20-4e4d-ab1e-d6a6d047a65b" width="45%"/>
+  <img src="https://github.com/user-attachments/assets/7483b2dc-4ac0-48d5-a758-08cf2256ab71" width="450" style="margin-right: 10px;"/>
+  <img src="https://github.com/user-attachments/assets/cb3461b5-1b20-4e4d-ab1e-d6a6d047a65b" width="450"/>
 </p>
 
 ---
