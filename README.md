@@ -49,7 +49,9 @@ However, existing code generation benchmarks predominantly focus on a single pro
 ## Benchmark Construction Workflow
 ![Framework_page_1](https://github.com/user-attachments/assets/eb510bd1-365e-46e4-a56c-bd401e4249f6)
 
-CrossPL is constructed using an LLM-driven workflow(**Note**:The following prompt templates for Judger, Function Extractor, and Class Extractor are exemplified using Java. Prompt templates for other programming languages can be found in the "prompt_template" directory of the project):
+CrossPL is constructed using an LLM-driven workflow:
+
+<p style="color:red">Note:The following prompt templates for Judger, Function Extractor, and Class Extractor are exemplified using Java. Prompt templates for other programming languages can be found in the "prompt_template" directory of the project</p>
 
 - **FSMs for detect CPL interface among MPL repositories**: using the 156 FSMs to identify CPL interoperating instances among 19169 GitHub MPL repositories and record their metadata.
   
