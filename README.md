@@ -47,7 +47,10 @@ However, existing code generation benchmarks predominantly focus on a single pro
 ---
 
 ## Benchmark Construction Workflow
-![Framework_page_1](https://github.com/user-attachments/assets/eb510bd1-365e-46e4-a56c-bd401e4249f6)
+
+<p align="center">
+<img width="900" alt="judger" src="https://github.com/user-attachments/assets/eb510bd1-365e-46e4-a56c-bd401e4249f6" />
+</p>
 
 CrossPL is constructed using an LLM-driven workflow:
 
