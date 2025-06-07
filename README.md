@@ -16,6 +16,7 @@
 ## Why CrossPL?(Motivation)
 
 Modern software systems often consist of components written in multiple proframming languages (MPL). The follow figure illustrates an example of CPL interaction between Python and C++ by an IPC protocol (*Socket*). Such examples are widely found in MPL projects involving Python and C++ for data science, robotics, and embedded systems.
+
 <div align="center">
   <img src="https://github.com/user-attachments/assets/e3515723-bf37-4837-82eb-7449b0ef8192" alt="ipc demo" width="500"/><br>
   <sub><b>Figure 1:</b> CPL interaction between Python and C++ by an IPC protocol (<i>Socket</i>).</sub>
@@ -31,11 +32,13 @@ However, existing code generation benchmarks predominantly focus on a single pro
 - Including **7 IPC technologies**: **HTTP**, **TCP**, **UDP**, **WebSocket**, **Pipe**, **gRPC**, and **Message Queue**
 - Featuring **1982 high-quality CPL interaction tasks**, extracted from **19169** GitHub MPL repositories using **156** FSMs (Finite State Machines)
 
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/30ab2885-f595-4f94-b9cc-89b70dae32d4" alt="fan chart" width="500"/>
-  <img src="https://github.com/user-attachments/assets/cc457ed7-8e00-4c36-a022-758546217a96" alt="bar chart" width="500"/>
-  <figcaption align="center"><b>Figure 2:</b> Distribution of CrossPL benchmark.</figcaption>
-</p>
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/30ab2885-f595-4f94-b9cc-89b70dae32d4" alt="fan chart" width="400"/>
+  <img src="https://github.com/user-attachments/assets/cc457ed7-8e00-4c36-a022-758546217a96" alt="bar chart" width="400"/>
+  <br>
+  <sub><b>Figure 2:</b> Distribution of CrossPL benchmark.</sub>
+</div>
+
 
 ---
 
