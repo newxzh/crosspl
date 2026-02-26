@@ -120,7 +120,5 @@ The following figure illustrates an example of FSM-modeled CPL interoperating.
 - High-level protocols like **gRPC** yield better performance due to structured semantics.
 - Performance on **Go** is generally weaker, likely due to mismatch with class-based training data.
 - Larger model size doesn’t guarantee better performance; **“thinking mode” is not always helpful**.
-  <img src="https://github.com/user-attachments/assets/cb3461b5-1b20-4e4d-ab1e-d6a6d047a65b" width="450"/>
-</p>
 
 ---
