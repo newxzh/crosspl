@@ -1,0 +1,31 @@
+Previously, an attempt was made to generate a Python Canonical_solution that calls this C function via ctypes.
+The dynamic library paths are as follows:
+1. /usr/local/gsl/lib/libgslcblas.so
+2. /usr/local/gsl/lib/libgsl.so
+
+The previously generated Instruction and Canonical_solution are as follows:
+Instruction:
+{Instruction}
+
+Canonical_solution:
+{Canonical_solution}
+
+However, when executing the Canonical_solution, the following error occurred:
+{error_message}
+
+Your task is to revise and generate a corrected Python Canonical_solution that fixes the above error while still satisfying the original Instruction.
+Ensure that the new solution correctly handles memory allocation, type conversion, buffer sizes, and any error codes or return values.
+
+Canonical_solution requirements:
+1. A complete and correct Python solution that fulfills the Instruction.
+2. Several assertion-based test cases to validate correctness, robustness, and error handling.
+3. All assertion tests must be encapsulated within a function named `assert_test`.
+4. The `assert_test` function must be executed within the `if __name__ == "__main__"` block.
+
+Respond ONLY with a valid JSON object.
+Do not use triple quotes (""") in your response.
+Wrap code in a single string with escaped newlines (\n).
+
+The returned content must be a dictionary only with the following field:
+"Canonical_solution":
+

@@ -1,0 +1,41 @@
+You are given one low-level C function from an open-source project (GNU Scientific Library). This function has been compiled into a dynamic library (.so on Linux) that can be loaded in Python using the ctypes module.
+The dynamic library paths are as follows:
+1. /usr/local/gsl/lib/libgslcblas.so
+2. /usr/local/gsl/lib/libgsl.so
+
+Extra Knowledge:
+libgsl.so: The main GNU Scientific Library, provides high-level numerical routines.
+libgslcblas.so: GSL’s built-in C BLAS library, implements low-level linear algebra functions (e.g., matrix/vector operations).
+Relationship: libgsl.so depends on libgslcblas.so; you must load libgslcblas.so first (or globally) to resolve BLAS symbols, otherwise you get “undefined symbol” errors.
+The recommended loading order is as follows:
+ctypes.CDLL("/usr/local/gsl/lib/libgslcblas.so", mode=ctypes.RTLD_GLOBAL)
+gsl = ctypes.CDLL("/usr/local/gsl/lib/libgsl.so")
+
+The source code of a function from the dynamic library is shown below:
+{source_code}
+
+You can refer to the following link for definitions of functions related to the GNU Scientific Library (GSL): https://www.gnu.org/software/gsl/doc/html/
+
+Your task is to design both an Instruction and a Canonical_solution that evaluate an LLM’s ability to write correct Python code
+that calls this C function via ctypes.
+
+Instruction should include:
+    1. A concise and clear natural language task description specifying the intended functionality(e.g., compute a mathematical result, manipulate data structures, process arrays).
+    2. An explicit requirement that the solution must use ctypes to load and call the corresponding C function from the compiled dynamic library.
+    3. Well-defined input and output specifications to ensure correctness can be verified automatically.
+
+Canonical_solution should include:
+    1. A complete and correct Python solution that fulfills the instruction.
+    2. Several assertion-based test cases to validate correctness, robustness, and error handling.
+    3. All assertion tests must be encapsulated within a function named `assert_test`.
+    4. The `assert_test` function must be executed within the `if __name__ == "__main__"` block.
+
+Respond ONLY with a valid JSON object.
+Do not use triple quotes (""") in your response.
+Wrap code in a single string with escaped newlines (\n).
+
+The returned content must be a dictionary only with the following fields:
+"Instruction":,
+"Canonical_solution":
+
+

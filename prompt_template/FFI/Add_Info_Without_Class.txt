@@ -1,0 +1,15 @@
+To accomplish the above task, the required functions along with their parameter lists are: {functin_names}.
+
+The recommended dynamic library loading order is as follows:
+ctypes.CDLL("/usr/local/gsl/lib/libgslcblas.so", mode=ctypes.RTLD_GLOBAL)
+gsl = ctypes.CDLL("/usr/local/gsl/lib/libgsl.so")
+
+You must return ONLY a valid JSON object.
+Do not include explanations, comments, or extra text.
+Do not use triple quotes (""").
+
+The JSON object must contain exactly one field:
+"Candidate_solution": <string>
+
+Inside "Candidate_solution", provide the complete code as a single string.
+Escape all line breaks as \n.
