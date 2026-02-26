@@ -1,0 +1,17 @@
+fcmp.lo: fcmp.c ../config.h ../gsl/gsl_sys.h \
+ D:/msys64/mingw64/include/math.h D:/msys64/mingw64/include/crtdefs.h \
+ D:/msys64/mingw64/include/corecrt.h D:/msys64/mingw64/include/_mingw.h \
+ D:/msys64/mingw64/include/_mingw_mac.h \
+ D:/msys64/mingw64/include/_mingw_secapi.h \
+ D:/msys64/mingw64/include/vadefs.h \
+ D:/msys64/mingw64/include/sdks/_mingw_ddk.h
+../config.h:
+../gsl/gsl_sys.h:
+D:/msys64/mingw64/include/math.h:
+D:/msys64/mingw64/include/crtdefs.h:
+D:/msys64/mingw64/include/corecrt.h:
+D:/msys64/mingw64/include/_mingw.h:
+D:/msys64/mingw64/include/_mingw_mac.h:
+D:/msys64/mingw64/include/_mingw_secapi.h:
+D:/msys64/mingw64/include/vadefs.h:
+D:/msys64/mingw64/include/sdks/_mingw_ddk.h:
