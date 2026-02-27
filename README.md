@@ -217,7 +217,7 @@ Fig.8(b) further details the distribution of IPC technologies used by different 
 
 Fig.9 presents the distribution of code line counts in the canonical solutions across CrossPL. Fig.9(a) presents the distribution of Canonical solution Code Lines of CrossPL-IPC. Fig.9(b) presents the distribution of Canonical solution Code Lines of CrossPL_FFI. Specifically, the code line of the CrossPL_IPC exhibits a median of 51 lines, an average of 66.96 lines, and a maximum of 483 lines. In contrast, the CrossPL_FFI shows a more compact distribution, with a median of 44 lines, an average of 47.1 lines, a maximum of 112 lines, and a minimum of 8 lines.
 <div align="center">
-  <img src="https://github.com/user-attachments/assets/8fc0dd2d-6a94-4a2d-8d96-da3536f578bf" alt="2" width="900"/><br>
+  <img src="https://github.com/user-attachments/assets/9c2b5960-f79a-4a25-9778-f7eccef0a7f9" alt="x" width="900"/><br>
   <h4><b>Figure 9:</b> Distribution of Canonical solution Code Lines of CrossPL-IPC and CrossPL-FFI.</h4>
 </div>
 
@@ -225,7 +225,7 @@ Fig.9 presents the distribution of code line counts in the canonical solutions a
 
 Fig.10 illustrates the distribution of instruction lengths, measured in characters, across the canonical solutions of CrossPL. Fig.10(a) shows the distribution of instruction length (characters) of CrossPL-IPC. Fig.10(b) presents the distribution of instruction length (characters) of CrossPL-FFI. For the CrossPL-IPC, the instructions have a median length of 1204 characters, an average of 1284.64 characters, and a minimum of 473 characters. In comparison, the length of instruction in CrossPL-FFI shows a slightly larger scale, with a median of 1277.5 characters, an average of 1329.74 characters, a maximum of 2421 characters, and a minimum of 973 characters.
 <div align="center">
-  <img src="https://github.com/user-attachments/assets/8fc0dd2d-6a94-4a2d-8d96-da3536f578bf" alt="2" width="900"/><br>
+  <img src="https://github.com/user-attachments/assets/73797924-8fb6-4539-b4aa-2cc6245a752a" alt="y" width="900"/><br>
   <h4><b>Figure 10:</b> Distribution of instruction length (characters) of CrossPL-IPC and CrossPL-FFI.</h4>
 </div>
 
