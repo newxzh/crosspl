@@ -80,6 +80,8 @@ We propose a unified and automated construction framework that combines **FSM-ba
 
 CrossPL is constructed using two LLM-driven workflow, including **CrossPL-IPC** workflow and **CrossPL-FFI** workflow.
 
+---
+
 ### CrossPL-IPC Construction Workflow
 ⚠️ **Note:** The following prompt templates for **Judger**, **Function Extractor**, and **Class Extractor** are exemplified using Java. Prompt templates for other programming languages can be found in the `prompt_template` directory of the project.
 
@@ -147,7 +149,32 @@ The following figure illustrates an example of FSM-modeled CPL interoperating.
 
 ---
 ### CrossPL-IPC Construction Workflow
+Algorithm 3 in paper illustrates the construction of the CrossPL-FFI for Python-C external function calls. The underlying C code is sourced from the GNU Scientific Library (GSL), a widely used and self-contained library of mathematical and statistical functions. The workflow begins by compiling the GSL library into shared object (.so) files using Autotools and Make, establishing the runtime environment. C source files are then cleaned and applied using an initial FFI prompt and an error-revision prompt. Execution of the candidate solution is performed in the environment where the precompiled .so files are available for FFI calls; successful executions are saved as benchmark entries, while failures are iteratively refined via the LLM (powered by Deepseek-V3). This approach ensures a scalable, reproducible, and controlled benchmark for assessing LLMs’ ability to generate correct Python-C FFI code. Additionally, key information from the canonical solution, including class names, function names, and parameter names, is incorporated into the ``Instruction'' field of the benchmark. Finally, these benchmark entries are provided as tasks to the LLMs under evaluation. The outputs from the LLMs are combined with automatically generated assertion test cases to verify correctness, enabling systematic execution and testing. This approach ensures a scalable, reproducible, and controlled benchmark for assessing LLMs’ ability to generate correct Python-C FFI code. Figs.4-7 provide the detailed prompt information.
 
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/626ca08b-9b86-42ee-b36e-f152536aaafa" alt="4" width="900"/><br>
+  <h4><b>Figure 4:</b> Prompt template for constructing CrossPL-FFI.</h4>
+</div>
+⚠️ **Note:**
+---
+
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/933aba60-9283-45de-ac79-815ae938b35b" alt="1" width="900"/><br>
+  <h4><b>Figure 5:</b> Prompt template with error information for constructing CrossPL-FFI.</h4>
+</div>
+⚠️ **Note:**
+---
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/8fc0dd2d-6a94-4a2d-8d96-da3536f578bf" alt="2" width="900"/><br>
+  <h4><b>Figure 6:</b> Add class information to the Instruction.</h4>
+</div>
+⚠️ **Note:**
+---
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/fa034320-29c6-4489-bad0-df0f4b6de767" alt="3" width="900"/><br>
+  <h4><b>Figure 7:</b> Add class information to the Instruction.</h4>
+</div>
+⚠️ **Note:**
 ---
 ## Statistics of *CrossPL*
 
