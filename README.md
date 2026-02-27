@@ -151,6 +151,8 @@ The following figure illustrates an example of FSM-modeled CPL interoperating.
 ### CrossPL-IPC Construction Workflow
 Algorithm 3 in paper illustrates the construction of the CrossPL-FFI for Python-C external function calls. The underlying C code is sourced from the GNU Scientific Library (GSL), a widely used and self-contained library of mathematical and statistical functions. The workflow begins by compiling the GSL library into shared object (.so) files using Autotools and Make, establishing the runtime environment. C source files are then cleaned and applied using an initial FFI prompt and an error-revision prompt. Execution of the candidate solution is performed in the environment where the precompiled .so files are available for FFI calls; successful executions are saved as benchmark entries, while failures are iteratively refined via the LLM (powered by Deepseek-V3). This approach ensures a scalable, reproducible, and controlled benchmark for assessing LLMs’ ability to generate correct Python-C FFI code. Additionally, key information from the canonical solution, including class names, function names, and parameter names, is incorporated into the ``Instruction'' field of the benchmark. Finally, these benchmark entries are provided as tasks to the LLMs under evaluation. The outputs from the LLMs are combined with automatically generated assertion test cases to verify correctness, enabling systematic execution and testing. This approach ensures a scalable, reproducible, and controlled benchmark for assessing LLMs’ ability to generate correct Python-C FFI code. Figs.4-7 provide the detailed prompt information.
 
+---
+
 <div align="center">
   <img src="https://github.com/user-attachments/assets/626ca08b-9b86-42ee-b36e-f152536aaafa" alt="4" width="900"/><br>
   <h4><b>Figure 4:</b> Prompt template for constructing CrossPL-FFI.</h4>
@@ -184,12 +186,12 @@ Algorithm 3 in paper illustrates the construction of the CrossPL-FFI for Python-
 ⚠️ **Note:** A more comprehensive understanding of the implementation details can be obtained by referring to `FFI_Consruction.py`,`Add_Info.py` and `Algorithm 3` in our paper.
 
 ---
+
 ## Statistics of *CrossPL*
 
-- Covering **6 programming languages**: Java, Python, JavaScript, Go, PHP, and C++
-- Including **7 IPC technologies**: **HTTP**, **TCP**, **UDP**, **WebSocket**, **Pipe**, **gRPC**, and **Message Queue**
-- Featuring **1982 high-quality CPL interaction tasks**, extracted from **19169** GitHub MPL repositories using **156** FSMs (Finite State Machines)
+In constructing CrossPL-IPC benchmark, we conducted a thorough search and review of official documentation related to IPC technologies in CPL projects using keywords such as gRPC, Pipe, message queue, TCP, UDP, WebSocket, and HTTP across different programming languages. Fig.8(a) summarizes the distribution in CrossPL-IPC from different perspectives. Overall it covers six programming languages and seven IPC technologies, comprising a total of 1982 tasks. Among the programming languages, Java accounts for the highest proportion of IPC-related tasks with 615 instances (31.03%), whereas C++  the fewest, with 51 tasks (2.57%). Among IPC technologies, HTTP accounts for the highest proportion of tasks with 779 (39.30%), while UDP for the lowest with 92 tasks (4.64%).
 
+Fig.8(b) further details the distribution of IPC technologies used by different programming languages within the CrossPL-IPC. Due to the distinct characteristics of each language, the proportional use of IPC technologies varies considerably; for example, Java tasks are predominantly associated with TCP, while JavaScript tasks are mostly related to HTTP. Notably, some IPC techniques cannot be fully implemented within a single function and require implementation at the class level. Consequently, during IPC-related code extraction, we distinguished between class-level and function-level code. Overall, class-level code accounts for 59.99% of the CrossPL-IPC, while function-level code constitutes 40.01%. This distribution reflects language-specific design patterns: for example, class-level implementations dominate in Java and PHP due to their object-oriented paradigms, while languages like Go and JavaScript tend to favor function-level or lightweight constructs. Such variations emphasize the necessity of handling both granularities in CrossPL-IPC to faithfully capture real-world IPC usage across different programming ecosystems.
 <div align="center">
 
   <div style="display: inline-block; text-align: center; margin: 0 15px;">
@@ -207,8 +209,24 @@ Algorithm 3 in paper illustrates the construction of the CrossPL-FFI for Python-
   </div>
 
   <br>
-  <h4><b>Figure 2:</b> Distribution of CrossPL benchmark.</h4>
+  <h4><b>Figure 8:</b> Distribution of CrossPL benchmark.</h4>
 
+</div>
+
+---
+
+Fig.9 presents the distribution of code line counts in the canonical solutions across CrossPL. Fig.9(a) presents the distribution of Canonical solution Code Lines of CrossPL-IPC. Fig.9(b) presents the distribution of Canonical solution Code Lines of CrossPL_FFI. Specifically, the code line of the CrossPL_IPC exhibits a median of 51 lines, an average of 66.96 lines, and a maximum of 483 lines. In contrast, the CrossPL_FFI shows a more compact distribution, with a median of 44 lines, an average of 47.1 lines, a maximum of 112 lines, and a minimum of 8 lines.
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/8fc0dd2d-6a94-4a2d-8d96-da3536f578bf" alt="2" width="900"/><br>
+  <h4><b>Figure 9:</b> Distribution of Canonical solution Code Lines of CrossPL-IPC and CrossPL-FFI.</h4>
+</div>
+
+---
+
+Fig.10 illustrates the distribution of instruction lengths, measured in characters, across the canonical solutions of CrossPL. Fig.10(a) shows the distribution of instruction length (characters) of CrossPL-IPC. Fig.10(b) presents the distribution of instruction length (characters) of CrossPL-FFI. For the CrossPL-IPC, the instructions have a median length of 1204 characters, an average of 1284.64 characters, and a minimum of 473 characters. In comparison, the length of instruction in CrossPL-FFI shows a slightly larger scale, with a median of 1277.5 characters, an average of 1329.74 characters, a maximum of 2421 characters, and a minimum of 973 characters.
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/8fc0dd2d-6a94-4a2d-8d96-da3536f578bf" alt="2" width="900"/><br>
+  <h4><b>Figure 10:</b> Distribution of instruction length (characters) of CrossPL-IPC and CrossPL-FFI.</h4>
 </div>
 
 ⚠️ **Note:** The benchmark is stored in the `PolyBench/IPC_Bench` and `PolyBench/FFI_Bench` directories.
@@ -217,9 +235,8 @@ Algorithm 3 in paper illustrates the construction of the CrossPL-FFI for Python-
 
 ## Key Findings
 
-- LLMs vary widely in their ability to generate IPC code across languages and techniques.
-- High-level protocols like **gRPC** yield better performance due to structured semantics.
-- Performance on **Go** is generally weaker, likely due to mismatch with class-based training data.
-- Larger model size doesn’t guarantee better performance; **“thinking mode” is not always helpful**.
-
+- LLMs generate IPC code with varying effectiveness, performing better with C++ and \textit{gRPC} and worse with Go and low-level protocols like \textit{Pipe}. Failures for models like GPT-4o often stem from protocol and data transmission setup, while Llama3-8b-instruct frequently fails earlier at library configuration. 
+- LLMs struggle with FFI-based CPL code generation (GPT-4o 19.54\% Pass@1; Llama3-8b-instruct $<$1\%), with failures dominated by symbol resolution, runtime, calling, and memory errors.
+- Model characteristics, such as think mode, improve performance in reasoning-intensive FFI tasks but have limited or even negative impact on IPC tasks, which rely on well-structured communication patterns.
+  
 ---
