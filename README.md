@@ -188,16 +188,16 @@ Algorithm 3 in paper illustrates the construction of the CrossPL-FFI for Python-
 
 <div align="center">
 
-  <div style="display: inline-block; text-align: center; margin: 10px;">
+  <div style="display: inline-block; text-align: center; margin: 0 15px;">
     <img src="https://github.com/user-attachments/assets/30ab2885-f595-4f94-b9cc-89b70dae32d4"
-         alt="Fan Chart"
+         alt="Language Distribution"
          width="400"/>
     <p><b>(a) Pie chart of CrossPL-IPC dataset from different view.</b></p>
   </div>
 
-  <div style="display: inline-block; text-align: center; margin: 10px;">
+  <div style="display: inline-block; text-align: center; margin: 0 15px;">
     <img src="https://github.com/user-attachments/assets/cc457ed7-8e00-4c36-a022-758546217a96"
-         alt="Bar Chart"
+         alt="Task Distribution"
          width="400"/>
     <p><b>(b) Distribution of different IPC technologies across different programming languages.</b></p>
   </div>
