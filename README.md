@@ -73,12 +73,10 @@ We propose a unified and automated construction framework that combines **FSM-ba
 ---
 
 ## Benchmark Construction Workflow
-
-<div align=[CPL.pdf](https://github.com/user-attachments/files/25592295/CPL.pdf)
-<!-- "center">
-  <img width="900" alt="judger" src="https://github.com/user-attachments/assets/55af33f6-2133-408b-98c7-7daaddb05aa0" />
-  <h4><b>Figure 3:</b> Framework for CPL Interoperating Code Analysis, Extraction, Generation and Evaluation.</h4>
-</div> -->
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/bd5160b2-b642-4d74-bd2d-33d93169b84b" alt="framework" width="900"/><br>
+  <h4><b>Figure 2:</b> Framework for CPL Interoperating Code Analysis, Extraction, Generation and Evaluation.</h4>
+</div>
 
 CrossPL is constructed using an LLM-driven workflow:
 
