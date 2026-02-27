@@ -186,23 +186,24 @@ Algorithm 3 in paper illustrates the construction of the CrossPL-FFI for Python-
 - Including **7 IPC technologies**: **HTTP**, **TCP**, **UDP**, **WebSocket**, **Pipe**, **gRPC**, and **Message Queue**
 - Featuring **1982 high-quality CPL interaction tasks**, extracted from **19169** GitHub MPL repositories using **156** FSMs (Finite State Machines)
 
-<div align="center">
+  <div style="display: flex; justify-content: center; gap: 20px;">
 
-  <div style="display: inline-block; text-align: center; margin: 0 15px;">
-    <img src="https://github.com/user-attachments/assets/30ab2885-f595-4f94-b9cc-89b70dae32d4"
-         alt="Language Distribution"
-         width="400"/>
-    <p><b>(a) Pie chart of CrossPL-IPC dataset from different view.</b></p>
+    <div style="text-align: center;">
+      <img src="https://github.com/user-attachments/assets/30ab2885-f595-4f94-b9cc-89b70dae32d4"
+           alt="Language Distribution"
+           width="400"/>
+      <p><b>(a) Pie chart of CrossPL-IPC dataset from different view.</b></p>
+    </div>
+
+    <div style="text-align: center;">
+      <img src="https://github.com/user-attachments/assets/cc457ed7-8e00-4c36-a022-758546217a96"
+           alt="Task Category Distribution"
+           width="400"/>
+      <p><b>(b) Distribution of different IPC technologies across different programming languages.</b></p>
+    </div>
+
   </div>
 
-  <div style="display: inline-block; text-align: center; margin: 0 15px;">
-    <img src="https://github.com/user-attachments/assets/cc457ed7-8e00-4c36-a022-758546217a96"
-         alt="Task Distribution"
-         width="400"/>
-    <p><b>(b) Distribution of different IPC technologies across different programming languages.</b></p>
-  </div>
-
-  <br>
   <h4><b>Figure 2:</b> Distribution of CrossPL benchmark.</h4>
 
 </div>
