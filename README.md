@@ -58,9 +58,9 @@ We propose a unified and automated construction framework that combines **FSM-ba
   - Serve as structured evaluators for protocol compliance and state-transition coverage.
 
 - **Two LLM-based construction pipelines**
-  1. **IPC pipeline:**  
+  - **IPC pipeline:**  
      FSM-guided snippet identification → extraction → validation → instruction generation → performance evaluation.
-  2. **FFI pipeline:**  
+  - **FFI pipeline:**  
      Focused Python–C task construction with controlled compilation environments and assertion-based testing for functional correctness.
 
 ### 3. Large-scale Empirical Study
