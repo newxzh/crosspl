@@ -83,7 +83,7 @@ CrossPL is constructed using two LLM-driven workflow, including **CrossPL-IPC** 
 ### CrossPL-IPC Construction Workflow
 ⚠️ **Note:** The following prompt templates for **Judger**, **Function Extractor**, and **Class Extractor** are exemplified using Java. Prompt templates for other programming languages can be found in the `prompt_template` directory of the project.
 
-- 🤖 **FSMs for detect CPL interface among MPL repositories**: using the 156 FSMs to identify CPL interoperating instances among 19169 GitHub MPL repositories and record their metadata.
+🤖 **FSMs for detect CPL interface among MPL repositories**: using the 156 FSMs to identify CPL interoperating instances among 19169 GitHub MPL repositories and record their metadata.
 
 The following figure illustrates an example of FSM-modeled CPL interoperating. 
 
@@ -134,7 +134,9 @@ The following figure illustrates an example of FSM-modeled CPL interoperating.
 ⚠️ **Note:** A more comprehensive understanding of the implementation details can be obtained by referring to `tmp_test\testexample.py`,`Analyzer.py`, `LangApiAnalyzer.py`, `Algorithm 1` and `Algorithm 2` in our paper.
 
 ---
+### CrossPL-IPC Construction Workflow
 
+---
 ## Statistics of *CrossPL*
 
 - Covering **6 programming languages**: Java, Python, JavaScript, Go, PHP, and C++
