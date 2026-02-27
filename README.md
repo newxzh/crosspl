@@ -78,9 +78,9 @@ We propose a unified and automated construction framework that combines **FSM-ba
   <h4><b>Figure 2:</b> Framework for CPL Interoperating Code Analysis, Extraction, Generation and Evaluation.</h4>
 </div>
 
-CrossPL is constructed using two LLM-driven workflow.
+CrossPL is constructed using two LLM-driven workflow, including **CrossPL-IPC** workflow and **CrossPL-FFI** workflow.
 
-### Benchmark Construction Workflow
+### CrossPL-IPC Construction Workflow
 ⚠️ **Note:** The following prompt templates for **Judger**, **Function Extractor**, and **Class Extractor** are exemplified using Java. Prompt templates for other programming languages can be found in the `prompt_template` directory of the project.
 
 - 🤖 **FSMs for detect CPL interface among MPL repositories**: using the 156 FSMs to identify CPL interoperating instances among 19169 GitHub MPL repositories and record their metadata.
@@ -89,12 +89,12 @@ The following figure illustrates an example of FSM-modeled CPL interoperating.
 
 <div align="center">
   <img src="https://github.com/user-attachments/assets/8ca70ebb-7806-442c-a716-adf96ee98462" alt="FSM-modeled CPL Interoperability" width="700"/>
-  <h4><b>Figure 4:</b> An example of FSM-modeled CPL interoperating.</h4>
+  <h4><b>Figure 3:</b> An example of FSM-modeled CPL interoperating.</h4>
 </div>
 
 ⚠️ **Note:** A more comprehensive understanding of the implementation details can be obtained by referring to `cae.py`, `Analyzer.py`, `LangApiAnalyzer.py`, `Extraction_and_Benchmark_Construction.py`, `Algorithm 1` and `Algorithm 2` in our paper.
   
-- 🤖 **Judger**: Determine whether a given code file contains any CPL interaction code snippets. If such a snippet is found and corresponds to a function-level implementation, return "Function-level"; if it corresponds to a class-level implementation, return "Class-level"; if no CPL interaction code is present, return "null". The prompt template used by this LLM tool is as follows:
+🤖 **Judger:** Determine whether a given code file contains any CPL interaction code snippets. If such a snippet is found and corresponds to a function-level implementation, return "Function-level"; if it corresponds to a class-level implementation, return "Class-level"; if no CPL interaction code is present, return "null". The prompt template used by this LLM tool is as follows:
 
 <p align="center">
   <img width="900" alt="judger" src="https://github.com/user-attachments/assets/3de3f582-8148-491d-8967-7961e6d9ea6e" />
@@ -102,14 +102,14 @@ The following figure illustrates an example of FSM-modeled CPL interoperating.
 
 ⚠️ **Note:** Additional implementation details can be found in `Extraction_and_Benchmark_Construction.py`.
 
-- 🤖 **Function Extractor**: Used for extracting "function-level" CPL interaction code snippets. Additional implementation details can be found in `Extraction_and_Benchmark_Construction.py`. The prompt template used by this LLM tool is as follows:
+🤖 **Function Extractor**: Used for extracting "function-level" CPL interaction code snippets. Additional implementation details can be found in `Extraction_and_Benchmark_Construction.py`. The prompt template used by this LLM tool is as follows:
 <p align="center">
   <img width="900" alt="Func" src="https://github.com/user-attachments/assets/1a8430da-2711-4fdf-962e-b5daddfc7276"/>
 </p>
 
 ⚠️ **Note:** Additional implementation details can be found in `Extraction_and_Benchmark_Construction.py`.
 
-- 🤖 **Class Extractor**: Used for extracting "Class-level" CPL interaction code snippets. Additional implementation details can be found in `Extraction_and_Benchmark_Construction.py`. The prompt template used by this LLM tool is as follows:
+🤖 **Class Extractor:** Used for extracting "Class-level" CPL interaction code snippets. Additional implementation details can be found in `Extraction_and_Benchmark_Construction.py`. The prompt template used by this LLM tool is as follows:
 
 <p align="center">
   <img width="900" alt="Class" src="https://github.com/user-attachments/assets/71be9695-36af-402f-85cf-57a495223473" />
@@ -117,11 +117,11 @@ The following figure illustrates an example of FSM-modeled CPL interoperating.
 
 ⚠️ **Note:** Additional implementation details can be found in `Extraction_and_Benchmark_Construction.py`.
 
-- 🤖 **FSM-based validator**: The correctness of the interaction snippets extracted by LLMs is verified using FSMs corresponding to the specific CPL techniques.
+🤖 **FSM-based validator**: The correctness of the interaction snippets extracted by LLMs is verified using FSMs corresponding to the specific CPL techniques.
 
 ⚠️ **Note:** A more comprehensive understanding of the implementation details can be obtained by referring to `cae.py`, `Evaluation.py`, `Analyzer.py`, `LangApiAnalyzer.py`, `Extraction_and_Benchmark_Construction.py`, `Algorithm 1` and `Algorithm 2`.
 
-- 🤖 **Instructor**: If the verification is successful, the interaction snippet extracted by the LLM is passed to the "Instructor" to generate the corresponding instruction. Additional implementation details can be found in `Extraction_and_Benchmark_Construction.py`. The prompt template used by the Instructor is as follows:
+🤖 **Instructor**: If the verification is successful, the interaction snippet extracted by the LLM is passed to the "Instructor" to generate the corresponding instruction. Additional implementation details can be found in `Extraction_and_Benchmark_Construction.py`. The prompt template used by the Instructor is as follows:
 
 <p align="center">
   <img width="900" alt="instruction" src="https://github.com/user-attachments/assets/51d0ec7f-f363-4f5f-a2d5-7eace8155f33" />
@@ -129,7 +129,7 @@ The following figure illustrates an example of FSM-modeled CPL interoperating.
 
 ⚠️ **Note:** Additional implementation details can be found in `Extraction_and_Benchmark_Construction.py`.
 
-- 🔍 **Evaluation**:  The correctness of the interaction snippets generate by LLMs is verified using FSMs corresponding to the specific CPL techniques. 
+🔍 **Evaluation**:  The correctness of the interaction snippets generate by LLMs is verified using FSMs corresponding to the specific CPL techniques. 
 
 ⚠️ **Note:** A more comprehensive understanding of the implementation details can be obtained by referring to `tmp_test\testexample.py`,`Analyzer.py`, `LangApiAnalyzer.py`, `Algorithm 1` and `Algorithm 2` in our paper.
 
