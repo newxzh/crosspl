@@ -47,8 +47,6 @@ These scenarios require correctness beyond syntax—errors can cause deadlocks, 
   - **IPC subset:** 1,982 tasks spanning six programming languages  
   - **FFI subset:** 522 Python–C interoperability tasks  
 
----
-
 ### 2. Automated Benchmark Construction Methodology
 
 We propose a unified and automated construction framework that combines **FSM-based IPC interface characterization** with **LLM-driven workflows**.
@@ -65,33 +63,13 @@ We propose a unified and automated construction framework that combines **FSM-ba
   2. **FFI pipeline:**  
      Focused Python–C task construction with controlled compilation environments and assertion-based testing for functional correctness.
 
----
-
 ### 3. Large-scale Empirical Study
 
 - Evaluated **20 representative LLMs** on CrossPL.
 - Systematically investigated whether current LLMs can accurately generate **cross-language interoperating code**.
 - Revealed substantial performance gaps compared to single-language code generation benchmarks.
 - Demonstrated that CPL interoperability remains a significantly underexplored and challenging capability for modern LLMs.
-- 
 
----
-
-## Statistics of *CrossPL*
-
-- Covering **6 programming languages**: Java, Python, JavaScript, Go, PHP, and C++
-- Including **7 IPC technologies**: **HTTP**, **TCP**, **UDP**, **WebSocket**, **Pipe**, **gRPC**, and **Message Queue**
-- Featuring **1982 high-quality CPL interaction tasks**, extracted from **19169** GitHub MPL repositories using **156** FSMs (Finite State Machines)
-
-<div align="center">
-  <img src="https://github.com/user-attachments/assets/30ab2885-f595-4f94-b9cc-89b70dae32d4" alt="fan chart" width="400"/>
-  <img src="https://github.com/user-attachments/assets/cc457ed7-8e00-4c36-a022-758546217a96" alt="bar chart" width="400"/>
-  <br>
-  <h4><b>Figure 2:</b> Distribution of CrossPL benchmark.</h4>
-</div>
-
-⚠️ **Note:** The benchmark is stored in the `PolyBench/IPC_Bench directory`.
-  
 ---
 
 ## Benchmark Construction Workflow
@@ -155,6 +133,23 @@ The following figure illustrates an example of FSM-modeled CPL interoperating.
 - 🔍 **Evaluation**:  The correctness of the interaction snippets generate by LLMs is verified using FSMs corresponding to the specific CPL techniques. 
 
 ⚠️ **Note:** A more comprehensive understanding of the implementation details can be obtained by referring to `tmp_test\testexample.py`,`Analyzer.py`, `LangApiAnalyzer.py`, `Algorithm 1` and `Algorithm 2` in our paper.
+
+---
+
+## Statistics of *CrossPL*
+
+- Covering **6 programming languages**: Java, Python, JavaScript, Go, PHP, and C++
+- Including **7 IPC technologies**: **HTTP**, **TCP**, **UDP**, **WebSocket**, **Pipe**, **gRPC**, and **Message Queue**
+- Featuring **1982 high-quality CPL interaction tasks**, extracted from **19169** GitHub MPL repositories using **156** FSMs (Finite State Machines)
+
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/30ab2885-f595-4f94-b9cc-89b70dae32d4" alt="fan chart" width="400"/>
+  <img src="https://github.com/user-attachments/assets/cc457ed7-8e00-4c36-a022-758546217a96" alt="bar chart" width="400"/>
+  <br>
+  <h4><b>Figure 2:</b> Distribution of CrossPL benchmark.</h4>
+</div>
+
+⚠️ **Note:** The benchmark is stored in the `PolyBench/IPC_Bench directory`.
 
 ---
 
