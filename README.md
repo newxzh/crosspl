@@ -32,7 +32,7 @@ These scenarios require correctness beyond syntax—errors can cause deadlocks, 
 
 **CrossPL** addresses this gap by systematically evaluating LLMs’ ability to generate correct and executable cross-language interoperating code across IPC and FFI settings.
 <div align="center">
-  <img src="https://github.com/user-attachments/assets/bd5160b2-b642-4d74-bd2d-33d93169b84b" alt="ipc demo" width="800"/><br>
+  <img src="https://github.com/user-attachments/assets/bd5160b2-b642-4d74-bd2d-33d93169b84b" alt="ipc demo" width="900"/><br>
   <h4><b>Figure 1:</b> Examples of CPL interoperating (IPC and FFI).</h4>
 </div>
 
@@ -58,9 +58,9 @@ We propose a unified and automated construction framework that combines **FSM-ba
   - Serve as structured evaluators for protocol compliance and state-transition coverage.
 
 - **Two LLM-based construction pipelines**
-  - **IPC pipeline:**  
-     FSM-guided snippet identification → extraction → validation → instruction generation → performance evaluation.
-  - **FFI pipeline:**  
+  - **CrossPL-IPC pipeline:**  
+     FSM-guided snippet identification → LLM-based Judgement → Code extraction → FSM-based validation → Instruction generation → Human check → performance evaluation.
+  - **CrossPL-FFI pipeline:**  
      Focused Python–C task construction with controlled compilation environments and assertion-based testing for functional correctness.
 
 ### 3. Large-scale Empirical Study
@@ -78,8 +78,9 @@ We propose a unified and automated construction framework that combines **FSM-ba
   <h4><b>Figure 2:</b> Framework for CPL Interoperating Code Analysis, Extraction, Generation and Evaluation.</h4>
 </div>
 
-CrossPL is constructed using an LLM-driven workflow:
+CrossPL is constructed using two LLM-driven workflow.
 
+### Benchmark Construction Workflow
 ⚠️ **Note:** The following prompt templates for **Judger**, **Function Extractor**, and **Class Extractor** are exemplified using Java. Prompt templates for other programming languages can be found in the `prompt_template` directory of the project.
 
 - 🤖 **FSMs for detect CPL interface among MPL repositories**: using the 156 FSMs to identify CPL interoperating instances among 19169 GitHub MPL repositories and record their metadata.
