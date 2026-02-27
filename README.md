@@ -1,27 +1,79 @@
-# CrossPL: A Benchmark for Cross-Programming Language Code Generation
+# CrossPL: CrossPL: Systematic Evaluation of Large Language Models for Cross Programming Language Interoperating Code Generation
 
-**CrossPL** is the first benchmark specifically designed to evaluate the ability of large language models (LLMs) to generate **cross-programming language (CPL)** interoperating code. It focuses on **Inter-Process Communication (IPC)**, a foundational technique that supports interaction between components written in different programming languages.
+**CrossPL** is the first benchmark for systematically assessing LLM performance of **cross-programming language (CPL)** code generation across two primary interoperation modes and 2534 tasks, specifically 1,982 **Inter-Process Communication (IPC)** tasks spanning six languages and 522 Python–C **Foreign Function Interface(FFI)** tasks.
 
 ---
 ## Table of Contents
 
 - [Why CrossPL? (Motivation)](#why-crosspl-motivation)
-- [Statistics of *CrossPL*](#statistics-of-crosspl)
 - [Our Contributions](#our-contributions)
 - [Benchmark Construction Workflow](#benchmark-construction-workflow)
+- [Statistics of *CrossPL*](#statistics-of-crosspl)
 - [Key Findings](#key-findings)
   
 ---
 
-## Why CrossPL?(Motivation)
+## Why CrossPL? (Motivation)
 
-Modern software systems often consist of components written in multiple proframming languages (MPL). The follow figure illustrates an example of CPL interaction between Python and C++ by an IPC protocol (*Socket*). Such examples are widely found in MPL projects involving Python and C++ for data science, robotics, and embedded systems.
+Modern software systems are inherently **multi-language**—over 80% of real-world projects use two or more programming languages to combine complementary strengths (e.g., Python for productivity, C/C++ for performance).
+
+Existing LLM benchmarks focus on:
+- Single-language code generation  
+- Cross-language code translation  
+
+They **do not evaluate** whether models can generate *interoperating code* that enables real cross-language collaboration.
+
+In practice, cross-language systems rely on two core mechanisms:
+
+- **IPC (Inter-Process Communication):** protocol compliance, serialization, synchronization, and correct state transitions  
+- **FFI (Foreign Function Interface):** function signatures, type conversion, and memory management  
+
+These scenarios require correctness beyond syntax—errors can cause deadlocks, crashes, or undefined behavior.
+
+**CrossPL** addresses this gap by systematically evaluating LLMs’ ability to generate correct and executable cross-language interoperating code across IPC and FFI settings.
 <div align="center">
-  <img src="https://github.com/user-attachments/assets/bd5160b2-b642-4d74-bd2d-33d93169b84b" alt="ipc demo" width="500"/><br>
+  <img src="https://github.com/user-attachments/assets/bd5160b2-b642-4d74-bd2d-33d93169b84b" alt="ipc demo" width="800"/><br>
   <h4><b>Figure 1:</b> CPL interaction between Python and C++ by an IPC protocol (<i>Socket</i>).</h4>
 </div>
 
-However, existing code generation benchmarks predominantly focus on a single programming language. Although a few benchmarks for multi-language code generation have been developed, they cannot assess an LLM’s ability to generate code for CPL interaction and thus cannot answer the crucial question: “Can LLMs produce correct cross-programming-language interoperating code?”. 
+---
+
+## Our Contributions
+
+### 1. CrossPL Benchmark
+
+- We introduce **CrossPL**, the first benchmark specifically designed to evaluate LLMs’ ability to generate **cross-programming-language (CPL) interoperating code** involving both IPC and FFI.
+- The benchmark contains **2,534 tasks** in total:
+  - **IPC subset:** 1,982 tasks spanning six programming languages  
+  - **FFI subset:** 522 Python–C interoperability tasks  
+
+---
+
+### 2. Automated Benchmark Construction Methodology
+
+We propose a unified and automated construction framework that combines **FSM-based IPC interface characterization** with **LLM-driven workflows**.
+
+- **FSM-based IPC modeling**
+  - Designed **156 finite state machines (FSMs)** based on official CPL interface specifications.
+  - Formally characterize IPC interaction patterns.
+  - Enable automatic detection and extraction of IPC snippets from real-world GitHub repositories.
+  - Serve as structured evaluators for protocol compliance and state-transition coverage.
+
+- **Two LLM-based construction pipelines**
+  1. **IPC pipeline:**  
+     FSM-guided snippet identification → extraction → validation → instruction generation → performance evaluation.
+  2. **FFI pipeline:**  
+     Focused Python–C task construction with controlled compilation environments and assertion-based testing for functional correctness.
+
+---
+
+### 3. Large-scale Empirical Study
+
+- Evaluated **20 representative LLMs** on CrossPL.
+- Systematically investigated whether current LLMs can accurately generate **cross-language interoperating code**.
+- Revealed substantial performance gaps compared to single-language code generation benchmarks.
+- Demonstrated that CPL interoperability remains a significantly underexplored and challenging capability for modern LLMs.
+- 
 
 ---
 
@@ -39,14 +91,6 @@ However, existing code generation benchmarks predominantly focus on a single pro
 </div>
 
 ⚠️ **Note:** The benchmark is stored in the `PolyBench/IPC_Bench directory`.
-
----
-
-## Our contributions
-- ✅ **CrossPL benchmark**:We propose **CrossPL**, to our knowledge the first benchmark aimed at evaluating the ability of LLMs to generate CPL interoperating code involving IPC. It comprises 1982 instances, encompassing six programming languages and seven major IPC technologies.
-- ✅ **Comprehensive FSM-based interface characterization**: We carefully constructed 156 FSMs based on the official CPL interface specifications to formally characterize the IPC-based interaction interfaces. Such FSM-based characterization can not only facilitate us to detect IPC code snippets in real-world GitHub repositories, but also used to evaluate the capability of LLMs to generate CPL code under specific IPC scenarios. Each state in these FSMs is annotated with semantic information, which helps guide LLMs in extracting relevant IPC code snippets. 
-- ✅ **LLM-based automatic analysis workflow**:  Based on the FSM-based interaction characterization, we further develop a LLM-based workflow that automatically extract relevant CPL code snippets, generate natural-language prompts and construct evaluation tasks for constructing the benchmark.
-- ✅ **Large-scale empirical study**: We evaluate 20 representative LLMs to answer the key question: **whether LLMs can accurately generate cross-language interoperating code**. The findings highlight the need for more dedicated effort in this critical yet underexplored area.
   
 ---
 
