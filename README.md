@@ -74,7 +74,7 @@ We propose a unified and automated construction framework that combines **FSM-ba
 
 ## Benchmark Construction Workflow
 <div align="center">
-  <img src="https://github.com/user-attachments/assets/bd5160b2-b642-4d74-bd2d-33d93169b84b" alt="framework" width="900"/><br>
+  <img src="https://github.com/user-attachments/assets/93031460-b30e-4e58-b5ae-7468c86d4f44" alt="framework" width="900"/><br>
   <h4><b>Figure 2:</b> Framework for CPL Interoperating Code Analysis, Extraction, Generation and Evaluation.</h4>
 </div>
 
