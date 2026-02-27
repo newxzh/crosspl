@@ -155,7 +155,8 @@ Algorithm 3 in paper illustrates the construction of the CrossPL-FFI for Python-
   <img src="https://github.com/user-attachments/assets/626ca08b-9b86-42ee-b36e-f152536aaafa" alt="4" width="900"/><br>
   <h4><b>Figure 4:</b> Prompt template for constructing CrossPL-FFI.</h4>
 </div>
-⚠️ **Note:A more comprehensive understanding of the implementation details can be obtained by referring to `tmp_test\testexample.py`,`Analyzer.py`, `LangApiAnalyzer.py`, `Algorithm 1` and `Algorithm 2` in our paper.**
+
+⚠️ **Note:** A more comprehensive understanding of the implementation details can be obtained by referring to `FFI_Consruction.py`,`execute_solution.py`and `Algorithm 3` in our paper.
 
 ---
 
@@ -163,21 +164,24 @@ Algorithm 3 in paper illustrates the construction of the CrossPL-FFI for Python-
   <img src="https://github.com/user-attachments/assets/933aba60-9283-45de-ac79-815ae938b35b" alt="1" width="900"/><br>
   <h4><b>Figure 5:</b> Prompt template with error information for constructing CrossPL-FFI.</h4>
 </div>
-⚠️ **Note:A more comprehensive understanding of the implementation details can be obtained by referring to `FFI_Consruction.py` and `Algorithm 3` in our paper.**
+
+⚠️ **Note:** A more comprehensive understanding of the implementation details can be obtained by referring to `FFI_Consruction.py`,`execute_solution.py` and `Algorithm 3` in our paper.
 
 ---
 <div align="center">
   <img src="https://github.com/user-attachments/assets/8fc0dd2d-6a94-4a2d-8d96-da3536f578bf" alt="2" width="900"/><br>
   <h4><b>Figure 6:</b> Add class information to the Instruction.</h4>
 </div>
-⚠️ **Note:A more comprehensive understanding of the implementation details can be obtained by referring to `FFI_Consruction.py` and `Algorithm 3` in our paper.**
+
+⚠️ **Note:** A more comprehensive understanding of the implementation details can be obtained by referring to `FFI_Consruction.py`,`Add_Info.py` and `Algorithm 3` in our paper.
 
 ---
 <div align="center">
   <img src="https://github.com/user-attachments/assets/fa034320-29c6-4489-bad0-df0f4b6de767" alt="3" width="900"/><br>
   <h4><b>Figure 7:</b> Add class information to the Instruction.</h4>
 </div>
-⚠️ **Note:A more comprehensive understanding of the implementation details can be obtained by referring to `tmp_test\testexample.py`,`Analyzer.py`, `LangApiAnalyzer.py`, `Algorithm 1` and `Algorithm 2` in our paper.**
+
+⚠️ **Note:** A more comprehensive understanding of the implementation details can be obtained by referring to `FFI_Consruction.py`,`Add_Info.py` and `Algorithm 3` in our paper.
 
 ---
 ## Statistics of *CrossPL*
