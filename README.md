@@ -156,6 +156,7 @@ Algorithm 3 in paper illustrates the construction of the CrossPL-FFI for Python-
   <h4><b>Figure 4:</b> Prompt template for constructing CrossPL-FFI.</h4>
 </div>
 ⚠️ **Note:**
+
 ---
 
 <div align="center">
@@ -163,18 +164,21 @@ Algorithm 3 in paper illustrates the construction of the CrossPL-FFI for Python-
   <h4><b>Figure 5:</b> Prompt template with error information for constructing CrossPL-FFI.</h4>
 </div>
 ⚠️ **Note:**
+
 ---
 <div align="center">
   <img src="https://github.com/user-attachments/assets/8fc0dd2d-6a94-4a2d-8d96-da3536f578bf" alt="2" width="900"/><br>
   <h4><b>Figure 6:</b> Add class information to the Instruction.</h4>
 </div>
 ⚠️ **Note:**
+
 ---
 <div align="center">
   <img src="https://github.com/user-attachments/assets/fa034320-29c6-4489-bad0-df0f4b6de767" alt="3" width="900"/><br>
   <h4><b>Figure 7:</b> Add class information to the Instruction.</h4>
 </div>
 ⚠️ **Note:**
+
 ---
 ## Statistics of *CrossPL*
 
@@ -183,13 +187,27 @@ Algorithm 3 in paper illustrates the construction of the CrossPL-FFI for Python-
 - Featuring **1982 high-quality CPL interaction tasks**, extracted from **19169** GitHub MPL repositories using **156** FSMs (Finite State Machines)
 
 <div align="center">
-  <img src="https://github.com/user-attachments/assets/30ab2885-f595-4f94-b9cc-89b70dae32d4" alt="fan chart" width="400"/>
-  <img src="https://github.com/user-attachments/assets/cc457ed7-8e00-4c36-a022-758546217a96" alt="bar chart" width="400"/>
+
+  <div style="display: inline-block; text-align: center; margin: 10px;">
+    <img src="https://github.com/user-attachments/assets/30ab2885-f595-4f94-b9cc-89b70dae32d4"
+         alt="Fan Chart"
+         width="400"/>
+    <p><b>(a) Pie chart of CrossPL-IPC dataset from different view.</b></p>
+  </div>
+
+  <div style="display: inline-block; text-align: center; margin: 10px;">
+    <img src="https://github.com/user-attachments/assets/cc457ed7-8e00-4c36-a022-758546217a96"
+         alt="Bar Chart"
+         width="400"/>
+    <p><b>(b) Distribution of different IPC technologies across different programming languages.</b></p>
+  </div>
+
   <br>
   <h4><b>Figure 2:</b> Distribution of CrossPL benchmark.</h4>
+
 </div>
 
-⚠️ **Note:** The benchmark is stored in the `PolyBench/IPC_Bench directory`.
+⚠️ **Note:** The benchmark is stored in the `PolyBench/IPC_Bench` and `PolyBench/FFI_Bench` directories.
 
 ---
 
