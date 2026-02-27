@@ -33,7 +33,7 @@ These scenarios require correctness beyond syntax—errors can cause deadlocks, 
 **CrossPL** addresses this gap by systematically evaluating LLMs’ ability to generate correct and executable cross-language interoperating code across IPC and FFI settings.
 <div align="center">
   <img src="https://github.com/user-attachments/assets/bd5160b2-b642-4d74-bd2d-33d93169b84b" alt="ipc demo" width="800"/><br>
-  <h4><b>Figure 1:</b> CPL interaction between Python and C++ by an IPC protocol (<i>Socket</i>).</h4>
+  <h4><b>Figure 1:</b> Examples of CPL interoperating (IPC and FFI).</h4>
 </div>
 
 ---
@@ -76,7 +76,7 @@ We propose a unified and automated construction framework that combines **FSM-ba
 
 <div align=[CPL.pdf](https://github.com/user-attachments/files/25592295/CPL.pdf)
 <!-- "center">
-  <img width="900" alt="judger" src="https://github.com/user-attachments/assets/eb510bd1-365e-46e4-a56c-bd401e4249f6" />
+  <img width="900" alt="judger" src="https://github.com/user-attachments/assets/55af33f6-2133-408b-98c7-7daaddb05aa0" />
   <h4><b>Figure 3:</b> Framework for CPL Interoperating Code Analysis, Extraction, Generation and Evaluation.</h4>
 </div> -->
 
